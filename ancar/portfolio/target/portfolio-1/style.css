@@ -1,0 +1,16 @@
+#content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 650px;
+}
+
+#greeting-container {
+  margin-top: 20px;
+}
+
+img.resize {
+  max-width:50%;
+  max-height:50%;
+}
+
+
