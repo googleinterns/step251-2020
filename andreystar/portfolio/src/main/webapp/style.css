@@ -4,6 +4,16 @@
   width: 650px;
 }
 
-#greeting-container {
-  margin-top: 20px;
+.row {
+  display: flex;
 }
+
+.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+
+img {
+  width: 300px;
+}
+
