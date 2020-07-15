@@ -7,3 +7,11 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+body {
+  background-color: ghostwhite;
+}
+
+h1 {
+    color: darkslategrey;
+}

@@ -13,19 +13,21 @@
 // limitations under the License.
 
 /**
- * Adds a random quote to the page.
+ * Adds a random image to the page.
  */
-function addRandomQuote() {
-  const quotes =
-      ['I am Beyonce always.', 
-      'You only live once? False. You live every day. You only die once.', 
-      'I understand nothing.', 
-      'For my new year’s resolution, I gave up drinking… during the week.'];
+function randomMood() {
+  // Pick a random index.
+  const idx = Math.floor(Math.random() * 4) + 1;
 
-  // Pick a random quote.
-  const quote = quotes[Math.floor(Math.random() * quotes.length)];
+  const imgUrl = "images/q" + idx + ".jpg";
 
-  // Add it to the page.
-  const quoteContainer = document.getElementById('quote-container');
-  quoteContainer.innerText = quote;
+  // Create the image element.
+  const imgElement = document.createElement('img');
+  imgElement.src = imgUrl;
+  imgElement.height = "500";
+
+  // Put it in a container.
+  const imageContainer = document.getElementById('mood-container');
+  imageContainer.innerHTML = '';
+  imageContainer.appendChild(imgElement);
 }
