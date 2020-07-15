@@ -30,12 +30,26 @@
   border-color: #0275d8;
   border-style: solid;
   padding-left: 20px;
+  padding-right: 20px;
   margin: 15px;
 }
 
 
 .project:hover {
   background-color: #0275d8;
+  color: white;
+}
+
+.project-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-tech {
+  color: gray;
+}
+
+.project:hover .project-tech {
   color: white;
 }
 
