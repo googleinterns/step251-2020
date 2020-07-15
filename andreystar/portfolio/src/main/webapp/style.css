@@ -1,14 +1,49 @@
+@font-face {
+  font-family: open-sans;
+  src: url(fonts/OpenSans-Regular.ttf);
+}
+
+* {
+  font-family: open-sans;
+}
+
 #content {
   margin-left: auto;
   margin-right: auto;
   width: 650px;
 }
 
-.row {
+#projects ul {
+  list-style: none;
+}
+
+#projects a {
+  text-decoration:none;
+}
+
+#projects a:visited {
+  color : inherit;
+}
+
+.project {
+  border-radius: 10px;
+  border-color: #0275d8;
+  border-style: solid;
+  padding-left: 20px;
+  margin: 15px;
+}
+
+
+.project:hover {
+  background-color: #0275d8;
+  color: white;
+}
+
+#cat-gallery {
   display: flex;
 }
 
-.column {
+.cat-photo {
   flex: 33.33%;
   padding: 5px;
 }
@@ -16,4 +51,5 @@
 img {
   width: 300px;
 }
+
 
