@@ -4,7 +4,7 @@
   width: 650px;
 }
 
-#greeting-container {
+#quote-container {
   margin-top: 20px;
 }
 
@@ -16,8 +16,9 @@ p {
   font-family: "Lucida Console", Courier, monospace;
 }
 
-a {
+#GithubLink {
     display: inline;
+    padding-left: 20px;
 }
 
 img.resize {
