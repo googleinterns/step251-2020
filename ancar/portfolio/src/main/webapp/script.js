@@ -13,13 +13,13 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Adds a random quote to the page.
  */
 function addRandomQuote() {
   const quotes =
       ['Pivot!', 'We were on a break!', 'How you doing?', 'She is your lobster.'];
 
-  // Pick a random greeting.
+  // Pick a random quote.
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
   // Add it to the page.
