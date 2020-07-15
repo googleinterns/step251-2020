@@ -1,18 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Andrey's Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <div id="content">
+    <h1>Andrey Starodubtsev</h1>
+    <h2>Projects</h2>
+    <ul>
+      <li>
+        <a href="https://github.com/andrey-star/bot-api" target="blank">bot-api</a>
+        <p>Spring web service for comment moderation.</p>
+      </li>
+      <li>
+        <a href="https://github.com/andrey-star/jb-parser" target="blank">jb-parser</a>
+        <p>Exception safe parser and evaluator for a custom language.</p>
+      </li>
+      <li>
+        <a href="https://github.com/andrey-star/unityfacedetect" target="blank">unityfacedetect</a>
+        <p>A Unity based project which detects face position through image processing, and controls a 3D model based on your movement.</p>
+      </li>
+    </ul>
+    <h2>Cat</h2>
+    <div class="row">
+      <div class="column">
+        <img src="images/senya-gorgeous.jpg" alt="senya-gorgeous">
+      </div>
+      <div class="column">
+        <img src="images/senya-superman.jpg" alt="senya-superman">
+      </div>
+      <div class="column">
+        <img src="images/senya-dissapointed.jpg" alt="senya-dissapointed">
+      </div>
     </div>
-  </body>
+    <h2>Contacts</h2>
+    <ul>
+      <li><a href="https://github.com/andrey-star/" target="blank">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/andreystar" target="blank">LinkedIn</a></li>
+    </ul>
+    <h2>Education</h2>
+    <ul>
+      <li>Physical Technical High School, St. Petersburg</li>
+      <li>ITMO University, St. Petersburg</li>
+    </ul>
+    <button onclick="addRandomQuote()">Random quote</button>
+    <div id="quote-container"></div>
+  </div>
+</body>
+
 </html>
