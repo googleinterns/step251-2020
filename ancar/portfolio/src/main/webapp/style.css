@@ -8,6 +8,14 @@
   margin-top: 20px;
 }
 
+h1 {
+    text-align: center;
+}
+
+p {
+  font-family: "Lucida Console", Courier, monospace;
+}
+
 img.resize {
   max-width:30%;
   max-height:30%;
