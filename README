@@ -25,7 +25,7 @@ one more time to get list of branches
 2. To see current branch information in your command line, just add __git_ps1 
 to your PS1: 
   * Add this 
-```export PS1="[\t] $(getLocalPath)$(getcl)\n[\u@\h$(__git_ps1) ]$ " ``` to 
+```export PS1='[\t] $(getLocalPath)$(getcl)\n[\u@\h$(__git_ps1) ]$ ' ``` to 
 the end of your ```~/.bashrc```
 3. Some good git GUI: [gitk](https://git-scm.com/docs/gitk), 
 qgit (```apt install qgit```) or [tortoise git](https://tortoisegit.org/)
