@@ -17,7 +17,7 @@
  */
 function addRandomQuote() {
   const quotes =
-      ['Pivot!', 'We were on a break!', 'How you doing?', 'She is your lobster.'];
+      ['Pivot!', 'We were on a break!', 'How you doing?', 'She is your lobster.', 'Seven!'];
 
   // Pick a random quote.
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
@@ -26,3 +26,20 @@ function addRandomQuote() {
   const quoteContainer = document.getElementById('quote-container');
   quoteContainer.innerText = quote;
 }
+
+function happyFeel() {
+    const happyContainer = document.getElementById('happy-container');
+    happyContainer.innerText = "If you are happy and you know it, clap your hands!";
+}
+
+function sadFeel() {
+    const sadContainer = document.getElementById('sad-container');
+    sadContainer.innerText = "Check out my gallery with pictures of Sasha! If they do not make you feel better, click again.";
+}
+
+function angryFeel() {
+    const angryContainer = document.getElementById('angry-container');
+    angryContainer.innerText = "Breathe in, breathe out!";
+}
+
+
