@@ -23,22 +23,22 @@ function addRandomQuote() {
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
   // Add it to the page.
-  const quoteContainer = document.getElementById('quote-container');
+  const quoteContainer = document.getElementById('feel-container');
   quoteContainer.innerText = quote;
 }
 
 function happyFeel() {
-    const happyContainer = document.getElementById('happy-container');
+    const happyContainer = document.getElementById('feel-container');
     happyContainer.innerText = "If you are happy and you know it, clap your hands!";
 }
 
 function sadFeel() {
-    const sadContainer = document.getElementById('sad-container');
+    const sadContainer = document.getElementById('feel-container');
     sadContainer.innerText = "Check out my gallery with pictures of Sasha! If they do not make you feel better, click again.";
 }
 
 function angryFeel() {
-    const angryContainer = document.getElementById('angry-container');
+    const angryContainer = document.getElementById('feel-container');
     angryContainer.innerText = "Breathe in, breathe out!";
 }
 
