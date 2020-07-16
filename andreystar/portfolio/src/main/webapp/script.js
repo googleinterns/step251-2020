@@ -4,7 +4,7 @@ function addRandomQuote() {
     'I am the danger.',
     'You see, but you do not observe.',
     'There’s a woman lying dead. Perfectly sound analysis but I was hoping you’d go deeper.',
-    'You\'re treading on some mighty thin ice here.'
+    `You're treading on some mighty thin ice here.`
   ];
 
   // Pick a random quote.
