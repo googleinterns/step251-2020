@@ -121,6 +121,7 @@ h3 {
 }
 
 #mood {
+    text-align: center;
     background-color: lightgray;
     border-style: solid;
     border-width: 5px;
@@ -133,10 +134,11 @@ h3 {
 
 .feel {
     margin-top: 10px;
+    margin-left: 20px;
 }
 
-.container {
-    margin-top: 10px;
+#feel-container {
+    margin-top: 20px;
 }
 
 img.resize {
