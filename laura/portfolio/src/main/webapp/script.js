@@ -31,3 +31,14 @@ function randomMood() {
   imageContainer.innerHTML = '';
   imageContainer.appendChild(imgElement);
 }
+
+function showGallery() {
+    const gallery = document.getElementById('gallery-container');
+    for (var i = 0; i < 8; ++ i) {
+        const imgElem = document.createElement('img');
+        imgElem.src = "images/film/"+i+".jpg";
+        imgElem.height = "150";
+        
+        gallery.appendChild(imgElem);
+    }
+}
