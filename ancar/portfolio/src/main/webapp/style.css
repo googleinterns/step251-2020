@@ -41,6 +41,13 @@ h3 {
     right: 370px;
 }
 
+#buttonQuote{
+    cursor: pointer;
+    font-size: 25px;
+    background-color: lightcoral;
+    color: whitesmoke
+}
+
 #randomQuote {
     text-align: center;
     background-color: lightgrey;
@@ -135,15 +142,25 @@ h3 {
 .feel {
     margin-top: 10px;
     margin-left: 20px;
+    cursor: pointer;
+    font-size: 25px;
+    background-color: lightcoral;
+    color: whitesmoke
 }
 
 #feel-container {
     margin-top: 20px;
+    font-size: 25px;
 }
 
 img.resize {
   max-width:30%;
   max-height:30%;
+}
+
+.gallery {
+    max-height: 30%;
+    max-width: 30%;
 }
 
 
