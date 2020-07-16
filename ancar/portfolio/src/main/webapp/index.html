@@ -25,7 +25,7 @@
         <a id="LinkedInLink" href="https://www.linkedin.com/in/anca-maria-ro%C8%99culete-158b34195/" target="_blank">
             Visit my LinkedIn profile!</a>
         <a id="GithubLink" href="https://github.com/ancamaria99" target="_blank">Visit my GitHub profile!</a>
-        <a id="email" href = "mailto: anca.rosculete@gmail.com">Send me an Email!</a>
+        <a id="email" href = "mailto: anca.rosculete@gmail.com" targer="_blank">Send me an Email!</a>
       </div>
       <div id="projects">
         <h4>Some of my projects:</h4>
@@ -38,7 +38,16 @@
       <div id="Sasha">
         <p>Here is a picture of me and my cat, Sasha:</p>
         <img class="resize" src="/images/me&Sasha.jpeg"/> 
-        <p id="pictures">Click <a href="gallery.html">here</a> to see more pictures of Sasha!</p>
+        <p id="pictures">Click <a href="gallery.html" target="_blank">here</a> to see more pictures of Sasha!</p>
+      </div>
+      <div id="mood">
+          <p>How are you feeling today?</p>
+          <button onclick="happyFeel()" class="feel">Happy</button>
+          <div id="happy-container" class="container"></div>
+          <button onclick="sadFeel()" class="feel">Sad</button>
+          <div id="sad-container" class="container"></div>
+          <button onclick="angryFeel()" class="feel">Angry</button>
+          <div id="angry-container" class="container"></div>
       </div>
     </div>
   </body>

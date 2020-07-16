@@ -106,6 +106,7 @@ h3 {
     padding: 20px;
     position: relative;
     top: -280px;
+    right: 370px;
 }
 
 #pictures {
@@ -113,6 +114,25 @@ h3 {
     position: relative;
     padding-left: 20px;
     top: -100px;
+}
+
+#mood {
+    background-color: lightgray;
+    border-style: solid;
+    border-width: 5px;
+    border-color: lightcoral;
+    padding: 20px;
+    position: relative;
+    top: -500px;
+    left: 400px;
+}
+
+.feel {
+    margin-top: 10px;
+}
+
+.container {
+    margin-top: 10px;
 }
 
 img.resize {
