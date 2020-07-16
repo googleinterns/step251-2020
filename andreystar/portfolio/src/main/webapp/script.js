@@ -1,10 +1,10 @@
 function addRandomQuote() {
   const quotes = [
-    'Now. Say my name. Heisenberg. You\'re god damn right',
+    `Now. Say my name. Heisenberg. You're god damn right`,
     'I am the danger.',
     'You see, but you do not observe.',
     'There’s a woman lying dead. Perfectly sound analysis but I was hoping you’d go deeper.',
-    'You\'re treading on some mighty thin ice here.'
+    `You're treading on some mighty thin ice here.`
   ];
 
   // Pick a random quote.
@@ -34,8 +34,8 @@ function setPhoto() {
 }
 
 window.onload = function() {
-  catImage = document.getElementById("cat-photo");
-  imageSelector = document.getElementsByName("cat-photo-id");
+  catImage = document.getElementById('cat-photo');
+  imageSelector = document.getElementsByName('cat-photo-id');
   for (let selector of imageSelector) {
     selector.onchange = setPhoto;
   }
