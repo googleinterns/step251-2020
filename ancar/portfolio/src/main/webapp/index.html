@@ -48,7 +48,7 @@
         <p>Here is a picture of me and my cat, Sasha:</p>
         <img class="resize" src="/images/me&Sasha.jpeg"/> 
         <p id="pictures">Click <a href="gallery.html" target="_blank">here</a> to see more pictures of Sasha!</p>
-        <!--TODO : add some CSS styling for the form-->
+        <!--TODO(ancar) : add some CSS styling for the form-->
         <p>Can you guess my age?</p>
         <form>
             <input onclick="chooseAge(19)" type="radio" name="age" value="age19">
@@ -64,9 +64,9 @@
 
       <div id="mood">
           <p>How are you feeling today?</p>
-          <button onclick="happyFeel()" class="feel">Happy</button>
-          <button onclick="sadFeel()" class="feel">Sad</button>
-          <button onclick="angryFeel()" class="feel">Angry</button>
+          <button onclick="feel('happy')" class="feel">Happy</button>
+          <button onclick="feel('sad')" class="feel">Sad</button>
+          <button onclick="feel('angry')" class="feel">Angry</button>
           <div id="feel-container"></div>
       </div>
 
