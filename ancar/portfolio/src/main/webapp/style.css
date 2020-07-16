@@ -15,6 +15,10 @@ h1 {
     text-align: center;
     background-color: lightcoral;
     color: white;
+    border-style: none;
+    width: 1800px;
+    position: relative;
+    right: 600px;
 }
 
 p {
