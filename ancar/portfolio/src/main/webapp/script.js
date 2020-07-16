@@ -42,4 +42,14 @@ function angryFeel() {
     angryContainer.innerText = "Breathe in, breathe out!";
 }
 
+function chooseAge(age) {
+    const ageContainer = document.getElementById('age-container');
+    if (age == 19 || age == 20){
+        ageContainer.innerText = "You are wrong!";
+    }
+    else {
+        ageContainer.innerText = "You are correct!";
+    }
+}
+
 

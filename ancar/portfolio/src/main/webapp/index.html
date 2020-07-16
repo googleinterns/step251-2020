@@ -6,20 +6,25 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
+
   <body>
     <div id="content">
+
       <h1>Anca's Portfolio</h1>
+
       <div id="introduction">
         <h3>Introduction</h3>
         <p>Hello! My name is Anca and I am from Romania. 
             I am currently studying Computer Science at Politehnica University of Bucharest.</p>
         <p>I enjoy watching movies and TV series. One of my favourites is FRIENDS.</p>
       </div>
+
       <div id="randomQuote">
         <p>Click here to get a random Friends quote:</p>
         <button id="buttonQuote" onclick="addRandomQuote()">Random Friends quote</button>
         <div id="quote-container"></div>
       </div>
+
       <div id="links">
         <p id="linksTitle"> Find me online :) </p>
         <a id="LinkedInLink" href="https://www.linkedin.com/in/anca-maria-ro%C8%99culete-158b34195/" target="_blank">
@@ -29,6 +34,7 @@
         <a id="email" href = "mailto: anca.rosculete@gmail.com" targer="_blank">
             <img src="images/Gmail-Mark.png" width="50" height="50"></a>
       </div>
+
       <div id="projects">
         <h4>Some of my projects:</h4>
         <ul>
@@ -37,11 +43,25 @@
             <li>Flappy bird game in Racket</li>
         </ul>
       </div>
+
       <div id="Sasha">
         <p>Here is a picture of me and my cat, Sasha:</p>
         <img class="resize" src="/images/me&Sasha.jpeg"/> 
         <p id="pictures">Click <a href="gallery.html" target="_blank">here</a> to see more pictures of Sasha!</p>
+        <!--TODO : add some CSS styling for the form-->
+        <p>Can you guess my age?</p>
+        <form>
+            <input onclick="chooseAge(19)" type="radio" name="age" value="age19">
+            <label for="age19">19</label><br>
+            <input onclick="chooseAge(21)" type="radio" name="age" value="age21">
+            <label for="age21">21</label><br>
+            <input onclick="chooseAge(20)" type="radio" name="age" value="age20">
+            <label for="age20">20</label>
+            <div id="age-container"></div>
+        </form> 
+
       </div>
+
       <div id="mood">
           <p>How are you feeling today?</p>
           <button onclick="happyFeel()" class="feel">Happy</button>
@@ -49,6 +69,7 @@
           <button onclick="angryFeel()" class="feel">Angry</button>
           <div id="feel-container"></div>
       </div>
+
     </div>
   </body>
 </html>
