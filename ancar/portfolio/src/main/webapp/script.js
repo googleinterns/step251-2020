@@ -27,19 +27,30 @@ function addRandomQuote() {
   quoteContainer.innerText = quote;
 }
 
-function happyFeel() {
-    const happyContainer = document.getElementById('feel-container');
-    happyContainer.innerText = "If you are happy and you know it, clap your hands!";
+function feel(mood) {
+    const feelContainer = document.getElementById('feel-container');
+
+    if (mood == 'happy') {
+        feelContainer.innerText = "If you are happy and you know it, clap your hands!";
+    }
+
+    if (mood == 'sad') {
+        feelContainer.innerText = "Check out my gallery with pictures of Sasha! If they do not make you feel better, click again.";
+    }
+
+    if (mood == 'angry') {
+        feelContainer.innerText = "Breathe in, breathe out!";
+    }
 }
 
-function sadFeel() {
-    const sadContainer = document.getElementById('feel-container');
-    sadContainer.innerText = "Check out my gallery with pictures of Sasha! If they do not make you feel better, click again.";
-}
-
-function angryFeel() {
-    const angryContainer = document.getElementById('feel-container');
-    angryContainer.innerText = "Breathe in, breathe out!";
+function chooseAge(age) {
+    const ageContainer = document.getElementById('age-container');
+    if (age == 19 || age == 20){
+        ageContainer.innerText = "You are wrong!";
+    }
+    else {
+        ageContainer.innerText = "You are correct!";
+    }
 }
 
 
