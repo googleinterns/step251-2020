@@ -21,6 +21,12 @@ img {
     margin: 40px 40px 40px 40px;
 }
 
+p.dotted {
+    border-style: dotted;
+    padding: 10px;
+    width: 250px;
+}
+
 .button {
     background-color: ghostwhite;
     padding: 15px 32px;
