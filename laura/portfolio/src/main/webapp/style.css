@@ -1,3 +1,8 @@
+:root {
+    --myyellow: #F9BA32;
+    --mysteel: #2F3131;
+}
+
 #content {
   margin-left: auto;
   margin-right: auto;
@@ -9,23 +14,27 @@
 }
 
 body {
-  background-color: #2F3131;
+  background-color: var(--mysteel);
   text-align: left;
-}
-
-h1 {
-    color:#F9BA32;
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-h2 {
-    color: #F8F1E5;
-    margin: 0px 50px;
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 img {
     margin: 40px;
+}
+
+html, body {
+  height: 100%;
+}
+
+h1 {
+    color: var(--myyellow);
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+h2 {
+    color: white;
+    margin: 0px 50px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 p {
@@ -35,10 +44,10 @@ p {
 
 /* For the buttons */
 .button {
-    background-color: #2F3131;
+    background-color:var(--mysteel);
     padding: 15px 32px;
     text-align: center;
-    border: 2px solid #F8F1E5;
+    border: 2px solid white;
     color: white;
     border-radius: 12px;
     margin: 4px 2px;
@@ -46,15 +55,20 @@ p {
 }
 
 .button:hover {
-  background-color: #F9BA32;
-  border-color: #F9BA32;
+  background-color: var(--myyellow);
+  border-color: var(--myyellow);
   color: white;
 }
 
-/* Create three equal columns that floats next to each other */
+/* Create 2 equal columns that float next to each other */
 .column {
   float: left;
   width: 50%;
+  height: 100%;
+}
+
+.row {
+    height: 80%;
 }
 
 /* Clear floats after the columns */
@@ -77,8 +91,8 @@ ul {
   margin: 0px;
   border: 0px;
   padding: 10px;
-  background-color: #F9BA32; 
-  }
+  background-color:var(--myyellow); 
+}
 
 li {
     display: inline;
@@ -94,5 +108,5 @@ a.navbar{
 }
 
 a:hover {
-  background-color: #bf932c;
+  background-color: #bf932c; /* dark yellow */
 }
