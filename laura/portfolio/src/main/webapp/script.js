@@ -35,10 +35,17 @@ function randomMood() {
 function showGallery() {
     const gallery = document.getElementById('gallery-container');
     for (var i = 0; i < 8; ++ i) {
+        /* Add each picture to gallery by creating indep elements */
         const imgElem = document.createElement('img');
         imgElem.src = "images/film/"+i+".jpg";
         imgElem.height = "150";
         
         gallery.appendChild(imgElem);
     }
+}
+
+/* Create new element with the msg from the ./data servlet*/
+async function printServletMsg() {
+    const response = await fetch("/data");
+    document.getElementById('servlet-msg').innerHTML = await response.text();
 }
