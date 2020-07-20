@@ -21,6 +21,14 @@ h1 {
     right: 600px;
 }
 
+#servet-tutorial-2 {
+    padding: 20px;
+}
+
+#hello-container {
+    padding: 20px;
+}
+
 p {
     font-family: "Lucida Console", Courier, monospace;
 }

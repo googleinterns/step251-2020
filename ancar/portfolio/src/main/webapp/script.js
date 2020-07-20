@@ -15,6 +15,12 @@
 /**
  * Adds a random quote to the page.
  */
+function getHello() {
+    fetch('/data').then(response => response.text()).then((message) => {
+      document.getElementById('hello-container').innerText = message; 
+    })
+}
+
 function addRandomQuote() {
   const quotes =
       ['Pivot!', 'We were on a break!', 'How you doing?', 'She is your lobster.', 'Seven!'];
