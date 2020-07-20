@@ -7,29 +7,35 @@
     <script src="script.js"></script>
   </head>
   <body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="navbar">Home</a></li>
+            <li><a href="mood.html" class="navbar">Mood generator</a></li>
+        </ul>
+    </nav>
+  
     <h1 style="text-align:center;">My Portfolio</h1>
+    <h2> Bio </h2>
 
     <div class="row">
         <div class="column">
-            <p> Hello, there! I am Laura, I'm 19yo and I live in Bucharest, Romania.
-            Since 2019, I study Computer Science at University College, Oxford (the oldest college in the university, founded in 13th century).</p>
+            <p> Hello, there! I am Laura, I'm 19yo and I am from Bucharest, Romania.</p>
+            <p>Since 2019, I study Computer Science at University College, Oxford (the oldest college in the university, founded in 13th century).</p>
             
-            <img src="images/univ.jpg" height="300"/>  
+            <img src="images/univ.jpg" height="70%" margin="30px">  
         </div>
         
         <div class="column">
+            <p> In my spare time I enjoy sports -fencing, swimming and skiing in particular-, going out with friends, cooking new recipes and traveling.</p>
+            <p> Check me out on  <a href="https://linkedin.com/in/laura-ioana-georgescu" style="color:white;">LinkedIn</a> and 
+            <a href="https://codeforces.com/profile/laurageorgescu" style="color:white;">Codeforces</a>. </p>
             <p> This is my portofolio for the 2020 STEP internship at Google.</p>
-            <p> In my spare time I enjoy sports (fencing and skiing in particular), going out with friends, cooking new recipes and traveling.</p>
-       
-            <img src="images/me.JPG" height = "300"/>          
+            <img src="images/me.JPG" height="65%" margin="30px">    
         </div>
-    </div>
+    </div>    
 
-        <div align="center">
-        <p class="dotted" >Click <a href="mood.html">here</a> to get a random mood!</p>
-        <button class="button" onclick="showGallery()">Some pictures I took last year &#128248;</button>
-        <div id="gallery-container"></div>
-        </div>
-    </div>
+    <div align="center">
+    <button class="button" onclick="showGallery()">Some pictures I took last year &#128248;</button>
+    <div id="gallery-container"></div>
   </body>
 </html>
