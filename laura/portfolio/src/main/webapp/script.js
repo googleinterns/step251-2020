@@ -47,5 +47,6 @@ function showGallery() {
 /* Create new element with the msg from the ./data servlet*/
 async function printServletMsg() {
     const response = await fetch("/data");
-    document.getElementById('servlet-msg').innerHTML = await response.text();
+    const txt = await response.text();
+    document.getElementById('servlet-msg').innerHTML = "<h1>"+txt+"</h1>";
 }
