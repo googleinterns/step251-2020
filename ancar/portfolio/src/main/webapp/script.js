@@ -15,9 +15,9 @@
 /**
  * Adds a random quote to the page.
  */
-function getCities() {
-    fetch('/data').then(response => response.json()).then((cities) => {
-      document.getElementById('cities-container').innerText = cities; 
+function getComments() {
+    fetch('/data').then(response => response.json()).then((comments) => {
+      document.getElementById('comments-container').innerText = comments; 
     })
 }
 
