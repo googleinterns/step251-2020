@@ -44,8 +44,10 @@ function showGallery() {
     }
 }
 
-/* Create new element with the msg from the ./data servlet*/
+/* Create new element with the messages recieved from the ./data servlet in a json*/
 async function printServletMsg() {
     const response = await fetch("/data");
-    document.getElementById('servlet-msg').innerHTML = await response.text();
+    const json = await response.json();
+    const txt = json[0]+"! "+json[1]+"! "+json[2]+"! ";
+    document.getElementById('servlet-msg').innerHTML = "<h1>"+txt+"</h1>";
 }
