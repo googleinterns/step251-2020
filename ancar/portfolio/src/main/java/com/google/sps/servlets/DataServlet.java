@@ -27,18 +27,25 @@ import java.util.Arrays;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-    ArrayList<String> hardCodedMessages = new ArrayList<>(Arrays.asList("Bucharest", "Zurich", "London"));
+  ArrayList<String> commentsList = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String json = convertToJsonUsingGson(hardCodedMessages);  
+    String json = convertToJsonUsingGson(commentsList);  
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
 
-  private String convertToJsonUsingGson(ArrayList<String> hardCodedMessages) {
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+       String newComment = request.getParameter("comment");
+       commentsList.add(newComment);
+       response.sendRedirect("/index.html");
+  }
+
+  private String convertToJsonUsingGson(ArrayList<String> commentsList) {
     Gson gson = new Gson();
-    String json = gson.toJson(hardCodedMessages);
+    String json = gson.toJson(commentsList);
     return json;
   }
 }
