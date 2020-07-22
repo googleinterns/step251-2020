@@ -25,18 +25,28 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-    private ArrayList<String> strings = new ArrayList<String>();
+    private ArrayList<String> comments = new ArrayList<String>();
 
-    public DataServlet () {
-        strings.add("Hello");
-        strings.add("Buna");
-        strings.add("Merhaba");
-    }
-
+    /* doGet is called by the fetch instruction in the JS function 
+                called by the html body after loading the page */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;");
-        response.getWriter().println(toJsonUsingGson(strings));
+        response.getWriter().println(toJsonUsingGson(comments));
+    }
+
+    /* doPost is called when the user clicks the submit button */
+    @Override
+    public void doPost (HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String txt = request.getParameter("comment-input");
+        if (txt.length() == 0) {
+            response.setContentType("text/html;");
+            response.getWriter().println("Enter a non-empty comment.");
+            return ;
+        }
+
+        comments.add(txt);
+        response.sendRedirect("/index.html");
     }
 
     private String toJsonUsingGson (Object obj) {

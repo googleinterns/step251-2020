@@ -44,10 +44,15 @@ function showGallery() {
     }
 }
 
-/* Create new element with the messages recieved from the ./data servlet in a json*/
+/* Create new element with the messages recieved from the ./data servlet in a json;
+     is called when the page is reloaded by the _onload_ prop of the html body */
 async function printServletMsg() {
     const response = await fetch("/data");
-    const json = await response.json();
-    const txt = json[0]+"! "+json[1]+"! "+json[2]+"! ";
+    const parsed_json = await response.json();
+    
+    var txt = "";
+    for (comm of parsed_json)
+        txt += comm + "<br>";
+
     document.getElementById('servlet-msg').innerHTML = "<h1>"+txt+"</h1>";
 }
