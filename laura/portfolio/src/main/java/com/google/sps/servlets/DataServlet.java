@@ -37,8 +37,20 @@ public class DataServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery data_query = datastore.prepare(new Query("Task"));
 
+        // Get the specified no of comments to be displayed.
+        int comm_limit = 0;
+        try {
+            comm_limit = Integer.parseInt(request.getParameter("com-limit"));
+        } catch (NumberFormatException e) {
+            response.setContentType("text/html;");
+            response.getWriter().println("Invalid argument for no of comments.");
+            return ;
+        }
+
         ArrayList<String> comments = new ArrayList<String>();
         for (Entity com_entity : data_query.asIterable()) {
+            if (comments.size() == comm_limit)
+                break;
             comments.add((String) com_entity.getProperty("comment"));
         }
 

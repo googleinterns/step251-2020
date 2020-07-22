@@ -32,12 +32,10 @@ h1 {
 }
 
 h2 {
-    color: white;
     margin: 0px 50px;
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
-p {
+p, label, h2 {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   color: white;
 }
@@ -109,4 +107,9 @@ a.navbar{
 
 a:hover {
   background-color: #bf932c; /* dark yellow */
+}
+
+/* For the comments */
+.comment-zone {
+    border: 2px solid var(--myyellow);
 }
