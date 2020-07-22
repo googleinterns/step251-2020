@@ -32,9 +32,7 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // String json = convertToJsonUsingGson(commentsList);  
-    // response.setContentType("application/json;");
-    // response.getWriter().println(json);
+      //TODO(ancar): load comments when an user requests it
   }
 
   @Override
@@ -46,7 +44,7 @@ public class DataServlet extends HttpServlet {
 
        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
        datastore.put(commentEntity);
-       
+
        response.sendRedirect("/index.html");
   }
 
