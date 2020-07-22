@@ -57,3 +57,8 @@ async function printServletMsg() {
 
     document.getElementById('servlet-msg').innerHTML = txt;
 }
+
+async function deleteAllComments() {
+    await fetch(new Request('/delete-data', {method: 'POST'}));
+    await printServletMsg();
+}
