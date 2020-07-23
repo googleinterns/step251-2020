@@ -23,7 +23,16 @@ function getComments() {
           text += "<p>" + element + "</p>";
       }
       document.getElementById('comments-container').innerHTML = text; 
+
+      if (document.getElementById('comments-container').innerHTML == "") {
+          document.getElementById('comments-container').innerHTML = "<p>No comments to display.</p>";
+      }
     })
+}
+
+async function deleteComments() {
+    await fetch('/delete-data', {method: 'POST'});
+    await getComments();
 }
 
 function addRandomQuote() {

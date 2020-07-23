@@ -41,20 +41,33 @@ public class DataServlet extends HttpServlet {
       PreparedQuery results = datastore.prepare(query);
 
       List<String> comments = new ArrayList<>();
+      List<String> commentsToPrint;
 
       for (Entity entity : results.asIterable()) {
         String comment = (String) entity.getProperty("comment");
         comments.add(comment);
       }
 
-      Gson gson = new Gson();
-
       String valueParameter = request.getParameter("value");
       int numberOfComments = Integer.parseInt(valueParameter);
 
-      List<String> commentsToPrint = comments.subList(0, numberOfComments);
+      Gson gson = new Gson();
 
-      response.setContentType("application/json;");
+      if (comments.size() == 0) {
+          response.setContentType("application/json");
+          response.getWriter().println(gson.toJson(""));
+          return ;
+      }
+
+    //If the user requests more comments than there are available, print all.
+      if (comments.size() < numberOfComments) {
+          response.setContentType("application/json");
+          response.getWriter().println(gson.toJson(comments));
+          return ;
+      }
+
+      commentsToPrint = comments.subList(0, numberOfComments);
+      response.setContentType("application/json");
       response.getWriter().println(gson.toJson(commentsToPrint));
   }
 
