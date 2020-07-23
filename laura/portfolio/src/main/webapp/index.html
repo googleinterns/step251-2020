@@ -13,15 +13,6 @@
             <li><a href="mood.html" class="navbar">Mood generator</a></li>
         </ul>
     </nav>
-
-    <div id="servlet-msg"></div>
-
-    <form action="/data" method="POST">
-        <p> Write here: </p>
-        <input type="text" name="comment-input">
-        <br><br>
-        <input type="submit" />
-    </form>
   
     <h1 style="text-align:center;">My Portfolio</h1>
     <h2> Bio </h2>
@@ -44,7 +35,36 @@
     </div>    
 
     <div align="center">
-    <button class="button" onclick="showGallery()">Some pictures I took last year &#128248;</button>
-    <div id="gallery-container"></div>
+        <button class="button" onclick="showGallery()">Some pictures I took last year &#128248;</button>
+        <div id="gallery-container"></div>
+    </div>
+
+    <br><br><br>
+
+    <!-- Comment features --> 
+    <div>
+        <p> Comment feature: </p>
+        <div id="servlet-msg" class="comment-zone"></div>
+
+        <form onchange="printServletMsg()">
+            <label> Show </label>
+            <select id="max-comments-limit">
+                <option value="1">1</option>        
+                <option value="2">2</option>        
+                <option value="3">3</option>        
+                <option value="4">4</option>        
+            </select>
+            <label> comments. </label>
+        </form>
+
+        <form action="/data" method="POST">
+            <p> Type your comments here: </p>
+            <input type="text" name="comment-input">
+            <br><br>
+            <input type="submit">
+        </form>
+
+        <button class="button" onclick="deleteAllComments()">ERASE ALL COMMENTS</button>
+    </div>
   </body>
 </html>

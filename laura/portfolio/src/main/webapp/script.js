@@ -47,12 +47,18 @@ function showGallery() {
 /* Create new element with the messages recieved from the ./data servlet in a json;
      is called when the page is reloaded by the _onload_ prop of the html body */
 async function printServletMsg() {
-    const response = await fetch("/data");
+    const limit = document.getElementById('max-comments-limit').value;
+    const response = await fetch("/data?com-limit=" + limit);
     const parsed_json = await response.json();
     
     var txt = "";
     for (comm of parsed_json)
-        txt += comm + "<br>";
+        txt += "<p>" + comm + "</p>";
 
-    document.getElementById('servlet-msg').innerHTML = "<h1>"+txt+"</h1>";
+    document.getElementById('servlet-msg').innerHTML = txt;
+}
+
+async function deleteAllComments() {
+    await fetch(new Request('/delete-data', {method: 'POST'}));
+    await printServletMsg();
 }
