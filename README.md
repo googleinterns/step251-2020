@@ -37,3 +37,43 @@ qgit (```apt install qgit```) or [tortoise git](https://tortoisegit.org/)
 
 1. [Introduction from Atlassian](https://www.atlassian.com/git/tutorials/comparing-workflows)
 2. [Another simple guide](https://rogerdudler.github.io/git-guide/)
+
+# Maven tips and tricks
+
+### Measuring code coverage
+
+I'd recomend [JaCoCo](https://en.wikipedia.org/wiki/Java_code_coverage_tools#JaCoCo) as a 
+coverage tool. It's distributed under [EPL](https://en.wikipedia.org/wiki/Eclipse_Public_License) license,
+just like JUnit, so there should be no problem with using it in Google projects.
+
+To get code coverage report after you run the tests, add the plugin to your maven configuration:
+
+```xml
+
+<build>
+   <plugins>
+      <!-- Other plugins -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.5</version>
+        <configuration>
+          <excludes>
+            <!-- It makes no sense to measure how well are generated protobuf files are covered  -->
+            <exclude>**/path/to/your/protos/*</exclude>
+          </excludes>
+        <configuration>
+      </plugin>
+      <!-- Other plugins -->
+   </plugins>
+</build>
+```
+run the build command, e.g.:
+
+```bash
+mvn clean install verify jacoco:report 
+```
+
+and open ``` target/site/jacoco/index.html ``` with your browser.
+
+[More details and samples here](https://www.baeldung.com/jacoco)
