@@ -50,10 +50,10 @@ public class DataServlet extends HttpServlet {
       Gson gson = new Gson();
 
       String valueParameter = request.getParameter("value");
-      int commentsToDisplay = Integer.parseInt(valueParameter);
+      int numberOfComments = Integer.parseInt(valueParameter);
 
-      List<String> commentsToPrint = comments.subList(0, commentsToDisplay);
-      
+      List<String> commentsToPrint = comments.subList(0, numberOfComments);
+
       response.setContentType("application/json;");
       response.getWriter().println(gson.toJson(commentsToPrint));
   }
