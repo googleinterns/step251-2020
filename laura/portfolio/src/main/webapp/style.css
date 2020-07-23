@@ -52,6 +52,11 @@ p, label, h2 {
     transition-duration: 0.4s;
 }
 
+.erase-button {
+    background-color: tomato;
+    padding: 4px 4px;
+}
+
 .button:hover {
   background-color: var(--myyellow);
   border-color: var(--myyellow);
@@ -111,5 +116,7 @@ a:hover {
 
 /* For the comments */
 .comment-zone {
-    border: 2px solid var(--myyellow);
+    border: 1px solid var(--myyellow);
+    margin: 0px;
+    padding: 5px;
 }

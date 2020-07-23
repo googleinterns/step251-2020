@@ -51,11 +51,18 @@ async function printServletMsg() {
     const response = await fetch("/data?com-limit=" + limit);
     const parsed_json = await response.json();
     
-    var txt = "";
-    for (comm of parsed_json)
-        txt += "<p>" + comm + "</p>";
+    const comment_zone = document.getElementById('servlet-msg');
+    comment_zone.innerHTML = "";
+    for (comm of parsed_json) {
+        const elem = document.createElement('p');
+        elem.innerText = comm;
+        elem.classList.add("comment-zone");
+        comment_zone.appendChild(elem);
+    }
 
-    document.getElementById('servlet-msg').innerHTML = txt;
+    if (comment_zone.innerHTML == "") {
+        comment_zone.innerHTML = "<p class=\"comment-zone\">No comments to display :(. Be the first one to leave a comment!</p>";
+    }
 }
 
 async function deleteAllComments() {
