@@ -42,17 +42,18 @@
     <br><br><br>
 
     <!-- Comment features --> 
-    <div>
+    <div style="border:2px solid gray;">
         <p> Comment feature: </p>
-        <div id="servlet-msg" class="comment-zone"></div>
+        <div id="servlet-msg"></div>
+        <br>
 
         <form onchange="printServletMsg()">
-            <label> Show </label>
-            <select id="max-comments-limit">
-                <option value="1">1</option>        
-                <option value="2">2</option>        
+            <label> Showing max </label>
+            <select id="max-comments-limit">       
                 <option value="3">3</option>        
-                <option value="4">4</option>        
+                <option value="5">5</option>        
+                <option value="10">10</option>  
+                <option value="20">20</option>       
             </select>
             <label> comments. </label>
         </form>
@@ -64,7 +65,9 @@
             <input type="submit">
         </form>
 
-        <button class="button" onclick="deleteAllComments()">ERASE ALL COMMENTS</button>
+        <br><br>
+
+        <button class="button erase-button" onclick="deleteAllComments()">ERASE ALL COMMENTS</button>
     </div>
   </body>
 </html>
