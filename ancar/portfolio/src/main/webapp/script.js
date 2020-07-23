@@ -16,8 +16,13 @@
  * Adds a random quote to the page.
  */
 function getComments() {
-    fetch('/data').then(response => response.json()).then((comments) => {
-      document.getElementById('comments-container').innerText = comments; 
+    var x = document.getElementById("mySelect").value;
+    fetch('/data?value=' + x).then(response => response.json()).then((comments) => {
+      var text = "";
+      for (element of comments) {
+          text += "<p>" + element + "</p>";
+      }
+      document.getElementById('comments-container').innerHTML = text; 
     })
 }
 
