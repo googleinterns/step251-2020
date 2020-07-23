@@ -18,14 +18,17 @@
 function getComments() {
     var x = document.getElementById("mySelect").value;
     fetch('/data?value=' + x).then(response => response.json()).then((comments) => {
-      var text = "";
+      const commentDiv = document.getElementById('comments-container');
+      commentDiv.innerHTML = "";
       for (element of comments) {
-          text += "<p>" + element + "</p>";
+        const paragraph = document.createElement('p');
+        paragraph.innerText = element;
+        paragraph.classList.add("commentDiv");
+       commentDiv.appendChild(paragraph);
       }
-      document.getElementById('comments-container').innerHTML = text; 
 
-      if (document.getElementById('comments-container').innerHTML == "") {
-          document.getElementById('comments-container').innerHTML = "<p>No comments to display.</p>";
+      if (commentDiv.innerHTML == "") {
+          commentDiv.innerHTML = "<p>No comments to display.</p>";
       }
     })
 }
