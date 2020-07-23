@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
@@ -40,6 +41,7 @@ public class DataServlet extends HttpServlet {
       PreparedQuery results = datastore.prepare(query);
 
       List<String> comments = new ArrayList<>();
+
       for (Entity entity : results.asIterable()) {
         String comment = (String) entity.getProperty("comment");
         comments.add(comment);
@@ -47,8 +49,13 @@ public class DataServlet extends HttpServlet {
 
       Gson gson = new Gson();
 
+      String valueParameter = request.getParameter("value");
+      int numberOfComments = Integer.parseInt(valueParameter);
+
+      List<String> commentsToPrint = comments.subList(0, numberOfComments);
+
       response.setContentType("application/json;");
-      response.getWriter().println(gson.toJson(comments));
+      response.getWriter().println(gson.toJson(commentsToPrint));
   }
 
   @Override
