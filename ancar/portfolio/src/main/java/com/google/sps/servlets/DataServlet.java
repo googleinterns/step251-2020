@@ -41,19 +41,17 @@ public class DataServlet extends HttpServlet {
       PreparedQuery results = datastore.prepare(query);
 
       List<String> comments = new ArrayList<>();
-      List<String> commentsToPrint;
 
       for (Entity entity : results.asIterable()) {
         String comment = (String) entity.getProperty("comment");
         comments.add(comment);
       }
 
-      String valueParameter = request.getParameter("value");
-      int numberOfComments = Integer.parseInt(valueParameter);
+      int numberOfComments = Integer.parseInt(request.getParameter("value"));
 
       Gson gson = new Gson();
 
-      if (comments.size() == 0) {
+      if (comments.isEmpty()) {
           response.setContentType("application/json");
           response.getWriter().println(gson.toJson(""));
           return ;
@@ -66,7 +64,7 @@ public class DataServlet extends HttpServlet {
           return ;
       }
 
-      commentsToPrint = comments.subList(0, numberOfComments);
+      List<String> commentsToPrint = comments.subList(0, numberOfComments);
       response.setContentType("application/json");
       response.getWriter().println(gson.toJson(commentsToPrint));
   }
