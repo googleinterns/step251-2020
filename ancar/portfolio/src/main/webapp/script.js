@@ -15,28 +15,6 @@
 /**
  * Adds a random quote to the page.
  */
-function getComments() {
-    var x = document.getElementById("mySelect").value;
-    fetch('/data?value=' + x).then(response => response.json()).then((comments) => {
-      const commentDiv = document.getElementById('comments-container');
-      commentDiv.innerHTML = "";
-      for (element of comments) {
-        const paragraph = document.createElement('p');
-        paragraph.innerText = element;
-        paragraph.classList.add("commentDiv");
-       commentDiv.appendChild(paragraph);
-      }
-
-      if (commentDiv.innerHTML == "") {
-          commentDiv.innerHTML = "<p>No comments to display.</p>";
-      }
-    })
-}
-
-async function deleteComments() {
-    await fetch('/delete-data', {method: 'POST'});
-    await getComments();
-}
 
 function addRandomQuote() {
   const quotes =
@@ -74,6 +52,29 @@ function chooseAge(age) {
     else {
         ageContainer.innerText = "You are correct!";
     }
+}
+
+function getComments() {
+    var x = document.getElementById("mySelect").value;
+    fetch('/data?value=' + x).then(response => response.json()).then((comments) => {
+      const commentDiv = document.getElementById('comments-container');
+      commentDiv.innerHTML = "";
+      for (element of comments) {
+        const paragraph = document.createElement('p');
+        paragraph.innerText = element;
+        paragraph.classList.add("commentDiv");
+       commentDiv.appendChild(paragraph);
+      }
+
+      if (commentDiv.innerHTML == "") {
+          commentDiv.innerHTML = "<p>No comments to display.</p>";
+      }
+    })
+}
+
+async function deleteComments() {
+    await fetch('/delete-data', {method: 'POST'});
+    await getComments();
 }
 
 

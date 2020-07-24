@@ -12,7 +12,73 @@
 
       <h1>Anca's Portfolio</h1>
 
-      <div id="comments">
+      <div id="introduction">
+        <h3>Introduction</h3>
+        <p>Hello! My name is Anca and I am from Romania. 
+            I am currently studying Computer Science at Politehnica University of Bucharest.</p>
+        <p>I enjoy watching movies and TV series. One of my favourites is FRIENDS.</p>
+      </div>
+
+      <div id="second-row">
+        <div id="randomQuote">
+            <p>Click here to get a random Friends quote:</p>
+            <button id="buttonQuote" onclick="addRandomQuote()">Random Friends quote</button>
+            <div id="quote-container"></div>
+        </div>
+
+        <div id="links">
+            <p id="linksTitle"> Find me online :) </p>
+            <div id="images-links">
+                <a id="LinkedInLink" href="https://www.linkedin.com/in/anca-maria-ro%C8%99culete-158b34195/" target="_blank">
+                    <img src="/images/LinkedIn-Mark.png" width="50" height="50"></a>
+                <a id="GithubLink" href="https://github.com/ancamaria99" target="_blank">
+                    <img src="/images/GitHub-Mark.png" width="50" height="50"></a>
+                <a id="email" href = "mailto: anca.rosculete@gmail.com" targer="_blank">
+                    <img src="images/Gmail-Mark.png" width="50" height="50"></a>
+           </div>
+        </div>
+
+        <div id="projects">
+            <h4>Some of my projects:</h4>
+            <ul>
+                <li>Chatting bot in Prolog</li>
+                <li>Chess engine for XBoard</li>
+                <li>Flappy bird game in Racket</li>
+            </ul>
+        </div>
+
+        <div id="guessAge">
+        <p>Can you guess my age?</p>
+            <form>
+                <input onclick="chooseAge(19)" type="radio" name="age" value="age19">
+                <label for="age19">19</label><br>
+                <input onclick="chooseAge(21)" type="radio" name="age" value="age21">
+                <label for="age21">21</label><br>
+                <input onclick="chooseAge(20)" type="radio" name="age" value="age20">
+                <label for="age20">20</label>
+                <div id="age-container"></div>
+            </form> 
+        </div>
+      </div>
+      <!-- end of second-row-->
+
+      <div id="third-row">
+        <div id="Sasha">
+            <img class="resize" src="/images/me&Sasha.jpeg"/> 
+            <p id="pictures-text">Click <a href="gallery.html" target="_blank">here</a> <br> to see more pictures <br> of my cat, Sasha!</p>
+        </div>
+
+        <div id="mood">
+            <p>How are you feeling today?</p>
+            <div id="buttons-mood">
+                <button onclick="feel('happy')" class="feel">Happy</button>
+                <button onclick="feel('sad')" class="feel">Sad</button>
+                <button onclick="feel('angry')" class="feel">Angry</button>
+            </div>
+            <div id="feel-container"></div>
+        </div>
+
+        <div id="comments">
           <p>Please select the number of comments to be displayed:</p>
           <select id="mySelect" onchange="getComments()">
             <option value="1">1</option>
@@ -37,65 +103,7 @@
           <br/><br/>
       </div>
 
-      <div id="introduction">
-        <h3>Introduction</h3>
-        <p>Hello! My name is Anca and I am from Romania. 
-            I am currently studying Computer Science at Politehnica University of Bucharest.</p>
-        <p>I enjoy watching movies and TV series. One of my favourites is FRIENDS.</p>
       </div>
-
-      <div id="randomQuote">
-        <p>Click here to get a random Friends quote:</p>
-        <button id="buttonQuote" onclick="addRandomQuote()">Random Friends quote</button>
-        <div id="quote-container"></div>
-      </div>
-
-      <div id="links">
-        <p id="linksTitle"> Find me online :) </p>
-        <a id="LinkedInLink" href="https://www.linkedin.com/in/anca-maria-ro%C8%99culete-158b34195/" target="_blank">
-            <img src="/images/LinkedIn-Mark.png" width="50" height="50"></a>
-        <a id="GithubLink" href="https://github.com/ancamaria99" target="_blank">
-            <img src="/images/GitHub-Mark.png" width="50" height="50"></a>
-        <a id="email" href = "mailto: anca.rosculete@gmail.com" targer="_blank">
-            <img src="images/Gmail-Mark.png" width="50" height="50"></a>
-      </div>
-
-      <div id="projects">
-        <h4>Some of my projects:</h4>
-        <ul>
-            <li>Chatting bot in Prolog</li>
-            <li>Chess engine for XBoard</li>
-            <li>Flappy bird game in Racket</li>
-        </ul>
-      </div>
-
-      <div id="Sasha">
-        <p>Here is a picture of me and my cat, Sasha:</p>
-        <img class="resize" src="/images/me&Sasha.jpeg"/> 
-        <p id="pictures">Click <a href="gallery.html" target="_blank">here</a> to see more pictures of Sasha!</p>
-      </div>
-    
-      <div id="guessAge">
-        <p>Can you guess my age?</p>
-        <form>
-            <input onclick="chooseAge(19)" type="radio" name="age" value="age19">
-            <label for="age19">19</label><br>
-            <input onclick="chooseAge(21)" type="radio" name="age" value="age21">
-            <label for="age21">21</label><br>
-            <input onclick="chooseAge(20)" type="radio" name="age" value="age20">
-            <label for="age20">20</label>
-            <div id="age-container"></div>
-        </form> 
-      </div>
-
-      <div id="mood">
-          <p>How are you feeling today?</p>
-          <button onclick="feel('happy')" class="feel">Happy</button>
-          <button onclick="feel('sad')" class="feel">Sad</button>
-          <button onclick="feel('angry')" class="feel">Angry</button>
-          <div id="feel-container"></div>
-      </div>
-
     </div>
   </body>
 </html>
