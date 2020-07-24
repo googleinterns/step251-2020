@@ -21,7 +21,7 @@
 
       <div id="second-row">
         <div id="randomQuote">
-            <p>Click here to get a random Friends quote:</p>
+            <p>Get a random Friends quote:</p>
             <button id="buttonQuote" onclick="addRandomQuote()">Random Friends quote</button>
             <div id="quote-container"></div>
         </div>
@@ -33,7 +33,7 @@
                     <img src="/images/LinkedIn-Mark.png" width="50" height="50"></a>
                 <a id="GithubLink" href="https://github.com/ancamaria99" target="_blank">
                     <img src="/images/GitHub-Mark.png" width="50" height="50"></a>
-                <a id="email" href = "mailto: anca.rosculete@gmail.com" targer="_blank">
+                <a id="email" href = "mailto: anca.rosculete@gmail.com" target="_blank">
                     <img src="images/Gmail-Mark.png" width="50" height="50"></a>
            </div>
         </div>
@@ -79,28 +79,32 @@
         </div>
 
         <div id="comments">
-          <p>Please select the number of comments to be displayed:</p>
-          <select id="mySelect" onchange="getComments()">
-            <option value="1">1</option>
-            <option value="3">3</option>
-            <option value="5">5</option>
-          </select>
+            <div id="form">
+                <form action="/data" method="POST">
 
-          <form action="/data" method="POST">
+                    <p>Leave a comment:</p>
+                    <input type="text" name="comment">
+                    <br/><br/>
 
-            <p>Leave a comment:</p>
-            <input type="text" name="comment">
-            <br/><br/>
+                    <input type="submit" class="buttons-comments"/>
+                    <br/><br/>
 
-            <input type="submit" />
-            <br/><br/>
+                </form>
 
-            <div id="comments-container"></div>
+                <button id="delete-button" class="buttons-comments" onclick="deleteComments()">Delete all comments</button>
+            </div>
+            
+            <div id="display-comments">
+                <p id="show">Show:
+                    <select id="mySelect" onchange="getComments()">
+                        <option value="1">1</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                    </select>
+                comments.</p>
 
-          </form>
-
-          <button id="delete-button" onclick="deleteComments()">Delete all comments</button>
-          <br/><br/>
+                <div id="comments-container"></div>
+            </div>
       </div>
 
       </div>
