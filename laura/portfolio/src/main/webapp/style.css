@@ -116,7 +116,14 @@ a:hover {
 
 /* For the comments */
 .comment-zone {
-    border: 1px solid var(--myyellow);
-    margin: 0px;
+    border: 2px solid var(--myyellow);
+    background-color: ghostwhite;
+    color: black;
     padding: 5px;
+    font-size: 13px;
+}
+
+.comment-feature-box {
+    width: 60%; 
+    margin-left:80px;
 }

@@ -36,15 +36,21 @@
 
     <div align="center">
         <button class="button" onclick="showGallery()">Some pictures I took last year &#128248;</button>
-        <div id="gallery-container"></div>
+        <div id="gallery-container" style="width: 80%"></div>
     </div>
 
     <br><br><br>
 
     <!-- Comment features --> 
-    <div style="border:2px solid gray;">
-        <p> Comment feature: </p>
-        <div id="servlet-msg"></div>
+    <div class="comment-feature-box">
+
+        <form action="/data" method="POST">
+            <p> Leave me a message here: </p>
+            <input type="text" name="comment-input">
+            
+            <input type="submit" class="button" style="padding: 4px 4px;">
+        </form>
+        
         <br>
 
         <form onchange="printServletMsg()">
@@ -58,16 +64,11 @@
             <label> comments. </label>
         </form>
 
-        <form action="/data" method="POST">
-            <p> Type your comments here: </p>
-            <input type="text" name="comment-input">
-            <br><br>
-            <input type="submit">
-        </form>
+        <div id="servlet-msg" width="60%"></div>
 
         <br><br>
 
-        <button class="button erase-button" onclick="deleteAllComments()">ERASE ALL COMMENTS</button>
+        <button class="button erase-button" onclick="deleteAllComments()">PERMANENTLY ERASE ALL COMMENTS</button>
     </div>
   </body>
 </html>
