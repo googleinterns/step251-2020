@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: lightgray;
+    background-color: floralwhite;
 }
 
 h1 {
@@ -22,17 +22,8 @@ p {
     font-family: "Lucida Console", Courier, monospace;
 }
 
-h3 {
-    text-decoration: underline;
-    text-align: center;
-}
-
 #introduction {
     text-align: center;
-    background-color: lightgrey;
-    border-style: solid;
-    border-color: lightcoral;
-    border-width: 5px;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -52,7 +43,6 @@ h3 {
 
 #randomQuote {
     text-align: center;
-    background-color: lightgrey;
     border-style: solid;
     border-color: lightcoral;
     border-width: 5px;
@@ -81,7 +71,6 @@ h3 {
 
 #links {
     text-align: center;
-    background-color: lightgray;
     border-style: solid;
     border-color: lightcoral;
     border-width: 5px;
@@ -101,7 +90,6 @@ h3 {
 }
 
 #projects {
-    background-color: lightgrey;
     border-style: solid;
     border-color: lightcoral;
     border-width: 5px;
@@ -114,7 +102,6 @@ h3 {
 
 #guessAge {
     text-align: center;
-    background-color: lightgray;
     border-style: solid;
     border-width: 5px;
     border-color: lightcoral;
@@ -136,11 +123,9 @@ h3 {
 
 #mood {
     text-align: center;
-    background-color: lightgray;
     border-style: solid;
     border-width: 5px;
     border-color: lightcoral;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     width: 25%;
@@ -148,7 +133,6 @@ h3 {
 
 .feel {
     margin-top: 10px;
-    margin-left: 20px;
     cursor: pointer;
     font-size: 25px;
     width: 100px;
@@ -157,11 +141,9 @@ h3 {
 }
 
 #Sasha {
-    background-color: lightgrey;
     border-style: solid;
     border-width: 5px;
     border-color: lightcoral;
-    padding: 20px;
     display: flex;
     flex-direction: row;
     width: 25%;
@@ -169,8 +151,8 @@ h3 {
 
 #pictures-text {
     text-align: center;
-    padding-left: 50px;
     padding-top: 65px;
+    margin-left: 20px;
 }
 
 
@@ -181,7 +163,6 @@ h3 {
 }
 
 #comments {
-    background-color: lightgrey;
     border-style: solid;
     border-color: lightcoral;
     border-width: 5px;
@@ -193,7 +174,7 @@ h3 {
 #form {
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
+    margin-left: 20px;
 }
 
 #submit-button {
