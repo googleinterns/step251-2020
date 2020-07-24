@@ -97,7 +97,6 @@ p {
     flex-direction: column;
     padding: 20px;
     width: 25%;
-    display: flex;
 }
 
 #guessAge {
@@ -113,7 +112,7 @@ p {
 }
 
 #age-container {
-    margin-top: 20px:
+    margin-top: 20px;
 }
 
 #third-row{
