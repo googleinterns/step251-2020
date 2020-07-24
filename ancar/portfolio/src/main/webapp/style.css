@@ -204,6 +204,13 @@ p {
     font-weight: bold;
 }
 
+.commentDiv {
+    border: solid;
+    border-width: 1px;
+    background-color: lightgray;
+    border-color: lightcoral;
+}
+
 img.resize {
   max-width: 200px;
   max-height: auto;
