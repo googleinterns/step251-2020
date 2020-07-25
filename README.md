@@ -40,6 +40,41 @@ qgit (```apt install qgit```) or [tortoise git](https://tortoisegit.org/)
 
 # Maven tips and tricks
 
+### Enabling automated code style checker
+
+Maven has "checkstyle" plugin that... checks style, it has configs for different style
+conventions: Sun/Oracle, [Google](https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml), etc.
+
+To enable checkstyle with Google configuration, add plugin into your pom.xml, plugins section: 
+
+```xml
+<plugins>
+   <!-- ... -->
+   <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-checkstyle-plugin</artifactId>
+       <version>3.1.1</version>
+       <configuration>
+           <configLocation>google_checks.xml</configLocation>
+           <encoding>UTF-8</encoding>
+           <includeTestSourceDirectory>true</includeTestSourceDirectory>
+           <consoleOutput>true</consoleOutput>
+           <failsOnError>true</failsOnError>
+           <linkXRef>false</linkXRef>
+       </configuration>
+       <executions>
+           <execution>
+               <id>validate</id>
+               <phase>validate</phase>
+               <goals>
+                   <goal>check</goal>
+               </goals>
+           </execution>
+       </executions>
+   </plugin>
+   <!-- ... -->   
+```
+
 ### Measuring code coverage
 
 I'd recomend [JaCoCo](https://en.wikipedia.org/wiki/Java_code_coverage_tools#JaCoCo) as a 
