@@ -8,7 +8,7 @@
     <script src="script.js"></script>
   </head>
 
-  <body onload="getComments()">
+  <body onload="login(); getComments()">
     <div id="content">
 
       <h1>Anca's Portfolio</h1>
@@ -79,6 +79,9 @@
         </div>
 
         <div id="comments">
+
+            <div id="login-container"></div>
+
             <div id="form">
                 <form action="/data" method="POST">
 
