@@ -127,3 +127,8 @@ a:hover {
     width: 60%; 
     margin-left:80px;
 }
+
+#map {
+    height: 50%;
+    width: 50%;
+}

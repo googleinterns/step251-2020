@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <title>Laura's Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlYdo7j26Ndok5V6lRbRfkHQOzAYCL1-0"></script>
     <script src="script.js"></script>
   </head>
-  <body onload="printServletMsg()">
+  <body onload="printServletMsg(); loadMap();">
     <nav>
         <ul>
             <li><a href="index.html" class="navbar">Home</a></li>
             <li><a href="mood.html" class="navbar">Mood generator</a></li>
         </ul>
     </nav>
-  
+
+    <div id="map"></div>
+
     <h1 style="text-align:center;">My Portfolio</h1>
     <h2> Bio </h2>
 
