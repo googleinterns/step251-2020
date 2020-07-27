@@ -77,4 +77,29 @@ async function deleteComments() {
     await getComments();
 }
 
+/* For the chart part */
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
 
+/** Fetches the friends data and uses it to create a chart. */
+function drawChart() {
+  fetch('/friends-data').then(response => response.json())
+  .then((cupsPerPerson) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('number', 'Cups');
+    Object.keys(cupsPerPerson).forEach((name) => {
+      data.addRow([name, cupsPerPerson[name]]);
+    });
+
+    const options = {
+      'title': 'How many cups of coffee each character drinks during the show',
+      'width':600,
+      'height':500
+    };
+
+    const chart = new google.visualization.ColumnChart(
+        document.getElementById('chart-container'));
+    chart.draw(data, options);
+  });
+}
