@@ -39,6 +39,7 @@ function showGallery() {
         const imgElem = document.createElement('img');
         imgElem.src = "images/film/"+i+".jpg";
         imgElem.height = "150";
+        imgElem.style = "margin: 40px;";
         
         gallery.appendChild(imgElem);
     }
@@ -71,7 +72,18 @@ async function deleteAllComments() {
 }
 
 function loadMap () {
-  const map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
+    const BUH = {lat: 44.43, lng: 26.10};
+    const map = new google.maps.Map(
+        document.getElementById('map'),
+        {center: BUH, zoom: 3});
+
+    const BUHmarker = new google.maps.Marker({position: BUH, map: map, title: 'Hometown'});
+    const CONmarker = new google.maps.Marker({position: {lat: 44.163818, lng: 28.633451}, map: map, title: 'Constanta'});
+    const OXFmarker = new google.maps.Marker({position: {lat: 51.752490, lng: -1.251908}, map: map, title: 'Uni'});
+    const VDImarker = new google.maps.Marker({position: {lat: 45.446212, lng: 6.977692}, map: map, title: 'Val d\'Isere'});
+    const ZRHmarker = new google.maps.Marker({position: {lat: 47.375978, lng: 8.541283}, map: map, title: 'Zurich'});
+    const Bakumarker = new google.maps.Marker({position: {lat: 40.407327, lng: 49.854926}, map: map, title: 'Baku'});
+    const Bratmarker = new google.maps.Marker({position: {lat: 48.140940, lng: 17.103918}, map: map, title: 'Bratislava'});
+    const STKmarker = new google.maps.Marker({position: {lat: 59.324801, lng: 18.068571}, map: map, title: 'Stockholm'});
+    const DOHmarker = new google.maps.Marker({position: {lat: 25.287784, lng: 51.530633}, map: map, title: 'Doha'});
 }
