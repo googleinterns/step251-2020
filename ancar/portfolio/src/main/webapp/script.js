@@ -63,7 +63,7 @@ function getComments() {
         const paragraph = document.createElement('p');
         paragraph.innerText = element;
         paragraph.classList.add("commentDiv");
-       commentDiv.appendChild(paragraph);
+        commentDiv.appendChild(paragraph);
       }
 
       if (commentDiv.innerHTML == "") {
@@ -102,4 +102,19 @@ function drawChart() {
         document.getElementById('chart-container'));
     chart.draw(data, options);
   });
+}
+
+function login() {
+    fetch('/login').then(response => response.text()).then((text) => {
+        console.log(text);
+        if (text == 1) {
+            console.log("here");
+            document.getElementById("form").style.display="block";
+        } else {
+            /* hide the comment form if the user is not logged in */
+            document.getElementById("form").style.display="none";
+
+            document.getElementById("login-container").innerHTML = text;
+        }
+    })
 }
