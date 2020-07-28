@@ -14,6 +14,11 @@
 
 package com.google.sps.servlets;
 
+import java.text.DateFormat;  
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
+import java.util.Calendar;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -35,7 +40,7 @@ public class DataServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery data_query = datastore.prepare(new Query("Task"));
+        PreparedQuery data_query = datastore.prepare(new Query("Task").addSort("timestamp"));
 
         // Get the specified no of comments to be displayed.
         int comm_limit = 0;
@@ -51,7 +56,8 @@ public class DataServlet extends HttpServlet {
         for (Entity com_entity : data_query.asIterable()) {
             if (comments.size() == comm_limit)
                 break;
-            comments.add((String) com_entity.getProperty("comment"));
+            comments.add((String) com_entity.getProperty("comment")
+                        + "\nSubmitted at: " + (String) com_entity.getProperty("submission-time"));
         }
 
         response.setContentType("application/json;");
@@ -72,6 +78,12 @@ public class DataServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Entity ent = new Entity("Task");
         ent.setProperty("comment", txt);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z"); 
+        long current_time = System.currentTimeMillis(); 
+        String strDate = dateFormat.format(new Date(current_time));  
+        ent.setProperty("timestamp", current_time);
+        ent.setProperty("submission-time", strDate);
 
         datastore.put(ent);
         response.sendRedirect("/index.html");
