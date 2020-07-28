@@ -118,3 +118,14 @@ function login() {
         }
     })
 }
+
+function createMap() {
+    var myLatlng = new google.maps.LatLng(47.662, 12.882);
+    var mapOptions = {
+        zoom: 4,
+        center: myLatlng,
+        mapTypeId: 'roadmap'
+    };
+    const map = new google.maps.Map(
+      document.getElementById('map'), mapOptions);
+}

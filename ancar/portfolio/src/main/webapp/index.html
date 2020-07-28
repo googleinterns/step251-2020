@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <title>Anca's Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <!--for the chart-->
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <!--for the map-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW85OjvpA2Bqf71322WecmkXloEsIQ1V8"></script>
     <script src="script.js"></script>
   </head>
 
-  <body onload="login(); getComments()">
+  <body onload="login(); getComments(); createMap();">
     <div id="content">
 
       <h1>Anca's Portfolio</h1>
@@ -111,7 +114,17 @@
         </div>
       </div> <!--End of third row-->
 
-      <div id="chart-container"></div>
+      <div id="fourth-row">
+        
+        <div id="map"></div>
+      
+      </div>
+
+      <div id="fifth-row">
+
+          <div id="chart-container"></div>
+
+      </div>
 
     </div>
   </body>
