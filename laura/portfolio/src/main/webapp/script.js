@@ -77,13 +77,24 @@ function loadMap () {
         document.getElementById('map'),
         {center: BUH, zoom: 3});
 
-    const BUHmarker = new google.maps.Marker({position: BUH, map: map, title: 'Hometown'});
-    const CONmarker = new google.maps.Marker({position: {lat: 44.163818, lng: 28.633451}, map: map, title: 'Constanta'});
-    const OXFmarker = new google.maps.Marker({position: {lat: 51.752490, lng: -1.251908}, map: map, title: 'Uni'});
-    const VDImarker = new google.maps.Marker({position: {lat: 45.446212, lng: 6.977692}, map: map, title: 'Val d\'Isere'});
-    const ZRHmarker = new google.maps.Marker({position: {lat: 47.375978, lng: 8.541283}, map: map, title: 'Zurich'});
-    const Bakumarker = new google.maps.Marker({position: {lat: 40.407327, lng: 49.854926}, map: map, title: 'Baku'});
-    const Bratmarker = new google.maps.Marker({position: {lat: 48.140940, lng: 17.103918}, map: map, title: 'Bratislava'});
-    const STKmarker = new google.maps.Marker({position: {lat: 59.324801, lng: 18.068571}, map: map, title: 'Stockholm'});
-    const DOHmarker = new google.maps.Marker({position: {lat: 25.287784, lng: 51.530633}, map: map, title: 'Doha'});
+    var BUHmarker = createMarker(map, 'Bucharest, Romania', BUH, 'I live here since 2000!');
+    const CONmarker = createMarker(map, 'Constanta, Romania', {lat: 44.163818, lng: 28.633451}, 'Attended a music festival.');
+    const OXFmarker = createMarker(map, 'Oxford, UK', {lat: 51.752490, lng: -1.251908}, 'I study here.');
+    const VDImarker = createMarker(map, 'Val d\'Isere, France', {lat: 45.446212, lng: 6.977692}, 'I went skiing.');
+    const ZRHmarker = createMarker(map, 'Zurich, Switzerland', {lat: 47.375978, lng: 8.541283}, 'Visited some friends.');
+    const Bakumarker = createMarker(map, 'Baku, Azerbaijan', {lat: 40.407327, lng: 49.854926}, 'I took part in IOI!');
+    const Bratmarker = createMarker(map, 'Bratislava, Slovakia', {lat: 48.140940, lng: 17.103918}, 'Central European Olympiad');
+    const STKmarker = createMarker(map, 'Stockholm, Sweden',{lat: 59.324801, lng: 18.068571}, 'A city I wanted to visit for some time. Formed from 14 islands!');
+    const DOHmarker = createMarker(map, 'Doha, Qatar', {lat: 25.287784, lng: 51.530633}, 'One of the most impressive, unique and richest cities I\'ve seen! And hottest weather!');
+}
+
+function createMarker (map, name, pos, description) {
+    var marker = new google.maps.Marker({position: pos, map: map, title: name});
+    var window = new google.maps.InfoWindow({content: '<h1>' + name + '</h1>' +
+                        '<p style=\"color:black;\">' + description + '</p>'});
+
+    marker.addListener('mouseover', function() { window.open(map, marker); });
+    marker.addListener('mouseout', function() { window.close(); });
+
+    return {marker, window};
 }
