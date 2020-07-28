@@ -14,14 +14,10 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
-import com.google.gson.Gson;
+import java.util.Scanner;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,14 +35,29 @@ public class MapServlet extends HttpServlet {
         }
     };
 
+    private ArrayList<Pin> pins;
+
+    @Override
+    public void init() {
+        pins = new ArrayList<Pin> ();
+
+        Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/pin-data.csv"));
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] cells = line.split(";");
+
+            double lat = Double.parseDouble(cells[1]);
+            double lng = Double.parseDouble(cells[2]);
+
+            pins.add(new Pin(cells[0], lat, lng, cells[3]));
+        }
+        scanner.close();
+    }
+
     /* doGet is called by the fetch instruction in the JS function 
                 called by the html body after loading the page */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ArrayList<Pin> pins = new ArrayList<Pin>();
-        pins.add(new Pin("Bucharest", 44.43, 26.10, "I live here."));
-        pins.add(new Pin("Oxford", 51, -1, "I study here."));
-        
         response.setContentType("application/json;");
         response.getWriter().println(toJsonUsingGson(pins));
     }

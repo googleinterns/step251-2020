@@ -72,24 +72,12 @@ async function deleteAllComments() {
 }
 
 async function loadMap () {
-    const BUH = {lat: 44.43, lng: 26.10};
-    const map = new google.maps.Map(
-        document.getElementById('map'),
-        {center: BUH, zoom: 3});
-
-   /*
-    var BUHmarker = createMarker(map, 'Bucharest, Romania', BUH, 'I live here since 2000!');
-    const CONmarker = createMarker(map, 'Constanta, Romania', {lat: 44.163818, lng: 28.633451}, 'Attended a 4-night music festival by the sea.');
-    const OXFmarker = createMarker(map, 'Oxford, UK', {lat: 51.752490, lng: -1.251908}, 'I study here. So many great memories!');
-    const VDImarker = createMarker(map, 'Val d\'Isere, France', {lat: 45.446212, lng: 6.977692}, 'I went skiing.');
-    const ZRHmarker = createMarker(map, 'Zurich, Switzerland', {lat: 47.375978, lng: 8.541283}, 'Visited some friends.');
-    const Bakumarker = createMarker(map, 'Baku, Azerbaijan', {lat: 40.407327, lng: 49.854926}, 'I took part in IOI! Also called the City of Wind for a good reason.');
-    const Bratmarker = createMarker(map, 'Bratislava, Slovakia', {lat: 48.140940, lng: 17.103918}, 'Central European Olympiad and went rafting!');
-    const STKmarker = createMarker(map, 'Stockholm, Sweden',{lat: 59.324801, lng: 18.068571}, 'A city I wanted to visit for some time. Formed from 14 islands!');
-    const DOHmarker = createMarker(map, 'Doha, Qatar', {lat: 25.287784, lng: 51.530633}, 'One of the most impressive, unique and richest cities I\'ve seen! And hottest weather!');
-*/
     const response = await fetch('/map2019');
     const json = await response.json();
+
+    const map = new google.maps.Map(
+        document.getElementById('map'),
+        {center: {lat: 44.43, lng: 26.10}, zoom: 3});
 
     json.forEach(elem => {
         createMarker(map, elem.name, {lat: elem.lat, lng: elem.lng}, elem.description)});
@@ -97,8 +85,7 @@ async function loadMap () {
 
 function createMarker (map, name, pos, description) {
     var marker = new google.maps.Marker({position: pos, map: map, title: name});
-    var window = new google.maps.InfoWindow({content: `<h1>${name}</h1>
-                        <p style=\"color:black;\">${description}</p>`});
+    var window = new google.maps.InfoWindow({content: `<h1>${name}</h1> <p style=\"color:black;\">${description}</p>`});
 
     marker.addListener('mouseover', function() { window.open(map, marker); });
     marker.addListener('mouseout', function() { window.close(); });
