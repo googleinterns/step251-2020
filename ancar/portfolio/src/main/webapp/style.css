@@ -214,10 +214,24 @@ p {
     border-color: lightcoral;
 }
 
+#fourth-row {
+    display: flex;
+    flex-direction: row;
+}
+
+#fifth-row {
+    display: flex;
+    flex-direction: row;
+}
+
 #chart-container {
-    position: absolute;
-    left: 35%;
     padding-top: 20px;
+}
+
+#map {
+  border: thin solid black;
+  height: 500px;
+  width: 600px;
 }
 
 img.resize {

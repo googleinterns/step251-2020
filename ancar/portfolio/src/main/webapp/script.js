@@ -118,3 +118,40 @@ function login() {
         }
     })
 }
+
+function createMap() {
+    var myLatlng = new google.maps.LatLng(47.662, 12.882);
+    var mapOptions = {
+        zoom: 4,
+        center: myLatlng,
+        mapTypeId: 'roadmap'
+    };
+    var map = new google.maps.Map(
+      document.getElementById('map'), mapOptions);
+
+    const amsterdam = {lat: 52.385, lng: 4.912};
+    const AMSmarker = createMarker(amsterdam, map);
+
+    const barcelona = {lat: 41.362, lng: 2.147};
+    const BCNmarker = createMarker(barcelona, map);
+
+    const bucharest = {lat: 44.467, lng: 26.069};
+    const BUHmarker = createMarker(bucharest, map);
+
+    const buzau = {lat: 45.128, lng: 26.816};
+    const BZmarker = createMarker(buzau, map);
+
+    const dublin = {lat: 53.358, lng: -6.242};
+    const DUBmarker = createMarker(dublin, map);
+
+    const graz = {lat: 47.082, lng: 15.438};
+    const GRZmarker = createMarker(graz, map);
+
+    const london = {lat: 51.470, lng: -0.075};
+    const LDNmarker = createMarker(london, map);
+
+}
+
+function createMarker(position, map) {
+    return new google.maps.Marker({position: position, map: map});
+}
