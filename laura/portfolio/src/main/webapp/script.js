@@ -72,13 +72,12 @@ async function deleteAllComments() {
 }
 
 async function loadMap () {
-    const BUH = {lat: 44.43, lng: 26.10};
-    const map = new google.maps.Map(
-        document.getElementById('map'),
-        {center: BUH, zoom: 3});
-  
     const response = await fetch('/map2019');
     const json = await response.json();
+
+    const map = new google.maps.Map(
+        document.getElementById('map'),
+        {center: {lat: 44.43, lng: 26.10}, zoom: 3});
 
     json.forEach(elem => {
         createMarker(map, elem.name, {lat: elem.lat, lng: elem.lng}, elem.description)});
@@ -86,8 +85,7 @@ async function loadMap () {
 
 function createMarker (map, name, pos, description) {
     var marker = new google.maps.Marker({position: pos, map: map, title: name});
-    var window = new google.maps.InfoWindow({content: `<h1>${name}</h1>
-                        <p style=\"color:black;\">${description}</p>`});
+    var window = new google.maps.InfoWindow({content: `<h1>${name}</h1> <p style=\"color:black;\">${description}</p>`});
 
     marker.addListener('mouseover', function() { window.open(map, marker); });
     marker.addListener('mouseout', function() { window.close(); });
