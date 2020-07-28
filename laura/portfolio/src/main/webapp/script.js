@@ -97,8 +97,8 @@ async function loadMap () {
 
 function createMarker (map, name, pos, description) {
     var marker = new google.maps.Marker({position: pos, map: map, title: name});
-    var window = new google.maps.InfoWindow({content: '<h1>' + name + '</h1>' +
-                        '<p style=\"color:black;\">' + description + '</p>'});
+    var window = new google.maps.InfoWindow({content: `<h1>${name}</h1>
+                        <p style=\"color:black;\">${description}</p>`});
 
     marker.addListener('mouseover', function() { window.open(map, marker); });
     marker.addListener('mouseout', function() { window.close(); });
