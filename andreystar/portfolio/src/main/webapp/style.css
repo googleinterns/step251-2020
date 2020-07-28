@@ -1,9 +1,65 @@
+@font-face {
+  font-family: open-sans;
+  src: url(fonts/OpenSans-Regular.ttf);
+}
+
+* {
+  font-family: open-sans;
+}
+
 #content {
   margin-left: auto;
   margin-right: auto;
   width: 650px;
 }
 
-#greeting-container {
-  margin-top: 20px;
+#projects ul {
+  list-style: none;
+}
+
+#projects a {
+  text-decoration:none;
+}
+
+#projects a:visited {
+  color : inherit;
+}
+
+.project {
+  border-radius: 10px;
+  border-color: #0275d8;
+  border-style: solid;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 15px;
+}
+
+
+.project:hover {
+  background-color: #0275d8;
+  color: white;
+}
+
+.project-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-tech {
+  color: gray;
+}
+
+.project:hover .project-tech {
+  color: white;
+}
+
+img {
+  height: 500px;
+  display: block;
+  margin: auto;
+  margin-bottom: 10px;;
+}
+
+#selector-wrapper {
+  text-align: center;
 }

@@ -1,0 +1,247 @@
+#quote-container {
+    margin-top: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-style: italic;
+}
+
+body {
+    background-color: floralwhite;
+}
+
+h1 {
+    text-align: center;
+    background-color: lightcoral;
+    color: white;
+    border-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+p {
+    font-family: "Lucida Console", Courier, monospace;
+}
+
+#introduction {
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#second-row {
+    display: flex;
+    flex-direction: row;
+}
+
+#buttonQuote {
+    cursor: pointer;
+    font-size: 25px;
+    background-color: lightcoral;
+    color: whitesmoke
+}
+
+#randomQuote {
+    text-align: center;
+    border-style: solid;
+    border-color: lightcoral;
+    border-width: 5px;
+    padding: 20px;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+#LinkedInLink {
+    color: lightcoral;
+    -webkit-text-stroke: 0.5px black;
+}
+
+#GithubLink {
+    padding-left: 20px;
+    color: lightcoral;
+    -webkit-text-stroke: 0.5px black;
+}
+
+#email {
+    padding-left: 20px;
+    color: lightcoral;
+    -webkit-text-stroke: 0.5px black;
+}
+
+#links {
+    text-align: center;
+    border-style: solid;
+    border-color: lightcoral;
+    border-width: 5px;
+    padding: 20px;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+#linksTitle {
+    font-weight: bold;
+}
+
+#links-images {
+    display: flex;
+    flex-direction: row;
+}
+
+#projects {
+    border-style: solid;
+    border-color: lightcoral;
+    border-width: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 25%;
+}
+
+#guessAge {
+    text-align: center;
+    border-style: solid;
+    border-width: 5px;
+    border-color: lightcoral;
+    padding: 20px;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    font-family: "Lucida Console", Courier, monospace;
+}
+
+#age-container {
+    margin-top: 20px;
+}
+
+#third-row{
+    display: flex;
+    flex-direction: row;
+}
+
+#mood {
+    text-align: center;
+    border-style: solid;
+    border-width: 5px;
+    border-color: lightcoral;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.feel {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 25px;
+    width: 100px;
+    background-color: lightcoral;
+    color: whitesmoke
+}
+
+#Sasha {
+    border-style: solid;
+    border-width: 5px;
+    border-color: lightcoral;
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+}
+
+#pictures-text {
+    text-align: center;
+    padding-top: 65px;
+    margin-left: 20px;
+}
+
+
+#feel-container {
+    padding-top: 30px;
+    margin-top: 20px;
+    font-size: 25px;
+}
+
+#comments {
+    border-style: solid;
+    border-color: lightcoral;
+    border-width: 5px;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+}
+
+#login-container {
+    padding-left: 10px;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+#submit-button {
+    font-size: 20px;
+    background-color: lightcoral;
+    color: whitesmoke;
+}
+
+.buttons-comments {
+    cursor: pointer;
+    font-size: 20px;
+    background-color: lightcoral;
+    color: whitesmoke;
+    width: 70%;
+    height: 20%;
+}
+
+#delete-button {
+    background-color: black;
+}
+
+#display-comments {
+    padding-left: 40px;
+}
+
+#show {
+    font-weight: bold;
+}
+
+.commentDiv {
+    border: solid;
+    border-width: 1px;
+    background-color: lightgray;
+    border-color: lightcoral;
+}
+
+#fourth-row {
+    display: flex;
+    flex-direction: row;
+}
+
+#fifth-row {
+    display: flex;
+    flex-direction: row;
+}
+
+#chart-container {
+    padding-top: 20px;
+}
+
+#map {
+  border: thin solid black;
+  height: 500px;
+  width: 600px;
+}
+
+img.resize {
+  max-width: 200px;
+  max-height: auto;
+}
+
+.gallery {
+    max-height: 30%;
+    max-width: 30%;
+}
+
+

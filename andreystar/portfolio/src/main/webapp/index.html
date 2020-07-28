@@ -1,18 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Andrey's Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <div id="content">
+    <h1>Andrey Starodubtsev</h1>
+    <div id="projects">
+      <h2>Projects</h2>
+      <ul>
+        <li>
+          <a href="https://github.com/andrey-star/bot-api" target="blank">
+            <div class="project">
+              <div class="project-title">
+                <h3>bot-api</h3>
+                <h5 class="project-tech">Java, Spring</h5>
+              </div>
+              <p>Spring web service for comment moderation.</p>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/andrey-star/jb-parser" target="blank">
+            <div class="project">
+              <div class="project-title">
+                <h3>jb-parser</h3>
+                <h5 class="project-tech">Java</h5>
+              </div>
+              <p>Exception safe parser and evaluator for a custom language.</p>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/andrey-star/unityfacedetect" target="blank">
+            <div class="project">
+              <div class="project-title">
+                <h3>unityfacedetect</h3>
+                <h5 class="project-tech">Unity 3D, C#</h5>
+              </div>
+              <p>A Unity based project which detects face position through image processing, and controls a 3D model
+                based on your movement.</p>
+            </div>
+          </a>
+        </li>
+      </ul>
     </div>
-  </body>
+    <h2>Cat</h2>
+    <img id="cat-photo" alt="cat-photo">
+    <div id="selector-wrapper">
+      <input type="radio" name="cat-photo-id" value="0" checked>
+      <input type="radio" name="cat-photo-id" value="1">
+      <input type="radio" name="cat-photo-id" value="2">
+    </div>
+    <h2>Contacts</h2>
+    <ul>
+      <li><a href="https://github.com/andrey-star" target="blank">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/andreystar" target="blank">LinkedIn</a></li>
+    </ul>
+    <h2>Education</h2>
+    <ul>
+      <li>Physical Technical High School, St. Petersburg</li>
+      <li>ITMO University, St. Petersburg</li>
+    </ul>
+    <button onclick="addRandomQuote()">Random quote</button>
+    <div id="quote-container"></div>
+  </div>
+</body>
+
 </html>
