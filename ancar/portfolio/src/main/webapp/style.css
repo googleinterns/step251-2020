@@ -18,6 +18,10 @@ h1 {
     flex-direction: column;
 }
 
+h2 {
+    text-align: center;
+}
+
 /* headings for the infoWindows on the map */
 h3 {
     text-align: center;
@@ -223,27 +227,33 @@ p {
 
 #fourth-row {
     padding-top: 50px;
+    padding-bottom: 50px;
     display: flex;
     flex-direction: column;
-    position: relative;
-    left: 35%;
+    border: solid 5px lightcoral;
+    text-align: center;
 }
 
 #fifth-row {
     display: flex;
     flex-direction: row;
-    position: relative;
-    left: 35%;
+    border: solid 5px lightcoral;
+    text-align: center;
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 #map {
     border: thin solid black;
     height: 500px;
     width: 600px;
+    margin: auto;
 }
 
 #chart-container {
-    padding-top: 50px;
+    margin: auto;
+    text-align: center;
 }
 
 .image-thumbnails {
