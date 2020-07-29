@@ -36,6 +36,7 @@ public class MapServlet extends HttpServlet {
     };
 
     private ArrayList<Pin> pins;
+    private static final Gson gson = new Gson();
 
     @Override
     public void init() {
@@ -63,7 +64,6 @@ public class MapServlet extends HttpServlet {
     }
 
     private String toJsonUsingGson (Object obj) {
-        Gson gson = new Gson();
         return gson.toJson(obj);
     }
 }

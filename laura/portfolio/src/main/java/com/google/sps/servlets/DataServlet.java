@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+    private static final Gson g = new Gson();
     /* doGet is called by the fetch instruction in the JS function 
                 called by the html body after loading the page */
     @Override
@@ -90,8 +91,6 @@ public class DataServlet extends HttpServlet {
     }
 
     private String toJsonUsingGson (Object obj) {
-        Gson g = new Gson();
-        String json = g.toJson(obj);
-        return json;
+        return g.toJson(obj);
     }
 }

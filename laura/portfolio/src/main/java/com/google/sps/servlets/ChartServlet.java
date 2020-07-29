@@ -27,10 +27,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/chart")
 public class ChartServlet extends HttpServlet {
     private int[] frequency = {0,0,0,0,0};
+    private static final Gson gson = new Gson();
 
     public void doPost (HttpServletRequest request, HttpServletResponse response) throws IOException {
         int pickedNmb = Integer.parseInt(request.getParameter("picked-cereal"));
-        ++ frequency[pickedNmb];
+        frequency[pickedNmb] ++;
         response.sendRedirect("/index.html");
     }
     
@@ -43,7 +44,6 @@ public class ChartServlet extends HttpServlet {
     }
 
     private String toJsonUsingGson (Object obj) {
-        Gson gson = new Gson();
         return gson.toJson(obj);
     }
 }
