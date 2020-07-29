@@ -236,7 +236,7 @@ p {
 
 #fifth-row {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     border: solid 5px lightcoral;
     text-align: center;
     margin: auto;
@@ -252,6 +252,7 @@ p {
 }
 
 #chart-container {
+    border: thin solid black;
     margin: auto;
     text-align: center;
 }
