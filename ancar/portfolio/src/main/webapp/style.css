@@ -222,23 +222,28 @@ p {
 }
 
 #fourth-row {
+    padding-top: 50px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    position: relative;
+    left: 35%;
 }
 
 #fifth-row {
     display: flex;
     flex-direction: row;
-}
-
-#chart-container {
-    padding-top: 20px;
+    position: relative;
+    left: 35%;
 }
 
 #map {
-  border: thin solid black;
-  height: 500px;
-  width: 600px;
+    border: thin solid black;
+    height: 500px;
+    width: 600px;
+}
+
+#chart-container {
+    padding-top: 50px;
 }
 
 .image-thumbnails {
