@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random image to the page.
- */
 function randomMood() {
   // Pick a random index.
   const idx = Math.floor(Math.random() * 4) + 1;
@@ -45,6 +42,7 @@ function showGallery() {
     }
 }
 
+/* Comments */
 /* Create new element with the messages recieved from the ./data servlet in a json;
      is called when the page is reloaded by the _onload_ prop of the html body */
 async function printServletMsg() {
@@ -71,6 +69,8 @@ async function deleteAllComments() {
     await printServletMsg();
 }
 
+/* Maps */
+
 async function loadMap () {
     const response = await fetch('/map2019');
     const json = await response.json();
@@ -89,4 +89,27 @@ function createMarker (map, name, pos, description) {
 
     marker.addListener('mouseover', function() { window.open(map, marker); });
     marker.addListener('mouseout', function() { window.close(); });
+}
+
+/* Charts */
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Continent');
+    data.addColumn('number', 'Countries visited');
+            data.addRows([
+            ['Asia', 4],
+            ['Africa', 1],
+            ['Europe', 13]
+            ]);
+
+    const options = {
+        'title': 'Countries by Continent'
+    };
+
+    const chart = new google.visualization.PieChart(
+        document.getElementById('chart-container'));
+    chart.draw(data, options);
 }
