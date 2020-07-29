@@ -46,6 +46,18 @@
         <br>
     </div>
     <div id="map"></div>
+
+    <form action="/chart" method="POST">
+        <h2> Poll </h2>
+        <p> What is your favourite breakfast cereal? </p>
+        <select name="picked-cereal">        
+            <option value="0">Corn Flakes</option>        
+            <option value="1">Lucky Charms</option>        
+            <option value="2">Cinnamon Toast Crunch</option>  
+            <option value="3">Cheerios</option>   
+        </select>
+        <input type="submit" class="button small">
+    </form>
     <div id="chart-container"></div>
 
     <br><br><br>
@@ -56,8 +68,7 @@
         <form action="/data" method="POST">
             <p> Leave me a message here: </p>
             <input type="text" name="comment-input">
-            
-            <input type="submit" class="button" style="padding: 4px 4px;">
+            <input type="submit" class="button small">
         </form>
         
         <br>

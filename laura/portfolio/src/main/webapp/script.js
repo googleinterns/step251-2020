@@ -95,18 +95,21 @@ function createMarker (map, name, pos, description) {
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
-function drawChart() {
+async function drawChart() {
+    const json = await fetch('/chart');
+    const freqArray = await json.json();
+
     const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Continent');
-    data.addColumn('number', 'Countries visited');
-            data.addRows([
-            ['Asia', 4],
-            ['Africa', 1],
-            ['Europe', 13]
-            ]);
+    data.addColumn('string', 'Cereal');
+    data.addColumn('number', 'Times picked');
+
+    data.addRows(  [['Corn Flakes', freqArray[0]],
+                    ['Lucky Charms', freqArray[1]],
+                    ['Cinnamon Toast Crunch', freqArray[2]],
+                    ['Cheerios', freqArray[3]]]);
 
     const options = {
-        'title': 'Countries by Continent'
+        'title': 'Favourite cereals'
     };
 
     const chart = new google.visualization.PieChart(
