@@ -241,6 +241,10 @@ p {
   width: 600px;
 }
 
+.image-thumbnails {
+    text-align: center;
+}
+
 img.resize {
   max-width: 200px;
   max-height: auto;
