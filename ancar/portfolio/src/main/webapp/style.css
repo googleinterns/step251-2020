@@ -18,6 +18,13 @@ h1 {
     flex-direction: column;
 }
 
+/* headings for the infoWindows on the map */
+h3 {
+    text-align: center;
+    background-color: lightcoral;
+    color: white;
+}
+
 p {
     font-family: "Lucida Console", Courier, monospace;
 }

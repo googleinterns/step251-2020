@@ -126,32 +126,39 @@ function createMap() {
         center: myLatlng,
         mapTypeId: 'roadmap'
     };
-    var map = new google.maps.Map(
+    const map = new google.maps.Map(
       document.getElementById('map'), mapOptions);
 
-    const amsterdam = {lat: 52.385, lng: 4.912};
-    const AMSmarker = createMarker(amsterdam, map);
+    addLandmark(map, 41.362, 2.147, 'Barcelona',
+        'One of my favourites cities after London.');
 
-    const barcelona = {lat: 41.362, lng: 2.147};
-    const BCNmarker = createMarker(barcelona, map);
+    addLandmark(map, 44.467, 26.069, 'Bucharest',
+        'Capital of Romania and where I go to university.');
 
-    const bucharest = {lat: 44.467, lng: 26.069};
-    const BUHmarker = createMarker(bucharest, map);
+    addLandmark(map, 45.128, 26.816, 'Buzau',
+        'My small hometown.');
 
-    const buzau = {lat: 45.128, lng: 26.816};
-    const BZmarker = createMarker(buzau, map);
+    addLandmark(map, 53.358, -6.242, 'Dublin',
+        'My sister lives here.');
 
-    const dublin = {lat: 53.358, lng: -6.242};
-    const DUBmarker = createMarker(dublin, map);
+    addLandmark(map, 47.082, 15.438, 'Graz',
+        'Many of my aunts and uncles live here.');
 
-    const graz = {lat: 47.082, lng: 15.438};
-    const GRZmarker = createMarker(graz, map);
+    addLandmark(map, 51.470, -0.075, 'London',
+        'One of my favourite cities, lots of thing to do here.');
 
-    const london = {lat: 51.470, lng: -0.075};
-    const LDNmarker = createMarker(london, map);
+    addLandmark(map, 52.356, 4.849, 'Amsterdam',
+        'Took part in a student exchange program.');
 
 }
 
-function createMarker(position, map) {
-    return new google.maps.Marker({position: position, map: map});
+function addLandmark(map, lat, lng, title, description) {
+    const marker = new google.maps.Marker(
+      {position: {lat: lat, lng: lng}, map: map, title: title});
+
+    const infoWindow = new google.maps.InfoWindow({content: `<h3>${title}</h1>
+                     <p style=\"color:black;\">${description}</p>`});
+  
+    marker.addListener('mouseover', function() { infoWindow.open(map, marker); });
+    marker.addListener('mouseout', function() { infoWindow.close(); });
 }
