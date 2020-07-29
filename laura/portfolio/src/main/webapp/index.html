@@ -47,48 +47,53 @@
     </div>
     <div id="map"></div>
 
-    <form action="/chart" method="POST">
-        <h2> Poll </h2>
-        <p> What is your favourite breakfast cereal? </p>
-        <select name="picked-cereal">        
-            <option value="0">Corn Flakes</option>        
-            <option value="1">Lucky Charms</option>        
-            <option value="2">Cinnamon Toast Crunch</option>  
-            <option value="3">Cheerios</option>   
-        </select>
-        <input type="submit" class="button small">
-    </form>
-    <div id="chart-container"></div>
-
     <br><br><br>
 
-    <!-- Comment features --> 
-    <div class="comment-feature-box">
+    <div class="row"> 
+        <!-- Comment features --> 
+        <div class="column">
 
-        <form action="/data" method="POST">
-            <p> Leave me a message here: </p>
-            <input type="text" name="comment-input">
-            <input type="submit" class="button small">
-        </form>
-        
-        <br>
+            <form action="/data" method="POST">
+                <p> Leave me a message here: </p>
+                <input type="text" name="comment-input">
+                <input type="submit" class="button" style="padding: 4px 4px;">
+            </form>
+            
+            <br>
 
-        <form onchange="printServletMsg()">
-            <label> Showing max </label>
-            <select id="max-comments-limit">       
-                <option value="3">3</option>        
-                <option value="5">5</option>        
-                <option value="10">10</option>  
-                <option value="20">20</option>       
-            </select>
-            <label> comments. </label>
-        </form>
+            <form onchange="printServletMsg()">
+                <label> Showing max </label>
+                <select id="max-comments-limit">       
+                    <option value="3">3</option>        
+                    <option value="5">5</option>        
+                    <option value="10">10</option>  
+                    <option value="20">20</option>       
+                </select>
+                <label> comments. </label>
+            </form>
 
-        <div id="servlet-msg" width="60%"></div>
+            <div id="servlet-msg"></div>
 
-        <br><br>
+            <br><br>
 
-        <button class="button erase-button" onclick="deleteAllComments()">PERMANENTLY ERASE ALL COMMENTS</button>
+            <button class="button erase-button" onclick="deleteAllComments()">PERMANENTLY ERASE ALL COMMENTS</button>
+        </div>
+
+        <!-- Poll & Chart -->
+        <div class="column"> 
+            <form action="/chart" method="POST">
+                <h2> Poll </h2>
+                <p> What is your favourite breakfast cereal? </p>
+                <select name="picked-cereal">        
+                    <option value="0">Corn Flakes</option>        
+                    <option value="1">Lucky Charms</option>        
+                    <option value="2">Cinnamon Toast Crunch</option>  
+                    <option value="3">Cheerios</option>   
+                </select>
+                <input type="submit" class="button" style="padding: 4px 4px;">        
+            </form>
+            <div id="chart-container"></div>
+        </div>
     </div>
   </body>
 </html>
