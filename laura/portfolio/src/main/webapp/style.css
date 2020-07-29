@@ -131,4 +131,11 @@ a:hover {
 #map {
     height: 50%;
     width: 50%;
+    margin: auto;
+}
+
+#chart-container {
+    height: 30%;
+    width: 30%;
+    margin: auto;
 }
