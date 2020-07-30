@@ -35,7 +35,7 @@ p {
 
 #introduction {
     text-align: center;
-    padding: 20px;
+    padding: 2%;
     display: flex;
     flex-direction: column;
 }
@@ -226,8 +226,8 @@ p {
 }
 
 #fourth-row {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 5%;
+    padding-bottom: 5%;
     display: flex;
     flex-direction: column;
     border: solid 5px lightcoral;
@@ -240,8 +240,8 @@ p {
     border: solid 5px lightcoral;
     text-align: center;
     margin: auto;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
 #map {
@@ -255,6 +255,8 @@ p {
     border: thin solid black;
     margin: auto;
     text-align: center;
+    width: 50%;
+    height: 80%;
 }
 
 .image-thumbnails {
