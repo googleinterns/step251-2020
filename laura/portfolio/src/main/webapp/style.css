@@ -66,7 +66,9 @@ p, label, h2 {
 /* Create 2 equal columns that float next to each other */
 .column {
   float: left;
-  width: 50%;
+  width: 40%;
+  margin-left: 5%;
+  margin-right: 5%;
   height: 100%;
 }
 
@@ -124,8 +126,9 @@ a:hover {
 }
 
 .comment-feature-box {
-    width: 60%; 
-    margin-left:80px;
+    width: 40%; 
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 #map {
@@ -135,7 +138,6 @@ a:hover {
 }
 
 #chart-container {
-    height: 30%;
-    width: 30%;
-    margin: auto;
+    height: 70%;
+    width: 70%;
 }

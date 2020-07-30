@@ -24,42 +24,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/map2019")
-public class MapServlet extends HttpServlet {
-    private class Pin {
-        String name, description;
-        double lat, lng;
-
-        public Pin(String _name, double _lat, double _lng, String _desc) {
-            name = _name; lat = _lat; lng = _lng; description = _desc;
-        }
-    };
-
-    private ArrayList<Pin> pins;
+@WebServlet("/chart")
+public class ChartServlet extends HttpServlet {
+    private int[] frequency = {0,0,0,0,0};
     private static final Gson GSON = new Gson();
 
-    @Override
-    public void init() {
-        pins = new ArrayList<Pin> ();
-
-        Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/pin-data.csv"));
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            String[] cells = line.split(";");
-
-            double lat = Double.parseDouble(cells[1]);
-            double lng = Double.parseDouble(cells[2]);
-
-            pins.add(new Pin(cells[0], lat, lng, cells[3]));
-        }
-        scanner.close();
+    public void doPost (HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int pickedNmb = Integer.parseInt(request.getParameter("picked-cereal"));
+        frequency[pickedNmb] ++;
+        response.sendRedirect("/index.html");
     }
-
+    
     /* doGet is called by the fetch instruction in the JS function 
                 called by the html body after loading the page */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;");
-        response.getWriter().println(GSON.toJson(pins));
+        response.getWriter().println(GSON.toJson(frequency));
     }
 }
