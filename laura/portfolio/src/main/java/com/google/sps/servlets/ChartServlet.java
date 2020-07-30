@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/chart")
 public class ChartServlet extends HttpServlet {
     private int[] frequency = {0,0,0,0,0};
-    private static final Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
     public void doPost (HttpServletRequest request, HttpServletResponse response) throws IOException {
         int pickedNmb = Integer.parseInt(request.getParameter("picked-cereal"));
@@ -40,10 +40,6 @@ public class ChartServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;");
-        response.getWriter().println(toJsonUsingGson(frequency));
-    }
-
-    private String toJsonUsingGson (Object obj) {
-        return gson.toJson(obj);
+        response.getWriter().println(GSON.toJson(frequency));
     }
 }

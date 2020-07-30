@@ -36,7 +36,7 @@ public class MapServlet extends HttpServlet {
     };
 
     private ArrayList<Pin> pins;
-    private static final Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
     @Override
     public void init() {
@@ -60,10 +60,6 @@ public class MapServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;");
-        response.getWriter().println(toJsonUsingGson(pins));
-    }
-
-    private String toJsonUsingGson (Object obj) {
-        return gson.toJson(obj);
+        response.getWriter().println(GSON.toJson(pins));
     }
 }
