@@ -119,37 +119,17 @@ function login() {
     })
 }
 
+/** Fetches the map data from the server and displays it in a map. */
 function createMap() {
-    var myLatlng = new google.maps.LatLng(47.662, 12.882);
-    var mapOptions = {
-        zoom: 4,
-        center: myLatlng,
-        mapTypeId: 'roadmap'
-    };
-    const map = new google.maps.Map(
-      document.getElementById('map'), mapOptions);
+    fetch('/map-data').then(response => response.json()).then((markers) => {
+        const map = new google.maps.Map(
+            document.getElementById('map'),
+            {center: {lat: 47.662, lng: 12.882}, zoom: 4});
 
-    addLandmark(map, 41.362, 2.147, 'Barcelona',
-        'One of my favourites cities after London.');
-
-    addLandmark(map, 44.467, 26.069, 'Bucharest',
-        'Capital of Romania and where I go to university.');
-
-    addLandmark(map, 45.128, 26.816, 'Buzau',
-        'My small hometown.');
-
-    addLandmark(map, 53.358, -6.242, 'Dublin',
-        'My sister lives here.');
-
-    addLandmark(map, 47.082, 15.438, 'Graz',
-        'Many of my aunts and uncles live here.');
-
-    addLandmark(map, 51.470, -0.075, 'London',
-        'One of my favourite cities, lots of thing to do here.');
-
-    addLandmark(map, 52.356, 4.849, 'Amsterdam',
-        'Took part in a student exchange program.');
-
+        markers.forEach((marker) => {
+            addLandmark(map, marker.lat, marker.lng, marker.name, marker.description);
+        });
+    });
 }
 
 function addLandmark(map, lat, lng, title, description) {
