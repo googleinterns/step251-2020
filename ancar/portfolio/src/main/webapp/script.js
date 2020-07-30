@@ -94,8 +94,7 @@ function drawChart() {
 
     const options = {
       'title': 'How many cups of coffee each character drinks during the show',
-      'width':600,
-      'height':500
+      'colors': ['lightcoral']
     };
 
     const chart = new google.visualization.ColumnChart(
