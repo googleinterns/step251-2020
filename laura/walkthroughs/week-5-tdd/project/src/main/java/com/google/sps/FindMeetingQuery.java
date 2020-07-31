@@ -22,24 +22,24 @@ import java.util.Collection;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    ArrayList<TimeRange> answer = new ArrayList<>(List.asList(TimeRange.WHOLE_DAY));
+    ArrayList<TimeRange> answer = new ArrayList<>();
 
     int lastOkStartTime = -1;
-    int intvervalLength = 0;
-    int maxOptionalAttendees = 0;
+    int maxOptionalAttendees = -1;
 
     for (int hour = 0; hour <= 23; hour ++) {
         for (int minute = 0; minute <= 59; minute ++) {
             int start = hour * 60 + minute;
             TimeRange potential = TimeRange.fromStartDuration(start, (int)request.getDuration());
+
+            if (!TimeRange.WHOLE_DAY.contains(potential)) 
+                break;
+
             boolean isOk = true;
-            int optionalsCanAttend = 0;
-
-            if (!TimeRange.WHOLE_DAY.contains(potential)) break;
-
             for (String req_attendee : request.getAttendees())
                 isOk &= canAttend(events, potential, req_attendee);
 
+            int optionalsCanAttend = 0;
             for (String opt_attendee : request.getOptionalAttendees())
                 if (canAttend(events, potential, opt_attendee))
                     optionalsCanAttend ++;
@@ -49,7 +49,6 @@ public final class FindMeetingQuery {
                 maxOptionalAttendees = optionalsCanAttend;
                 answer.clear();
                 lastOkStartTime = -1;
-                intvervalLength = 0;
             }
 
             /* if less optionals can attend than best answer, ignore this time */
@@ -59,18 +58,16 @@ public final class FindMeetingQuery {
             if (isOk) {
                 if (lastOkStartTime == -1) {
                     lastOkStartTime = potential.start();
-                    intvervalLength = 0;
                 }
-                intvervalLength ++;
             } else if (lastOkStartTime != -1) {
-                answer.add(TimeRange.fromStartDuration(lastOkStartTime, intvervalLength-1 + (int)request.getDuration()));
+                answer.add(TimeRange.fromStartEnd(lastOkStartTime, start - 1 + (int)request.getDuration(), false));
                 lastOkStartTime = -1;
             }
         }
     }
 
     if(lastOkStartTime != -1)
-        answer.add(TimeRange.fromStartDuration(lastOkStartTime, intvervalLength-1 + (int)request.getDuration()));
+        answer.add(TimeRange.fromStartEnd(lastOkStartTime, TimeRange.END_OF_DAY, true));
     return answer;
   }
 

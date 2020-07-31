@@ -172,7 +172,7 @@ public final class FindMeetingQueryTest {
         new Event("Event 2", TimeRange.fromStartDuration(TIME_0900AM, DURATION_30_MINUTES),
             Arrays.asList(PERSON_B)),
         new Event("Event 3", TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES), 
-            Arrays.asList(Person_C))
+            Arrays.asList(PERSON_C))
         );
 
     MeetingRequest request =
