@@ -1,0 +1,35 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Anca CI
+
+on:
+  push:
+    branches: [ AncaDevelopment ]
+  pull_request:
+    branches: [ AncaDevelopment ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Checkstyle
+      run: mvn -B checkstyle:check --file ancar/portfolio/pom.xml
+    - name: Build
+      run: mvn -B package --file ancar/portfolio/pom.xml
+    - name: Test
+      run: mvn -B test --file ancar/portfolio/pom.xml

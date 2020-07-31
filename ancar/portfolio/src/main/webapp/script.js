@@ -94,8 +94,7 @@ function drawChart() {
 
     const options = {
       'title': 'How many cups of coffee each character drinks during the show',
-      'width':600,
-      'height':500
+      'colors': ['lightcoral']
     };
 
     const chart = new google.visualization.ColumnChart(
@@ -119,39 +118,26 @@ function login() {
     })
 }
 
+/** Fetches the map data from the server and displays it in a map. */
 function createMap() {
-    var myLatlng = new google.maps.LatLng(47.662, 12.882);
-    var mapOptions = {
-        zoom: 4,
-        center: myLatlng,
-        mapTypeId: 'roadmap'
-    };
-    var map = new google.maps.Map(
-      document.getElementById('map'), mapOptions);
+    fetch('/map-data').then(response => response.json()).then((markers) => {
+        const map = new google.maps.Map(
+            document.getElementById('map'),
+            {center: {lat: 47.662, lng: 12.882}, zoom: 4});
 
-    const amsterdam = {lat: 52.385, lng: 4.912};
-    const AMSmarker = createMarker(amsterdam, map);
-
-    const barcelona = {lat: 41.362, lng: 2.147};
-    const BCNmarker = createMarker(barcelona, map);
-
-    const bucharest = {lat: 44.467, lng: 26.069};
-    const BUHmarker = createMarker(bucharest, map);
-
-    const buzau = {lat: 45.128, lng: 26.816};
-    const BZmarker = createMarker(buzau, map);
-
-    const dublin = {lat: 53.358, lng: -6.242};
-    const DUBmarker = createMarker(dublin, map);
-
-    const graz = {lat: 47.082, lng: 15.438};
-    const GRZmarker = createMarker(graz, map);
-
-    const london = {lat: 51.470, lng: -0.075};
-    const LDNmarker = createMarker(london, map);
-
+        markers.forEach((marker) => {
+            addLandmark(map, marker.lat, marker.lng, marker.name, marker.description);
+        });
+    });
 }
 
-function createMarker(position, map) {
-    return new google.maps.Marker({position: position, map: map});
+function addLandmark(map, lat, lng, title, description) {
+    const marker = new google.maps.Marker(
+      {position: {lat: lat, lng: lng}, map: map, title: title});
+
+    const infoWindow = new google.maps.InfoWindow({content: `<h3>${title}</h1>
+                     <p style=\"color:black;\">${description}</p>`});
+  
+    marker.addListener('mouseover', function() { infoWindow.open(map, marker); });
+    marker.addListener('mouseout', function() { infoWindow.close(); });
 }
