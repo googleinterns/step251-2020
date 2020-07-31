@@ -97,7 +97,7 @@ To get code coverage report after you run the tests, add the plugin to your mave
             <!-- It makes no sense to measure how well are generated protobuf files are covered  -->
             <exclude>**/path/to/your/protos/*</exclude>
           </excludes>
-        <configuration>
+        </configuration>
       </plugin>
       <!-- Other plugins -->
    </plugins>
