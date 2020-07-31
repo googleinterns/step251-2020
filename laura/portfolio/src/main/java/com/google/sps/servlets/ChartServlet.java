@@ -28,14 +28,10 @@ import javax.servlet.http.HttpServletResponse;
 public class ChartServlet extends HttpServlet {
     private int[] frequency = {0,0,0,0,0};
     private static final Gson GSON = new Gson();
-    //private static DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     public void doPost (HttpServletRequest request, HttpServletResponse response) throws IOException {
         int pickedNmb = Integer.parseInt(request.getParameter("picked-cereal"));
         frequency[pickedNmb] ++;
-
-        //Entity ent = new Entity("Task");
-        //ent.setProperty("value", pickedNmb);
         response.sendRedirect("/index.html");
     }
     
