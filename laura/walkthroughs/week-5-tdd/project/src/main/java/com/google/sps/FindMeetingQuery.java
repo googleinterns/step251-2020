@@ -14,31 +14,44 @@
 
 package com.google.sps;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    ArrayList<TimeRange> answer = new ArrayList<TimeRange>();
+    ArrayList<TimeRange> answer = new ArrayList<>(List.asList(TimeRange.WHOLE_DAY));
 
     int lastOkStartTime = -1;
     int intvervalLength = 0;
+    int maxOptionalAttendees = 0;
 
     for (int hour = 0; hour <= 23; hour ++) {
         for (int minute = 0; minute <= 59; minute ++) {
             int start = hour * 60 + minute;
             TimeRange potential = TimeRange.fromStartDuration(start, (int)request.getDuration());
             boolean isOk = true;
+            int optionalsCanAttend = 0;
 
             if (!TimeRange.WHOLE_DAY.contains(potential)) break;
 
-            for (Event event : events) {
-                if (event.getWhen().overlaps(potential)) {
-                    for (String req_attendee : request.getAttendees()) {
-                        if (event.getAttendees().contains(req_attendee))
-                            isOk = false;
-                    }
-                }
+            for (String req_attendee : request.getAttendees())
+                isOk &= canAttend(events, potential, req_attendee);
+
+            for (String opt_attendee : request.getOptionalAttendees())
+                if (canAttend(events, potential, opt_attendee))
+                    optionalsCanAttend ++;
+
+            /* Max # of optionals until now, then reset answer */
+            if (isOk && optionalsCanAttend > maxOptionalAttendees) {
+                maxOptionalAttendees = optionalsCanAttend;
+                answer.clear();
+                lastOkStartTime = -1;
+                intvervalLength = 0;
             }
+
+            /* if less optionals can attend than best answer, ignore this time */
+            if (isOk && maxOptionalAttendees > optionalsCanAttend)
+                isOk = false;
 
             if (isOk) {
                 if (lastOkStartTime == -1) {
@@ -57,4 +70,13 @@ public final class FindMeetingQuery {
         answer.add(TimeRange.fromStartDuration(lastOkStartTime, intvervalLength-1 + (int)request.getDuration()));
     return answer;
   }
+
+    private boolean canAttend (Collection<Event> allEvents, TimeRange potential, String attendee) {                
+        boolean canAttend = true;
+        for (Event event : allEvents) {
+            if (event.getWhen().overlaps(potential) && event.getAttendees().contains(attendee))
+                canAttend = false;
+        }
+        return canAttend;
+    }
 }
