@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:    
+    - '**'
+    - '!**Anca**'
+    - '!**laura**'
+  pull_request:
+    branches: 
+    - '**'
+    - '!**Anca**'
+    - '!**laura**'
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.8]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Cache node modules
+      uses: actions/cache@v2.1.0
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - name: Set up Node ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm --prefix step-release-vis install
+    - name: Lint
+      run: npm --prefix step-release-vis run lint
+    - name: Build
+      run: npm --prefix step-release-vis run build -- --prod
+    - name: Test
+      run: npm --prefix step-release-vis test -- --configuration=ci
+    - name: E2E
+      run: npm --prefix step-release-vis run e2e -- --configuration=ci
