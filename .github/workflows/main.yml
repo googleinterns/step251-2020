@@ -4,13 +4,9 @@ on:
   push:
     branches:    
     - '**'
-    - '!**Anca**'
-    - '!**laura**'
   pull_request:
     branches: 
     - '**'
-    - '!**Anca**'
-    - '!**laura**'
 jobs:
   build:
 
