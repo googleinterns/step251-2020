@@ -26,20 +26,21 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/chart")
 public class ChartServlet extends HttpServlet {
-    private int[] frequency = {0,0,0,0,0};
-    private static final Gson GSON = new Gson();
+  private int[] frequency = {0,0,0,0,0};
+  private static final Gson GSON = new Gson();
 
-    public void doPost (HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int pickedNmb = Integer.parseInt(request.getParameter("picked-cereal"));
-        frequency[pickedNmb] ++;
-        response.sendRedirect("/index.html");
-    }
-    
-    /* doGet is called by the fetch instruction in the JS function 
-                called by the html body after loading the page */
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json;");
-        response.getWriter().println(GSON.toJson(frequency));
-    }
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    int pickedNmb = Integer.parseInt(request.getParameter("picked-cereal"));
+    frequency[pickedNmb]++;
+    response.sendRedirect("/index.html");
+  }
+  
+  /* doGet is called by the fetch instruction in the JS function 
+              called by the html body after loading the page */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json;");
+    response.getWriter().println(GSON.toJson(frequency));
+  }
 }

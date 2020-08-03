@@ -14,69 +14,72 @@
 
 package com.google.sps;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Collection;
 
 public final class FindMeetingQuery {
-  public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+  public Collection<TimeRange> query(final Collection<Event> events, final MeetingRequest request) {
     ArrayList<TimeRange> answer = new ArrayList<>();
 
     int lastOkStartTime = -1;
     int maxOptionalAttendees = -1;
 
-    for (int hour = 0; hour <= 23; hour ++) {
-        for (int minute = 0; minute <= 59; minute ++) {
-            int start = hour * 60 + minute;
-            TimeRange potential = TimeRange.fromStartDuration(start, (int)request.getDuration());
+    for (int hour = 0; hour <= 23; hour++) {
+      for (int minute = 0; minute <= 59; minute++) {
+        int start = hour * 60 + minute;
+        TimeRange potential = TimeRange.fromStartDuration(start, (int)request.getDuration());
 
-            if (!TimeRange.WHOLE_DAY.contains(potential)) 
-                break;
-
-            boolean isOk = true;
-            for (String req_attendee : request.getAttendees())
-                isOk &= canAttend(events, potential, req_attendee);
-
-            int optionalsCanAttend = 0;
-            for (String opt_attendee : request.getOptionalAttendees())
-                if (canAttend(events, potential, opt_attendee))
-                    optionalsCanAttend ++;
-
-            /* Max # of optionals until now, then reset answer */
-            if (isOk && optionalsCanAttend > maxOptionalAttendees) {
-                maxOptionalAttendees = optionalsCanAttend;
-                answer.clear();
-                lastOkStartTime = -1;
-            }
-
-            /* if less optionals can attend than best answer, ignore this time */
-            if (isOk && maxOptionalAttendees > optionalsCanAttend)
-                isOk = false;
-
-            if (isOk) {
-                if (lastOkStartTime == -1) {
-                    lastOkStartTime = potential.start();
-                }
-            } else if (lastOkStartTime != -1) {
-                answer.add(TimeRange.fromStartEnd(lastOkStartTime, start - 1 + (int)request.getDuration(), false));
-                lastOkStartTime = -1;
-            }
+        if (!TimeRange.WHOLE_DAY.contains(potential)) {
+          break;
         }
+
+        boolean isOk = true;
+        for (String reqAttendee : request.getAttendees()) {
+          isOk &= canAttend(events, potential, reqAttendee);
+        }
+
+        int optionalsCanAttend = 0;
+        for (String optAttendee : request.getOptionalAttendees()) {
+          if (canAttend(events, potential, optAttendee)) {
+            optionalsCanAttend++;
+          }
+        }
+
+        /* Max # of optionals until now, then reset answer */
+        if (isOk && optionalsCanAttend > maxOptionalAttendees) {
+          maxOptionalAttendees = optionalsCanAttend;
+          answer.clear();
+          lastOkStartTime = -1;
+        }
+
+        /* if less optionals can attend than best answer, ignore this time */
+        if (isOk && maxOptionalAttendees > optionalsCanAttend) {
+          isOk = false;
+        }
+
+        if (isOk) {
+          if (lastOkStartTime == -1) {
+            lastOkStartTime = potential.start();
+          }
+        } else if (lastOkStartTime != -1) {
+          answer.add(TimeRange.fromStartEnd(lastOkStartTime, 
+                          start - 1 + (int)request.getDuration(), false));
+          lastOkStartTime = -1;
+        }
+      }
     }
 
-    if(lastOkStartTime != -1)
-        answer.add(TimeRange.fromStartEnd(lastOkStartTime, TimeRange.END_OF_DAY, true));
+    if(lastOkStartTime != -1) {
+      answer.add(TimeRange.fromStartEnd(lastOkStartTime, TimeRange.END_OF_DAY, true));
+    }
     return answer;
   }
 
-    private boolean canAttend (Collection<Event> allEvents, TimeRange potential, String attendee) {                
-        boolean canAttend = true;
-        for (Event event : allEvents) {
-            if (event.getWhen().overlaps(potential) && event.getAttendees().contains(attendee))
-                canAttend = false;
-        }
-        return canAttend;
+  private boolean canAttend(final Collection<Event> allEvents, final TimeRange potential, final String attendee) {
+    for (Event event : allEvents) {
+      if (event.getWhen().overlaps(potential) && event.getAttendees().contains(attendee)) {
+        return false;
+      }
     }
+    return true;
+  }
 }
