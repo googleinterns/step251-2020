@@ -18,17 +18,17 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html;");
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("text/html;");
 
-        UserService userService = UserServiceFactory.getUserService();
+    UserService userService = UserServiceFactory.getUserService();
 
-        if (userService.isUserLoggedIn()) {
-            response.getWriter().println(1);
-        } else {
-            String loginUrl = userService.createLoginURL("/");
-            response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a> to leave a comment.</p>");
-        }      
-    }
+    if (userService.isUserLoggedIn()) {
+      response.getWriter().println(1);
+    } else {
+      String loginUrl = userService.createLoginURL("/");
+      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a> to leave a comment.</p>");
+    }      
+  }
 }

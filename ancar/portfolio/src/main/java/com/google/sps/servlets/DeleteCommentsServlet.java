@@ -18,14 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/delete-data")
 public class DeleteCommentsServlet extends HttpServlet {
 
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        Query query = new Query("Comment");
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("Comment");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
 
-        for (Entity entity : results.asIterable()) {
-            datastore.delete(entity.getKey());
-        }   
-    }
+    for (Entity entity : results.asIterable()) {
+      datastore.delete(entity.getKey());
+    }   
+  }
 }

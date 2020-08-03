@@ -37,62 +37,62 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      Query query = new Query("Comment");
+    Query query = new Query("Comment");
 
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      PreparedQuery results = datastore.prepare(query);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
 
-      List<String> comments = new ArrayList<>();
+    List<String> comments = new ArrayList<>();
 
-      for (Entity entity : results.asIterable()) {
-        String email = (String) entity.getProperty("email");
-        String comment = (String) entity.getProperty("comment");
-        comments.add(email + ": " + comment);
-      }
+    for (Entity entity : results.asIterable()) {
+      String email = (String) entity.getProperty("email");
+      String comment = (String) entity.getProperty("comment");
+      comments.add(email + ": " + comment);
+    }
 
-      int numberOfComments = Integer.parseInt(request.getParameter("value"));
+    int numberOfComments = Integer.parseInt(request.getParameter("value"));
 
-      Gson gson = new Gson();
+    Gson gson = new Gson();
 
-      if (comments.isEmpty()) {
-          response.setContentType("application/json;");
-          response.getWriter().println(gson.toJson(""));
-          return ;
-      }
+    if (comments.isEmpty()) {
+      response.setContentType("application/json;");
+      response.getWriter().println(gson.toJson(""));
+      return;
+    }
 
     //If the user requests more comments than there are available, print all.
-      if (comments.size() < numberOfComments) {
-          response.setContentType("application/json;");
-          response.getWriter().println(gson.toJson(comments));
-          return ;
-      }
+    if (comments.size() < numberOfComments) {
+      response.setContentType("application/json;");
+      response.getWriter().println(gson.toJson(comments));
+      return;
+    }
 
-      List<String> commentsToPrint = comments.subList(0, numberOfComments);
-      response.setContentType("application/json");
-      response.getWriter().println(gson.toJson(commentsToPrint));
+    List<String> commentsToPrint = comments.subList(0, numberOfComments);
+    response.setContentType("application/json");
+    response.getWriter().println(gson.toJson(commentsToPrint));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-       UserService userService = UserServiceFactory.getUserService();
+    UserService userService = UserServiceFactory.getUserService();
 
-       String newComment = request.getParameter("comment");
-       String email = userService.getCurrentUser().getEmail();
+    String newComment = request.getParameter("comment");
+    String email = userService.getCurrentUser().getEmail();
 
-       if (newComment.isEmpty()) {
-           response.setContentType("text/html;");
-           response.getWriter().println("Sorry! Empty comments not allowed.");
-           return ;
-       }
+    if (newComment.isEmpty()) {
+      response.setContentType("text/html;");
+      response.getWriter().println("Sorry! Empty comments not allowed.");
+      return;
+    }
 
-       Entity commentEntity = new Entity("Comment");
-       commentEntity.setProperty("comment", newComment);
-       commentEntity.setProperty("email", email);
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("comment", newComment);
+    commentEntity.setProperty("email", email);
 
-       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-       datastore.put(commentEntity);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
 
-       response.sendRedirect("/index.html");
+    response.sendRedirect("/index.html");
   }
 
   private String convertToJsonUsingGson(ArrayList<String> commentsList) {
