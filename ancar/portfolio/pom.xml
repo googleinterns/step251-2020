@@ -45,7 +45,7 @@
           <configLocation>google_checks.xml</configLocation>
           <encoding>UTF-8</encoding>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
-          <!-- <violationSeverity>warning</violationSeverity> -->
+          <violationSeverity>warning</violationSeverity>
           <consoleOutput>true</consoleOutput>
           <failsOnError>true</failsOnError>
           <linkXRef>false</linkXRef>
