@@ -14,42 +14,45 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/map-data")
 public class MapServlet extends HttpServlet {
 
-    private static class ElementMap {
-        double lat, lng;
-        String name, description;
+  private static class ElementMap {
+    double lat;
+    double lng;
+    String name;
+    String description;
 
-        public ElementMap(double lat, double lng, String name, String description) {
-            this.lat = lat;
-            this.lng = lng;
-            this.name = name;
-            this.description = description;
-        }
+    public ElementMap(double lat, double lng, String name, String description) {
+      this.lat = lat;
+      this.lng = lng;
+      this.name = name;
+      this.description = description;
     }
+  }
 
-    private List<ElementMap> markers;
-    private static final Gson GSON = new Gson();
+  private List<ElementMap> markers;
+  private static final Gson GSON = new Gson();
 
-    @Override
-    public void init() {
-        markers = new ArrayList<>();
+  @Override
+  public void init() {
+    markers = new ArrayList<>();
 
-        try(Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/cities.csv"))) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] cells = line.split(",");
+    try (Scanner scanner = new Scanner(getServletContext()
+        .getResourceAsStream("/WEB-INF/cities.csv"))) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        String[] cells = line.split(",");
 
-                double lat = Double.parseDouble(cells[0]);
-                double lng = Double.parseDouble(cells[1]);
+        double lat = Double.parseDouble(cells[0]);
+        double lng = Double.parseDouble(cells[1]);
 
-                markers.add(new ElementMap(lat, lng, cells[2], cells[3]));
-            }
-            scanner.close();
-        }
+        markers.add(new ElementMap(lat, lng, cells[2], cells[3]));
+      }
+      scanner.close();
     }
+  }
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        response.getWriter().println(GSON.toJson(markers));
-    }
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json");
+    response.getWriter().println(GSON.toJson(markers));
+  }
 }
