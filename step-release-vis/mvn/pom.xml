@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.google.sps</groupId>
+  <artifactId>step-release-vis</artifactId>
+  <version>1</version>
+  <packaging>war</packaging>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <failOnMissingWebXml>false</failOnMissingWebXml>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-1.0-sdk</artifactId>
+      <version>1.9.59</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+    <plugin>
+	    <artifactId>maven-resources-plugin</artifactId>
+	    <executions>
+        <execution>
+          <id>copy-resources</id>
+          <phase>validate</phase>
+          <goals><goal>copy-resources</goal></goals>
+          <configuration>
+              <outputDirectory>target/step-release-vis-1/</outputDirectory>
+              <resources>
+                <resource>
+                    <directory>../dist/step-release-vis/</directory>
+                  </resource>
+              </resources>
+          </configuration>
+        </execution>
+      </executions>
+		</plugin>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>appengine-maven-plugin</artifactId>
+        <version>2.2.0</version>
+        <configuration>
+          <deploy.projectId>release-vis</deploy.projectId>
+          <deploy.version>1</deploy.version>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
