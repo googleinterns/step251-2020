@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random quote to the page.
- */
+var key = config.MY_KEY;
+const my_script = document.createElement('script');
+my_script.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=' + key);
+document.head.appendChild(my_script);
 
 function addRandomQuote() {
   const quotes =
@@ -141,3 +142,5 @@ function addLandmark(map, lat, lng, title, description) {
     marker.addListener('mouseover', function() { infoWindow.open(map, marker); });
     marker.addListener('mouseout', function() { infoWindow.close(); });
 }
+
+
