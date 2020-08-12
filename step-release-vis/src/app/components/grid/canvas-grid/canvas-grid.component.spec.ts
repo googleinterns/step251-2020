@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CanvasGridComponent } from './canvas-grid.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('CanvasGridComponent', () => {
   let component: CanvasGridComponent;
@@ -8,7 +9,8 @@ describe('CanvasGridComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CanvasGridComponent ]
+      declarations: [ CanvasGridComponent ],
+      imports: [ RouterTestingModule ]
     })
     .compileComponents();
   }));

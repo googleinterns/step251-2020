@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SvgGridComponent } from './svg-grid.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('SvgGridComponent', () => {
   let component: SvgGridComponent;
@@ -8,7 +9,8 @@ describe('SvgGridComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SvgGridComponent ]
+      declarations: [ SvgGridComponent ],
+      imports: [ RouterTestingModule ]
     })
     .compileComponents();
   }));
