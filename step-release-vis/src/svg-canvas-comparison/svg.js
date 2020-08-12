@@ -6,10 +6,11 @@ const grids = param('c', 54);
 const gridWidth = param('w', 10);
 const gridHeight = param('h', 10);
 const rectRadius = param('r', 0);
-const svgns = 'http://www.w3.org/2000/svg';
 
 const xGrids = Math.floor(Math.sqrt(grids * aspectRatio));
 const yGrids = Math.ceil(grids / xGrids);
+
+const svgns = 'http://www.w3.org/2000/svg';
 
 for (let yGrid = 0; yGrid < yGrids; yGrid++) {
   for (
@@ -24,7 +25,7 @@ for (let yGrid = 0; yGrid < yGrids; yGrid++) {
       'height',
       (window.innerHeight - yMargin * yGrids) / yGrids,
     );
-    svg.style = 'border:1px solid #000000;';
+    svg.setAttribute('style', 'border:1px solid #000000;');
 
     const cellWidth = svg.getAttribute('width') / gridWidth;
     const cellHeight = svg.getAttribute('height') / gridHeight;
@@ -56,10 +57,4 @@ function param(name, defaultValue) {
   const urlParams = new URLSearchParams(queryString);
   const value = urlParams.get(name);
   return value ? value : defaultValue;
-}
-
-function br() {
-  document
-    .getElementById('container')
-    .appendChild(document.createElement('br'));
 }

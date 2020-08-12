@@ -5,9 +5,10 @@ const aspectRatio = window.innerWidth / window.innerHeight;
 const grids = param('c', 54);
 const gridWidth = param('w', 10);
 const gridHeight = param('h', 10);
+const fps = param('fps', 60);
+
 const xGrids = Math.floor(Math.sqrt(grids * aspectRatio));
 const yGrids = Math.ceil(grids / xGrids);
-const fps = param('fps', 60);
 
 for (let yGrid = 0; yGrid < yGrids; yGrid++) {
   for (
@@ -40,29 +41,29 @@ for (let yGrid = 0; yGrid < yGrids; yGrid++) {
       }
     }
 
+    let hoveredRect;
     canvas.onmousemove = function (e) {
-      const rect = this.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const bounds = this.getBoundingClientRect();
+      const mouseX = e.clientX - bounds.left;
+      const mouseY = e.clientY - bounds.top;
 
-      const pipe = Math.floor(map(y, 0, rect.bottom - rect.top, 0, gridHeight));
-      const cand = Math.floor(map(x, 0, rect.right - rect.left, 0, gridWidth));
-      if (rects[pipe]) {
-        hoverRect = rects[pipe][cand];
+      const x = Math.floor(
+        map(mouseY, 0, bounds.bottom - bounds.top, 0, gridHeight),
+      );
+      const y = Math.floor(
+        map(mouseX, 0, bounds.right - bounds.left, 0, gridWidth),
+      );
+      if (rects[x]) {
+        hoveredRect = rects[x][y];
       }
     };
-
-    let hoverRect;
     canvas.onmouseout = function () {
-      hoverRect = undefined;
+      hoveredRect = undefined;
     };
 
     setInterval(function () {
-      repaint(canvas, rects, hoverRect);
+      repaint(canvas, rects, hoveredRect);
     }, 1000 / fps);
-  }
-  if (yGrid < yGrids - 1) {
-    br();
   }
 }
 
@@ -81,8 +82,8 @@ function repaint(canvas, rects, hoverRect) {
   }
 }
 
-function map(num, in_min, in_max, out_min, out_max) {
-  return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+function map(value, inMin, inMax, outMin, outMax) {
+  return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
 }
 
 function param(name, defaultValue) {
@@ -90,10 +91,4 @@ function param(name, defaultValue) {
   const urlParams = new URLSearchParams(queryString);
   const value = urlParams.get(name);
   return value ? value : defaultValue;
-}
-
-function br() {
-  document
-    .getElementById('container')
-    .appendChild(document.createElement('br'));
 }
