@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ParamService} from '../../../services/param.service';
-import {BaseGridComponent} from '../base-grid.component';
+import {ParamService} from '../../../services/param';
+import {BaseGridComponent} from '../base';
 
 @Component({
   selector: 'app-svg-grid',
-  templateUrl: './svg-grid.component.html',
-  styleUrls: ['./svg-grid.component.css']
+  template: '<div id="svg_grid"></div>',
+  styleUrls: ['./svg.css']
 })
 export class SvgGridComponent extends BaseGridComponent implements OnInit {
 
@@ -20,11 +20,11 @@ export class SvgGridComponent extends BaseGridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initGrid();
+    this.initGrid('svg_grid');
   }
 
   drawGrid(gridElement: Element, cellWidth: number, cellHeight: number): void {
-      for (let i = 0; i < this.gridHeight; i++) {
+    for (let i = 0; i < this.gridHeight; i++) {
       for (let j = 0; j < this.gridWidth; j++) {
         const rect = document.createElementNS(this.svgns, 'rect');
         rect.setAttribute('x', String(j * cellWidth));
@@ -37,7 +37,7 @@ export class SvgGridComponent extends BaseGridComponent implements OnInit {
         rect.addEventListener('mouseover', () => {
           rect.setAttribute('fill', 'red');
         });
-        rect.addEventListener('mouseout',  () => {
+        rect.addEventListener('mouseout', () => {
           rect.setAttribute('fill', rect.getAttribute('color'));
         });
         gridElement.appendChild(rect);

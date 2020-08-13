@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AppComponent} from './app.component';
-import {SvgGridComponent} from './components/grid/svg-grid/svg-grid.component';
-import {CanvasGridComponent} from './components/grid/canvas-grid/canvas-grid.component';
+import {SvgGridComponent} from './components/grid/svg/svg';
+import {CanvasGridComponent} from './components/grid/canvas/canvas';
 
 const routes: Routes = [
   { path: '', component: AppComponent },

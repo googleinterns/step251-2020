@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CanvasGridComponent } from './canvas-grid.component';
+import { CanvasGridComponent } from './canvas';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('CanvasGridComponent', () => {

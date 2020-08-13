@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SvgGridComponent } from './svg-grid.component';
+import { SvgGridComponent } from './svg';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('SvgGridComponent', () => {

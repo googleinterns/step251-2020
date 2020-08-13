@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ParamService} from '../../../services/param.service';
-import {BaseGridComponent} from '../base-grid.component';
+import {ParamService} from '../../../services/param';
+import {BaseGridComponent} from '../base';
 
 @Component({
   selector: 'app-canvas-grid',
-  templateUrl: './canvas-grid.component.html',
-  styleUrls: ['./canvas-grid.component.css']
+  template: '<div id="canvas-grid"></div>',
+  styleUrls: ['./canvas.css']
 })
 export class CanvasGridComponent extends BaseGridComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class CanvasGridComponent extends BaseGridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initGrid();
+    this.initGrid('canvas-grid');
   }
 
   initGridElement(): HTMLCanvasElement {

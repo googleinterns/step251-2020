@@ -1,5 +1,5 @@
 import {ActivatedRoute} from '@angular/router';
-import {ParamService} from '../../services/param.service';
+import {ParamService} from '../../services/param';
 
 export abstract class BaseGridComponent {
 
@@ -23,7 +23,7 @@ export abstract class BaseGridComponent {
     this.yGrids = Math.ceil(this.grids / this.xGrids);
   }
 
-  protected initGrid(): void {
+  protected initGrid(containerId: string): void {
     for (let yGrid = 0; yGrid < this.yGrids; yGrid++) {
       for (
         let xGrid = 0;
@@ -31,7 +31,7 @@ export abstract class BaseGridComponent {
         xGrid++
       ) {
         const gridElement = this.initGridElement();
-        document.getElementById('container').appendChild(gridElement);
+        document.getElementById(containerId).appendChild(gridElement);
         gridElement.setAttribute('width', String((window.innerWidth - this.xMargin * this.xGrids) / this.xGrids));
         gridElement.setAttribute(
           'height',
