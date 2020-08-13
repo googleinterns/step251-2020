@@ -11,6 +11,7 @@ export class EnvironmentComponent implements OnInit {
 
   polygons: Polygon[];
   envName: string;
+  // TODO(andreystar): add a parameter for json file
   jsonFileName = 'json.json';
 
   constructor(environmentService: EnvironmentService) {
