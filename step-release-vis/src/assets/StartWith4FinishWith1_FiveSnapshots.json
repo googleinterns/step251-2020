@@ -1,0 +1,100 @@
+[
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 50,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 400
+          },
+          {
+            "name": "2",
+            "job_count": 500
+          },
+          {
+            "name": "3",
+            "job_count": 500
+          },
+          {
+            "name": "4",
+            "job_count": 600
+          }
+        ]
+      },
+      {
+        "timestamp": 250,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 300
+          },
+          {
+            "name": "2",
+            "job_count": 500
+          },
+          {
+            "name": "3",
+            "job_count": 800
+          },
+          {
+            "name": "4",
+            "job_count": 400
+          }
+        ]
+      },
+      {
+        "timestamp": 400,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 300
+          },
+          {
+            "name": "2",
+            "job_count": 200
+          },
+          {
+            "name": "3",
+            "job_count": 1200
+          },
+          {
+            "name": "4",
+            "job_count": 300
+          }
+        ]
+      },
+      {
+        "timestamp": 530,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 100
+          }
+          {
+            "name": "2",
+            "job_count": 200
+          },
+          {
+            "name": "3",
+            "job_count": 1600
+          },
+          {
+            "name": "4",
+            "job_count": 100
+          }
+        ]
+      },
+      {
+        "timestamp": 740,
+        "cands_info": [
+          {
+            "name": "3",
+            "job_count": 2000
+          }
+        ]
+      }
+    ]
+  }
+]
