@@ -1,0 +1,71 @@
+[
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 100,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 900
+          },
+          {
+            "name": "2",
+            "job_count": 1100
+          }
+        ]
+      },
+      {
+        "timestamp": 350,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 900
+          },
+          {
+            "name": "2",
+            "job_count": 900
+          },
+          {
+            "name": "3",
+            "job_count": 200
+          }
+        ]
+      },
+      {
+        "timestamp": 670,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 400
+          },
+          {
+            "name": "2",
+            "job_count": 1200
+          },
+          {
+            "name": "3",
+            "job_count": 400
+          }
+        ]
+      },
+      {
+        "timestamp": 890,
+        "cands_info": [
+          {
+            "name": "2",
+            "job_count": 1200
+          },
+          {
+            "name": "3",
+            "job_count": 500
+          },
+          {
+            "name": "4",
+            "job_count": 300
+          }
+        ]
+      }
+    ]
+  }
+]
