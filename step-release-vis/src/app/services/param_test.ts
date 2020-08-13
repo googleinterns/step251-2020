@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ParamService } from './param.service';
+import { ParamService } from './param';
 
 describe('ParamService', () => {
   let service: ParamService;
