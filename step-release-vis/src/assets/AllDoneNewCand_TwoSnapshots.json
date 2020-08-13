@@ -1,0 +1,33 @@
+[
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 580,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 600
+          },
+          {
+            "name": "2",
+            "job_count": 800
+          },
+          {
+            "name": "3",
+            "job_count": 600
+          }
+        ]
+      },
+      {
+        "timestamp": 879,
+        "cands_info": [
+          {
+            "name": "4",
+            "job_count": 2000
+          }
+        ]
+      }
+    ]
+  }
+]

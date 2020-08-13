@@ -1,0 +1,54 @@
+[
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 210,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 500
+          },
+          {
+            "name": "2",
+            "job_count": 1100
+          },
+          {
+            "name": "3",
+            "job_count": 400
+          }
+        ]
+      },
+      {
+        "timestamp": 555,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 800
+          },
+          {
+            "name": "2",
+            "job_count": 800
+          },
+          {
+            "name": "3",
+            "job_count": 400
+          }
+        ]
+      },
+      {
+        "timestamp": 835,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 800
+          },
+          {
+            "name": "3",
+            "job_count": 1200
+          }
+        ]
+      }
+    ]
+  }
+]
