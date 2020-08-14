@@ -6,13 +6,15 @@ import {AppRoutingModule} from './app-routing.module';
 import {SvgGridComponent} from './components/grid/svg/svg';
 import {CanvasGridComponent} from './components/grid/canvas/canvas';
 import {HomeComponent} from './components/home/home';
+import {EnvironmentComponent} from './components/environment/environment';
 
 @NgModule({
   declarations: [
     AppComponent,
     SvgGridComponent,
     CanvasGridComponent,
-    HomeComponent
+    HomeComponent,
+    EnvironmentComponent
   ],
   imports: [
     BrowserModule,
