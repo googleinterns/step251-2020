@@ -14,10 +14,10 @@ export class EnvironmentComponent implements OnInit {
   polygons: Polygon[];
   envName: string;
   // TODO(andreystar): add a parameter for json file
-  jsonFileName = 'json.json';
+  jsonFile = 'env.json';
 
   constructor(environmentService: EnvironmentService) {
-    this.polygons = environmentService.getPolygons(this.jsonFileName);
+    this.polygons = environmentService.getPolygons(this.jsonFile);
     this.width = window.innerWidth;
     this.height = window.innerHeight;
   }
