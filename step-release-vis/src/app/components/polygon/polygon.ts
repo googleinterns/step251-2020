@@ -3,7 +3,7 @@ import {Polygon} from '../../models/Polygon';
 
 @Component({
   selector: 'app-polygon',
-  template: '<svg:polygon [attr.points]="getPoints()"/>',
+  template: 'polygon',
   styleUrls: ['./polygon.css']
 })
 export class PolygonComponent implements OnInit {
@@ -16,9 +16,13 @@ export class PolygonComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   getPoints(): string {
     // TODO(andreystar): extract polygon 'points' attribute
-    return '';
+    let res = '';
+    for (const point of this.polygon.points) {
+      res += point.x + ',' + point.y + ' ';
+    }
+    console.log(res);
+    return res;
   }
 }

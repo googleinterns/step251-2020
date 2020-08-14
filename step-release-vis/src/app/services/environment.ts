@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Polygon} from '../models/Polygon';
+import {Point} from '../models/Point';
 
 // TODO(naoai): Iterate and calculate the polygons
 @Injectable({
@@ -9,6 +10,7 @@ export class EnvironmentService {
 
   constructor() {}
 
+  // xs: 0-100, ys: timestamps
   getPolygons(json: string): Polygon[] {
     // For now ignore the 'json' parameter and paste hard coded data
     return [];

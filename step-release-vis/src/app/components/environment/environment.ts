@@ -9,6 +9,8 @@ import {Polygon} from '../../models/Polygon';
 })
 export class EnvironmentComponent implements OnInit {
 
+  width: number;
+  height: number;
   polygons: Polygon[];
   envName: string;
   // TODO(andreystar): add a parameter for json file
@@ -16,10 +18,11 @@ export class EnvironmentComponent implements OnInit {
 
   constructor(environmentService: EnvironmentService) {
     this.polygons = environmentService.getPolygons(this.jsonFileName);
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
   }
 
   ngOnInit(): void {
     // TODO(andreystar): add polygons to svg and display them
   }
-
 }
