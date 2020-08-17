@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
+import {random} from 'lodash';
 
 @Component({
   selector: 'app-environment',
@@ -28,5 +29,19 @@ export class EnvironmentComponent implements OnInit {
 
   // TODO(andreystar): add polygon processing logic
   private processPolygons(polygons: Polygon[]): void {
+    this.polygons = polygons.map(
+      ({points, candName}) => new Polygon(points, candName, this.getRandomColor()));
   }
+
+  /**
+   * Generates a random hex color.
+   */
+  private getRandomColor(): string {
+    const r = random(0, 255);
+    const g = random(0, 255);
+    const b = random(0, 255);
+    const toHexPadded = (value: number) => value.toString(16).padStart(2, '0');
+    return `#${toHexPadded(r)}${toHexPadded(g)}${toHexPadded(b)}`;
+  }
+
 }
