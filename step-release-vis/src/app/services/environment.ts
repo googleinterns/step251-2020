@@ -15,6 +15,7 @@ export class EnvironmentService {
   }
 
   // xs: 0-100, ys: timestamps
+  // TODO(naoai): write test
   getPolygons(jsonFile: string): Observable<Polygon[]> {
     return this.readJson(jsonFile)
       .pipe(map(environments => this.calculatePolygons(environments)));
