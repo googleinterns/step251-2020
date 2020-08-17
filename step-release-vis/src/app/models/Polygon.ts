@@ -3,14 +3,14 @@ import {Point} from './Point';
 export class Polygon {
 
   points: Point[];
+  candName: string;
   color: string;
   highlight = false;
-  candName: string;
 
-  constructor(points: Point[], color = 'black', candName: string) {
+  constructor(points: Point[], candName: string, color = 'black') {
     this.points = points;
-    this.color = color;
     this.candName = candName;
+    this.color = color;
   }
 
   toAttributeString(): string {
