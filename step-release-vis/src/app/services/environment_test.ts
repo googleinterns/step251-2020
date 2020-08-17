@@ -4,12 +4,6 @@ import { EnvironmentService } from './environment';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CandidateInfo } from '../models/Data';
 
-function fractionalEqual(x: number, y: number): boolean {
-  const relError: number = (x - y) / x;
-  return ((relError > -Math.pow(10, -7)) && (relError < Math.pow(10, -7)));
-}
-
-
 describe('EnvironmentService', () => {
   let service: EnvironmentService;
 
