@@ -5,7 +5,6 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {FileService} from './file';
 
-// TODO(naoai): Iterate and calculate the polygons
 @Injectable({
   providedIn: 'root'
 })
@@ -15,33 +14,38 @@ export class EnvironmentService {
   }
 
   // xs: 0-100, ys: timestamps
-  // TODO(naoai): write test
   getPolygons(jsonFile: string): Observable<Polygon[]> {
     return this.readJson(jsonFile)
       .pipe(map(environments => this.calculatePolygons(environments)));
   }
 
+  // TODO(naoai): compute the coordinates for the polygons
   private calculatePolygons(environments: Environment[]): Polygon[] {
     return [];
   }
 
-  private extractPoints(candsInfo: CandidateInfo[]): CandidatesSnapshot {
-    return [];
-  }
+  private getPercentages(candsInfo: CandidateInfo[]): Map<string, number> {
+    const candInfo2percentage: Map<string, number> = new Map();
+    let totalJobSum = 0;
 
-  // TODO(ancar): calculate the percentages for cands at given timestamp
-  private getPercentages(candsInfo: CandidateInfo[]): CandidatesSnapshot {
-    return [];
+    for (const candInfo of candsInfo) {
+      totalJobSum += candInfo.job_count;
+    }
+
+    let percentageSum = 0;
+    for (const candInfo of candsInfo) {
+      const percentage = Math.floor(candInfo.job_count / totalJobSum * 100);
+      candInfo2percentage.set(candInfo.name, percentage);
+      percentageSum += percentage;
+    }
+
+    // treat rounding error here
+    const prevValue = candInfo2percentage.get(candsInfo[0].name);
+    candInfo2percentage.set(candsInfo[0].name, prevValue + 100 - percentageSum);
+    return candInfo2percentage;
   }
 
   private readJson(jsonFile: string): Observable<Environment[]> {
     return this.fileService.readContents<Environment[]>(jsonFile);
   }
-}
-
-type CandidatesSnapshot = CandidateSnapshot[];
-
-interface CandidateSnapshot {
-  candName: string;
-  percentage: number;
 }

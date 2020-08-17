@@ -16,4 +16,7 @@ describe('EnvironmentService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  // TODO(naoai): write getPolygons test
+  // TODO(ancar): test getPercentages
 });
