@@ -3,7 +3,6 @@ import {Polygon} from '../models/Polygon';
 import {Point} from '../models/Point';
 import {CandidateInfo, Environment} from '../models/Data';
 
-// TODO(naoai): Iterate and calculate the polygons
 @Injectable({
   providedIn: 'root'
 })
@@ -15,32 +14,31 @@ export class EnvironmentService {
   // xs: 0-100, ys: timestamps
   getPolygons(jsonFile: string): Polygon[] {
     const environments = this.readJson(jsonFile);
-
-    var polys: Polygon[] = [];
+    const polys: Polygon[] = [];
 
     // Assume there is only one environment
     // Assume for now a candidate appears only once per environment (solution: give the polygons ids)
 
-    for (var environment of environments) {
-      var newPointSet: PointSet = new PointSet();
-      var lastPointSet: PointSet = new PointSet();
-      var lowerBounds : Map<string, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
-      var upperBounds : Map<string, Point[]> = new Map();
-      var lastTimeStamp = 0;
+    for (const environment of environments) {
+      let newTimestampUpperBoundSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+      let lastTimestampUpperBoundSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+      const lowerBounds: Map<string, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
+      const upperBounds: Map<string, Point[]> = new Map();
+      let lastTimeStamp = 0;
 
-      for (var snapshot of environment.snapshots) {
-        var update: [PointSet, number] = this.insertAndAdjustPoints(snapshot.cands_info, lastPointSet);
-        newPointSet = update[0];
-        this.addSnapshotToPolygons(lowerBounds, upperBounds, newPointSet.snapshot, update[1], snapshot.timestamp, lastTimeStamp);
+      for (const snapshot of environment.snapshots) {
+        const update: [TimestampUpperBoundSet, number] = this.insertAndAdjustPoints(snapshot.cands_info, lastTimestampUpperBoundSet);
+        newTimestampUpperBoundSet = update[0];
+        this.addSnapshotToPolygons(lowerBounds, upperBounds, newTimestampUpperBoundSet.snapshot, update[1], snapshot.timestamp, lastTimeStamp);
 
-        lastPointSet = this.closePolygons(polys, lowerBounds, upperBounds, newPointSet); // delete inexisting ones
+        lastTimestampUpperBoundSet = this.closePolygons(polys, lowerBounds, upperBounds, newTimestampUpperBoundSet); // delete inexisting ones
         lastTimeStamp = snapshot.timestamp;
       }
 
       // draw the vertical line and add remaining polys
-      for (var i = 0; i < lastPointSet.snapshot.length; i ++) {
-        var name: string = lastPointSet.snapshot[i].candName;
-        this.addToMap(lowerBounds, name, {x: lastTimeStamp, y: lastPointSet.snapshot[i].position});
+      for (const candidate of lastTimestampUpperBoundSet.snapshot) {
+        const name: string = candidate.candName;
+        this.addToMap(lowerBounds, name, {x: lastTimeStamp, y: candidate.position});
         polys.push(this.createPolygon(lowerBounds.get(name), upperBounds.get(name)));
       }
     }
@@ -49,62 +47,64 @@ export class EnvironmentService {
     return polys;
   }
 
-  private printPolys (v : Polygon[]) {
-    console.log("These are the final polygons:");
-    for (var x of v) {
-      console.log("-----");
-      for (var point of x.points) {
+  private printPolys(v: Polygon[]): void {
+    console.log('These are the final polygons:');
+    for (const x of v) {
+      console.log('-----');
+      for (const point of x.points) {
         console.log(point.x, point.y);
       }
     }
   }
 
-  private addToMap (map: Map<string, Point[]>, key: string, point: Point) {
-    var prev: Point[] = [];
+  private addToMap(map: Map<string, Point[]>, key: string, point: Point): void {
+    let prev: Point[] = [];
     if (map.has(key)) {
       prev = map.get(key);
     }
 
-    var curr: Point[] = prev;
+    const curr: Point[] = prev;
     curr.push(point);
     map.set(key, curr);
   }
 
   private addSnapshotToPolygons(lower: Map<string, Point[]>, upper: Map<string, Point[]>,
-                                set: CandidatePosition[], insertions: number,
-                                time: number, lastTime: number) {
-    for (var i = set.length - insertions; i < set.length; i ++) {
+                                set: PolygonUpperBoundYPosition[], insertions: number,
+                                time: number, lastTime: number): void {
+    for (let i = set.length - insertions; i < set.length; i ++) {
       this.addToMap(lower, set[i].candName, {x: lastTime, y: 0});
       this.addToMap(upper, set[i].candName, {x: lastTime, y: 0});
     }
 
-    for (var i = 0; i < set.length; i ++) {
+    for (let i = 0; i < set.length; i ++) {
       this.addToMap(upper, set[i].candName, {x: time, y: set[i].position});
-      this.addToMap(lower, set[i].candName, {x: time, y: ((i==0) ? 0 : set[i-1].position)});
+      this.addToMap(lower, set[i].candName, {x: time, y: ((i === 0) ? 0 : set[i - 1].position)});
     }
   }
 
-  private createPolygon (lower: Point[], upper: Point[]) : Polygon {
-    var points : Point[] = [];
-    for (var point of lower)
+  private createPolygon(lower: Point[], upper: Point[]): Polygon {
+    const points: Point[] = [];
+    for (const point of lower) {
       points.push(point);
+    }
     points.pop();
 
-    var revUpper = upper.reverse();
-    for (var point of revUpper)
+    const revUpper = upper.reverse();
+    for (const point of revUpper) {
       points.push(point);
+    }
     points.pop();
 
     return new Polygon(points);
   }
 
-  private closePolygons (polys: Polygon[], lower: Map<string, Point[]>,
-                          upper: Map<string, Point[]>, set: PointSet) : PointSet {
-    var newSet : PointSet = new PointSet();
+  private closePolygons(polys: Polygon[], lower: Map<string, Point[]>,
+                        upper: Map<string, Point[]>, set: TimestampUpperBoundSet): TimestampUpperBoundSet {
+    const newSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
 
-    for (var i = 0; i < set.snapshot.length; i ++) {
-      if (set.snapshot[i].position == ((i == 0) ? 0 : set.snapshot[i - 1].position)) {
-        var name: string = set.snapshot[i].candName;
+    for (let i = 0; i < set.snapshot.length; i ++) {
+      if (set.snapshot[i].position === ((i === 0) ? 0 : set.snapshot[i - 1].position)) {
+        const name: string = set.snapshot[i].candName;
         polys.push(this.createPolygon(lower.get(name), upper.get(name)));
       } else {
         newSet.orderMap.set(set.snapshot[i].candName, newSet.snapshot.length);
@@ -115,11 +115,11 @@ export class EnvironmentService {
     return newSet;
   }
 
-  private insertAndAdjustPoints(candsInfo: CandidateInfo[], set: PointSet): [PointSet, number] {
-    let percentages = this.getPercentages(candsInfo);
-    var newSet : PointSet = set;
+  private insertAndAdjustPoints(candsInfo: CandidateInfo[], set: TimestampUpperBoundSet): [TimestampUpperBoundSet, number] {
+    const percentages = this.getPercentages(candsInfo);
+    const newSet: TimestampUpperBoundSet = set;
 
-    for (var i = 0; i < set.snapshot.length; i ++) {
+    for (let i = 0; i < set.snapshot.length; i ++) {
       if (percentages.has(set.snapshot[i].candName)) { // still exists
         newSet.snapshot[i].position = percentages.get(set.snapshot[i].candName);
       } else { // will be erased
@@ -127,47 +127,47 @@ export class EnvironmentService {
       }
     }
 
-    var newCandidates = 0;
-    for (let entry of percentages.entries()) {
+    let newCandidates = 0;
+    for (const entry of percentages.entries()) {
       if (!set.orderMap.has(entry[0])) { // the candidate has to be introduced
         newCandidates ++;
         newSet.orderMap.set(entry[0], newSet.snapshot.length);
-        newSet.snapshot.push(new CandidatePosition(entry[0], entry[1]));
+        newSet.snapshot.push(new PolygonUpperBoundYPosition(entry[0], entry[1]));
       }
     }
 
-    var sum = 0;
-    for (var i = 0; i < newSet.snapshot.length; i ++) {
-      sum += newSet.snapshot[i].position;
-      newSet.snapshot[i].position = sum;
+    let sum = 0;
+    for (const candidate of newSet.snapshot) {
+      sum += candidate.position;
+      candidate.position = sum;
     }
     return [newSet, newCandidates];
   }
 
   private getPercentages(candsInfo: CandidateInfo[]): Map<string, number> {
-    var map : Map<string, number> = new Map();
-    var totalJobSum = 0;
+    const map: Map<string, number> = new Map();
+    let totalJobSum = 0;
 
-    for (var candInfo of candsInfo) {
+    for (const candInfo of candsInfo) {
       totalJobSum += candInfo.job_count;
     }
 
-    var percentageSum = 0;
-    for (var candInfo of candsInfo) {
-      var percentage = Math.floor(candInfo.job_count / totalJobSum * 100);
+    let percentageSum = 0;
+    for (const candInfo of candsInfo) {
+      const percentage = Math.floor(candInfo.job_count / totalJobSum * 100);
       map.set(candInfo.name, percentage);
       percentageSum += percentage;
     }
 
     // treat rounding error here
-    var prevValue = map.get(candsInfo[0].name);
+    const prevValue = map.get(candsInfo[0].name);
     map.set(candsInfo[0].name, prevValue + 100 - percentageSum);
     return map;
   }
 
   // TODO(andreystar): add json from file
   private readJson(jsonFile: string): Environment[] {
-    var json = `[
+    let json = `[
   {
     "environment": "prod",
     "snapshots": [
@@ -241,9 +241,11 @@ export class EnvironmentService {
 
 type CandidatesSnapshot = CandidateSnapshot[];
 
-class PointSet {
+class TimestampUpperBoundSet {
+  /* What is the order of the polygons? */
   orderMap: Map<string, number>;
-  snapshot: CandidatePosition[];
+  /* Store the details about each _active_ polygon */
+  snapshot: PolygonUpperBoundYPosition[];
 
   constructor() {
     this.orderMap = new Map();
@@ -251,11 +253,11 @@ class PointSet {
   }
 }
 
-class CandidatePosition {
+class PolygonUpperBoundYPosition {
   candName: string;
   position: number;
 
-  constructor (name: string, pos: number) {
+  constructor(name: string, pos: number) {
     this.candName = name;
     this.position = pos;
   }
