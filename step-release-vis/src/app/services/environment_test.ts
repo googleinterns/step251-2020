@@ -2,7 +2,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { EnvironmentService } from './environment';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {CandidateInfo} from '../models/Data';
+import { CandidateInfo } from '../models/Data';
+
+function fractionalEqual(x: number, y: number): boolean {
+  const relError: number = (x - y) / x;
+  return ((relError > -Math.pow(10, -7)) && (relError < Math.pow(10, -7)));
+}
+
 
 describe('EnvironmentService', () => {
   let service: EnvironmentService;
@@ -21,9 +27,9 @@ describe('EnvironmentService', () => {
     // @ts-ignore
     const resultMap: Map<string, number> = service.getPercentages(input);
 
-    expect(resultMap.get('1')).toEqual(33.3);
-    expect(resultMap.get('2')).toEqual(33.35);
-    expect(resultMap.get('3')).toEqual(33.35);
+    expect(fractionalEqual(resultMap.get('1'), 33.3)).toBe(true);
+    expect(fractionalEqual(resultMap.get('2'), 33.35)).toBe(true);
+    expect(fractionalEqual(resultMap.get('3'), 33.35)).toBe(true);
   });
 
   it('#getPercentages should have a candidate with 100', () => {
