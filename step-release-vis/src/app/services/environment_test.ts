@@ -15,7 +15,6 @@ describe('EnvironmentService', () => {
   });
 
   // TODO(naoai): write getPolygons test
-  // TODO(ancar): test getPercentages
   it('#getPercentages should return 3 candidates with ~ equal percentages', () => {
     const input: CandidateInfo[] = [{name:  '1', job_count: 666}, {name: '2', job_count: 667},
       {name: '3', job_count: 667}];
