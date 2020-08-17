@@ -20,8 +20,8 @@ export class SvgGridComponent extends BaseGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.paramService.paramInt(this.route, 'r', 0)
-      .subscribe(rectRaduis => {
-        this.rectRadius = rectRaduis;
+      .subscribe(rectRadius => {
+        this.rectRadius = rectRadius;
         this.initGrid('svg_grid');
       });
   }
