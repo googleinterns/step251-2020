@@ -16,13 +16,17 @@ export class EnvironmentComponent implements OnInit {
   // TODO(andreystar): add a parameter for json file
   jsonFile = 'env.json';
 
-  constructor(environmentService: EnvironmentService) {
-    this.polygons = environmentService.getPolygons(this.jsonFile);
+  constructor(private environmentService: EnvironmentService) {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
   }
 
   ngOnInit(): void {
-    // TODO(andreystar): add polygons to svg and display them
+    this.environmentService.getPolygons(this.jsonFile)
+      .subscribe(polygons => this.processPolygons(polygons));
+  }
+
+  // TODO(andreystar): add polygon processing logic
+  private processPolygons(polygons: Polygon[]): void {
   }
 }

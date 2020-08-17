@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Polygon} from '../models/Polygon';
 import {CandidateInfo, Environment} from '../models/Data';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {FileService} from './file';
 
 // TODO(naoai): Iterate and calculate the polygons
 @Injectable({
@@ -8,12 +11,16 @@ import {CandidateInfo, Environment} from '../models/Data';
 })
 export class EnvironmentService {
 
-  constructor() {
+  constructor(private fileService: FileService) {
   }
 
   // xs: 0-100, ys: timestamps
-  getPolygons(jsonFile: string): Polygon[] {
-    const environments = this.readJson(jsonFile);
+  getPolygons(jsonFile: string): Observable<Polygon[]> {
+    return this.readJson(jsonFile)
+      .pipe(map(environments => this.calculatePolygons(environments)));
+  }
+
+  private calculatePolygons(environments: Environment[]): Polygon[] {
     return [];
   }
 
@@ -26,44 +33,8 @@ export class EnvironmentService {
     return [];
   }
 
-  // TODO(andreystar): add json from file
-  private readJson(jsonFile: string): Environment[] {
-    const json = `[
-  {
-    "environment": "prod",
-    "snapshots": [
-      {
-        "timestamp": 125,
-        "cands_info": [
-          {
-            "name": "1",
-            "job_count": 100
-          },
-          {
-            "name": "2",
-            "job_count": 1000
-          },
-          {
-            "name": "3",
-            "job_count": 900
-          }
-        ]
-      },
-      {
-        "timestamp": 900,
-        "cands_info": [
-          {
-            "name": "2",
-            "job_count": 2000
-          }
-        ]
-      }
-    ]
-  }
-]
-`;
-    const envs: Environment[] = JSON.parse(json);
-    return [];
+  private readJson(jsonFile: string): Observable<Environment[]> {
+    return this.fileService.readContents<Environment[]>(jsonFile);
   }
 }
 
