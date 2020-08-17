@@ -14,7 +14,6 @@ export class ParamService {
   param(route: ActivatedRoute, name: string, defaultValue: string): Observable<string> {
     return route.queryParamMap.pipe(map(pMap => {
       const value = pMap.get(name);
-      console.log(pMap);
       return value ? value : defaultValue;
     }));
   }
