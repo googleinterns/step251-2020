@@ -27,8 +27,6 @@ describe('EnvironmentService', () => {
     // @ts-ignore
     const resultMap: Map<string, number> = service.getPercentages(input);
 
-    console.log(resultMap.get('1'));
-
     expect(fractionalEqual(resultMap.get('1'), 33.3)).toBe(true);
     expect(fractionalEqual(resultMap.get('2'), 33.35)).toBe(true);
     expect(fractionalEqual(resultMap.get('3'), 33.35)).toBe(true);
