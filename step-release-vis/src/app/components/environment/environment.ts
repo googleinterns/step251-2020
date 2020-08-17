@@ -24,9 +24,7 @@ export class EnvironmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.environmentService.getPolygons(this.jsonFile)
-      .subscribe(polygons => {
-        this.processPolygons(polygons);
-      });
+      .subscribe(polygons => this.processPolygons(polygons));
   }
 
   // TODO(andreystar): add polygon processing logic
