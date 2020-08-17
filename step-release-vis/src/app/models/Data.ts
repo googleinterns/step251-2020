@@ -3,12 +3,12 @@ export interface CandidateInfo {
   job_count: number;
 }
 
-export interface Shapshot {
+export interface Snapshot {
   timestamp: number;
   cands_info: CandidateInfo[];
 }
 
 export interface Environment {
   environment: string;
-  snapshots: Shapshot[];
+  snapshots: Snapshot[];
 }
