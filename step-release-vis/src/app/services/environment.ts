@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Polygon} from '../models/Polygon';
+import {Point} from '../models/Point';
 import {CandidateInfo, Environment} from '../models/Data';
 import {FileService} from './file';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-// TODO(naoai): Iterate and calculate the polygons
 @Injectable({
   providedIn: 'root'
 })
@@ -20,62 +20,158 @@ export class EnvironmentService {
       .pipe(map(environments => this.calculatePolygons(environments)));
   }
 
-  // TODO(andreystar): remove sample data
   private calculatePolygons(environments: Environment[]): Polygon[] {
-    const poly1 = new Polygon(
-      [
-        {x: 1594768146, y: 0},
-        {x: 1594768246, y: 20},
-        {x: 1594768346, y: 20},
-        {x: 1594768446, y: 40},
-        {x: 1594768646, y: 80},
-        {x: 1594768646, y: 0},
-      ]
-    );
-    const poly2 = new Polygon(
-      [
-        {x: 1594768146, y: 0},
-        {x: 1594768246, y: 20},
-        {x: 1594768346, y: 20},
-        {x: 1594768446, y: 40},
-        {x: 1594768646, y: 80},
-        {x: 1594768546, y: 60},
-        {x: 1594768646, y: 80},
-        {x: 1594768646, y: 100},
-        {x: 1594768446, y: 60},
-        {x: 1594768346, y: 60},
-        {x: 1594768246, y: 50},
-        {x: 1594768146, y: 40},
-      ]
-    );
-    const poly3 = new Polygon(
-      [
-        {x: 1594768646, y: 100},
-        {x: 1594768446, y: 60},
-        {x: 1594768346, y: 60},
-        {x: 1594768246, y: 50},
-        {x: 1594768146, y: 40},
-        {x: 1594768146, y: 80},
-        {x: 1594768446, y: 100},
-      ]
-    );
-    const poly4 = new Polygon(
-      [
-        {x: 1594768146, y: 100},
-        {x: 1594768146, y: 80},
-        {x: 1594768446, y: 100},
-      ]
-    );
-    return [poly1, poly2, poly3, poly4];
+    const polys: Polygon[] = [];
+
+    // Assume there is only one environment
+    // Assume for now a candidate appears only once per environment (solution: give the polygons ids)
+
+    for (const environment of environments) {
+      let newTimestampUpperBoundSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+      let lastTimestampUpperBoundSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+      const lowerBounds: Map<string, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
+      const upperBounds: Map<string, Point[]> = new Map();
+      let lastTimeStamp = 0;
+
+      for (const snapshot of environment.snapshots) {
+        const update: [TimestampUpperBoundSet, number] = this.insertAndAdjustPoints(snapshot.cands_info, lastTimestampUpperBoundSet);
+        newTimestampUpperBoundSet = update[0];
+        this.addSnapshotToPolygons(lowerBounds, upperBounds, newTimestampUpperBoundSet.snapshot,
+          update[1], snapshot.timestamp, lastTimeStamp);
+
+        lastTimestampUpperBoundSet = this.closePolygons(polys, lowerBounds, upperBounds,
+          newTimestampUpperBoundSet); // delete inexisting ones
+        lastTimeStamp = snapshot.timestamp;
+      }
+
+      // draw the vertical line and add remaining polys
+      for (const candidate of lastTimestampUpperBoundSet.snapshot) {
+        const name: string = candidate.candName;
+        this.addToMap(lowerBounds, name, {x: lastTimeStamp, y: candidate.position});
+        polys.push(this.createPolygon(lowerBounds.get(name), upperBounds.get(name)));
+      }
+    }
+
+    this.printPolys(polys);
+    return polys;
   }
 
-  private extractPoints(candsInfo: CandidateInfo[]): CandidatesSnapshot {
-    return [];
+  private printPolys(v: Polygon[]): void {
+    console.log('These are the final polygons:');
+    for (const x of v) {
+      console.log('-----');
+      for (const point of x.points) {
+        console.log(point.x, point.y);
+      }
+    }
   }
 
-  // TODO(ancar): calculate the percentages for cands at given timestamp
-  private getPercentages(candsInfo: CandidateInfo[]): CandidatesSnapshot {
-    return [];
+  private addToMap(mapToChange: Map<string, Point[]>, key: string, point: Point): void {
+    let prev: Point[] = [];
+    if (mapToChange.has(key)) {
+      prev = mapToChange.get(key);
+    }
+
+    const curr: Point[] = prev;
+    curr.push(point);
+    mapToChange.set(key, curr);
+  }
+
+  private addSnapshotToPolygons(lower: Map<string, Point[]>, upper: Map<string, Point[]>,
+                                set: PolygonUpperBoundYPosition[], insertions: number,
+                                time: number, lastTime: number): void {
+    for (let i = set.length - insertions; i < set.length; i++) {
+      this.addToMap(lower, set[i].candName, {x: lastTime, y: 0});
+      this.addToMap(upper, set[i].candName, {x: lastTime, y: 0});
+    }
+
+    for (let i = 0; i < set.length; i++) {
+      this.addToMap(upper, set[i].candName, {x: time, y: set[i].position});
+      this.addToMap(lower, set[i].candName, {x: time, y: ((i === 0) ? 0 : set[i - 1].position)});
+    }
+  }
+
+  private createPolygon(lower: Point[], upper: Point[]): Polygon {
+    const points: Point[] = [];
+    for (const point of lower) {
+      points.push(point);
+    }
+    points.pop();
+
+    const revUpper = upper.reverse();
+    for (const point of revUpper) {
+      points.push(point);
+    }
+    points.pop();
+
+    return new Polygon(points);
+  }
+
+  private closePolygons(polys: Polygon[], lower: Map<string, Point[]>,
+                        upper: Map<string, Point[]>, set: TimestampUpperBoundSet): TimestampUpperBoundSet {
+    const newSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+
+    for (let i = 0; i < set.snapshot.length; i++) {
+      if (set.snapshot[i].position === ((i === 0) ? 0 : set.snapshot[i - 1].position)) {
+        const name: string = set.snapshot[i].candName;
+        polys.push(this.createPolygon(lower.get(name), upper.get(name)));
+      } else {
+        newSet.orderMap.set(set.snapshot[i].candName, newSet.snapshot.length);
+        newSet.snapshot.push(set.snapshot[i]);
+      }
+    }
+
+    return newSet;
+  }
+
+  private insertAndAdjustPoints(candsInfo: CandidateInfo[], set: TimestampUpperBoundSet): [TimestampUpperBoundSet, number] {
+    const percentages = this.getPercentages(candsInfo);
+    const newSet: TimestampUpperBoundSet = set;
+
+    for (let i = 0; i < set.snapshot.length; i++) {
+      if (percentages.has(set.snapshot[i].candName)) { // still exists
+        newSet.snapshot[i].position = percentages.get(set.snapshot[i].candName);
+      } else { // will be erased
+        newSet.snapshot[i].position = 0;
+      }
+    }
+
+    let newCandidates = 0;
+    for (const entry of percentages.entries()) {
+      if (!set.orderMap.has(entry[0])) { // the candidate has to be introduced
+        newCandidates++;
+        newSet.orderMap.set(entry[0], newSet.snapshot.length);
+        newSet.snapshot.push(new PolygonUpperBoundYPosition(entry[0], entry[1]));
+      }
+    }
+
+    let sum = 0;
+    for (const candidate of newSet.snapshot) {
+      sum += candidate.position;
+      candidate.position = sum;
+    }
+    return [newSet, newCandidates];
+  }
+
+  private getPercentages(candsInfo: CandidateInfo[]): Map<string, number> {
+    const candInfo2percentage: Map<string, number> = new Map();
+    let totalJobSum = 0;
+
+    for (const candInfo of candsInfo) {
+      totalJobSum += candInfo.job_count;
+    }
+
+    let percentageSum = 0;
+    for (const candInfo of candsInfo) {
+      const percentage = Math.floor(candInfo.job_count / totalJobSum * 100);
+      candInfo2percentage.set(candInfo.name, percentage);
+      percentageSum += percentage;
+    }
+
+    // treat rounding error here
+    const prevValue = candInfo2percentage.get(candsInfo[0].name);
+    candInfo2percentage.set(candsInfo[0].name, prevValue + 100 - percentageSum);
+    return candInfo2percentage;
   }
 
   private readJson(jsonFile: string): Observable<Environment[]> {
@@ -83,9 +179,24 @@ export class EnvironmentService {
   }
 }
 
-type CandidatesSnapshot = CandidateSnapshot[];
+class TimestampUpperBoundSet {
+  /* What is the order of the polygons? */
+  orderMap: Map<string, number>;
+  /* Store the details about each _active_ polygon */
+  snapshot: PolygonUpperBoundYPosition[];
 
-interface CandidateSnapshot {
+  constructor() {
+    this.orderMap = new Map();
+    this.snapshot = [];
+  }
+}
+
+class PolygonUpperBoundYPosition {
   candName: string;
-  percentage: number;
+  position: number;
+
+  constructor(name: string, pos: number) {
+    this.candName = name;
+    this.position = pos;
+  }
 }
