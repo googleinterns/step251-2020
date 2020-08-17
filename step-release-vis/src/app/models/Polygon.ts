@@ -1,6 +1,7 @@
 import {Point} from './Point';
 
 export class Polygon {
+  // TODO(andreystar): add candidate field and update existing code
   points: Point[];
   color: string;
 
