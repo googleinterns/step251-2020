@@ -10,17 +10,20 @@ import {BaseGridComponent} from '../base';
 })
 export class SvgGridComponent extends BaseGridComponent implements OnInit {
 
-  private readonly rectRadius: number;
+  private rectRadius: number;
 
   private svgns = 'http://www.w3.org/2000/svg';
 
-  constructor(route: ActivatedRoute, paramService: ParamService) {
+  constructor(protected route: ActivatedRoute, protected paramService: ParamService) {
     super(route, paramService);
-    this.rectRadius = paramService.paramInt(route, 'r', 0);
   }
 
   ngOnInit(): void {
-    this.initGrid('svg_grid');
+    this.paramService.paramInt(this.route, 'r', 0)
+      .subscribe(rectRaduis => {
+        this.rectRadius = rectRaduis;
+        this.initGrid('svg_grid');
+      });
   }
 
   drawGrid(gridElement: Element, cellWidth: number, cellHeight: number): void {

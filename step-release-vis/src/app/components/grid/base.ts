@@ -5,25 +5,38 @@ export abstract class BaseGridComponent {
 
   protected xMargin = 10;
   protected yMargin = 10;
-  protected readonly aspectRatio: number;
+  protected aspectRatio: number;
 
-  protected readonly grids: number;
-  protected readonly gridWidth: number;
-  protected readonly gridHeight: number;
+  protected grids: number;
+  protected gridWidth: number;
+  protected gridHeight: number;
 
-  protected readonly xGrids: number;
-  protected readonly yGrids: number;
+  protected xGrids: number;
+  protected yGrids: number;
 
-  protected constructor(route: ActivatedRoute, paramService: ParamService) {
-    this.aspectRatio = window.innerWidth / window.innerHeight;
-    this.grids = paramService.paramInt(route, 'c', 54);
-    this.gridWidth = paramService.paramInt(route, 'w', 10);
-    this.gridHeight = paramService.paramInt(route, 'h', 10);
-    this.xGrids = Math.floor(Math.sqrt(this.grids * this.aspectRatio));
-    this.yGrids = Math.ceil(this.grids / this.xGrids);
+  protected constructor(protected route: ActivatedRoute, protected paramService: ParamService) {
   }
 
   protected initGrid(containerId: string): void {
+    this.aspectRatio = window.innerWidth / window.innerHeight;
+    this.paramService.paramInt(this.route, 'c', 54)
+      .subscribe(grids => {
+        this.grids = grids;
+        this.paramService.paramInt(this.route, 'w', 10)
+          .subscribe(gridWidth => {
+            this.gridWidth = gridWidth;
+            this.paramService.paramInt(this.route, 'h', 10)
+              .subscribe(gridHeight => {
+                this.gridHeight = gridHeight;
+                this.xGrids = Math.floor(Math.sqrt(this.grids * this.aspectRatio));
+                this.yGrids = Math.ceil(this.grids / this.xGrids);
+                this.calculateGrid(containerId);
+              });
+          });
+      });
+  }
+
+  private calculateGrid(containerId: string): void {
     for (let yGrid = 0; yGrid < this.yGrids; yGrid++) {
       for (
         let xGrid = 0;

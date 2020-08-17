@@ -10,15 +10,18 @@ import {BaseGridComponent} from '../base';
 })
 export class CanvasGridComponent extends BaseGridComponent implements OnInit {
 
-  private readonly fps: number;
+  private fps: number;
 
-  constructor(route: ActivatedRoute, paramService: ParamService) {
+  constructor(protected route: ActivatedRoute, protected paramService: ParamService) {
     super(route, paramService);
-    this.fps = paramService.paramInt(route, 'fps', 60);
   }
 
   ngOnInit(): void {
-    this.initGrid('canvas-grid');
+    this.paramService.paramInt(this.route, 'fps', 0)
+      .subscribe(fps => {
+        this.fps = fps;
+        this.initGrid('canvas-grid');
+      });
   }
 
   initGridElement(): HTMLCanvasElement {
