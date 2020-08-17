@@ -44,6 +44,6 @@ describe('EnvironmentService', () => {
     // @ts-ignore
     const resultMap: Map<string, number> = service.getPercentages([]);
 
-    expect(resultMap).toBe([]);
+    expect(resultMap.size).toBe(0);
   });
 });
