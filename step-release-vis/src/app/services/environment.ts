@@ -32,16 +32,11 @@ export class EnvironmentService {
       totalJobSum += candInfo.job_count;
     }
 
-    let percentageSum = 0;
     for (const candInfo of candsInfo) {
-      const percentage = Math.floor(candInfo.job_count / totalJobSum * 100);
+      const percentage = candInfo.job_count / totalJobSum * 100;
       candInfo2percentage.set(candInfo.name, percentage);
-      percentageSum += percentage;
     }
 
-    // treat rounding error here
-    const prevValue = candInfo2percentage.get(candsInfo[0].name);
-    candInfo2percentage.set(candsInfo[0].name, prevValue + 100 - percentageSum);
     return candInfo2percentage;
   }
 
