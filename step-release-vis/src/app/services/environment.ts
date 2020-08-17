@@ -29,9 +29,11 @@ export class EnvironmentService {
       for (const snapshot of environment.snapshots) {
         const update: [TimestampUpperBoundSet, number] = this.insertAndAdjustPoints(snapshot.cands_info, lastTimestampUpperBoundSet);
         newTimestampUpperBoundSet = update[0];
-        this.addSnapshotToPolygons(lowerBounds, upperBounds, newTimestampUpperBoundSet.snapshot, update[1], snapshot.timestamp, lastTimeStamp);
+        this.addSnapshotToPolygons(lowerBounds, upperBounds, newTimestampUpperBoundSet.snapshot,
+                                   update[1], snapshot.timestamp, lastTimeStamp);
 
-        lastTimestampUpperBoundSet = this.closePolygons(polys, lowerBounds, upperBounds, newTimestampUpperBoundSet); // delete inexisting ones
+        lastTimestampUpperBoundSet = this.closePolygons(polys, lowerBounds, upperBounds,
+                                                        newTimestampUpperBoundSet); // delete inexisting ones
         lastTimeStamp = snapshot.timestamp;
       }
 
