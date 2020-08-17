@@ -3,6 +3,7 @@ import {Point} from './Point';
 export class Polygon {
   points: Point[];
   color: string;
+  highlight = false;
 
   constructor(points: Point[], color = 'black') {
     this.points = points;

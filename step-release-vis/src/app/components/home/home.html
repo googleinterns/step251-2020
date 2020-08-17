@@ -1,3 +1,7 @@
-<a routerLink="/svg">Svg Grid</a>
+<a [routerLink]="['/env']" [queryParams]="{ jsonFile: '../../assets/2CandDone_TwoSnapshots.json'}">
+  Environment Vis
+</a>
 <br>
-<a routerLink="/canvas">Canvas Grid</a>
+<a [routerLink]="['/svg']">Svg Grid</a>
+<br>
+<a [routerLink]="['/canvas']">Canvas Grid</a>
