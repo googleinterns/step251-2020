@@ -5,22 +5,23 @@ import {BaseGridComponent} from '../base';
 
 @Component({
   selector: 'app-canvas-grid',
-  template: '<div id="canvas-grid"></div>',
+  template: '<div id="canvas_grid"></div>',
   styleUrls: ['./canvas.css']
 })
 export class CanvasGridComponent extends BaseGridComponent implements OnInit {
 
-  private fps: number;
+  fps: number;
+  domId = 'canvas_grid';
 
   constructor(protected route: ActivatedRoute, protected paramService: ParamService) {
     super(route, paramService);
   }
 
   ngOnInit(): void {
-    this.paramService.paramInt(this.route, 'fps', 0)
+    this.paramService.paramInt(this.route, 'fps', 60)
       .subscribe(fps => {
         this.fps = fps;
-        this.initGrid('canvas-grid');
+        this.initGrid(this.domId);
       });
   }
 

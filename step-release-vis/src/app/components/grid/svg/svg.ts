@@ -10,7 +10,8 @@ import {BaseGridComponent} from '../base';
 })
 export class SvgGridComponent extends BaseGridComponent implements OnInit {
 
-  private rectRadius: number;
+  rectRadius: number;
+  domId = 'svg_grid';
 
   private svgns = 'http://www.w3.org/2000/svg';
 
@@ -22,7 +23,7 @@ export class SvgGridComponent extends BaseGridComponent implements OnInit {
     this.paramService.paramInt(this.route, 'r', 0)
       .subscribe(rectRadius => {
         this.rectRadius = rectRadius;
-        this.initGrid('svg_grid');
+        this.initGrid(this.domId);
       });
   }
 

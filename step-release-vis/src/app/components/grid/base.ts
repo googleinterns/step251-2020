@@ -3,16 +3,16 @@ import {ParamService} from '../../services/param';
 
 export abstract class BaseGridComponent {
 
-  protected xMargin = 10;
-  protected yMargin = 10;
-  protected aspectRatio: number;
+  xMargin = 10;
+  yMargin = 10;
+  aspectRatio: number;
 
-  protected grids: number;
-  protected gridWidth: number;
-  protected gridHeight: number;
+  grids: number;
+  gridWidth: number;
+  gridHeight: number;
 
-  protected xGrids: number;
-  protected yGrids: number;
+  xGrids: number;
+  yGrids: number;
 
   protected constructor(protected route: ActivatedRoute, protected paramService: ParamService) {
   }
