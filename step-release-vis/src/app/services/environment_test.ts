@@ -21,9 +21,9 @@ describe('EnvironmentService', () => {
     // @ts-ignore
     const resultMap: Map<string, number> = service.getPercentages(input);
 
-    expect(resultMap.get('1')).toEqual(34);
-    expect(resultMap.get('2')).toEqual(33);
-    expect(resultMap.get('3')).toEqual(33);
+    expect(resultMap.get('1')).toEqual(33.3);
+    expect(resultMap.get('2')).toEqual(33.35);
+    expect(resultMap.get('3')).toEqual(33.35);
   });
 
   it('#getPercentages should have a candidate with 100', () => {
