@@ -16,7 +16,7 @@ describe('EnvironmentService', () => {
 
   // TODO(naoai): write getPolygons test
 
-  it('#computeNextSnapshot insert new candidate', () => {
+  it('#computeNextSnapshot inserts new candidate', () => {
     const inputCandInfo: CandidateInfo[] = [{name: '1', job_count: 100}, {name: '2', job_count: 100}];
     const inputSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
     inputSet.orderMap.set('1', 0);
@@ -30,7 +30,7 @@ describe('EnvironmentService', () => {
     expect(result[1]).toEqual(1);
   });
 
-  it('#computeNextSnapshot candidateInfo[] empty', () => {
+  it('#computeNextSnapshot candidate info list is empty', () => {
     const emptyCandInfo: CandidateInfo[] = [];
     const inputSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
     inputSet.orderMap.set('1', 0);
@@ -42,7 +42,7 @@ describe('EnvironmentService', () => {
     expect(result[0]).toBe(inputSet);
   });
 
-  it('#computeNextSnapshot with empty set', () => {
+  it('#computeNextSnapshot with old TimestampUpperBoundSet empty', () => {
     const inputCandInfo: CandidateInfo[] = [{name:  '1', job_count: 105}, {name: '2', job_count: 300},
       {name: '3', job_count: 595}];
     const emptySet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
