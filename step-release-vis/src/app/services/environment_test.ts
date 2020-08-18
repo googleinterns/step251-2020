@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { EnvironmentService, PolygonUpperBoundYPosition, TimestampUpperBoundSet } from './environment';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CandidateInfo } from '../models/Data';
+import { Point } from '../models/Point';
 
 describe('EnvironmentService', () => {
   let service: EnvironmentService;
@@ -15,6 +16,29 @@ describe('EnvironmentService', () => {
   });
 
   // TODO(naoai): write getPolygons test
+  it('#addPointToBorderMap add to empty border', () => {
+    const bound: Map<string, Point[]> = new Map();
+    const point: Point = {x: 10, y: 20};
+    const key = 'key';
+
+    // @ts-ignore
+    service.addPointToBorderMap(bound, key, point);
+
+    expect(bound.get(key)).toEqual([point]);
+  });
+
+  it('#addPointToBorderMap add to non-empty border', () => {
+    const bound: Map<string, Point[]> = new Map();
+    const point1: Point = {x: 10, y: 20};
+    const point2: Point = {x: 20, y: 10};
+    const key = 'key';
+    bound.set(key, [point1]);
+
+    // @ts-ignore
+    service.addPointToBorderMap(bound, key, point2);
+
+    expect(bound.get(key)).toEqual([point1, point2]);
+  });
 
   it('#computeNextSnapshot inserts new candidate', () => {
     const inputCandInfo: CandidateInfo[] = [{name: '1', job_count: 100}, {name: '2', job_count: 100}];

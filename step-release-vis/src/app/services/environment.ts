@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
 import {CandidateInfo, Environment} from '../models/Data';
 import {Observable} from 'rxjs';
@@ -22,6 +23,17 @@ export class EnvironmentService {
   // TODO(naoai): compute the coordinates for the polygons
   private calculatePolygons(environments: Environment[]): Polygon[] {
     return [];
+  }
+
+  private addPointToBorderMap(mapToChange: Map<string, Point[]>, key: string, point: Point): void {
+    let prev: Point[] = [];
+    if (mapToChange.has(key)) {
+      prev = mapToChange.get(key);
+    }
+
+    const curr: Point[] = prev;
+    curr.push(point);
+    mapToChange.set(key, curr);
   }
 
   private computeNextSnapshot(candsInfo: CandidateInfo[], set: TimestampUpperBoundSet): [TimestampUpperBoundSet, number] {
