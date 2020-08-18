@@ -36,6 +36,22 @@ export class EnvironmentService {
     mapToChange.set(key, curr);
   }
 
+  private createPolygon(lower: Point[], upper: Point[], candidate: string): Polygon {
+    const points: Point[] = [];
+    for (const point of lower) {
+      points.push(point);
+    }
+    points.pop();
+
+    const revUpper = upper.reverse();
+    for (const point of revUpper) {
+      points.push(point);
+    }
+    points.pop();
+
+    return new Polygon(points, candidate);
+  }
+
   private computeNextSnapshot(candsInfo: CandidateInfo[], set: TimestampUpperBoundSet): [TimestampUpperBoundSet, number] {
     const percentages = this.getPercentages(candsInfo);
     const newSet: TimestampUpperBoundSet = set;

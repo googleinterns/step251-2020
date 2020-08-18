@@ -4,6 +4,7 @@ import { EnvironmentService, PolygonUpperBoundYPosition, TimestampUpperBoundSet 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CandidateInfo } from '../models/Data';
 import { Point } from '../models/Point';
+import { Polygon } from '../models/Polygon';
 
 describe('EnvironmentService', () => {
   let service: EnvironmentService;
@@ -16,6 +17,30 @@ describe('EnvironmentService', () => {
   });
 
   // TODO(naoai): write getPolygons test
+  it ('#createPolygon should create a square', () => {
+    const lower: Point[] = [{x: 0, y: 0}, {x: 10, y: 0}, {x: 10, y: 10}];
+    const upper: Point[] = [{x: 0, y: 0}, {x: 0, y: 10}, {x: 10, y: 10}];
+    const square: Polygon = new Polygon([{x: 0, y: 0}, {x: 10, y: 0}, {x: 10, y: 10}, {x: 0, y: 10}],
+                              'square');
+
+    // @ts-ignore
+    const result: Polygon = service.createPolygon(lower, upper, 'square');
+
+    expect(result).toEqual(square);
+  });
+
+  it ('#createPolygon should create a line', () => {
+    const lower: Point[] = [{x: 0, y: 0}, {x: 10, y: 10}];
+    const upper: Point[] = lower;
+    const line: Polygon = new Polygon([{x: 0, y: 0}, {x: 10, y: 10}],
+      'line');
+
+    // @ts-ignore
+    const result: Polygon = service.createPolygon(lower, upper, 'line');
+
+    expect(result).toEqual(line);
+  });
+
   it('#addPointToBorderMap add to empty border', () => {
     const bound: Map<string, Point[]> = new Map();
     const point: Point = {x: 10, y: 20};
