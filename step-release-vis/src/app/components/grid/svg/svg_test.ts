@@ -9,7 +9,7 @@ describe('SvgGridComponent', () => {
   let component: SvgGridComponent;
   let fixture: ComponentFixture<SvgGridComponent>;
   let activatedRouteStub: ActivatedRouteStub;
-  const params = {
+  const routeParams = {
     c: 1,
     w: 2,
     h: 3,
@@ -17,7 +17,7 @@ describe('SvgGridComponent', () => {
   };
 
   beforeEach(async(() => {
-    activatedRouteStub = new ActivatedRouteStub(params);
+    activatedRouteStub = new ActivatedRouteStub(routeParams);
     TestBed.configureTestingModule({
       declarations: [ SvgGridComponent ],
       providers: [
@@ -40,10 +40,10 @@ describe('SvgGridComponent', () => {
 
   it('params should be assigned', () => {
     fixture.detectChanges();
-    expect(component.grids).toEqual(params.c);
-    expect(component.gridWidth).toEqual(params.w);
-    expect(component.gridHeight).toEqual(params.h);
-    expect(component.rectRadius).toEqual(params.r);
+    expect(component.grids).toEqual(routeParams.c);
+    expect(component.gridWidth).toEqual(routeParams.w);
+    expect(component.gridHeight).toEqual(routeParams.h);
+    expect(component.rectRadius).toEqual(routeParams.r);
   });
 
   it('svg initialized', () => {

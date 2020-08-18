@@ -9,7 +9,7 @@ describe('CanvasGridComponent', () => {
   let component: CanvasGridComponent;
   let fixture: ComponentFixture<CanvasGridComponent>;
   let activatedRouteStub: ActivatedRouteStub;
-  const params = {
+  const routeParams = {
     c: 1,
     w: 2,
     h: 3,
@@ -17,7 +17,7 @@ describe('CanvasGridComponent', () => {
   };
 
   beforeEach(async(() => {
-    activatedRouteStub = new ActivatedRouteStub(params);
+    activatedRouteStub = new ActivatedRouteStub(routeParams);
     TestBed.configureTestingModule({
       declarations: [ CanvasGridComponent ],
       providers: [
@@ -40,10 +40,10 @@ describe('CanvasGridComponent', () => {
 
   it('params should be assigned', () => {
     fixture.detectChanges();
-    expect(component.grids).toEqual(params.c);
-    expect(component.gridWidth).toEqual(params.w);
-    expect(component.gridHeight).toEqual(params.h);
-    expect(component.fps).toEqual(params.fps);
+    expect(component.grids).toEqual(routeParams.c);
+    expect(component.gridWidth).toEqual(routeParams.w);
+    expect(component.gridHeight).toEqual(routeParams.h);
+    expect(component.fps).toEqual(routeParams.fps);
   });
 
   it('canvas initialized', () => {
