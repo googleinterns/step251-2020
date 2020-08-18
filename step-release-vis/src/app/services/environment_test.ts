@@ -68,6 +68,88 @@ describe('EnvironmentService', () => {
     expect(result).toEqual(line);
   });
 
+  it('#closePolygons just one polygon is closed', () => {
+    const polys: Polygon[] = [];
+    const inputLower: Map<string, Point[]> = new Map();
+    inputLower.set('1', [
+      new Point(0, 100),
+      new Point(1, 10),
+      new Point(2, 100),
+    ]);
+    inputLower.set('2', [new Point(0, 100), new Point(1, 0), new Point(2, 0)]);
+    const inputUpper: Map<string, Point[]> = new Map();
+    inputUpper.set('1', [
+      new Point(0, 100),
+      new Point(1, 100),
+      new Point(2, 100),
+    ]);
+    inputUpper.set('2', [
+      new Point(0, 100),
+      new Point(1, 10),
+      new Point(2, 100),
+    ]);
+    const inputTimestampUpperBoundSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    inputTimestampUpperBoundSet.orderMap.set('1', 1);
+    inputTimestampUpperBoundSet.orderMap.set('2', 0);
+    inputTimestampUpperBoundSet.snapshot[0] = new PolygonUpperBoundYPosition(
+      '2',
+      100
+    );
+    inputTimestampUpperBoundSet.snapshot[1] = new PolygonUpperBoundYPosition(
+      '1',
+      100
+    );
+
+    // @ts-ignore
+    const result: TimestampUpperBoundSet = service.closePolygons(
+      polys,
+      inputLower,
+      inputUpper,
+      inputTimestampUpperBoundSet
+    );
+
+    expect(result.orderMap.get('2')).toEqual(0);
+    expect(result.snapshot.length).toEqual(1);
+    expect(result.snapshot[0].position).toEqual(100);
+    // check if the closed polygon for the candidate '1' is added
+    expect(polys[0].candName).toBe('1');
+  });
+
+  it('#closePolygons no polygon is closed', () => {
+    const shouldRemainEmptyPolys: Polygon[] = [];
+    const inputLower: Map<string, Point[]> = new Map();
+    inputLower.set('1', [new Point(0, 30), new Point(1, 50)]);
+    inputLower.set('2', [new Point(0, 0), new Point(1, 0)]);
+    const inputUpper: Map<string, Point[]> = new Map();
+    inputUpper.set('1', [new Point(0, 100), new Point(1, 100)]);
+    inputUpper.set('2', [new Point(0, 30), new Point(1, 50)]);
+    const inputTimestampUpperBoundSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    inputTimestampUpperBoundSet.orderMap.set('1', 1);
+    inputTimestampUpperBoundSet.orderMap.set('2', 0);
+    inputTimestampUpperBoundSet.snapshot[0] = new PolygonUpperBoundYPosition(
+      '2',
+      50
+    );
+    inputTimestampUpperBoundSet.snapshot[1] = new PolygonUpperBoundYPosition(
+      '1',
+      100
+    );
+
+    // @ts-ignore
+    const result: TimestampUpperBoundSet = service.closePolygons(
+      shouldRemainEmptyPolys,
+      inputLower,
+      inputUpper,
+      inputTimestampUpperBoundSet
+    );
+
+    expect(result.orderMap.get('2')).toEqual(0);
+    expect(result.orderMap.get('1')).toEqual(1);
+    expect(result.snapshot[0].position).toEqual(50);
+    expect(result.snapshot[1].position).toEqual(100);
+    expect(shouldRemainEmptyPolys).toEqual([]);
+  });
+
   it('#addPointToBorderMap add to empty border', () => {
     const bound: Map<string, Point[]> = new Map();
     const point: Point = {x: 10, y: 20};
