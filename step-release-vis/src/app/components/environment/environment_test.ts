@@ -46,18 +46,33 @@ describe('EnvironmentComponent', () => {
     expect(component.envName).toEqual(routeParams.envName);
   });
 
-  it('colors should be assigned', () => {
-    fixture.detectChanges();
-    component.polygons.forEach(({color, candName}) => {
-      expect(color).toMatch(/^#[0-9a-f]{6}$/);
-      expect(candName).toEqual('test');
-    });
-  });
-
   it('polygons should be assigned', () => {
     fixture.detectChanges();
     expect(component.polygons).toBeTruthy();
   });
 
-  it('polygons should be ', () => {});
+  it('colors should be assigned', () => {
+    fixture.detectChanges();
+    component.polygons.forEach(({color}) => {
+      expect(color).toMatch(/^#[0-9a-f]{6}$/);
+    });
+  });
+
+  it('candName should be assigned', () => {
+    fixture.detectChanges();
+    component.polygons.forEach(({candName}) => {
+      expect(candName).toEqual(environmentServiceStub.candName);
+    });
+  });
+
+  it('polygons should fit the screen', () => {
+    component.polygons.forEach(({points}) =>
+      points.forEach(({x, y}) => {
+        expect(x).toBeGreaterThanOrEqual(0);
+        expect(x).toBeLessThanOrEqual(component.width);
+        expect(y).toBeGreaterThanOrEqual(0);
+        expect(y).toBeLessThanOrEqual(component.height);
+      })
+    );
+  });
 });

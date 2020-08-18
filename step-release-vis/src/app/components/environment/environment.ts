@@ -58,9 +58,17 @@ export class EnvironmentComponent implements OnInit {
       Number.MAX_VALUE
     );
     const endTime = this.reducePolygonPoints(polygons, Math.max, ({x}) => x, 0);
-    this.polygons = polygons.map(polygon =>
-      this.scalePolygon(polygon, startTime, endTime, 0, 100)
-    );
+    this.polygons = polygons.map(polygon => {
+      const scaledPolygon = this.scalePolygon(
+        polygon,
+        startTime,
+        endTime,
+        0,
+        100
+      );
+      scaledPolygon.color = this.getRandomColor();
+      return scaledPolygon;
+    });
   }
 
   /**
@@ -89,7 +97,7 @@ export class EnvironmentComponent implements OnInit {
             this.scale(100 - y, yStart, yEnd, 0, this.height)
           )
       ),
-      this.getRandomColor()
+      polygon.candName
     );
   }
 
