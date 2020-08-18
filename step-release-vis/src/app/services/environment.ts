@@ -36,15 +36,15 @@ export class EnvironmentService {
     mapToChange.set(key, curr);
   }
 
-  private createPolygon(lower: Point[], upper: Point[], candidate: string): Polygon {
+  private createPolygon(lowerBound: Point[], upperBound: Point[], candidate: string): Polygon {
     const points: Point[] = [];
-    for (const point of lower) {
+    for (const point of lowerBound) {
       points.push(point);
     }
     points.pop();
 
-    const revUpper = upper.reverse();
-    for (const point of revUpper) {
+    const revUpperBound = upperBound.reverse();
+    for (const point of revUpperBound) {
       points.push(point);
     }
     points.pop();
