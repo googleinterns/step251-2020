@@ -41,7 +41,7 @@ export class EnvironmentComponent implements OnInit {
         .subscribe(polygons => this.processPolygons(polygons));
     });
     this.paramService
-      .param(this.route, 'envName', 'prod')
+      .param(this.route, 'envName', 'default_env')
       .subscribe(envName => (this.envName = envName));
   }
 
