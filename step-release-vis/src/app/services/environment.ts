@@ -7,17 +7,16 @@ import {map} from 'rxjs/operators';
 import {FileService} from './file';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EnvironmentService {
-
-  constructor(private fileService: FileService) {
-  }
+  constructor(private fileService: FileService) {}
 
   // xs: 0-100, ys: timestamps
   getPolygons(jsonFile: string): Observable<Polygon[]> {
-    return this.readJson(jsonFile)
-      .pipe(map(environments => this.calculatePolygons(environments)));
+    return this.readJson(jsonFile).pipe(
+      map(environments => this.calculatePolygons(environments))
+    );
   }
 
   // TODO(naoai): compute the coordinates for the polygons
@@ -25,7 +24,11 @@ export class EnvironmentService {
     return [];
   }
 
-  private addPointToBorderMap(mapToChange: Map<string, Point[]>, key: string, point: Point): void {
+  private addPointToBorderMap(
+    mapToChange: Map<string, Point[]>,
+    key: string,
+    point: Point
+  ): void {
     let prev: Point[] = [];
     if (mapToChange.has(key)) {
       prev = mapToChange.get(key);
@@ -36,7 +39,11 @@ export class EnvironmentService {
     mapToChange.set(key, curr);
   }
 
-  private createPolygon(lowerBound: Point[], upperBound: Point[], candidate: string): Polygon {
+  private createPolygon(
+    lowerBound: Point[],
+    upperBound: Point[],
+    candidate: string
+  ): Polygon {
     const points: Point[] = [];
     for (const point of lowerBound) {
       points.push(point);
@@ -52,24 +59,32 @@ export class EnvironmentService {
     return new Polygon(points, candidate);
   }
 
-  private computeNextSnapshot(candsInfo: CandidateInfo[], set: TimestampUpperBoundSet): [TimestampUpperBoundSet, number] {
+  private computeNextSnapshot(
+    candsInfo: CandidateInfo[],
+    set: TimestampUpperBoundSet
+  ): [TimestampUpperBoundSet, number] {
     const percentages = this.getPercentages(candsInfo);
     const newSet: TimestampUpperBoundSet = set;
 
     for (let i = 0; i < set.snapshot.length; i++) {
-      if (percentages.has(set.snapshot[i].candName)) { // still exists
+      if (percentages.has(set.snapshot[i].candName)) {
+        // still exists
         newSet.snapshot[i].position = percentages.get(set.snapshot[i].candName);
-      } else { // will be erased
+      } else {
+        // will be erased
         newSet.snapshot[i].position = 0;
       }
     }
 
     let newCandidates = 0;
     for (const entry of percentages.entries()) {
-      if (!set.orderMap.has(entry[0])) { // the candidate has to be introduced
+      if (!set.orderMap.has(entry[0])) {
+        // the candidate has to be introduced
         newCandidates++;
         newSet.orderMap.set(entry[0], newSet.snapshot.length);
-        newSet.snapshot.push(new PolygonUpperBoundYPosition(entry[0], entry[1]));
+        newSet.snapshot.push(
+          new PolygonUpperBoundYPosition(entry[0], entry[1])
+        );
       }
     }
 
@@ -90,7 +105,7 @@ export class EnvironmentService {
     }
 
     for (const candInfo of candsInfo) {
-      const percentage = candInfo.job_count / totalJobSum * 100;
+      const percentage = (candInfo.job_count / totalJobSum) * 100;
       candInfo2percentage.set(candInfo.name, percentage);
     }
 
