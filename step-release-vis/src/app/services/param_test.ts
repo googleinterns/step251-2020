@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ParamService } from './param';
+import {ParamService} from './param';
 import {ActivatedRouteStub} from '../../testing/ActivatedRouteStub';
 
 describe('ParamService', () => {
@@ -11,7 +11,7 @@ describe('ParamService', () => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(ParamService);
     activatedRouteStub = new ActivatedRouteStub({
-      testParam: 'testValue'
+      testParam: 'testValue',
     });
   });
 
@@ -20,7 +20,8 @@ describe('ParamService', () => {
   });
 
   it('params should be present', done => {
-    service.param(activatedRouteStub as any, 'testParam', '')
+    service
+      .param(activatedRouteStub as any, 'testParam', '')
       .subscribe(testValue => {
         expect(testValue).toEqual('testValue');
         done();
@@ -28,7 +29,8 @@ describe('ParamService', () => {
   });
 
   it('non provided param should be absent', done => {
-    service.param(activatedRouteStub as any, 'no_param_provided', '')
+    service
+      .param(activatedRouteStub as any, 'no_param_provided', '')
       .subscribe(testValue => {
         expect(testValue).toEqual('');
         done();

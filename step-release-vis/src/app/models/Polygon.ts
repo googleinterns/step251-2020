@@ -1,7 +1,6 @@
 import {Point} from './Point';
 
 export class Polygon {
-
   points: Point[];
   candName: string;
   color: string;
@@ -14,8 +13,6 @@ export class Polygon {
   }
 
   toAttributeString(): string {
-    return this.points
-      .map(({x, y}) => `${x},${y}`)
-      .join(' ');
+    return this.points.map(({x, y}) => `${x},${y}`).join(' ');
   }
 }

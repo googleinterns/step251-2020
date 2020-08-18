@@ -15,7 +15,7 @@ describe('EnvironmentComponent', () => {
   let activatedRouteStub: ActivatedRouteStub;
   const routeParams = {
     jsonFile: 'test.json',
-    envName: 'test'
+    envName: 'test',
   };
   beforeEach(async(() => {
     environmentServiceStub = new EnvironmentServiceStub();
@@ -24,11 +24,10 @@ describe('EnvironmentComponent', () => {
       declarations: [EnvironmentComponent],
       providers: [
         {provide: EnvironmentService, useValue: environmentServiceStub},
-        {provide: ActivatedRoute, useValue: activatedRouteStub}
+        {provide: ActivatedRoute, useValue: activatedRouteStub},
       ],
-      imports: [RouterTestingModule, HttpClientTestingModule]
-    })
-      .compileComponents();
+      imports: [RouterTestingModule, HttpClientTestingModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

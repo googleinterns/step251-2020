@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CanvasGridComponent } from './canvas';
+import {CanvasGridComponent} from './canvas';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRouteStub} from '../../../../testing/ActivatedRouteStub';
 import {ActivatedRoute} from '@angular/router';
@@ -13,19 +13,16 @@ describe('CanvasGridComponent', () => {
     c: 1,
     w: 2,
     h: 3,
-    fps: 4
+    fps: 4,
   };
 
   beforeEach(async(() => {
     activatedRouteStub = new ActivatedRouteStub(routeParams);
     TestBed.configureTestingModule({
-      declarations: [ CanvasGridComponent ],
-      providers: [
-        {provide: ActivatedRoute, useValue: activatedRouteStub}
-      ],
-      imports: [ RouterTestingModule ]
-    })
-    .compileComponents();
+      declarations: [CanvasGridComponent],
+      providers: [{provide: ActivatedRoute, useValue: activatedRouteStub}],
+      imports: [RouterTestingModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

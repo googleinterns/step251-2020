@@ -6,23 +6,24 @@ import {BaseGridComponent} from '../base';
 @Component({
   selector: 'app-canvas-grid',
   template: '<div id="canvas_grid"></div>',
-  styleUrls: ['./canvas.css']
+  styleUrls: ['./canvas.css'],
 })
 export class CanvasGridComponent extends BaseGridComponent implements OnInit {
-
   fps: number;
   domId = 'canvas_grid';
 
-  constructor(protected route: ActivatedRoute, protected paramService: ParamService) {
+  constructor(
+    protected route: ActivatedRoute,
+    protected paramService: ParamService
+  ) {
     super(route, paramService);
   }
 
   ngOnInit(): void {
-    this.paramService.paramInt(this.route, 'fps', 60)
-      .subscribe(fps => {
-        this.fps = fps;
-        this.initGrid(this.domId);
-      });
+    this.paramService.paramInt(this.route, 'fps', 60).subscribe(fps => {
+      this.fps = fps;
+      this.initGrid(this.domId);
+    });
   }
 
   initGridElement(): HTMLCanvasElement {
@@ -47,21 +48,20 @@ export class CanvasGridComponent extends BaseGridComponent implements OnInit {
 
     let hoveredRect;
     gridElement.addEventListener('mousemove', (e: MouseEvent) => {
-        const bounds = gridElement.getBoundingClientRect();
-        const mouseX = e.clientX - bounds.left;
-        const mouseY = e.clientY - bounds.top;
+      const bounds = gridElement.getBoundingClientRect();
+      const mouseX = e.clientX - bounds.left;
+      const mouseY = e.clientY - bounds.top;
 
-        const x = Math.floor(
-          this.map(mouseY, 0, bounds.bottom - bounds.top, 0, this.gridHeight),
-        );
-        const y = Math.floor(
-          this.map(mouseX, 0, bounds.right - bounds.left, 0, this.gridWidth),
-        );
-        if (rects[x]) {
-          hoveredRect = rects[x][y];
-        }
+      const x = Math.floor(
+        this.map(mouseY, 0, bounds.bottom - bounds.top, 0, this.gridHeight)
+      );
+      const y = Math.floor(
+        this.map(mouseX, 0, bounds.right - bounds.left, 0, this.gridWidth)
+      );
+      if (rects[x]) {
+        hoveredRect = rects[x][y];
       }
-    );
+    });
 
     gridElement.addEventListener('mouseout', () => {
       hoveredRect = undefined;
@@ -87,8 +87,13 @@ export class CanvasGridComponent extends BaseGridComponent implements OnInit {
     }
   }
 
-  private map(value: number, inMin: number, inMax: number, outMin: number, outMax: number): number {
+  private map(
+    value: number,
+    inMin: number,
+    inMax: number,
+    outMin: number,
+    outMax: number
+  ): number {
     return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
   }
-
 }
