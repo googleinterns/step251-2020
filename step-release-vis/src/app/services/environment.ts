@@ -24,7 +24,7 @@ export class EnvironmentService {
     return [];
   }
 
-  private insertAndAdjustPoints(candsInfo: CandidateInfo[], set: TimestampUpperBoundSet): [TimestampUpperBoundSet, number] {
+  private computeNextSnapshot(candsInfo: CandidateInfo[], set: TimestampUpperBoundSet): [TimestampUpperBoundSet, number] {
     const percentages = this.getPercentages(candsInfo);
     const newSet: TimestampUpperBoundSet = set;
 
