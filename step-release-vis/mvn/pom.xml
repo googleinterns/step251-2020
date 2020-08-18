@@ -30,24 +30,26 @@
 
   <build>
     <plugins>
-    <plugin>
-	    <artifactId>maven-resources-plugin</artifactId>
-	    <executions>
-        <execution>
-          <id>copy-resources</id>
-          <phase>validate</phase>
-          <goals><goal>copy-resources</goal></goals>
-          <configuration>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
               <outputDirectory>target/step-release-vis-1/</outputDirectory>
               <resources>
                 <resource>
-                    <directory>../dist/step-release-vis/</directory>
-                  </resource>
+                  <directory>../dist/step-release-vis/</directory>
+                </resource>
               </resources>
-          </configuration>
-        </execution>
-      </executions>
-		</plugin>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>appengine-maven-plugin</artifactId>

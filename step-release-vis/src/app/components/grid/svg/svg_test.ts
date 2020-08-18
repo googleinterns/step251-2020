@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SvgGridComponent } from './svg';
+import {SvgGridComponent} from './svg';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRouteStub} from '../../../../testing/ActivatedRouteStub';
 import {ActivatedRoute} from '@angular/router';
@@ -13,19 +13,16 @@ describe('SvgGridComponent', () => {
     c: 1,
     w: 2,
     h: 3,
-    r: 4
+    r: 4,
   };
 
   beforeEach(async(() => {
     activatedRouteStub = new ActivatedRouteStub(routeParams);
     TestBed.configureTestingModule({
-      declarations: [ SvgGridComponent ],
-      providers: [
-        {provide: ActivatedRoute, useValue: activatedRouteStub}
-      ],
-      imports: [ RouterTestingModule ]
-    })
-    .compileComponents();
+      declarations: [SvgGridComponent],
+      providers: [{provide: ActivatedRoute, useValue: activatedRouteStub}],
+      imports: [RouterTestingModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

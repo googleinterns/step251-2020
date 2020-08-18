@@ -8,10 +8,9 @@ import {ParamService} from '../../services/param';
 @Component({
   selector: 'app-environment',
   templateUrl: './environment.html',
-  styleUrls: ['./environment.css']
+  styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit {
-
   width: number;
   height: number;
   polygons: Polygon[];
@@ -23,30 +22,34 @@ export class EnvironmentComponent implements OnInit {
   // TODO(andreystar): Add parent component
   jsonFile: string;
 
-  constructor(private route: ActivatedRoute,
-              private environmentService: EnvironmentService,
-              private paramService: ParamService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private environmentService: EnvironmentService,
+    private paramService: ParamService
+  ) {}
 
   ngOnInit(): void {
     // TODO(andreystar): make width and height configurable (requires parent component)
     this.width = window.innerWidth;
     this.height = window.innerHeight / 5;
 
-    this.paramService.param(this.route, 'jsonFile', '')
-      .subscribe(jsonFile => {
-        this.jsonFile = jsonFile;
-        this.environmentService.getPolygons(this.jsonFile)
-          .subscribe(polygons => this.processPolygons(polygons));
-      });
-    this.paramService.param(this.route, 'envName', 'prod')
-      .subscribe(envName => this.envName = envName);
+    this.paramService.param(this.route, 'jsonFile', '').subscribe(jsonFile => {
+      this.jsonFile = jsonFile;
+      this.environmentService
+        .getPolygons(this.jsonFile)
+        .subscribe(polygons => this.processPolygons(polygons));
+    });
+    this.paramService
+      .param(this.route, 'envName', 'prod')
+      .subscribe(envName => (this.envName = envName));
   }
 
   // TODO(andreystar): add polygon processing logic
   private processPolygons(polygons: Polygon[]): void {
     this.polygons = polygons.map(
-      ({points, candName}) => new Polygon(points, candName, this.getRandomColor()));
+      ({points, candName}) =>
+        new Polygon(points, candName, this.getRandomColor())
+    );
   }
 
   /**
@@ -59,5 +62,4 @@ export class EnvironmentComponent implements OnInit {
     const toHexPadded = (value: number) => value.toString(16).padStart(2, '0');
     return `#${toHexPadded(r)}${toHexPadded(g)}${toHexPadded(b)}`;
   }
-
 }

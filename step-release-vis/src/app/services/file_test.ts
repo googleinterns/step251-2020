@@ -8,7 +8,7 @@ describe('FileService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(FileService);
   });
@@ -18,5 +18,4 @@ describe('FileService', () => {
   });
 
   // TODO(andreystar): add test for this service
-
 });
