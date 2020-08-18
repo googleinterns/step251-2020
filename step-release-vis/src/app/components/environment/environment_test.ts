@@ -53,4 +53,11 @@ describe('EnvironmentComponent', () => {
       expect(candName).toEqual('test');
     });
   });
+
+  it('polygons should be assigned', () => {
+    fixture.detectChanges();
+    expect(component.polygons).toBeTruthy();
+  });
+
+  it('polygons should be ', () => {});
 });
