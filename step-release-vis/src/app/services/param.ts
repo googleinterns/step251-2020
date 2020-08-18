@@ -19,6 +19,7 @@ export class ParamService {
   }
 
   paramInt(route: ActivatedRoute, name: string, defaultValue: number): Observable<number> {
-    return this.param(route, name, String(defaultValue)).pipe(map(value => parseInt(value, 10)));
+    return this.param(route, name, String(defaultValue)).pipe(
+      map(value => parseInt(value, 10)));
   }
 }

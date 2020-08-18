@@ -22,21 +22,26 @@ export abstract class BaseGridComponent {
     this.paramService.paramInt(this.route, 'c', 54)
       .subscribe(grids => {
         this.grids = grids;
-        this.paramService.paramInt(this.route, 'w', 10)
-          .subscribe(gridWidth => {
-            this.gridWidth = gridWidth;
-            this.paramService.paramInt(this.route, 'h', 10)
-              .subscribe(gridHeight => {
-                this.gridHeight = gridHeight;
-                this.xGrids = Math.floor(Math.sqrt(this.grids * this.aspectRatio));
-                this.yGrids = Math.ceil(this.grids / this.xGrids);
-                this.calculateGrid(containerId);
-              });
-          });
+        this.xGrids = Math.floor(Math.sqrt(this.grids * this.aspectRatio));
+        this.yGrids = Math.ceil(this.grids / this.xGrids);
+        this.calculateGrid(containerId);
+      });
+    this.paramService.paramInt(this.route, 'w', 10)
+      .subscribe(gridWidth => {
+        this.gridWidth = gridWidth;
+        this.calculateGrid(containerId);
+      });
+    this.paramService.paramInt(this.route, 'h', 10)
+      .subscribe(gridHeight => {
+        this.gridHeight = gridHeight;
+        this.calculateGrid(containerId);
       });
   }
 
   private calculateGrid(containerId: string): void {
+    if (this.gridWidth === undefined || this.gridHeight === undefined || this.grids === undefined) {
+      return;
+    }
     for (let yGrid = 0; yGrid < this.yGrids; yGrid++) {
       for (
         let xGrid = 0;
