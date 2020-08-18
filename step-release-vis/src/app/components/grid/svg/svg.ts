@@ -6,21 +6,26 @@ import {BaseGridComponent} from '../base';
 @Component({
   selector: 'app-svg-grid',
   template: '<div id="svg_grid"></div>',
-  styleUrls: ['./svg.css']
+  styleUrls: ['./svg.css'],
 })
 export class SvgGridComponent extends BaseGridComponent implements OnInit {
-
-  private readonly rectRadius: number;
+  rectRadius: number;
+  domId = 'svg_grid';
 
   private svgns = 'http://www.w3.org/2000/svg';
 
-  constructor(route: ActivatedRoute, paramService: ParamService) {
+  constructor(
+    protected route: ActivatedRoute,
+    protected paramService: ParamService
+  ) {
     super(route, paramService);
-    this.rectRadius = paramService.paramInt(route, 'r', 0);
   }
 
   ngOnInit(): void {
-    this.initGrid('svg_grid');
+    this.paramService.paramInt(this.route, 'r', 0).subscribe(rectRadius => {
+      this.rectRadius = rectRadius;
+      this.initGrid(this.domId);
+    });
   }
 
   drawGrid(gridElement: Element, cellWidth: number, cellHeight: number): void {
@@ -48,6 +53,4 @@ export class SvgGridComponent extends BaseGridComponent implements OnInit {
   initGridElement(): Element {
     return document.createElementNS(this.svgns, 'svg');
   }
-
 }
-

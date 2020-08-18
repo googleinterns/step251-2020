@@ -3,36 +3,31 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {EnvironmentComponent} from './environment';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {Observable, of} from 'rxjs';
-import {Polygon} from '../../models/Polygon';
 import {EnvironmentService} from '../../services/environment';
+import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
+import {ActivatedRoute} from '@angular/router';
+import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
   let fixture: ComponentFixture<EnvironmentComponent>;
-  const fakeEnvironmentService = {
-    getPolygons(jsonFile: string): Observable<Polygon[]> {
-      return of([
-        new Polygon(
-          [
-            {x: 0, y: 0},
-            {x: 0, y: 1},
-            {x: 1, y: 1},
-            {x: 1, y: 0},
-          ],
-          'test'
-        )
-      ]);
-    }
+  let environmentServiceStub: EnvironmentServiceStub;
+  let activatedRouteStub: ActivatedRouteStub;
+  const routeParams = {
+    jsonFile: 'test.json',
+    envName: 'test',
   };
-
   beforeEach(async(() => {
+    environmentServiceStub = new EnvironmentServiceStub();
+    activatedRouteStub = new ActivatedRouteStub(routeParams);
     TestBed.configureTestingModule({
       declarations: [EnvironmentComponent],
-      providers: [{provide: EnvironmentService, useValue: fakeEnvironmentService}],
-      imports: [RouterTestingModule, HttpClientTestingModule]
-    })
-      .compileComponents();
+      providers: [
+        {provide: EnvironmentService, useValue: environmentServiceStub},
+        {provide: ActivatedRoute, useValue: activatedRouteStub},
+      ],
+      imports: [RouterTestingModule, HttpClientTestingModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -45,9 +40,17 @@ describe('EnvironmentComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('query params should be assigned', () => {
+    fixture.detectChanges();
+    expect(component.jsonFile).toEqual(routeParams.jsonFile);
+    expect(component.envName).toEqual(routeParams.envName);
+  });
+
   it('colors should be assigned', () => {
     fixture.detectChanges();
-    component.polygons.forEach(({color}) =>
-      expect(color).toMatch(/^#[0-9a-f]{6}$/));
+    component.polygons.forEach(({color, candName}) => {
+      expect(color).toMatch(/^#[0-9a-f]{6}$/);
+      expect(candName).toEqual('test');
+    });
   });
 });
