@@ -16,39 +16,39 @@ describe('EnvironmentService', () => {
 
   // TODO(naoai): write getPolygons test
 
-  it('#insertAndAdjustPoints insert new candidate', () => {
+  it('#computeNextSnapshot insert new candidate', () => {
     const inputCandInfo: CandidateInfo[] = [{name: '1', job_count: 100}, {name: '2', job_count: 100}];
     const inputSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
     inputSet.orderMap.set('1', 0);
     inputSet.snapshot[0] = new PolygonUpperBoundYPosition('1', 100);
 
     // @ts-ignore
-    const result: [TimestampUpperBoundSet, number] = service.insertAndAdjustPoints(inputCandInfo, inputSet);
+    const result: [TimestampUpperBoundSet, number] = service.computeNextSnapshot(inputCandInfo, inputSet);
 
     expect(result[0].snapshot[0].position).toEqual(50);
     expect(result[0].snapshot[1].position).toEqual(100);
     expect(result[1]).toEqual(1);
   });
 
-  it('#insertAndAdjustPoints candidateInfo[] empty', () => {
+  it('#computeNextSnapshot candidateInfo[] empty', () => {
     const emptyCandInfo: CandidateInfo[] = [];
     const inputSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
     inputSet.orderMap.set('1', 0);
     inputSet.snapshot[0] = new PolygonUpperBoundYPosition('1', 100);
 
     // @ts-ignore
-    const result: [TimestampUpperBoundSet, number] = service.insertAndAdjustPoints(emptyCandInfo, inputSet);
+    const result: [TimestampUpperBoundSet, number] = service.computeNextSnapshot(emptyCandInfo, inputSet);
 
     expect(result[0]).toBe(inputSet);
   });
 
-  it('#insertAndAdjustPoints with empty set', () => {
+  it('#computeNextSnapshot with empty set', () => {
     const inputCandInfo: CandidateInfo[] = [{name:  '1', job_count: 105}, {name: '2', job_count: 300},
       {name: '3', job_count: 595}];
     const emptySet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
 
     // @ts-ignore
-    const result: [TimestampUpperBoundSet, number] = service.insertAndAdjustPoints(inputCandInfo, emptySet);
+    const result: [TimestampUpperBoundSet, number] = service.computeNextSnapshot(inputCandInfo, emptySet);
 
     expect(result[0].snapshot[0].position).toEqual(10.5);
     expect(result[0].snapshot[1].position).toEqual(40.5);
