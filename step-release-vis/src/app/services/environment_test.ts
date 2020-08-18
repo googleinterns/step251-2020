@@ -56,7 +56,7 @@ describe('EnvironmentService', () => {
     expect(result[1]).toEqual(3);
   });
 
-  it('#getPercentages should return 3 candidates with ~ equal percentages', () => {
+  it('#getPercentages should return 3 candidates with fractional percentages', () => {
     const input: CandidateInfo[] = [{name:  '1', job_count: 105}, {name: '2', job_count: 300},
       {name: '3', job_count: 595}];
     // @ts-ignore
