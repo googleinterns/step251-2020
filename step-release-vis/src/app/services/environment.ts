@@ -74,7 +74,7 @@ export class EnvironmentService {
   }
 }
 
-class TimestampUpperBoundSet {
+export class TimestampUpperBoundSet {
   /* What is the order of the polygons? */
   orderMap: Map<string, number>;
   /* Store the details about each _active_ polygon */
@@ -86,7 +86,7 @@ class TimestampUpperBoundSet {
   }
 }
 
-class PolygonUpperBoundYPosition {
+export class PolygonUpperBoundYPosition {
   candName: string;
   position: number;
 
