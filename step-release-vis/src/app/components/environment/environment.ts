@@ -5,7 +5,6 @@ import {random} from 'lodash';
 import {ActivatedRoute} from '@angular/router';
 import {ParamService} from '../../services/param';
 import {Point} from '../../models/Point';
-import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 
 @Component({
   selector: 'app-environment',
@@ -37,7 +36,7 @@ export class EnvironmentComponent implements OnInit {
 
     this.paramService.param(this.route, 'jsonFile', '').subscribe(jsonFile => {
       this.jsonFile = jsonFile;
-      new EnvironmentServiceStub()
+      this.environmentService
         .getPolygons(this.jsonFile)
         .subscribe(polygons => this.processPolygons(polygons));
     });
