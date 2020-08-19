@@ -51,7 +51,7 @@ export class EnvironmentService {
     points.pop();
 
     const revUpperBound = upperBound.reverse();
-    for (const point of revUpperBound) {
+    for (const point of upperBound) {
       points.push(point);
     }
     points.pop();
@@ -61,10 +61,10 @@ export class EnvironmentService {
 
   private computeNextSnapshot(
     candsInfo: CandidateInfo[],
-    set: TimestampUpperBoundSet
-  ): [TimestampUpperBoundSet, number] {
+    set: TimestampLowerBoundSet
+  ): [TimestampLowerBoundSet, number] {
     const percentages = this.getPercentages(candsInfo);
-    const newSet: TimestampUpperBoundSet = set;
+    const newSet: TimestampLowerBoundSet = set;
 
     for (let i = 0; i < set.snapshot.length; i++) {
       if (percentages.has(set.snapshot[i].candName)) {
@@ -83,15 +83,16 @@ export class EnvironmentService {
         newCandidates++;
         newSet.orderMap.set(entry[0], newSet.snapshot.length);
         newSet.snapshot.push(
-          new PolygonUpperBoundYPosition(entry[0], entry[1])
+          new PolygonLowerBoundYPosition(entry[0], entry[1])
         );
       }
     }
 
-    let sum = 0;
-    for (const candidate of newSet.snapshot) {
-      sum += candidate.position;
-      candidate.position = sum;
+    // if all candidates have 0 jobs they should all point at 100
+    let currentPosition = 100;
+    for (let i = newSet.snapshot.length - 1; i >= 0; i--) {
+      currentPosition -= newSet.snapshot[i].position;
+      newSet.snapshot[i].position = currentPosition;
     }
     return [newSet, newCandidates];
   }
@@ -102,6 +103,10 @@ export class EnvironmentService {
 
     for (const candInfo of candsInfo) {
       totalJobSum += candInfo.job_count;
+    }
+
+    if (totalJobSum === 0) {
+      totalJobSum = 1; // avoid division by 0, all candidates will have 0% of the jobs.
     }
 
     for (const candInfo of candsInfo) {
@@ -117,11 +122,11 @@ export class EnvironmentService {
   }
 }
 
-export class TimestampUpperBoundSet {
+export class TimestampLowerBoundSet {
   /* What is the order of the polygons? */
   orderMap: Map<string, number>;
   /* Store the details about each _active_ polygon */
-  snapshot: PolygonUpperBoundYPosition[];
+  snapshot: PolygonLowerBoundYPosition[];
 
   constructor() {
     this.orderMap = new Map();
@@ -129,7 +134,7 @@ export class TimestampUpperBoundSet {
   }
 }
 
-export class PolygonUpperBoundYPosition {
+export class PolygonLowerBoundYPosition {
   candName: string;
   position: number;
 

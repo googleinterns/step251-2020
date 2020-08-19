@@ -2,8 +2,8 @@ import {TestBed} from '@angular/core/testing';
 
 import {
   EnvironmentService,
-  PolygonUpperBoundYPosition,
-  TimestampUpperBoundSet,
+  PolygonLowerBoundYPosition,
+  TimestampLowerBoundSet,
 } from './environment';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {CandidateInfo} from '../models/Data';
@@ -97,29 +97,29 @@ describe('EnvironmentService', () => {
       {name: '1', job_count: 100},
       {name: '2', job_count: 100},
     ];
-    const inputSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    const inputSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     inputSet.orderMap.set('1', 0);
-    inputSet.snapshot[0] = new PolygonUpperBoundYPosition('1', 100);
+    inputSet.snapshot[0] = new PolygonLowerBoundYPosition('1', 0);
 
     const result: [
-      TimestampUpperBoundSet,
+      TimestampLowerBoundSet,
       number
       // @ts-ignore
     ] = service.computeNextSnapshot(inputCandInfo, inputSet);
 
-    expect(result[0].snapshot[0].position).toEqual(50);
-    expect(result[0].snapshot[1].position).toEqual(100);
+    expect(result[0].snapshot[0].position).toEqual(0);
+    expect(result[0].snapshot[1].position).toEqual(50);
     expect(result[1]).toEqual(1);
   });
 
   it('#computeNextSnapshot candidate info list is empty', () => {
     const emptyCandInfo: CandidateInfo[] = [];
-    const inputSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    const inputSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     inputSet.orderMap.set('1', 0);
-    inputSet.snapshot[0] = new PolygonUpperBoundYPosition('1', 100);
+    inputSet.snapshot[0] = new PolygonLowerBoundYPosition('1', 0);
 
     const result: [
-      TimestampUpperBoundSet,
+      TimestampLowerBoundSet,
       number
       // @ts-ignore
     ] = service.computeNextSnapshot(emptyCandInfo, inputSet);
@@ -127,23 +127,47 @@ describe('EnvironmentService', () => {
     expect(result[0]).toBe(inputSet);
   });
 
-  it('#computeNextSnapshot with old TimestampUpperBoundSet empty', () => {
+  it('#computeNextSnapshot all candidates have 0 jobs', () => {
+    const emptyCandInfo: CandidateInfo[] = [
+      {name: '1', job_count: 0},
+      {name: '2', job_count: 0},
+    ];
+    const inputSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+    inputSet.orderMap.set('1', 0);
+    inputSet.orderMap.set('2', 1);
+    inputSet.snapshot[0] = new PolygonLowerBoundYPosition('1', 0);
+    inputSet.snapshot[1] = new PolygonLowerBoundYPosition('2', 50);
+
+    const outputSet: TimestampLowerBoundSet = inputSet;
+    outputSet.snapshot[0] = new PolygonLowerBoundYPosition('1', 100);
+    outputSet.snapshot[1] = new PolygonLowerBoundYPosition('2', 100);
+
+    const result: [
+      TimestampLowerBoundSet,
+      number
+      // @ts-ignore
+    ] = service.computeNextSnapshot(emptyCandInfo, inputSet);
+
+    expect(result).toEqual([outputSet, 0]);
+  });
+
+  it('#computeNextSnapshot with old TimestampLowerBoundSet empty', () => {
     const inputCandInfo: CandidateInfo[] = [
       {name: '1', job_count: 105},
       {name: '2', job_count: 300},
       {name: '3', job_count: 595},
     ];
-    const emptySet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    const emptySet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
 
     const result: [
-      TimestampUpperBoundSet,
+      TimestampLowerBoundSet,
       number
       // @ts-ignore
     ] = service.computeNextSnapshot(inputCandInfo, emptySet);
 
-    expect(result[0].snapshot[0].position).toEqual(10.5);
-    expect(result[0].snapshot[1].position).toEqual(40.5);
-    expect(result[0].snapshot[2].position).toEqual(100);
+    expect(result[0].snapshot[0].position).toEqual(0);
+    expect(result[0].snapshot[1].position).toEqual(10.5);
+    expect(result[0].snapshot[2].position).toEqual(40.5);
     expect(result[1]).toEqual(3);
   });
 
@@ -177,5 +201,17 @@ describe('EnvironmentService', () => {
     const resultMap: Map<string, number> = service.getPercentages([]);
 
     expect(resultMap.size).toBe(0);
+  });
+
+  it('#getPercenatges where all candidates have 0 jobs', () => {
+    // @ts-ignore
+    const resultMap: Map<string, number> = service.getPercentages([
+      {name: '1', job_count: 0},
+      {name: '2', job_count: 0},
+    ]);
+
+    expect(resultMap.size).toBe(2);
+    expect(resultMap.get('1')).toEqual(0);
+    expect(resultMap.get('2')).toEqual(0);
   });
 });
