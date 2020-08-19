@@ -4,6 +4,7 @@ import {CanvasGridComponent} from './canvas';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRouteStub} from '../../../../testing/ActivatedRouteStub';
 import {ActivatedRoute} from '@angular/router';
+import {By} from '@angular/platform-browser';
 
 describe('CanvasGridComponent', () => {
   let component: CanvasGridComponent;
@@ -44,6 +45,6 @@ describe('CanvasGridComponent', () => {
   });
 
   it('canvas initialized', () => {
-    expect(document.getElementById('canvas_grid')).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#canvas_grid'))).toBeTruthy();
   });
 });

@@ -27,7 +27,7 @@ describe('EnvironmentService', () => {
       {x: 10, y: 0},
       {x: 10, y: 10},
     ];
-    const Lower: Point[] = [
+    const upper: Point[] = [
       {x: 0, y: 0},
       {x: 0, y: 10},
       {x: 10, y: 10},
@@ -43,7 +43,7 @@ describe('EnvironmentService', () => {
     );
 
     // @ts-ignore
-    const result: Polygon = service.createPolygon(lower, Lower, 'square');
+    const result: Polygon = service.createPolygon(lower, upper, 'square');
 
     expect(result).toEqual(square);
   });
@@ -53,7 +53,7 @@ describe('EnvironmentService', () => {
       {x: 0, y: 0},
       {x: 10, y: 10},
     ];
-    const Lower: Point[] = lower;
+    const upper: Point[] = lower;
     const line: Polygon = new Polygon(
       [
         {x: 0, y: 0},
@@ -63,7 +63,7 @@ describe('EnvironmentService', () => {
     );
 
     // @ts-ignore
-    const result: Polygon = service.createPolygon(lower, Lower, 'line');
+    const result: Polygon = service.createPolygon(lower, upper, 'line');
 
     expect(result).toEqual(line);
   });
@@ -88,29 +88,28 @@ describe('EnvironmentService', () => {
       new Point(1, 10),
       new Point(2, 100),
     ]);
-    const inputTimestampUpperBoundSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
-    inputTimestampUpperBoundSet.orderMap.set('1', 1);
-    inputTimestampUpperBoundSet.orderMap.set('2', 0);
-    inputTimestampUpperBoundSet.snapshot[0] = new PolygonUpperBoundYPosition(
+    const inputTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+    inputTimestampLowerBoundSet.orderMap.set('1', 1);
+    inputTimestampLowerBoundSet.orderMap.set('2', 0);
+    inputTimestampLowerBoundSet.snapshot[0] = new PolygonLowerBoundYPosition(
       '2',
-      100
+      0
     );
-    inputTimestampUpperBoundSet.snapshot[1] = new PolygonUpperBoundYPosition(
+    inputTimestampLowerBoundSet.snapshot[1] = new PolygonLowerBoundYPosition(
       '1',
       100
     );
 
     // @ts-ignore
-    const result: TimestampUpperBoundSet = service.closePolygons(
+    const result: TimestampLowerBoundSet = service.closePolygons(
       polys,
       inputLower,
       inputUpper,
-      inputTimestampUpperBoundSet
+      inputTimestampLowerBoundSet
     );
 
-    expect(result.orderMap.get('2')).toEqual(0);
     expect(result.snapshot.length).toEqual(1);
-    expect(result.snapshot[0].position).toEqual(100);
+    expect(result.snapshot[0].position).toEqual(0);
     // check if the closed polygon for the candidate '1' is added
     expect(polys[0].candName).toBe('1');
   });
@@ -123,16 +122,16 @@ describe('EnvironmentService', () => {
     const inputUpper: Map<string, Point[]> = new Map();
     inputUpper.set('1', [new Point(0, 100), new Point(1, 100)]);
     inputUpper.set('2', [new Point(0, 30), new Point(1, 50)]);
-    const inputTimestampUpperBoundSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    const inputTimestampUpperBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     inputTimestampUpperBoundSet.orderMap.set('1', 1);
     inputTimestampUpperBoundSet.orderMap.set('2', 0);
-    inputTimestampUpperBoundSet.snapshot[0] = new PolygonUpperBoundYPosition(
+    inputTimestampUpperBoundSet.snapshot[0] = new PolygonLowerBoundYPosition(
       '2',
-      50
+      0
     );
-    inputTimestampUpperBoundSet.snapshot[1] = new PolygonUpperBoundYPosition(
+    inputTimestampUpperBoundSet.snapshot[1] = new PolygonLowerBoundYPosition(
       '1',
-      100
+      50
     );
 
     // @ts-ignore
@@ -145,9 +144,70 @@ describe('EnvironmentService', () => {
 
     expect(result.orderMap.get('2')).toEqual(0);
     expect(result.orderMap.get('1')).toEqual(1);
-    expect(result.snapshot[0].position).toEqual(50);
-    expect(result.snapshot[1].position).toEqual(100);
+    expect(result.snapshot[0].position).toEqual(0);
+    expect(result.snapshot[1].position).toEqual(50);
     expect(shouldRemainEmptyPolys).toEqual([]);
+  });
+
+  it('#closePolygons all polygons are closed', () => {
+    const polys: Polygon[] = [];
+    const inputLower: Map<string, Point[]> = new Map();
+    inputLower.set('1', [
+      new Point(0, 60),
+      new Point(1, 60),
+      new Point(2, 100),
+    ]);
+    inputLower.set('2', [
+      new Point(0, 20),
+      new Point(1, 20),
+      new Point(2, 100),
+    ]);
+    inputLower.set('3', [new Point(0, 0), new Point(1, 0), new Point(2, 100)]);
+    const inputUpper: Map<string, Point[]> = new Map();
+    inputUpper.set('1', [
+      new Point(0, 100),
+      new Point(1, 100),
+      new Point(2, 100),
+    ]);
+    inputUpper.set('2', [
+      new Point(0, 60),
+      new Point(1, 60),
+      new Point(2, 100),
+    ]);
+    inputUpper.set('3', [
+      new Point(0, 20),
+      new Point(1, 20),
+      new Point(2, 100),
+    ]);
+    const inputTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+    inputTimestampLowerBoundSet.orderMap.set('1', 2);
+    inputTimestampLowerBoundSet.orderMap.set('2', 1);
+    inputTimestampLowerBoundSet.orderMap.set('3', 0);
+    inputTimestampLowerBoundSet.snapshot[0] = new PolygonLowerBoundYPosition(
+      '3',
+      100
+    );
+    inputTimestampLowerBoundSet.snapshot[1] = new PolygonLowerBoundYPosition(
+      '2',
+      100
+    );
+    inputTimestampLowerBoundSet.snapshot[2] = new PolygonLowerBoundYPosition(
+      '1',
+      100
+    );
+
+    // @ts-ignore
+    const result: TimestampLowerBoundSet = service.closePolygons(
+      polys,
+      inputLower,
+      inputUpper,
+      inputTimestampLowerBoundSet
+    );
+
+    // all 3 are closed => added to the polygon list
+    expect(polys.length).toEqual(3);
+    // no one is left in the current timestamp set
+    expect(result.snapshot).toEqual([]);
   });
 
   it('#addPointToBorderMap add to empty border', () => {
@@ -209,6 +269,30 @@ describe('EnvironmentService', () => {
     expect(result[0]).toBe(inputSet);
   });
 
+  it('#computeNextSnapshot all candidates have 0 jobs', () => {
+    const emptyCandInfo: CandidateInfo[] = [
+      {name: '1', job_count: 0},
+      {name: '2', job_count: 0},
+    ];
+    const inputSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+    inputSet.orderMap.set('1', 0);
+    inputSet.orderMap.set('2', 1);
+    inputSet.snapshot[0] = new PolygonLowerBoundYPosition('1', 0);
+    inputSet.snapshot[1] = new PolygonLowerBoundYPosition('2', 50);
+
+    const outputSet: TimestampLowerBoundSet = inputSet;
+    outputSet.snapshot[0] = new PolygonLowerBoundYPosition('1', 100);
+    outputSet.snapshot[1] = new PolygonLowerBoundYPosition('2', 100);
+
+    const result: [
+      TimestampLowerBoundSet,
+      number
+      // @ts-ignore
+    ] = service.computeNextSnapshot(emptyCandInfo, inputSet);
+
+    expect(result).toEqual([outputSet, 0]);
+  });
+
   it('#computeNextSnapshot with old TimestampLowerBoundSet empty', () => {
     const inputCandInfo: CandidateInfo[] = [
       {name: '1', job_count: 105},
@@ -259,5 +343,17 @@ describe('EnvironmentService', () => {
     const resultMap: Map<string, number> = service.getPercentages([]);
 
     expect(resultMap.size).toBe(0);
+  });
+
+  it('#getPercenatges where all candidates have 0 jobs', () => {
+    // @ts-ignore
+    const resultMap: Map<string, number> = service.getPercentages([
+      {name: '1', job_count: 0},
+      {name: '2', job_count: 0},
+    ]);
+
+    expect(resultMap.size).toBe(2);
+    expect(resultMap.get('1')).toEqual(0);
+    expect(resultMap.get('2')).toEqual(0);
   });
 });
