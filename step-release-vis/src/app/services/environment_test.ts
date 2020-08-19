@@ -2,8 +2,8 @@ import {TestBed} from '@angular/core/testing';
 
 import {
   EnvironmentService,
-  PolygonUpperBoundYPosition,
-  TimestampUpperBoundSet,
+  PolygonLowerBoundYPosition,
+  TimestampLowerBoundSet,
 } from './environment';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {CandidateInfo} from '../models/Data';
@@ -27,7 +27,7 @@ describe('EnvironmentService', () => {
       {x: 10, y: 0},
       {x: 10, y: 10},
     ];
-    const upper: Point[] = [
+    const Lower: Point[] = [
       {x: 0, y: 0},
       {x: 0, y: 10},
       {x: 10, y: 10},
@@ -43,7 +43,7 @@ describe('EnvironmentService', () => {
     );
 
     // @ts-ignore
-    const result: Polygon = service.createPolygon(lower, upper, 'square');
+    const result: Polygon = service.createPolygon(lower, Lower, 'square');
 
     expect(result).toEqual(square);
   });
@@ -53,7 +53,7 @@ describe('EnvironmentService', () => {
       {x: 0, y: 0},
       {x: 10, y: 10},
     ];
-    const upper: Point[] = lower;
+    const Lower: Point[] = lower;
     const line: Polygon = new Polygon(
       [
         {x: 0, y: 0},
@@ -63,7 +63,7 @@ describe('EnvironmentService', () => {
     );
 
     // @ts-ignore
-    const result: Polygon = service.createPolygon(lower, upper, 'line');
+    const result: Polygon = service.createPolygon(lower, Lower, 'line');
 
     expect(result).toEqual(line);
   });
@@ -179,29 +179,29 @@ describe('EnvironmentService', () => {
       {name: '1', job_count: 100},
       {name: '2', job_count: 100},
     ];
-    const inputSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    const inputSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     inputSet.orderMap.set('1', 0);
-    inputSet.snapshot[0] = new PolygonUpperBoundYPosition('1', 100);
+    inputSet.snapshot[0] = new PolygonLowerBoundYPosition('1', 0);
 
     const result: [
-      TimestampUpperBoundSet,
+      TimestampLowerBoundSet,
       number
       // @ts-ignore
     ] = service.computeNextSnapshot(inputCandInfo, inputSet);
 
-    expect(result[0].snapshot[0].position).toEqual(50);
-    expect(result[0].snapshot[1].position).toEqual(100);
+    expect(result[0].snapshot[0].position).toEqual(0);
+    expect(result[0].snapshot[1].position).toEqual(50);
     expect(result[1]).toEqual(1);
   });
 
   it('#computeNextSnapshot candidate info list is empty', () => {
     const emptyCandInfo: CandidateInfo[] = [];
-    const inputSet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    const inputSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     inputSet.orderMap.set('1', 0);
-    inputSet.snapshot[0] = new PolygonUpperBoundYPosition('1', 100);
+    inputSet.snapshot[0] = new PolygonLowerBoundYPosition('1', 0);
 
     const result: [
-      TimestampUpperBoundSet,
+      TimestampLowerBoundSet,
       number
       // @ts-ignore
     ] = service.computeNextSnapshot(emptyCandInfo, inputSet);
@@ -209,23 +209,23 @@ describe('EnvironmentService', () => {
     expect(result[0]).toBe(inputSet);
   });
 
-  it('#computeNextSnapshot with old TimestampUpperBoundSet empty', () => {
+  it('#computeNextSnapshot with old TimestampLowerBoundSet empty', () => {
     const inputCandInfo: CandidateInfo[] = [
       {name: '1', job_count: 105},
       {name: '2', job_count: 300},
       {name: '3', job_count: 595},
     ];
-    const emptySet: TimestampUpperBoundSet = new TimestampUpperBoundSet();
+    const emptySet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
 
     const result: [
-      TimestampUpperBoundSet,
+      TimestampLowerBoundSet,
       number
       // @ts-ignore
     ] = service.computeNextSnapshot(inputCandInfo, emptySet);
 
-    expect(result[0].snapshot[0].position).toEqual(10.5);
-    expect(result[0].snapshot[1].position).toEqual(40.5);
-    expect(result[0].snapshot[2].position).toEqual(100);
+    expect(result[0].snapshot[0].position).toEqual(0);
+    expect(result[0].snapshot[1].position).toEqual(10.5);
+    expect(result[0].snapshot[2].position).toEqual(40.5);
     expect(result[1]).toEqual(3);
   });
 
