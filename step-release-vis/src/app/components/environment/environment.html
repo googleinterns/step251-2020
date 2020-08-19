@@ -5,8 +5,8 @@
       [attr.points]="polygon.toAttributeString()"
       [attr.fill]="polygon.color"
       [attr.opacity]="polygon.highlight ? 1.0 : 0.7"
-      (mouseover)="polygonMouseOver(polygon)"
-      (mouseout)="polygonMouseOut(polygon)"
+      (mouseenter)="polygonMouseEnter(polygon)"
+      (mouseleave)="polygonMouseLeave(polygon)"
     >
     </polygon>
   </svg>
