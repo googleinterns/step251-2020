@@ -153,4 +153,12 @@ export class EnvironmentComponent implements OnInit {
     const toHexPadded = (value: number) => value.toString(16).padStart(2, '0');
     return `#${toHexPadded(r)}${toHexPadded(g)}${toHexPadded(b)}`;
   }
+
+  polygonMouseEnter(polygon: Polygon): void {
+    polygon.highlight = true;
+  }
+
+  polygonMouseLeave(polygon: Polygon): void {
+    polygon.highlight = false;
+  }
 }
