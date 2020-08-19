@@ -27,7 +27,7 @@ describe('EnvironmentService', () => {
       {x: 10, y: 0},
       {x: 10, y: 10},
     ];
-    const Lower: Point[] = [
+    const upper: Point[] = [
       {x: 0, y: 0},
       {x: 0, y: 10},
       {x: 10, y: 10},
@@ -43,7 +43,7 @@ describe('EnvironmentService', () => {
     );
 
     // @ts-ignore
-    const result: Polygon = service.createPolygon(lower, Lower, 'square');
+    const result: Polygon = service.createPolygon(lower, upper, 'square');
 
     expect(result).toEqual(square);
   });
@@ -53,7 +53,7 @@ describe('EnvironmentService', () => {
       {x: 0, y: 0},
       {x: 10, y: 10},
     ];
-    const Lower: Point[] = lower;
+    const upper: Point[] = lower;
     const line: Polygon = new Polygon(
       [
         {x: 0, y: 0},
@@ -63,7 +63,7 @@ describe('EnvironmentService', () => {
     );
 
     // @ts-ignore
-    const result: Polygon = service.createPolygon(lower, Lower, 'line');
+    const result: Polygon = service.createPolygon(lower, upper, 'line');
 
     expect(result).toEqual(line);
   });
