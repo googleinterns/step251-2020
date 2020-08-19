@@ -3,6 +3,9 @@
     *ngFor="let polygon of polygons"
     [attr.points]="polygon.toAttributeString()"
     [attr.fill]="polygon.color"
+    [attr.opacity]="polygon.highlight ? 1.0 : 0.7"
+    (mouseenter)="polygonMouseEnter(polygon)"
+    (mouseleave)="polygonMouseLeave(polygon)"
   >
   </polygon>
 </svg>
