@@ -83,6 +83,31 @@ export class EnvironmentService {
     return newSet;
   }
 
+  private addSnapshotToPolygons(
+    lower: Map<string, Point[]>,
+    upper: Map<string, Point[]>,
+    set: PolygonLowerBoundYPosition[],
+    insertions: number,
+    time: number,
+    lastTime: number
+  ): void {
+    for (let i = set.length - insertions; i < set.length; i++) {
+      this.addPointToBorderMap(lower, set[i].candName, {x: lastTime, y: 100});
+      this.addPointToBorderMap(upper, set[i].candName, {x: lastTime, y: 100});
+    }
+
+    for (let i = 0; i < set.length; i++) {
+      this.addPointToBorderMap(lower, set[i].candName, {
+        x: time,
+        y: set[i].position,
+      });
+      this.addPointToBorderMap(upper, set[i].candName, {
+        x: time,
+        y: i === set.length - 1 ? 100 : set[i + 1].position,
+      });
+    }
+  }
+
   private computeNextSnapshot(
     candsInfo: CandidateInfo[],
     set: TimestampLowerBoundSet
