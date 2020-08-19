@@ -4,6 +4,7 @@ import {Polygon} from '../../models/Polygon';
 import {random} from 'lodash';
 import {ActivatedRoute} from '@angular/router';
 import {ParamService} from '../../services/param';
+import {Point} from '../../models/Point';
 
 @Component({
   selector: 'app-environment',
@@ -40,15 +41,105 @@ export class EnvironmentComponent implements OnInit {
         .subscribe(polygons => this.processPolygons(polygons));
     });
     this.paramService
-      .param(this.route, 'envName', 'prod')
+      .param(this.route, 'envName', 'default_env')
       .subscribe(envName => (this.envName = envName));
   }
 
-  // TODO(andreystar): add polygon processing logic
+  /**
+   * Processes the polygons by scaling their coordinates to svg size.
+   *
+   * @param polygons the polygons to process
+   */
   private processPolygons(polygons: Polygon[]): void {
-    this.polygons = polygons.map(
-      ({points, candName}) =>
-        new Polygon(points, candName, this.getRandomColor())
+    const startTime = this.reducePolygonPoints(
+      polygons,
+      Math.min,
+      ({x}) => x,
+      Number.MAX_VALUE
+    );
+    const endTime = this.reducePolygonPoints(polygons, Math.max, ({x}) => x, 0);
+    this.polygons = polygons.map(polygon => {
+      const scaledPolygon = this.scalePolygon(
+        polygon,
+        startTime,
+        endTime,
+        0,
+        100
+      );
+      scaledPolygon.color = this.getRandomColor();
+      return scaledPolygon;
+    });
+  }
+
+  /**
+   * Scales the polygon's points.
+   * x: xStart..xEnd -> 0..svg.width
+   * y: yStart..yEnd -> 0..svg.height
+   *
+   * @param polygon the polygon to scale
+   * @param xStart range start for x
+   * @param xEnd range end for x
+   * @param yStart range start for y
+   * @param yEnd range end for y
+   */
+  private scalePolygon(
+    polygon: Polygon,
+    xStart: number,
+    xEnd: number,
+    yStart: number,
+    yEnd: number
+  ): Polygon {
+    return new Polygon(
+      polygon.points.map(
+        ({x, y}) =>
+          new Point(
+            this.scale(x, xStart, xEnd, 0, this.width),
+            this.scale(100 - y, yStart, yEnd, 0, this.height)
+          )
+      ),
+      polygon.candName
+    );
+  }
+
+  /**
+   * Scales a value from one range to another.
+   *
+   * @param value the value to scale
+   * @param inStart start of the input interval
+   * @param inEnd end of the input interval
+   * @param outStart start of the output interval
+   * @param outEnd end of the output interval
+   */
+  private scale(
+    value: number,
+    inStart: number,
+    inEnd: number,
+    outStart: number,
+    outEnd: number
+  ): number {
+    return (
+      ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
+    );
+  }
+
+  /**
+   * Reduces an array of polygons to a number, based on the pointMapper and reducer.
+   *
+   * @param polygons an array of polygons
+   * @param reducer a reducing function for a set of numbers
+   * @param pointMapper a function, mapping a point to a number
+   * @param initialValue the initial value
+   */
+  private reducePolygonPoints(
+    polygons: Polygon[],
+    reducer: (...values: number[]) => number,
+    pointMapper: (point) => number,
+    initialValue: number
+  ): number {
+    return polygons.reduce(
+      (val, {points}) =>
+        reducer(val, ...points.map(point => pointMapper(point))),
+      initialValue
     );
   }
 
@@ -61,5 +152,13 @@ export class EnvironmentComponent implements OnInit {
     const b = random(0, 255);
     const toHexPadded = (value: number) => value.toString(16).padStart(2, '0');
     return `#${toHexPadded(r)}${toHexPadded(g)}${toHexPadded(b)}`;
+  }
+
+  polygonMouseEnter(polygon: Polygon): void {
+    polygon.highlight = true;
+  }
+
+  polygonMouseLeave(polygon: Polygon): void {
+    polygon.highlight = false;
   }
 }

@@ -4,6 +4,7 @@ import {SvgGridComponent} from './svg';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRouteStub} from '../../../../testing/ActivatedRouteStub';
 import {ActivatedRoute} from '@angular/router';
+import {By} from '@angular/platform-browser';
 
 describe('SvgGridComponent', () => {
   let component: SvgGridComponent;
@@ -44,6 +45,6 @@ describe('SvgGridComponent', () => {
   });
 
   it('svg initialized', () => {
-    expect(document.getElementById('svg_grid')).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#svg_grid'))).toBeTruthy();
   });
 });
