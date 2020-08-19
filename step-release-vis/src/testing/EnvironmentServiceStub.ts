@@ -3,7 +3,9 @@ import {Observable, of} from 'rxjs';
 import {Polygon} from '../app/models/Polygon';
 import {EnvironmentService} from '../app/services/environment';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EnvironmentServiceStub {
   candName = 'test';
 
