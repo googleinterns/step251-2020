@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
-import {random} from 'lodash';
+import {shuffle} from 'lodash';
 import {ActivatedRoute} from '@angular/router';
 import {ParamService} from '../../services/param';
 import {Point} from '../../models/Point';
@@ -58,7 +58,9 @@ export class EnvironmentComponent implements OnInit {
       Number.MAX_VALUE
     );
     const endTime = this.reducePolygonPoints(polygons, Math.max, ({x}) => x, 0);
-    this.polygons = polygons.map(polygon => {
+    // Shuffle polygon indices to assign colors randomly
+    const shuffledIndices = shuffle(polygons.map((_, index) => index));
+    this.polygons = polygons.map((polygon, index) => {
       const scaledPolygon = this.scalePolygon(
         polygon,
         startTime,
@@ -66,7 +68,10 @@ export class EnvironmentComponent implements OnInit {
         0,
         100
       );
-      scaledPolygon.colorHue = this.getRandomHue();
+      scaledPolygon.colorHue = this.getHue(
+        shuffledIndices[index],
+        polygons.length
+      );
       return scaledPolygon;
     });
   }
@@ -144,6 +149,22 @@ export class EnvironmentComponent implements OnInit {
   }
 
   /**
+   * Generates a hue for an HSL color by splitting the range 0..360 into
+   * `amount` number of chunks.
+   *
+   * e.g. amount = 4
+   * |--0--|--1--|--2--|--3--|
+   * 0                      360
+   *
+   * @param index the index of the color
+   * @param amount amount of colors
+   */
+  private getHue(index: number, amount: number): number {
+    const chunkSize = 360 / amount;
+    return Math.floor(chunkSize * index + chunkSize / 2);
+  }
+
+  /**
    * Generates an HSL color based on the provided polygon.
    * Hue is set to polygon's hue.
    * Saturation is set to 100%, if the polygon is highlighted, 60% - otherwise
@@ -154,13 +175,6 @@ export class EnvironmentComponent implements OnInit {
   getColor(polygon: Polygon): string {
     const saturation = polygon.highlight ? '100%' : '60%';
     return `hsl(${polygon.colorHue}, ${saturation}, 50%)`;
-  }
-
-  /**
-   * Generates a random hue for an HSL color.
-   */
-  private getRandomHue(): number {
-    return random(0, 359);
   }
 
   polygonMouseEnter(polygon: Polygon): void {
