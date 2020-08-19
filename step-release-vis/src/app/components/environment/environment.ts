@@ -66,7 +66,7 @@ export class EnvironmentComponent implements OnInit {
         0,
         100
       );
-      scaledPolygon.color = this.getRandomColor();
+      scaledPolygon.colorHue = this.getRandomHue();
       return scaledPolygon;
     });
   }
@@ -144,14 +144,23 @@ export class EnvironmentComponent implements OnInit {
   }
 
   /**
-   * Generates a random hex color.
+   * Generates an HSL color based on the provided polygon.
+   * Hue is set to polygon's hue.
+   * Saturation is set to 100%, if the polygon is highlighted, 60% - otherwise
+   * Lightness is set to 50% to provide vibrant colors.
+   *
+   * @param polygon the polygon to generate the color for.
    */
-  private getRandomColor(): string {
-    const r = random(0, 255);
-    const g = random(0, 255);
-    const b = random(0, 255);
-    const toHexPadded = (value: number) => value.toString(16).padStart(2, '0');
-    return `#${toHexPadded(r)}${toHexPadded(g)}${toHexPadded(b)}`;
+  getColor(polygon: Polygon): string {
+    const saturation = polygon.highlight ? '100%' : '60%';
+    return `hsl(${polygon.colorHue}, ${saturation}, 50%)`;
+  }
+
+  /**
+   * Generates a random hue for an HSL color.
+   */
+  private getRandomHue(): number {
+    return random(0, 359);
   }
 
   polygonMouseEnter(polygon: Polygon): void {
