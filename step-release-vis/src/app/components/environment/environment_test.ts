@@ -54,8 +54,9 @@ describe('EnvironmentComponent', () => {
 
   it('colors should be assigned', () => {
     fixture.detectChanges();
-    component.polygons.forEach(({color}) => {
-      expect(color).toMatch(/^#[0-9a-f]{6}$/);
+    component.polygons.forEach(({colorHue}) => {
+      expect(colorHue).toBeLessThan(360);
+      expect(colorHue).toBeGreaterThanOrEqual(0);
     });
   });
 
