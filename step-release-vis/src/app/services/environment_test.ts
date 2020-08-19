@@ -210,6 +210,108 @@ describe('EnvironmentService', () => {
     expect(result.snapshot).toEqual([]);
   });
 
+  it('#addSnapshotToPolygons snapshot with the 2 same existing candidates', () => {
+    const inputLower: Map<string, Point[]> = new Map();
+    inputLower.set('1', [new Point(0, 0), new Point(1, 0)]);
+    inputLower.set('2', [new Point(0, 10), new Point(1, 50)]);
+    const inputUpper: Map<string, Point[]> = new Map();
+    inputUpper.set('1', [new Point(0, 10), new Point(1, 50)]);
+    inputUpper.set('2', [new Point(0, 100), new Point(1, 100)]);
+    const inputSet: PolygonLowerBoundYPosition[] = [
+      new PolygonLowerBoundYPosition('1', 0),
+      new PolygonLowerBoundYPosition('2', 10),
+    ];
+    const inputInsertions = 0;
+    const inputTime = 2;
+    const inputLastTime = 1;
+
+    // @ts-ignore
+    service.addSnapshotToPolygons(
+      inputLower,
+      inputUpper,
+      inputSet,
+      inputInsertions,
+      inputTime,
+      inputLastTime
+    );
+
+    expect(inputLower.get('1')[2]).toEqual({x: 2, y: 0});
+    expect(inputUpper.get('1')[2]).toEqual({x: 2, y: 10});
+    expect(inputLower.get('2')[2]).toEqual({x: 2, y: 10});
+    expect(inputUpper.get('2')[2]).toEqual({x: 2, y: 100});
+  });
+
+  it('#adddSnapshotToPolygons new candidate appears at snapshot', () => {
+    const inputLower: Map<string, Point[]> = new Map();
+    inputLower.set('1', [new Point(0, 0), new Point(1, 0)]);
+    inputLower.set('2', [new Point(0, 50), new Point(1, 30)]);
+    const inputUpper: Map<string, Point[]> = new Map();
+    inputUpper.set('1', [new Point(0, 50), new Point(1, 30)]);
+    inputUpper.set('2', [new Point(0, 100), new Point(1, 100)]);
+    const inputSet: PolygonLowerBoundYPosition[] = [
+      new PolygonLowerBoundYPosition('1', 0),
+      new PolygonLowerBoundYPosition('2', 30),
+      new PolygonLowerBoundYPosition('3', 80),
+    ];
+    const inputInsertions = 1;
+    const inputTime = 2;
+    const inputLastTime = 1;
+
+    // @ts-ignore
+    service.addSnapshotToPolygons(
+      inputLower,
+      inputUpper,
+      inputSet,
+      inputInsertions,
+      inputTime,
+      inputLastTime
+    );
+
+    // check if the new candidate is added
+    expect(inputLower.size).toEqual(3);
+    expect(inputLower.get('3')[0]).toEqual({x: 1, y: 100});
+    expect(inputUpper.get('3')[0]).toEqual({x: 1, y: 100});
+    expect(inputLower.get('3')[1]).toEqual({x: 2, y: 80});
+    expect(inputUpper.get('3')[1]).toEqual({x: 2, y: 100});
+    // check if the other candidates are placed correctly
+    expect(inputLower.get('1')[2]).toEqual({x: 2, y: 0});
+    expect(inputUpper.get('1')[2]).toEqual({x: 2, y: 30});
+    expect(inputLower.get('2')[2]).toEqual({x: 2, y: 30});
+    expect(inputUpper.get('2')[2]).toEqual({x: 2, y: 80});
+  });
+
+  it('#adddSnapshotToPolygons candidate  disappears at snapshot', () => {
+    const inputLower: Map<string, Point[]> = new Map();
+    inputLower.set('1', [new Point(0, 0), new Point(1, 0)]);
+    inputLower.set('2', [new Point(0, 80), new Point(1, 80)]);
+    const inputUpper: Map<string, Point[]> = new Map();
+    inputUpper.set('1', [new Point(0, 80), new Point(1, 80)]);
+    inputUpper.set('2', [new Point(0, 100), new Point(1, 100)]);
+    const inputSet: PolygonLowerBoundYPosition[] = [
+      new PolygonLowerBoundYPosition('1', 0),
+      new PolygonLowerBoundYPosition('2', 100),
+    ];
+    const inputInsertions = 0;
+    const inputTime = 2;
+    const inputLastTime = 1;
+
+    // @ts-ignore
+    service.addSnapshotToPolygons(
+      inputLower,
+      inputUpper,
+      inputSet,
+      inputInsertions,
+      inputTime,
+      inputLastTime
+    );
+
+    // check if their positions are now updated
+    expect(inputLower.get('2')[2]).toEqual({x: 2, y: 100});
+    expect(inputUpper.get('2')[2]).toEqual({x: 2, y: 100});
+    expect(inputLower.get('1')[2]).toEqual({x: 2, y: 0});
+    expect(inputUpper.get('1')[2]).toEqual({x: 2, y: 100});
+  });
+
   it('#addPointToBorderMap add to empty border', () => {
     const bound: Map<string, Point[]> = new Map();
     const point: Point = {x: 10, y: 20};
