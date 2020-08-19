@@ -204,9 +204,9 @@ describe('EnvironmentService', () => {
       inputTimestampLowerBoundSet
     );
 
-    //all 3 are closed => added to the polygon list
+    // all 3 are closed => added to the polygon list
     expect(polys.length).toEqual(3);
-    //no one is left in the current timestamp set
+    // no one is left in the current timestamp set
     expect(result.snapshot).toEqual([]);
   });
 
