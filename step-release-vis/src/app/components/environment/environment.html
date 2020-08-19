@@ -2,8 +2,7 @@
   <polygon
     *ngFor="let polygon of polygons"
     [attr.points]="polygon.toAttributeString()"
-    [attr.fill]="polygon.color"
-    [attr.opacity]="polygon.highlight ? 1.0 : 0.7"
+    [attr.fill]="getColor(polygon)"
     (mouseenter)="polygonMouseEnter(polygon)"
     (mouseleave)="polygonMouseLeave(polygon)"
   >
