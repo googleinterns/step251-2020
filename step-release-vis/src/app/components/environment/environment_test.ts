@@ -7,6 +7,7 @@ import {EnvironmentService} from '../../services/environment';
 import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {ActivatedRoute} from '@angular/router';
 import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
+import {By} from '@angular/platform-browser';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -74,5 +75,18 @@ describe('EnvironmentComponent', () => {
         expect(y).toBeLessThanOrEqual(component.height);
       })
     );
+  });
+
+  it('polygons should respond to hover events', () => {
+    const polygons = fixture.debugElement.queryAll(By.css('polygon'));
+    for (let i = 0; i < polygons.length; i++) {
+      polygons[i].triggerEventHandler('mouseenter', {});
+      fixture.detectChanges();
+      expect(component.polygons[i].highlight).toBeTrue();
+
+      polygons[i].triggerEventHandler('mouseleave', {});
+      fixture.detectChanges();
+      expect(component.polygons[i].highlight).toBeFalse();
+    }
   });
 });
