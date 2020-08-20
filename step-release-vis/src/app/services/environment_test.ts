@@ -70,6 +70,43 @@ describe('EnvironmentService', () => {
     });
   });
 
+  describe('#closePolygons', () => {
+    it('just one polygon is closed', () => {
+      const polys: Polygon[] = [];
+      const inputLower: Map<string, Point[]> = new Map();
+      inputLower.set('1', [
+        new Point(0, 100),
+        new Point(1, 10),
+        new Point(2, 100),
+      ]);
+      inputLower.set('2', [
+        new Point(0, 100),
+        new Point(1, 0),
+        new Point(2, 0),
+      ]);
+      const inputUpper: Map<string, Point[]> = new Map();
+      inputUpper.set('1', [
+        new Point(0, 100),
+        new Point(1, 100),
+        new Point(2, 100),
+      ]);
+      inputUpper.set('2', [
+        new Point(0, 100),
+        new Point(1, 10),
+        new Point(2, 100),
+      ]);
+      const inputTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+      inputTimestampLowerBoundSet.orderMap.set('1', 1);
+      inputTimestampLowerBoundSet.orderMap.set('2', 0);
+      inputTimestampLowerBoundSet.snapshot[0] = new PolygonLowerBoundYPosition(
+        '2',
+        0
+      );
+      inputTimestampLowerBoundSet.snapshot[1] = new PolygonLowerBoundYPosition(
+        '1',
+        100
+      );
+
       // @ts-ignore
       const result: TimestampLowerBoundSet = service.closePolygons(
         polys,
