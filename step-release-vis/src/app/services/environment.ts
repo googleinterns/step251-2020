@@ -19,9 +19,61 @@ export class EnvironmentService {
     );
   }
 
-  // TODO(naoai): compute the coordinates for the polygons
   private calculatePolygons(environments: Environment[]): Polygon[] {
-    return [];
+    const polys: Polygon[] = [];
+
+    // Assume there is only one environment
+    // Assume for now a candidate appears only once per environment (solution: give the polygons ids)
+
+    for (const environment of environments) {
+      let newTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+      let lastTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+      const lowerBounds: Map<string, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
+      const upperBounds: Map<string, Point[]> = new Map();
+      let lastTimeStamp = 0;
+
+      for (const snapshot of environment.snapshots) {
+        const update: [
+          TimestampLowerBoundSet,
+          number
+        ] = this.computeNextSnapshot(
+          snapshot.cands_info,
+          lastTimestampLowerBoundSet
+        );
+        newTimestampLowerBoundSet = update[0];
+
+        this.addSnapshotToPolygons(
+          lowerBounds,
+          upperBounds,
+          newTimestampLowerBoundSet.snapshot,
+          update[1],
+          snapshot.timestamp,
+          lastTimeStamp
+        );
+
+        lastTimestampLowerBoundSet = this.closePolygons(
+          polys,
+          lowerBounds,
+          upperBounds,
+          newTimestampLowerBoundSet
+        ); // delete inexisting ones
+        lastTimeStamp = snapshot.timestamp;
+      }
+
+      // draw the vertical line and add remaining polys
+      for (const candidate of lastTimestampLowerBoundSet.snapshot) {
+        const name: string = candidate.candName;
+        this.addPointToBorderMap(upperBounds, name, {
+          x: lastTimeStamp,
+          y: candidate.position,
+        });
+        polys.push(
+          this.createPolygon(lowerBounds.get(name), upperBounds.get(name), name)
+        );
+      }
+    }
+
+    return polys;
   }
 
   private addPointToBorderMap(
@@ -67,16 +119,27 @@ export class EnvironmentService {
   ): TimestampLowerBoundSet {
     const newSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
 
-    for (let i = 0; i < set.snapshot.length; i++) {
-      if (
-        set.snapshot[i].position ===
-        (i === set.snapshot.length - 1 ? 100 : set.snapshot[i + 1].position)
-      ) {
+    for (let i = 0; i < set.snapshot.length - 1; i++) {
+      if (set.snapshot[i].position === set.snapshot[i + 1].position) {
         const name: string = set.snapshot[i].candName;
         polys.push(this.createPolygon(lower.get(name), upper.get(name), name));
       } else {
         newSet.orderMap.set(set.snapshot[i].candName, newSet.snapshot.length);
         newSet.snapshot.push(set.snapshot[i]);
+      }
+    }
+
+    if (set.snapshot.length > 0) {
+      const index = set.snapshot.length - 1;
+      if (set.snapshot[index].position === 100) {
+        const name: string = set.snapshot[index].candName;
+        polys.push(this.createPolygon(lower.get(name), upper.get(name), name));
+      } else {
+        newSet.orderMap.set(
+          set.snapshot[index].candName,
+          newSet.snapshot.length
+        );
+        newSet.snapshot.push(set.snapshot[index]);
       }
     }
 
