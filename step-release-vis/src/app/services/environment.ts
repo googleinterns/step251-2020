@@ -67,16 +67,27 @@ export class EnvironmentService {
   ): TimestampLowerBoundSet {
     const newSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
 
-    for (let i = 0; i < set.snapshot.length; i++) {
-      if (
-        set.snapshot[i].position ===
-        (i === set.snapshot.length - 1 ? 100 : set.snapshot[i + 1].position)
-      ) {
+    for (let i = 0; i < set.snapshot.length - 1; i++) {
+      if (set.snapshot[i].position === set.snapshot[i + 1].position) {
         const name: string = set.snapshot[i].candName;
         polys.push(this.createPolygon(lower.get(name), upper.get(name), name));
       } else {
         newSet.orderMap.set(set.snapshot[i].candName, newSet.snapshot.length);
         newSet.snapshot.push(set.snapshot[i]);
+      }
+    }
+
+    if (set.snapshot.length > 0) {
+      const index = set.snapshot.length - 1;
+      if (set.snapshot[index].position === 100) {
+        const name: string = set.snapshot[index].candName;
+        polys.push(this.createPolygon(lower.get(name), upper.get(name), name));
+      } else {
+        newSet.orderMap.set(
+          set.snapshot[index].candName,
+          newSet.snapshot.length
+        );
+        newSet.snapshot.push(set.snapshot[index]);
       }
     }
 
