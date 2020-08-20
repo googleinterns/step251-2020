@@ -6,7 +6,7 @@ import {
   TimestampLowerBoundSet,
 } from './environment';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {CandidateInfo} from '../models/Data';
+import {CandidateInfo, Environment} from '../models/Data';
 import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
 
@@ -20,9 +20,240 @@ describe('EnvironmentService', () => {
     service = TestBed.inject(EnvironmentService);
   });
 
+  describe('#calculatePolygons', () => {
+    it('one candidate gets to 0 jobs', () => {
+      const inputEnvironments: Environment[] = [
+        {
+          environment: 'env',
+          snapshots: [
+            {
+              timestamp: 1,
+              cands_info: [
+                {name: '1', job_count: 30},
+                {name: '2', job_count: 70},
+              ],
+            },
+            {
+              timestamp: 2,
+              cands_info: [{name: '2', job_count: 100}],
+            },
+          ],
+        },
+      ];
+
+      // @ts-ignore
+      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+
+      // first element in the output should be the first closed polygon
+      expect(result[0].candName).toEqual('1');
+      expect(result[0].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 0},
+        {x: 2, y: 0},
+        {x: 1, y: 30},
+      ]);
+      expect(result[1].candName).toEqual('2');
+      expect(result[1].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 30},
+        {x: 2, y: 0},
+        {x: 2, y: 100},
+        {x: 1, y: 100},
+      ]);
+    });
+
+    it('just one candidate with 100% of the jobs', () => {
+      const inputEnvironments: Environment[] = [
+        {
+          environment: 'env',
+          snapshots: [
+            {
+              timestamp: 1,
+              cands_info: [{name: '1', job_count: 100}],
+            },
+          ],
+        },
+      ];
+
+      // @ts-ignore
+      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+
+      expect(result[0].candName).toEqual('1');
+      expect(result[0].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 0},
+        {x: 1, y: 100},
+      ]);
+    });
+
+    it('all have 0 jobs', () => {
+      const inputEnvironments: Environment[] = [
+        {
+          environment: 'env',
+          snapshots: [
+            {
+              timestamp: 1,
+              cands_info: [
+                {name: '1', job_count: 0},
+                {name: '2', job_count: 0},
+              ],
+            },
+          ],
+        },
+      ];
+
+      // @ts-ignore
+      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+
+      expect(result[0].candName).toEqual('1');
+      expect(result[0].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 100},
+      ]);
+      expect(result[1].candName).toEqual('2');
+      expect(result[1].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 100},
+      ]);
+    });
+
+    it('new candidate appears', () => {
+      const inputEnvironments: Environment[] = [
+        {
+          environment: 'env',
+          snapshots: [
+            {
+              timestamp: 1,
+              cands_info: [{name: '1', job_count: 100}],
+            },
+            {
+              timestamp: 2,
+              cands_info: [
+                {name: '1', job_count: 80},
+                {name: '2', job_count: 20},
+              ],
+            },
+          ],
+        },
+      ];
+
+      // @ts-ignore
+      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+
+      expect(result[0].candName).toEqual('1');
+      expect(result[0].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 0},
+        {x: 2, y: 0},
+        {x: 2, y: 80},
+        {x: 1, y: 100},
+      ]);
+      expect(result[1].candName).toEqual('2');
+      expect(result[1].points).toEqual([
+        {x: 1, y: 100},
+        {x: 2, y: 80},
+        {x: 2, y: 100},
+      ]);
+    });
+
+    it('both candidates get to 0 jobs at the same timestamp', () => {
+      const inputEnvironments: Environment[] = [
+        {
+          environment: 'env',
+          snapshots: [
+            {
+              timestamp: 1,
+              cands_info: [
+                {name: '1', job_count: 30},
+                {name: '2', job_count: 70},
+              ],
+            },
+            {
+              timestamp: 2,
+              cands_info: [],
+            },
+          ],
+        },
+      ];
+
+      // @ts-ignore
+      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+
+      expect(result[0].candName).toEqual('1');
+      expect(result[0].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 0},
+        {x: 2, y: 100},
+        {x: 1, y: 30},
+      ]);
+      expect(result[1].candName).toEqual('2');
+      expect(result[1].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 30},
+        {x: 2, y: 100},
+        {x: 1, y: 100},
+      ]);
+    });
+
+    it('one candidate appears and disapears', () => {
+      const inputEnvironments: Environment[] = [
+        {
+          environment: 'env',
+          snapshots: [
+            {
+              timestamp: 1,
+              cands_info: [{name: '1', job_count: 100}],
+            },
+            {
+              timestamp: 2,
+              cands_info: [
+                {name: '1', job_count: 65},
+                {name: '2', job_count: 35},
+              ],
+            },
+            {
+              timestamp: 3,
+              cands_info: [
+                {name: '1', job_count: 75},
+                {name: '2', job_count: 25},
+              ],
+            },
+            {timestamp: 4, cands_info: [{name: '1', job_count: 100}]},
+          ],
+        },
+      ];
+
+      // @ts-ignore
+      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+
+      // first element in the output should be the first closed polygon
+      expect(result[0].candName).toEqual('2');
+      expect(result[0].points).toEqual([
+        {x: 1, y: 100},
+        {x: 2, y: 65},
+        {x: 3, y: 75},
+        {x: 4, y: 100},
+        {x: 3, y: 100},
+        {x: 2, y: 100},
+      ]);
+      expect(result[1].candName).toEqual('1');
+      expect(result[1].points).toEqual([
+        {x: 0, y: 100},
+        {x: 1, y: 0},
+        {x: 2, y: 0},
+        {x: 3, y: 0},
+        {x: 4, y: 0},
+        {x: 4, y: 100},
+        {x: 3, y: 75},
+        {x: 2, y: 65},
+        {x: 1, y: 100},
+      ]);
+    });
+  });
+
   // TODO(naoai): write getPolygons test
   describe('#createPolygon', () => {
-    it('#creates a square', () => {
+    it('creates a square', () => {
       const lower: Point[] = [
         {x: 0, y: 0},
         {x: 10, y: 0},
