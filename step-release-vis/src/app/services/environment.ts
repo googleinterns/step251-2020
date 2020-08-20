@@ -59,6 +59,41 @@ export class EnvironmentService {
     return new Polygon(points, candidate);
   }
 
+  private closePolygons(
+    polys: Polygon[],
+    lower: Map<string, Point[]>,
+    upper: Map<string, Point[]>,
+    set: TimestampLowerBoundSet
+  ): TimestampLowerBoundSet {
+    const newSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+
+    for (let i = 0; i < set.snapshot.length - 1; i++) {
+      if (set.snapshot[i].position === set.snapshot[i + 1].position) {
+        const name: string = set.snapshot[i].candName;
+        polys.push(this.createPolygon(lower.get(name), upper.get(name), name));
+      } else {
+        newSet.orderMap.set(set.snapshot[i].candName, newSet.snapshot.length);
+        newSet.snapshot.push(set.snapshot[i]);
+      }
+    }
+
+    if (set.snapshot.length > 0) {
+      const index = set.snapshot.length - 1;
+      if (set.snapshot[index].position === 100) {
+        const name: string = set.snapshot[index].candName;
+        polys.push(this.createPolygon(lower.get(name), upper.get(name), name));
+      } else {
+        newSet.orderMap.set(
+          set.snapshot[index].candName,
+          newSet.snapshot.length
+        );
+        newSet.snapshot.push(set.snapshot[index]);
+      }
+    }
+
+    return newSet;
+  }
+
   private computeNextSnapshot(
     candsInfo: CandidateInfo[],
     set: TimestampLowerBoundSet
