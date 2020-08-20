@@ -9,18 +9,49 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {CandidateInfo} from '../models/Data';
 import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
+import {FileServiceStub} from '../../testing/FileServiceStub';
+import {FileService} from './file';
 
 describe('EnvironmentService', () => {
   let service: EnvironmentService;
+  let fileServiceStub: FileServiceStub;
 
   beforeEach(() => {
+    fileServiceStub = new FileServiceStub();
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
+      providers: [{provide: FileService, useValue: fileServiceStub}],
     });
     service = TestBed.inject(EnvironmentService);
   });
 
-  // TODO(naoai): write getPolygons test
+  it('#getPolygons should return polygons, representing the env', done => {
+    service.getPolygons(fileServiceStub.jsonFileName).subscribe(polygons => {
+      expect(polygons).toBeTruthy();
+      const envCandNames = new Set<string>();
+      // Currently files represent a single env - first element of the array
+      // and getPolygons() is expected to be called from a single env
+      // TODO(#147): update, when parent component is introduced
+      const env = fileServiceStub.files[fileServiceStub.jsonFileName][0];
+      for (const snapshot of env.snapshots) {
+        for (const candInfo of snapshot.cands_info) {
+          envCandNames.add(candInfo.name);
+        }
+      }
+      const polygonCandNames = new Set<string>();
+      polygons.forEach(({candName}) => polygonCandNames.add(candName));
+      // expect(areSetsEqual(envCandNames, polygonCandNames)).toBeTrue(); // TODO(#153): uncomment, when calculatePolygons() is finished
+      done();
+    });
+  });
+
+  function areSetsEqual(set1: Set<string>, set2: Set<string>): boolean {
+    return (
+      set1.size === set2.size &&
+      [...set1].reduce((areEqual, value) => areEqual && set2.has(value), true)
+    );
+  }
+
   describe('#createPolygon', () => {
     it('#creates a square', () => {
       const lower: Point[] = [
