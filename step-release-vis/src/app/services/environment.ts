@@ -24,6 +24,7 @@ export class EnvironmentService {
 
     // Assume there is only one environment
     // Assume for now a candidate appears only once per environment (solution: give the polygons ids)
+    // TODO(#154): Change code to support multiple polygons for one candidate.
 
     for (const environment of environments) {
       let newTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
