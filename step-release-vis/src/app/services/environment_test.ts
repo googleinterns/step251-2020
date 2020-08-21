@@ -60,6 +60,55 @@ describe('EnvironmentService', () => {
   }
 
   describe('#calculatePolygons', () => {
+    it('one candidate has 2 polygons', () => {
+      const inputEnvironments: Environment[] = [
+        {
+          environment: 'env',
+          snapshots: [
+            {timestamp: 1, cands_info: [{name: '1', job_count: 100}]},
+            {timestamp: 2, cands_info: [{name: '2', job_count: 100}]},
+            {timestamp: 3, cands_info: [{name: '1', job_count: 100}]},
+          ],
+        },
+      ];
+
+      const poly0: Polygon = new Polygon(
+        [
+          {x: 0, y: 100},
+          {x: 1, y: 0},
+          {x: 2, y: 0},
+          {x: 1, y: 100},
+        ],
+        '1'
+      );
+      const poly1: Polygon = new Polygon(
+        [
+          {x: 1, y: 100},
+          {x: 2, y: 0},
+          {x: 3, y: 0},
+          {x: 2, y: 100},
+        ],
+        '2'
+      );
+
+      const poly2: Polygon = new Polygon(
+        [
+          {x: 2, y: 100},
+          {x: 3, y: 0},
+          {x: 3, y: 100},
+        ],
+        '1'
+      );
+
+      //@ts-ignore
+      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+
+      expect(result.length).toEqual(3);
+      expect(result[0]).toEqual(poly0);
+      expect(result[1]).toEqual(poly1);
+      expect(result[2]).toEqual(poly2);
+    });
+
     it('one candidate gets to 0 jobs', () => {
       const inputEnvironment: Environment = {
         environment: 'env',
