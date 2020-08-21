@@ -15,5 +15,7 @@ export class Candidate {
     this.polygons.map(polygon => (polygon.highlight = true));
   }
 
-  polygonUnhovered() {}
+  polygonUnhovered(): void {
+    this.polygons.map(polygon => (polygon.highlight = true));
+  }
 }
