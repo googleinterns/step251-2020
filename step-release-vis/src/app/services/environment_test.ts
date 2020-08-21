@@ -61,16 +61,14 @@ describe('EnvironmentService', () => {
 
   describe('#calculatePolygons', () => {
     it('one candidate has 2 polygons', () => {
-      const inputEnvironments: Environment[] = [
-        {
-          environment: 'env',
-          snapshots: [
-            {timestamp: 1, cands_info: [{name: '1', job_count: 100}]},
-            {timestamp: 2, cands_info: [{name: '2', job_count: 100}]},
-            {timestamp: 3, cands_info: [{name: '1', job_count: 100}]},
-          ],
-        },
-      ];
+      const inputEnvironment: Environment = {
+        environment: 'env',
+        snapshots: [
+          {timestamp: 1, cands_info: [{name: '1', job_count: 100}]},
+          {timestamp: 2, cands_info: [{name: '2', job_count: 100}]},
+          {timestamp: 3, cands_info: [{name: '1', job_count: 100}]},
+        ],
+      };
 
       const poly0: Polygon = new Polygon(
         [
@@ -101,7 +99,7 @@ describe('EnvironmentService', () => {
       );
 
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
 
       expect(result.length).toEqual(3);
       expect(result[0]).toEqual(poly0);
