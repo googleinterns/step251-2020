@@ -17,22 +17,26 @@ export class EnvironmentService {
 
   private calculatePolygons(environment: Environment): Polygon[] {
     const polys: Polygon[] = [];
+    let numberOfPolygons = 0;
 
-    // Assume for now a candidate appears only once per environment (solution: give the polygons ids)
-    // TODO(#154): Change code to support multiple polygons for one candidate.
+    // TODO(#166): change the beginning of the display.
 
     let newTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     let lastTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
-    const lowerBounds: Map<string, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
-    const upperBounds: Map<string, Point[]> = new Map();
+    const lowerBounds: Map<number, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
+    const upperBounds: Map<number, Point[]> = new Map();
+    const nameToActiveId: Map<string, number> = new Map();
     let lastTimeStamp = 0;
 
     for (const snapshot of environment.snapshots) {
       const update: [TimestampLowerBoundSet, number] = this.computeNextSnapshot(
         snapshot.cands_info,
-        lastTimestampLowerBoundSet
+        lastTimestampLowerBoundSet,
+        nameToActiveId,
+        numberOfPolygons
       );
       newTimestampLowerBoundSet = update[0];
+      numberOfPolygons += update[1];
 
       this.addSnapshotToPolygons(
         lowerBounds,
@@ -47,20 +51,25 @@ export class EnvironmentService {
         polys,
         lowerBounds,
         upperBounds,
-        newTimestampLowerBoundSet
+        newTimestampLowerBoundSet,
+        nameToActiveId
       ); // delete inexisting ones
       lastTimeStamp = snapshot.timestamp;
     }
 
     // draw the vertical line and add remaining polys
     for (const candidate of lastTimestampLowerBoundSet.snapshot) {
-      const name: string = candidate.candName;
-      this.addPointToBorderMap(upperBounds, name, {
+      const id: number = candidate.polygonId;
+      this.addPointToBorderMap(upperBounds, id, {
         x: lastTimeStamp,
         y: candidate.position,
       });
       polys.push(
-        this.createPolygon(lowerBounds.get(name), upperBounds.get(name), name)
+        this.createPolygon(
+          lowerBounds.get(id),
+          upperBounds.get(id),
+          candidate.candName
+        )
       );
     }
 
@@ -68,8 +77,8 @@ export class EnvironmentService {
   }
 
   private addPointToBorderMap(
-    mapToChange: Map<string, Point[]>,
-    key: string,
+    mapToChange: Map<number, Point[]>,
+    key: number,
     point: Point
   ): void {
     let prev: Point[] = [];
@@ -104,18 +113,26 @@ export class EnvironmentService {
 
   private closePolygons(
     polys: Polygon[],
-    lower: Map<string, Point[]>,
-    upper: Map<string, Point[]>,
-    set: TimestampLowerBoundSet
+    lower: Map<number, Point[]>,
+    upper: Map<number, Point[]>,
+    set: TimestampLowerBoundSet,
+    nameToId: Map<string, number>
   ): TimestampLowerBoundSet {
     const newSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
 
     for (let i = 0; i < set.snapshot.length - 1; i++) {
       if (set.snapshot[i].position === set.snapshot[i + 1].position) {
-        const name: string = set.snapshot[i].candName;
-        polys.push(this.createPolygon(lower.get(name), upper.get(name), name));
+        const id: number = set.snapshot[i].polygonId;
+        polys.push(
+          this.createPolygon(
+            lower.get(id),
+            upper.get(id),
+            set.snapshot[i].candName
+          )
+        );
+        nameToId.delete(set.snapshot[i].candName);
       } else {
-        newSet.orderMap.set(set.snapshot[i].candName, newSet.snapshot.length);
+        newSet.orderMap.set(set.snapshot[i].polygonId, newSet.snapshot.length);
         newSet.snapshot.push(set.snapshot[i]);
       }
     }
@@ -123,11 +140,18 @@ export class EnvironmentService {
     if (set.snapshot.length > 0) {
       const index = set.snapshot.length - 1;
       if (set.snapshot[index].position === 100) {
-        const name: string = set.snapshot[index].candName;
-        polys.push(this.createPolygon(lower.get(name), upper.get(name), name));
+        const id: number = set.snapshot[index].polygonId;
+        polys.push(
+          this.createPolygon(
+            lower.get(id),
+            upper.get(id),
+            set.snapshot[index].candName
+          )
+        );
+        nameToId.delete(set.snapshot[index].candName);
       } else {
         newSet.orderMap.set(
-          set.snapshot[index].candName,
+          set.snapshot[index].polygonId,
           newSet.snapshot.length
         );
         newSet.snapshot.push(set.snapshot[index]);
@@ -138,24 +162,24 @@ export class EnvironmentService {
   }
 
   private addSnapshotToPolygons(
-    lower: Map<string, Point[]>,
-    upper: Map<string, Point[]>,
+    lower: Map<number, Point[]>,
+    upper: Map<number, Point[]>,
     set: PolygonLowerBoundYPosition[],
     insertions: number,
     time: number,
     lastTime: number
   ): void {
     for (let i = set.length - insertions; i < set.length; i++) {
-      this.addPointToBorderMap(lower, set[i].candName, {x: lastTime, y: 100});
-      this.addPointToBorderMap(upper, set[i].candName, {x: lastTime, y: 100});
+      this.addPointToBorderMap(lower, set[i].polygonId, {x: lastTime, y: 100});
+      this.addPointToBorderMap(upper, set[i].polygonId, {x: lastTime, y: 100});
     }
 
     for (let i = 0; i < set.length; i++) {
-      this.addPointToBorderMap(lower, set[i].candName, {
+      this.addPointToBorderMap(lower, set[i].polygonId, {
         x: time,
         y: set[i].position,
       });
-      this.addPointToBorderMap(upper, set[i].candName, {
+      this.addPointToBorderMap(upper, set[i].polygonId, {
         x: time,
         y: i === set.length - 1 ? 100 : set[i + 1].position,
       });
@@ -164,9 +188,11 @@ export class EnvironmentService {
 
   private computeNextSnapshot(
     candsInfo: CandidateInfo[],
-    set: TimestampLowerBoundSet
+    set: TimestampLowerBoundSet,
+    nameToId: Map<string, number>,
+    numberOfPolygons: number
   ): [TimestampLowerBoundSet, number] {
-    const percentages = this.getPercentages(candsInfo);
+    const percentages: Map<string, number> = this.getPercentages(candsInfo);
     const newSet: TimestampLowerBoundSet = set;
 
     for (let i = 0; i < set.snapshot.length; i++) {
@@ -181,13 +207,15 @@ export class EnvironmentService {
 
     let newCandidates = 0;
     for (const entry of percentages.entries()) {
-      if (!set.orderMap.has(entry[0])) {
+      if (!nameToId.has(entry[0])) {
         // the candidate has to be introduced
-        newCandidates++;
-        newSet.orderMap.set(entry[0], newSet.snapshot.length);
+        nameToId.set(entry[0], numberOfPolygons);
+        newSet.orderMap.set(numberOfPolygons, newSet.snapshot.length);
         newSet.snapshot.push(
-          new PolygonLowerBoundYPosition(entry[0], entry[1])
+          new PolygonLowerBoundYPosition(entry[0], numberOfPolygons, entry[1])
         );
+        numberOfPolygons++;
+        newCandidates++;
       }
     }
 
@@ -222,8 +250,8 @@ export class EnvironmentService {
 }
 
 export class TimestampLowerBoundSet {
-  /* What is the order of the polygons? */
-  orderMap: Map<string, number>;
+  /* What is the order of the polygons? polygonId -> index */
+  orderMap: Map<number, number>;
   /* Store the details about each _active_ polygon */
   snapshot: PolygonLowerBoundYPosition[];
 
@@ -235,10 +263,12 @@ export class TimestampLowerBoundSet {
 
 export class PolygonLowerBoundYPosition {
   candName: string;
+  polygonId: number;
   position: number;
 
-  constructor(name: string, pos: number) {
+  constructor(name: string, id: number, pos: number) {
     this.candName = name;
+    this.polygonId = id;
     this.position = pos;
   }
 }
