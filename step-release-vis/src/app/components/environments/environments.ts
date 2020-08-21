@@ -12,8 +12,8 @@ import {ActivatedRoute} from '@angular/router';
 export class EnvironmentsComponent implements OnInit {
   environments: Environment[];
   jsonUri: string;
-  candWidth: number;
-  candHeight: number;
+  envWidth: number;
+  envHeight: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,8 +31,8 @@ export class EnvironmentsComponent implements OnInit {
   }
 
   private processEnvironments(environments: Environment[]): void {
-    this.candWidth = window.innerWidth;
-    this.candHeight = window.innerHeight / environments.length;
+    this.envWidth = window.innerWidth;
+    this.envHeight = window.innerHeight / environments.length;
     this.environments = environments;
   }
 }

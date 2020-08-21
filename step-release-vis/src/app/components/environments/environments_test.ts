@@ -47,7 +47,7 @@ describe('EnvironmentsComponent', () => {
   });
 
   it('should assign candWidth and candHeight fields', () => {
-    expect(component.candWidth).toBeTruthy();
-    expect(component.candHeight).toBeTruthy();
+    expect(component.envWidth).toBeTruthy();
+    expect(component.envHeight).toBeTruthy();
   });
 });
