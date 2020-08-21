@@ -2,14 +2,15 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {Polygon} from '../app/models/Polygon';
 import {EnvironmentService} from '../app/services/environment';
+import {Environment} from '../app/models/Data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EnvironmentServiceStub {
-  candName = 'test';
+  candName = 'test_cand_name';
 
-  polygons = [
+  polygons: Polygon[] = [
     new Polygon(
       [
         {x: 0, y: 0},
@@ -76,7 +77,7 @@ export class EnvironmentServiceStub {
     ),
   ];
 
-  getPolygons(jsonFile: string): Observable<Polygon[]> {
+  getPolygons(environment: Environment): Observable<Polygon[]> {
     return of(this.polygons);
   }
 }

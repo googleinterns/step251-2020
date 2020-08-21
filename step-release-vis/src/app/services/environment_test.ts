@@ -9,30 +9,37 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {CandidateInfo, Environment} from '../models/Data';
 import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
-import {FileServiceStub} from '../../testing/FileServiceStub';
-import {FileService} from './file';
 
 describe('EnvironmentService', () => {
   let service: EnvironmentService;
-  let fileServiceStub: FileServiceStub;
 
   beforeEach(() => {
-    fileServiceStub = new FileServiceStub();
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [{provide: FileService, useValue: fileServiceStub}],
     });
     service = TestBed.inject(EnvironmentService);
   });
 
   it('#getPolygons should return polygons, representing the env', done => {
-    service.getPolygons(fileServiceStub.jsonFileName).subscribe(polygons => {
+    const env: Environment = {
+      environment: 'test',
+      snapshots: [
+        {
+          timestamp: 1,
+          cands_info: [
+            {name: '1', job_count: 30},
+            {name: '2', job_count: 70},
+          ],
+        },
+        {
+          timestamp: 2,
+          cands_info: [{name: '2', job_count: 100}],
+        },
+      ],
+    };
+    service.getPolygons(env).subscribe(polygons => {
       expect(polygons).toBeTruthy();
       const envCandNames = new Set<string>();
-      // Currently files represent a single env - first element of the array
-      // and getPolygons() is expected to be called from a single env
-      // TODO(#147): update, when parent component is introduced
-      const env = fileServiceStub.files[fileServiceStub.jsonFileName][0];
       for (const snapshot of env.snapshots) {
         for (const candInfo of snapshot.cands_info) {
           envCandNames.add(candInfo.name);
@@ -54,27 +61,24 @@ describe('EnvironmentService', () => {
 
   describe('#calculatePolygons', () => {
     it('one candidate gets to 0 jobs', () => {
-      const inputEnvironments: Environment[] = [
-        {
-          environment: 'env',
-          snapshots: [
-            {
-              timestamp: 1,
-              cands_info: [
-                {name: '1', job_count: 30},
-                {name: '2', job_count: 70},
-              ],
-            },
-            {
-              timestamp: 2,
-              cands_info: [{name: '2', job_count: 100}],
-            },
-          ],
-        },
-      ];
-
+      const inputEnvironment: Environment = {
+        environment: 'env',
+        snapshots: [
+          {
+            timestamp: 1,
+            cands_info: [
+              {name: '1', job_count: 30},
+              {name: '2', job_count: 70},
+            ],
+          },
+          {
+            timestamp: 2,
+            cands_info: [{name: '2', job_count: 100}],
+          },
+        ],
+      };
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
 
       // first element in the output should be the first closed polygon
       expect(result[0].candName).toEqual('1');
@@ -95,20 +99,18 @@ describe('EnvironmentService', () => {
     });
 
     it('just one candidate with 100% of the jobs', () => {
-      const inputEnvironments: Environment[] = [
-        {
-          environment: 'env',
-          snapshots: [
-            {
-              timestamp: 1,
-              cands_info: [{name: '1', job_count: 100}],
-            },
-          ],
-        },
-      ];
+      const inputEnvironment: Environment = {
+        environment: 'env',
+        snapshots: [
+          {
+            timestamp: 1,
+            cands_info: [{name: '1', job_count: 100}],
+          },
+        ],
+      };
 
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
@@ -119,23 +121,20 @@ describe('EnvironmentService', () => {
     });
 
     it('all have 0 jobs', () => {
-      const inputEnvironments: Environment[] = [
-        {
-          environment: 'env',
-          snapshots: [
-            {
-              timestamp: 1,
-              cands_info: [
-                {name: '1', job_count: 0},
-                {name: '2', job_count: 0},
-              ],
-            },
-          ],
-        },
-      ];
-
+      const inputEnvironment: Environment = {
+        environment: 'env',
+        snapshots: [
+          {
+            timestamp: 1,
+            cands_info: [
+              {name: '1', job_count: 0},
+              {name: '2', job_count: 0},
+            ],
+          },
+        ],
+      };
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
@@ -150,27 +149,24 @@ describe('EnvironmentService', () => {
     });
 
     it('new candidate appears', () => {
-      const inputEnvironments: Environment[] = [
-        {
-          environment: 'env',
-          snapshots: [
-            {
-              timestamp: 1,
-              cands_info: [{name: '1', job_count: 100}],
-            },
-            {
-              timestamp: 2,
-              cands_info: [
-                {name: '1', job_count: 80},
-                {name: '2', job_count: 20},
-              ],
-            },
-          ],
-        },
-      ];
-
+      const inputEnvironment: Environment = {
+        environment: 'env',
+        snapshots: [
+          {
+            timestamp: 1,
+            cands_info: [{name: '1', job_count: 100}],
+          },
+          {
+            timestamp: 2,
+            cands_info: [
+              {name: '1', job_count: 80},
+              {name: '2', job_count: 20},
+            ],
+          },
+        ],
+      };
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
@@ -189,27 +185,24 @@ describe('EnvironmentService', () => {
     });
 
     it('both candidates get to 0 jobs at the same timestamp', () => {
-      const inputEnvironments: Environment[] = [
-        {
-          environment: 'env',
-          snapshots: [
-            {
-              timestamp: 1,
-              cands_info: [
-                {name: '1', job_count: 30},
-                {name: '2', job_count: 70},
-              ],
-            },
-            {
-              timestamp: 2,
-              cands_info: [],
-            },
-          ],
-        },
-      ];
-
+      const inputEnvironment: Environment = {
+        environment: 'env',
+        snapshots: [
+          {
+            timestamp: 1,
+            cands_info: [
+              {name: '1', job_count: 30},
+              {name: '2', job_count: 70},
+            ],
+          },
+          {
+            timestamp: 2,
+            cands_info: [],
+          },
+        ],
+      };
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
@@ -228,35 +221,32 @@ describe('EnvironmentService', () => {
     });
 
     it('one candidate appears and disapears', () => {
-      const inputEnvironments: Environment[] = [
-        {
-          environment: 'env',
-          snapshots: [
-            {
-              timestamp: 1,
-              cands_info: [{name: '1', job_count: 100}],
-            },
-            {
-              timestamp: 2,
-              cands_info: [
-                {name: '1', job_count: 65},
-                {name: '2', job_count: 35},
-              ],
-            },
-            {
-              timestamp: 3,
-              cands_info: [
-                {name: '1', job_count: 75},
-                {name: '2', job_count: 25},
-              ],
-            },
-            {timestamp: 4, cands_info: [{name: '1', job_count: 100}]},
-          ],
-        },
-      ];
-
+      const inputEnvironment: Environment = {
+        environment: 'env',
+        snapshots: [
+          {
+            timestamp: 1,
+            cands_info: [{name: '1', job_count: 100}],
+          },
+          {
+            timestamp: 2,
+            cands_info: [
+              {name: '1', job_count: 65},
+              {name: '2', job_count: 35},
+            ],
+          },
+          {
+            timestamp: 3,
+            cands_info: [
+              {name: '1', job_count: 75},
+              {name: '2', job_count: 25},
+            ],
+          },
+          {timestamp: 4, cands_info: [{name: '1', job_count: 100}]},
+        ],
+      };
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironments);
+      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
 
       // first element in the output should be the first closed polygon
       expect(result[0].candName).toEqual('2');
