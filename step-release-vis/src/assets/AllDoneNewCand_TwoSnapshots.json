@@ -4,27 +4,27 @@
     "snapshots": [
       {
         "timestamp": 580,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 600
+            "candidate": "1",
+            "jobCount": 600
           },
           {
-            "name": "2",
-            "job_count": 800
+            "candidate": "2",
+            "jobCount": 800
           },
           {
-            "name": "3",
-            "job_count": 600
+            "candidate": "3",
+            "jobCount": 600
           }
         ]
       },
       {
         "timestamp": 879,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "4",
-            "job_count": 2000
+            "candidate": "4",
+            "jobCount": 2000
           }
         ]
       }

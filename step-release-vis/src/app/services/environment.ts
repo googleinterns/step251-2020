@@ -30,7 +30,7 @@ export class EnvironmentService {
 
     for (const snapshot of environment.snapshots) {
       const update: [TimestampLowerBoundSet, number] = this.computeNextSnapshot(
-        snapshot.cands_info,
+        snapshot.candsInfo,
         lastTimestampLowerBoundSet,
         nameToActiveId,
         numberOfPolygons
@@ -233,7 +233,7 @@ export class EnvironmentService {
     let totalJobSum = 0;
 
     for (const candInfo of candsInfo) {
-      totalJobSum += candInfo.job_count;
+      totalJobSum += candInfo.jobCount;
     }
 
     if (totalJobSum === 0) {
@@ -241,8 +241,8 @@ export class EnvironmentService {
     }
 
     for (const candInfo of candsInfo) {
-      const percentage = (candInfo.job_count / totalJobSum) * 100;
-      candInfo2percentage.set(candInfo.name, percentage);
+      const percentage = (candInfo.jobCount / totalJobSum) * 100;
+      candInfo2percentage.set(candInfo.candidate, percentage);
     }
 
     return candInfo2percentage;

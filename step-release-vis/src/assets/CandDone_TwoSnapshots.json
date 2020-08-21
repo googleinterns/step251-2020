@@ -4,39 +4,39 @@
     "snapshots": [
       {
         "timestamp": 349,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 500
+            "candidate": "1",
+            "jobCount": 500
           },
           {
-            "name": "2",
-            "job_count": 500
+            "candidate": "2",
+            "jobCount": 500
           },
           {
-            "name": "3",
-            "job_count": 500
+            "candidate": "3",
+            "jobCount": 500
           },
           {
-            "name": "4",
-            "job_count": 500
+            "candidate": "4",
+            "jobCount": 500
           }
         ]
       },
       {
         "timestamp": 745,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 667
+            "candidate": "1",
+            "jobCount": 667
           },
           {
-            "name": "2",
-            "job_count": 667
+            "candidate": "2",
+            "jobCount": 667
           },
           {
-            "name": "4",
-            "job_count": 666
+            "candidate": "4",
+            "jobCount": 666
           }
         ]
       }

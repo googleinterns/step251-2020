@@ -8,7 +8,6 @@ import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {ActivatedRoute} from '@angular/router';
 import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
 import {By} from '@angular/platform-browser';
-import {Component} from '@angular/core';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;

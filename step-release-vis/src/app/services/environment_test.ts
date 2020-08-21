@@ -26,14 +26,14 @@ describe('EnvironmentService', () => {
       snapshots: [
         {
           timestamp: 1,
-          cands_info: [
-            {name: '1', job_count: 30},
-            {name: '2', job_count: 70},
+          candsInfo: [
+            {candidate: '1', jobCount: 30},
+            {candidate: '2', jobCount: 70},
           ],
         },
         {
           timestamp: 2,
-          cands_info: [{name: '2', job_count: 100}],
+          candsInfo: [{candidate: '2', jobCount: 100}],
         },
       ],
     };
@@ -41,8 +41,8 @@ describe('EnvironmentService', () => {
       expect(polygons).toBeTruthy();
       const envCandNames = new Set<string>();
       for (const snapshot of env.snapshots) {
-        for (const candInfo of snapshot.cands_info) {
-          envCandNames.add(candInfo.name);
+        for (const candInfo of snapshot.candsInfo) {
+          envCandNames.add(candInfo.candidate);
         }
       }
       const polygonCandNames = new Set<string>();
@@ -64,9 +64,9 @@ describe('EnvironmentService', () => {
       const inputEnvironment: Environment = {
         environment: 'env',
         snapshots: [
-          {timestamp: 1, cands_info: [{name: '1', job_count: 100}]},
-          {timestamp: 2, cands_info: [{name: '2', job_count: 100}]},
-          {timestamp: 3, cands_info: [{name: '1', job_count: 100}]},
+          {timestamp: 1, candsInfo: [{candidate: '1', jobCount: 100}]},
+          {timestamp: 2, candsInfo: [{candidate: '2', jobCount: 100}]},
+          {timestamp: 3, candsInfo: [{candidate: '1', jobCount: 100}]},
         ],
       };
 
@@ -113,14 +113,14 @@ describe('EnvironmentService', () => {
         snapshots: [
           {
             timestamp: 1,
-            cands_info: [
-              {name: '1', job_count: 30},
-              {name: '2', job_count: 70},
+            candsInfo: [
+              {candidate: '1', jobCount: 30},
+              {candidate: '2', jobCount: 70},
             ],
           },
           {
             timestamp: 2,
-            cands_info: [{name: '2', job_count: 100}],
+            candsInfo: [{candidate: '2', jobCount: 100}],
           },
         ],
       };
@@ -151,7 +151,7 @@ describe('EnvironmentService', () => {
         snapshots: [
           {
             timestamp: 1,
-            cands_info: [{name: '1', job_count: 100}],
+            candsInfo: [{candidate: '1', jobCount: 100}],
           },
         ],
       };
@@ -173,9 +173,9 @@ describe('EnvironmentService', () => {
         snapshots: [
           {
             timestamp: 1,
-            cands_info: [
-              {name: '1', job_count: 0},
-              {name: '2', job_count: 0},
+            candsInfo: [
+              {candidate: '1', jobCount: 0},
+              {candidate: '2', jobCount: 0},
             ],
           },
         ],
@@ -201,13 +201,13 @@ describe('EnvironmentService', () => {
         snapshots: [
           {
             timestamp: 1,
-            cands_info: [{name: '1', job_count: 100}],
+            candsInfo: [{candidate: '1', jobCount: 100}],
           },
           {
             timestamp: 2,
-            cands_info: [
-              {name: '1', job_count: 80},
-              {name: '2', job_count: 20},
+            candsInfo: [
+              {candidate: '1', jobCount: 80},
+              {candidate: '2', jobCount: 20},
             ],
           },
         ],
@@ -237,14 +237,14 @@ describe('EnvironmentService', () => {
         snapshots: [
           {
             timestamp: 1,
-            cands_info: [
-              {name: '1', job_count: 30},
-              {name: '2', job_count: 70},
+            candsInfo: [
+              {candidate: '1', jobCount: 30},
+              {candidate: '2', jobCount: 70},
             ],
           },
           {
             timestamp: 2,
-            cands_info: [],
+            candsInfo: [],
           },
         ],
       };
@@ -273,23 +273,23 @@ describe('EnvironmentService', () => {
         snapshots: [
           {
             timestamp: 1,
-            cands_info: [{name: '1', job_count: 100}],
+            candsInfo: [{candidate: '1', jobCount: 100}],
           },
           {
             timestamp: 2,
-            cands_info: [
-              {name: '1', job_count: 65},
-              {name: '2', job_count: 35},
+            candsInfo: [
+              {candidate: '1', jobCount: 65},
+              {candidate: '2', jobCount: 35},
             ],
           },
           {
             timestamp: 3,
-            cands_info: [
-              {name: '1', job_count: 75},
-              {name: '2', job_count: 25},
+            candsInfo: [
+              {candidate: '1', jobCount: 75},
+              {candidate: '2', jobCount: 25},
             ],
           },
-          {timestamp: 4, cands_info: [{name: '1', job_count: 100}]},
+          {timestamp: 4, candsInfo: [{candidate: '1', jobCount: 100}]},
         ],
       };
       // @ts-ignore
@@ -670,8 +670,8 @@ describe('EnvironmentService', () => {
   describe('#computeNextSnapshot', () => {
     it('inserts new candidate', () => {
       const inputCandInfo: CandidateInfo[] = [
-        {name: '1', job_count: 100},
-        {name: '2', job_count: 100},
+        {candidate: '1', jobCount: 100},
+        {candidate: '2', jobCount: 100},
       ];
       const inputSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
       inputSet.orderMap.set(1, 0);
@@ -716,8 +716,8 @@ describe('EnvironmentService', () => {
 
     it('all input candidates have 0 jobs', () => {
       const emptyCandInfo: CandidateInfo[] = [
-        {name: '1', job_count: 0},
-        {name: '2', job_count: 0},
+        {candidate: '1', jobCount: 0},
+        {candidate: '2', jobCount: 0},
       ];
       const inputSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
       inputSet.orderMap.set(1, 0);
@@ -745,9 +745,9 @@ describe('EnvironmentService', () => {
 
     it('old TimestampLowerBoundSet is empty', () => {
       const inputCandInfo: CandidateInfo[] = [
-        {name: '1', job_count: 105},
-        {name: '2', job_count: 300},
-        {name: '3', job_count: 595},
+        {candidate: '1', jobCount: 105},
+        {candidate: '2', jobCount: 300},
+        {candidate: '3', jobCount: 595},
       ];
       const emptySet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
       const idMap: Map<string, number> = new Map();
@@ -769,9 +769,9 @@ describe('EnvironmentService', () => {
   describe('#getPercentages', () => {
     it('returns 3 candidates with fractional percentages', () => {
       const input: CandidateInfo[] = [
-        {name: '1', job_count: 105},
-        {name: '2', job_count: 300},
-        {name: '3', job_count: 595},
+        {candidate: '1', jobCount: 105},
+        {candidate: '2', jobCount: 300},
+        {candidate: '3', jobCount: 595},
       ];
       // @ts-ignore
       const resultMap: Map<string, number> = service.getPercentages(input);
@@ -783,8 +783,8 @@ describe('EnvironmentService', () => {
 
     it('remains with only a candidate with 100%', () => {
       const input: CandidateInfo[] = [
-        {name: '1', job_count: 2000},
-        {name: '2', job_count: 0},
+        {candidate: '1', jobCount: 2000},
+        {candidate: '2', jobCount: 0},
       ];
       // @ts-ignore
       const resultMap: Map<string, number> = service.getPercentages(input);
@@ -802,8 +802,8 @@ describe('EnvironmentService', () => {
     it('all candidates have 0 jobs', () => {
       // @ts-ignore
       const resultMap: Map<string, number> = service.getPercentages([
-        {name: '1', job_count: 0},
-        {name: '2', job_count: 0},
+        {candidate: '1', jobCount: 0},
+        {candidate: '2', jobCount: 0},
       ]);
 
       expect(resultMap.size).toBe(2);

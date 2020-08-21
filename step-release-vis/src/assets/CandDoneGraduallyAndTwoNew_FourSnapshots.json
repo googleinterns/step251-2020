@@ -4,65 +4,65 @@
     "snapshots": [
       {
         "timestamp": 100,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 900
+            "candidate": "1",
+            "jobCount": 900
           },
           {
-            "name": "2",
-            "job_count": 1100
+            "candidate": "2",
+            "jobCount": 1100
           }
         ]
       },
       {
         "timestamp": 350,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 900
+            "candidate": "1",
+            "jobCount": 900
           },
           {
-            "name": "2",
-            "job_count": 900
+            "candidate": "2",
+            "jobCount": 900
           },
           {
-            "name": "3",
-            "job_count": 200
+            "candidate": "3",
+            "jobCount": 200
           }
         ]
       },
       {
         "timestamp": 670,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 400
+            "candidate": "1",
+            "jobCount": 400
           },
           {
-            "name": "2",
-            "job_count": 1200
+            "candidate": "2",
+            "jobCount": 1200
           },
           {
-            "name": "3",
-            "job_count": 400
+            "candidate": "3",
+            "jobCount": 400
           }
         ]
       },
       {
         "timestamp": 890,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "2",
-            "job_count": 1200
+            "candidate": "2",
+            "jobCount": 1200
           },
           {
-            "name": "3",
-            "job_count": 500
+            "candidate": "3",
+            "jobCount": 500
           },
           {
-            "name": "4",
-            "job_count": 300
+            "candidate": "4",
+            "jobCount": 300
           }
         ]
       }
