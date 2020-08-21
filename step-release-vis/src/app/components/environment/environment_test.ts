@@ -8,6 +8,7 @@ import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {ActivatedRoute} from '@angular/router';
 import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
 import {By} from '@angular/platform-browser';
+import {Component} from '@angular/core';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -62,6 +63,10 @@ describe('EnvironmentComponent', () => {
   });
 
   it('polygons should fit the screen', () => {
+    component.width = 100;
+    component.height = 100;
+    component.ngOnInit();
+    fixture.detectChanges();
     component.polygons.forEach(({points}) =>
       points.forEach(({x, y}) => {
         expect(x).toBeGreaterThanOrEqual(0);

@@ -45,4 +45,9 @@ describe('EnvironmentsComponent', () => {
       fileServiceStub.files[fileServiceStub.jsonUri]
     );
   });
+
+  it('should assign candWidth and candHeight fields', () => {
+    expect(component.candWidth).toBeTruthy();
+    expect(component.candHeight).toBeTruthy();
+  });
 });
