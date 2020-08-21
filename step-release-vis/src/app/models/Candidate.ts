@@ -10,7 +10,11 @@ export class Candidate {
     this.color = color;
   }
 
-  polygonHovered(): void {}
+  polygonHovered(): void {
+    this.polygons.map(polygon => (polygon.highlight = true));
+  }
 
-  polygonUnhovered(): void {}
+  polygonUnhovered(): void {
+    this.polygons.map(polygon => (polygon.highlight = true));
+  }
 }
