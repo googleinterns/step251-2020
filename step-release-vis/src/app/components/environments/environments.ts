@@ -13,8 +13,9 @@ export class EnvironmentsComponent implements OnInit {
   constructor(private fileService: FileService) {}
 
   ngOnInit(): void {
+    // TODO(#164): add a file with various environments
     this.fileService
-      .readContents<Environment[]>('fuck')
+      .readContents<Environment[]>('../../assets/AllFilesMerged.json')
       .subscribe(environments => (this.environments = environments));
   }
 }

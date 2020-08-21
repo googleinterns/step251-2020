@@ -3,7 +3,6 @@ import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
 import {shuffle} from 'lodash';
 import {ActivatedRoute} from '@angular/router';
-import {ParamService} from '../../services/param';
 import {Point} from '../../models/Point';
 import {Environment} from '../../models/Data';
 
@@ -20,8 +19,7 @@ export class EnvironmentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private environmentService: EnvironmentService,
-    private paramService: ParamService
+    private environmentService: EnvironmentService
   ) {}
 
   ngOnInit(): void {
