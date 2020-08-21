@@ -100,7 +100,7 @@ describe('EnvironmentService', () => {
         '1'
       );
 
-      //@ts-ignore
+      // @ts-ignore
       const result: Polygon[] = service.calculatePolygons(inputEnvironments);
 
       expect(result.length).toEqual(3);
