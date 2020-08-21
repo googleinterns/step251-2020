@@ -1,0 +1,472 @@
+[
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 50,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 400
+          },
+          {
+            "name": "2",
+            "job_count": 500
+          },
+          {
+            "name": "3",
+            "job_count": 500
+          },
+          {
+            "name": "4",
+            "job_count": 600
+          }
+        ]
+      },
+      {
+        "timestamp": 250,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 300
+          },
+          {
+            "name": "2",
+            "job_count": 500
+          },
+          {
+            "name": "3",
+            "job_count": 800
+          },
+          {
+            "name": "4",
+            "job_count": 400
+          }
+        ]
+      },
+      {
+        "timestamp": 400,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 300
+          },
+          {
+            "name": "2",
+            "job_count": 200
+          },
+          {
+            "name": "3",
+            "job_count": 1200
+          },
+          {
+            "name": "4",
+            "job_count": 300
+          }
+        ]
+      },
+      {
+        "timestamp": 530,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 100
+          },
+          {
+            "name": "2",
+            "job_count": 200
+          },
+          {
+            "name": "3",
+            "job_count": 1600
+          },
+          {
+            "name": "4",
+            "job_count": 100
+          }
+        ]
+      },
+      {
+        "timestamp": 740,
+        "cands_info": [
+          {
+            "name": "3",
+            "job_count": 2000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 580,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 600
+          },
+          {
+            "name": "2",
+            "job_count": 800
+          },
+          {
+            "name": "3",
+            "job_count": 600
+          }
+        ]
+      },
+      {
+        "timestamp": 879,
+        "cands_info": [
+          {
+            "name": "4",
+            "job_count": 2000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 125,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 100
+          },
+          {
+            "name": "2",
+            "job_count": 1000
+          },
+          {
+            "name": "3",
+            "job_count": 900
+          }
+        ]
+      },
+      {
+        "timestamp": 900,
+        "cands_info": [
+          {
+            "name": "2",
+            "job_count": 2000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 210,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 500
+          },
+          {
+            "name": "2",
+            "job_count": 1100
+          },
+          {
+            "name": "3",
+            "job_count": 400
+          }
+        ]
+      },
+      {
+        "timestamp": 555,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 800
+          },
+          {
+            "name": "2",
+            "job_count": 800
+          },
+          {
+            "name": "3",
+            "job_count": 400
+          }
+        ]
+      },
+      {
+        "timestamp": 835,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 800
+          },
+          {
+            "name": "3",
+            "job_count": 1200
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 349,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 500
+          },
+          {
+            "name": "2",
+            "job_count": 500
+          },
+          {
+            "name": "3",
+            "job_count": 500
+          },
+          {
+            "name": "4",
+            "job_count": 500
+          }
+        ]
+      },
+      {
+        "timestamp": 745,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 667
+          },
+          {
+            "name": "2",
+            "job_count": 667
+          },
+          {
+            "name": "4",
+            "job_count": 666
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 100,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 800
+          },
+          {
+            "name": "2",
+            "job_count": 500
+          },
+          {
+            "name": "3",
+            "job_count": 700
+          }
+        ]
+      },
+      {
+        "timestamp": 368,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 1000
+          },
+          {
+            "name": "3",
+            "job_count": 1000
+          }
+        ]
+      },
+      {
+        "timestamp": 950,
+        "cands_info": [
+          {
+            "name": "3",
+            "job_count": 2000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 100,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 900
+          },
+          {
+            "name": "2",
+            "job_count": 1100
+          }
+        ]
+      },
+      {
+        "timestamp": 350,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 900
+          },
+          {
+            "name": "2",
+            "job_count": 900
+          },
+          {
+            "name": "3",
+            "job_count": 200
+          }
+        ]
+      },
+      {
+        "timestamp": 670,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 400
+          },
+          {
+            "name": "2",
+            "job_count": 1200
+          },
+          {
+            "name": "3",
+            "job_count": 400
+          }
+        ]
+      },
+      {
+        "timestamp": 890,
+        "cands_info": [
+          {
+            "name": "2",
+            "job_count": 1200
+          },
+          {
+            "name": "3",
+            "job_count": 500
+          },
+          {
+            "name": "4",
+            "job_count": 300
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 235,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 2000
+          }
+        ]
+      },
+      {
+        "timestamp": 405,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 1568
+          },
+          {
+            "name": "2",
+            "job_count": 432
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 178,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 800
+          },
+          {
+            "name": "2",
+            "job_count": 1200
+          }
+        ]
+      },
+      {
+        "timestamp": 345,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 800
+          },
+          {
+            "name": "2",
+            "job_count": 900
+          },
+          {
+            "name": "3",
+            "job_count": 300
+          }
+        ]
+      },
+      {
+        "timestamp": 780,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 800
+          },
+          {
+            "name": "2",
+            "job_count": 1200
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "environment": "prod",
+    "snapshots": [
+      {
+        "timestamp": 123,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 2000
+          }
+        ]
+      },
+      {
+        "timestamp": 567,
+        "cands_info": [
+          {
+            "name": "1",
+            "job_count": 2000
+          },
+          {
+            "name": "2",
+            "job_count": 0
+          }
+        ]
+      }
+    ]
+  }
+]

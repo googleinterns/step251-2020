@@ -8,10 +8,10 @@ import {Environment} from '../app/models/Data';
   providedIn: 'root',
 })
 export class FileServiceStub {
-  jsonFileName = 'env.json';
+  jsonUri = 'env.json';
 
   files = {
-    [this.jsonFileName]: [
+    [this.jsonUri]: [
       {
         environment: 'prod',
         snapshots: [

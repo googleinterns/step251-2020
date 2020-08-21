@@ -2,76 +2,66 @@ import {Injectable} from '@angular/core';
 import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
 import {CandidateInfo, Environment} from '../models/Data';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {FileService} from './file';
+import {Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EnvironmentService {
-  constructor(private fileService: FileService) {}
+  constructor() {}
 
   // xs: 0-100, ys: timestamps
-  getPolygons(jsonFile: string): Observable<Polygon[]> {
-    return this.readJson(jsonFile).pipe(
-      map(environments => this.calculatePolygons(environments))
-    );
+  getPolygons(environment: Environment): Observable<Polygon[]> {
+    return of(this.calculatePolygons(environment));
   }
 
-  private calculatePolygons(environments: Environment[]): Polygon[] {
+  private calculatePolygons(environment: Environment): Polygon[] {
     const polys: Polygon[] = [];
 
-    // Assume there is only one environment
     // Assume for now a candidate appears only once per environment (solution: give the polygons ids)
     // TODO(#154): Change code to support multiple polygons for one candidate.
 
-    for (const environment of environments) {
-      let newTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
-      let lastTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
-      const lowerBounds: Map<string, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
-      const upperBounds: Map<string, Point[]> = new Map();
-      let lastTimeStamp = 0;
+    let newTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+    let lastTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
+    const lowerBounds: Map<string, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
+    const upperBounds: Map<string, Point[]> = new Map();
+    let lastTimeStamp = 0;
 
-      for (const snapshot of environment.snapshots) {
-        const update: [
-          TimestampLowerBoundSet,
-          number
-        ] = this.computeNextSnapshot(
-          snapshot.cands_info,
-          lastTimestampLowerBoundSet
-        );
-        newTimestampLowerBoundSet = update[0];
+    for (const snapshot of environment.snapshots) {
+      const update: [TimestampLowerBoundSet, number] = this.computeNextSnapshot(
+        snapshot.cands_info,
+        lastTimestampLowerBoundSet
+      );
+      newTimestampLowerBoundSet = update[0];
 
-        this.addSnapshotToPolygons(
-          lowerBounds,
-          upperBounds,
-          newTimestampLowerBoundSet.snapshot,
-          update[1],
-          snapshot.timestamp,
-          lastTimeStamp
-        );
+      this.addSnapshotToPolygons(
+        lowerBounds,
+        upperBounds,
+        newTimestampLowerBoundSet.snapshot,
+        update[1],
+        snapshot.timestamp,
+        lastTimeStamp
+      );
 
-        lastTimestampLowerBoundSet = this.closePolygons(
-          polys,
-          lowerBounds,
-          upperBounds,
-          newTimestampLowerBoundSet
-        ); // delete inexisting ones
-        lastTimeStamp = snapshot.timestamp;
-      }
+      lastTimestampLowerBoundSet = this.closePolygons(
+        polys,
+        lowerBounds,
+        upperBounds,
+        newTimestampLowerBoundSet
+      ); // delete inexisting ones
+      lastTimeStamp = snapshot.timestamp;
+    }
 
-      // draw the vertical line and add remaining polys
-      for (const candidate of lastTimestampLowerBoundSet.snapshot) {
-        const name: string = candidate.candName;
-        this.addPointToBorderMap(upperBounds, name, {
-          x: lastTimeStamp,
-          y: candidate.position,
-        });
-        polys.push(
-          this.createPolygon(lowerBounds.get(name), upperBounds.get(name), name)
-        );
-      }
+    // draw the vertical line and add remaining polys
+    for (const candidate of lastTimestampLowerBoundSet.snapshot) {
+      const name: string = candidate.candName;
+      this.addPointToBorderMap(upperBounds, name, {
+        x: lastTimeStamp,
+        y: candidate.position,
+      });
+      polys.push(
+        this.createPolygon(lowerBounds.get(name), upperBounds.get(name), name)
+      );
     }
 
     return polys;
@@ -228,10 +218,6 @@ export class EnvironmentService {
     }
 
     return candInfo2percentage;
-  }
-
-  private readJson(jsonFile: string): Observable<Environment[]> {
-    return this.fileService.readContents<Environment[]>(jsonFile);
   }
 }
 

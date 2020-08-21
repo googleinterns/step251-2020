@@ -8,6 +8,7 @@ import {CanvasGridComponent} from './components/grid/canvas/canvas';
 import {HomeComponent} from './components/home/home';
 import {EnvironmentComponent} from './components/environment/environment';
 import {HttpClientModule} from '@angular/common/http';
+import {EnvironmentsComponent} from './components/environments/environments';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {HttpClientModule} from '@angular/common/http';
     CanvasGridComponent,
     HomeComponent,
     EnvironmentComponent,
+    EnvironmentsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

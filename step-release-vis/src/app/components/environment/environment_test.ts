@@ -41,12 +41,6 @@ describe('EnvironmentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('query params should be assigned', () => {
-    fixture.detectChanges();
-    expect(component.jsonFile).toEqual(routeParams.jsonFile);
-    expect(component.envName).toEqual(routeParams.envName);
-  });
-
   it('polygons should be assigned', () => {
     fixture.detectChanges();
     expect(component.polygons).toBeTruthy();

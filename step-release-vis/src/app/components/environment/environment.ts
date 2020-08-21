@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
 import {shuffle} from 'lodash';
 import {ActivatedRoute} from '@angular/router';
-import {ParamService} from '../../services/param';
 import {Point} from '../../models/Point';
+import {Environment} from '../../models/Data';
 
 @Component({
   selector: 'app-environment',
@@ -15,34 +15,20 @@ export class EnvironmentComponent implements OnInit {
   width: number;
   height: number;
   polygons: Polygon[];
-  envName: string;
-  // Currently the json file describes only one environment,
-  // therefore the file is directly associated with EnvironmentComponent.
-  // Later a parent component for multiple EnvironmentComponents will be introduced.
-  // Until then the constant parameters are specified in the url as query parameters.
-  // TODO(#147): Add parent component
-  jsonFile: string;
+  @Input() environment: Environment;
 
   constructor(
     private route: ActivatedRoute,
-    private environmentService: EnvironmentService,
-    private paramService: ParamService
+    private environmentService: EnvironmentService
   ) {}
 
   ngOnInit(): void {
     // TODO(#147): make width and height configurable (requires parent component)
     this.width = window.innerWidth;
     this.height = window.innerHeight / 5;
-
-    this.paramService.param(this.route, 'jsonFile', '').subscribe(jsonFile => {
-      this.jsonFile = jsonFile;
-      this.environmentService
-        .getPolygons(this.jsonFile)
-        .subscribe(polygons => this.processPolygons(polygons));
-    });
-    this.paramService
-      .param(this.route, 'envName', 'default_env')
-      .subscribe(envName => (this.envName = envName));
+    this.environmentService
+      .getPolygons(this.environment)
+      .subscribe(polygons => this.processPolygons(polygons));
   }
 
   /**
