@@ -10,6 +10,8 @@ export class Candidate {
     this.color = color;
   }
 
+  // TODO(#169): addPolugon(polygon: Polygon)
+
   polygonHovered(): void {
     this.polygons.map(polygon => (polygon.highlight = true));
   }

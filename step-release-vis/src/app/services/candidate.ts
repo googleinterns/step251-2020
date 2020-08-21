@@ -10,6 +10,8 @@ export class CandidateService {
 
   constructor() {}
 
+  // TODO(#169): addCandidate(color, name) + addPolygons(polygons)
+
   polygonHovered(polygon: Polygon): void {
     this.cands.get(polygon.candName).polygonHovered();
   }

@@ -10,6 +10,8 @@ describe('CandidateService', () => {
     service = TestBed.inject(CandidateService);
   });
 
+  // TODO(#171): Add tests for polygonHovered/Unhovered.
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
