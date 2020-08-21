@@ -1,10 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" [attr.width]="width" [attr.height]="height">
-  <polygon
-    *ngFor="let polygon of polygons"
-    [attr.points]="polygon.toAttributeString()"
-    [attr.fill]="getColor(polygon)"
-    (mouseenter)="polygonMouseEnter(polygon)"
-    (mouseleave)="polygonMouseLeave(polygon)"
-  >
-  </polygon>
-</svg>
+<div id="svg-container">
+  <svg id="svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="width" [attr.height]="height">
+    <polygon
+      *ngFor="let polygon of polygons"
+      [attr.points]="polygon.toAttributeString()"
+      [attr.fill]="getColor(polygon)"
+      (mouseenter)="polygonMouseEnter(polygon)"
+      (mouseleave)="polygonMouseLeave(polygon)"
+    >
+    </polygon>
+  </svg>
+</div>
