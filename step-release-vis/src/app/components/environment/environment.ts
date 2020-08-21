@@ -20,7 +20,7 @@ export class EnvironmentComponent implements OnInit {
   // therefore the file is directly associated with EnvironmentComponent.
   // Later a parent component for multiple EnvironmentComponents will be introduced.
   // Until then the constant parameters are specified in the url as query parameters.
-  // TODO(andreystar): Add parent component
+  // TODO(#147): Add parent component
   jsonFile: string;
 
   constructor(
@@ -30,7 +30,7 @@ export class EnvironmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // TODO(andreystar): make width and height configurable (requires parent component)
+    // TODO(#147): make width and height configurable (requires parent component)
     this.width = window.innerWidth;
     this.height = window.innerHeight / 5;
 
