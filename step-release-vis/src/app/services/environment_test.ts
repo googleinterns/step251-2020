@@ -40,7 +40,7 @@ describe('EnvironmentService', () => {
       }
       const polygonCandNames = new Set<string>();
       polygons.forEach(({candName}) => polygonCandNames.add(candName));
-      // expect(areSetsEqual(envCandNames, polygonCandNames)).toBeTrue(); // TODO(#153): uncomment, when calculatePolygons() is finished
+      expect(areSetsEqual(envCandNames, polygonCandNames)).toBeTrue();
       done();
     });
   });
