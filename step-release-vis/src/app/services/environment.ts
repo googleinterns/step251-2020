@@ -19,7 +19,7 @@ export class EnvironmentService {
     );
   }
 
-  // TODO(naoai): compute the coordinates for the polygons
+  // TODO(#153): compute the coordinates for the polygons
   private calculatePolygons(environments: Environment[]): Polygon[] {
     return [];
   }
