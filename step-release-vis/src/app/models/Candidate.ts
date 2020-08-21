@@ -5,10 +5,9 @@ export class Candidate {
   color: number;
   polygons: Polygon[];
 
-  constructor(candName: string, color: number, polygons: Polygon[]) {
+  constructor(candName: string, color: number) {
     this.candName = candName;
     this.color = color;
-    this.polygons = polygons;
   }
 
   polygonHovered(): void {
