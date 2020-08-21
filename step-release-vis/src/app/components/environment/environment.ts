@@ -23,7 +23,6 @@ export class EnvironmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // TODO(#147): make width and height configurable (requires parent component)
     this.environmentService
       .getPolygons(this.environment)
       .subscribe(polygons => this.processPolygons(polygons));
