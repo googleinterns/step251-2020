@@ -1,9 +1,20 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {Candidate} from '../models/Candidate';
+import {Polygon} from '../models/Polygon';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CandidateService {
+  cands: Map<string, Candidate>;
 
-  constructor() { }
+  constructor() {}
+
+  polygonHovered(polygon: Polygon): void {
+    this.cands.get(polygon.candName).polygonHovered();
+  }
+
+  polygonUnhovered(polugon: Polygon): void {
+    this.cands.get(polugon.candName).polygonUnhovered();
+  }
 }
