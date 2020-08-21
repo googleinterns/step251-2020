@@ -17,4 +17,6 @@ export class CandidateService {
   polygonUnhovered(polygon: Polygon): void {
     this.cands.get(polygon.candName).polygonUnhovered();
   }
+
+  // TODO(#169): addCandidate(color, name) + addPolygons(polygons: Polygon[])
 }
