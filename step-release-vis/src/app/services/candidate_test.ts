@@ -13,4 +13,6 @@ describe('CandidateService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  // TODO(#171): Add tests for polygonHovered/Unhovered.
 });
