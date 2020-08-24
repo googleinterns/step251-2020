@@ -16,6 +16,17 @@ export class CandidateService {
     this.cands.set(name, new Candidate(name, color));
   }
 
+  addPolygons(polygons: Polygon[]): void {
+    for (const polygon of polygons) {
+      if (this.cands.has(polygon.candName)) {
+        this.cands.get(polygon.candName).addPolygon(polygon);
+      } else {
+        this.addCandidate(polygon.colorHue, polygon.candName);
+        this.cands.get(polygon.candName).addPolygon(polygon);
+      }
+    }
+  }
+
   polygonHovered(polygon: Polygon): void {
     this.cands.get(polygon.candName).polygonHovered();
   }
