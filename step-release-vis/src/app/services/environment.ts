@@ -8,7 +8,11 @@ import {Observable, of} from 'rxjs';
   providedIn: 'root',
 })
 export class EnvironmentService {
-  constructor() {}
+  BEGINNING: number;
+
+  constructor() {
+    this.BEGINNING = -1;
+  }
 
   // xs: 0-100, ys: timestamps
   getPolygons(environment: Environment): Observable<Polygon[]> {
@@ -19,14 +23,12 @@ export class EnvironmentService {
     const polys: Polygon[] = [];
     let numberOfPolygons = 0;
 
-    // TODO(#166): change the beginning of the display.
-
     let newTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     let lastTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     const lowerBounds: Map<number, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
     const upperBounds: Map<number, Point[]> = new Map();
     const nameToActiveId: Map<string, number> = new Map();
-    let lastTimeStamp = 0;
+    let lastTimeStamp = this.BEGINNING;
 
     for (const snapshot of environment.snapshots) {
       const update: [TimestampLowerBoundSet, number] = this.computeNextSnapshot(
@@ -96,17 +98,28 @@ export class EnvironmentService {
     upperBound: Point[],
     candidate: string
   ): Polygon {
+    const revUpperBound = upperBound.slice().reverse();
     const points: Point[] = [];
-    for (const point of lowerBound) {
-      points.push(point);
-    }
-    points.pop();
 
-    const revUpperBound = upperBound.reverse();
-    for (const point of upperBound) {
-      points.push(point);
+    if (lowerBound[0].x === this.BEGINNING) {
+      // this polygon starts from the beginning
+      for (let i = 1; i < lowerBound.length; i++) {
+        points.push(lowerBound[i]);
+      }
+      for (let i = 1; i < revUpperBound.length - 1; i++) {
+        points.push(revUpperBound[i]);
+      }
+    } else {
+      for (const point of lowerBound) {
+        points.push(point);
+      }
+      points.pop();
+
+      for (const point of revUpperBound) {
+        points.push(point);
+      }
+      points.pop();
     }
-    points.pop();
 
     return new Polygon(points, candidate);
   }

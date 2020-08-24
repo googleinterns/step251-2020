@@ -72,7 +72,6 @@ describe('EnvironmentService', () => {
 
       const poly0: Polygon = new Polygon(
         [
-          {x: 0, y: 100},
           {x: 1, y: 0},
           {x: 2, y: 0},
           {x: 1, y: 100},
@@ -130,14 +129,12 @@ describe('EnvironmentService', () => {
       // first element in the output should be the first closed polygon
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
-        {x: 0, y: 100},
         {x: 1, y: 0},
         {x: 2, y: 0},
         {x: 1, y: 30},
       ]);
       expect(result[1].candName).toEqual('2');
       expect(result[1].points).toEqual([
-        {x: 0, y: 100},
         {x: 1, y: 30},
         {x: 2, y: 0},
         {x: 2, y: 100},
@@ -161,7 +158,6 @@ describe('EnvironmentService', () => {
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
-        {x: 0, y: 100},
         {x: 1, y: 0},
         {x: 1, y: 100},
       ]);
@@ -184,15 +180,9 @@ describe('EnvironmentService', () => {
       const result: Polygon[] = service.calculatePolygons(inputEnvironment);
 
       expect(result[0].candName).toEqual('1');
-      expect(result[0].points).toEqual([
-        {x: 0, y: 100},
-        {x: 1, y: 100},
-      ]);
+      expect(result[0].points).toEqual([{x: 1, y: 100}]);
       expect(result[1].candName).toEqual('2');
-      expect(result[1].points).toEqual([
-        {x: 0, y: 100},
-        {x: 1, y: 100},
-      ]);
+      expect(result[1].points).toEqual([{x: 1, y: 100}]);
     });
 
     it('new candidate appears', () => {
@@ -217,7 +207,6 @@ describe('EnvironmentService', () => {
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
-        {x: 0, y: 100},
         {x: 1, y: 0},
         {x: 2, y: 0},
         {x: 2, y: 80},
@@ -253,14 +242,12 @@ describe('EnvironmentService', () => {
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
-        {x: 0, y: 100},
         {x: 1, y: 0},
         {x: 2, y: 100},
         {x: 1, y: 30},
       ]);
       expect(result[1].candName).toEqual('2');
       expect(result[1].points).toEqual([
-        {x: 0, y: 100},
         {x: 1, y: 30},
         {x: 2, y: 100},
         {x: 1, y: 100},
@@ -307,7 +294,6 @@ describe('EnvironmentService', () => {
       ]);
       expect(result[1].candName).toEqual('1');
       expect(result[1].points).toEqual([
-        {x: 0, y: 100},
         {x: 1, y: 0},
         {x: 2, y: 0},
         {x: 3, y: 0},
@@ -354,13 +340,7 @@ describe('EnvironmentService', () => {
         {x: 10, y: 10},
       ];
       const upper: Point[] = lower;
-      const line: Polygon = new Polygon(
-        [
-          {x: 0, y: 0},
-          {x: 10, y: 10},
-        ],
-        'line'
-      );
+      const line: Polygon = new Polygon(lower, 'line');
 
       // @ts-ignore
       const result: Polygon = service.createPolygon(lower, upper, 'line');
