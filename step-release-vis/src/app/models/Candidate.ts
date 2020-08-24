@@ -8,6 +8,7 @@ export class Candidate {
   constructor(candName: string, color: number) {
     this.candName = candName;
     this.color = color;
+    this.polygons = [];
   }
 
   addPolygon(polygon: Polygon): void {
