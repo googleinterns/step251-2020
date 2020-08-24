@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
-import {shuffle} from 'lodash';
 import {ActivatedRoute} from '@angular/router';
 import {Point} from '../../models/Point';
 import {Environment} from '../../models/Data';
+import {CandidateService} from '../../services/candidate';
 
 @Component({
   selector: 'app-environment',
@@ -19,7 +19,8 @@ export class EnvironmentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private environmentService: EnvironmentService
+    private environmentService: EnvironmentService,
+    private candidateService: CandidateService
   ) {}
 
   ngOnInit(): void {
@@ -41,9 +42,7 @@ export class EnvironmentComponent implements OnInit {
       Number.MAX_VALUE
     );
     const endTime = this.reducePolygonPoints(polygons, Math.max, ({x}) => x, 0);
-    // Shuffle polygon indices to assign colors randomly
-    const shuffledIndices = shuffle(polygons.map((_, index) => index));
-    this.polygons = polygons.map((polygon, index) => {
+    this.polygons = polygons.map(polygon => {
       const scaledPolygon = this.scalePolygon(
         polygon,
         startTime,
@@ -51,12 +50,10 @@ export class EnvironmentComponent implements OnInit {
         0,
         100
       );
-      scaledPolygon.colorHue = this.getHue(
-        shuffledIndices[index],
-        polygons.length
-      );
+      scaledPolygon.colorHue = this.candidateService.getColor(polygon.candName);
       return scaledPolygon;
     });
+    this.candidateService.addPolygons(this.polygons);
   }
 
   /**
@@ -132,22 +129,6 @@ export class EnvironmentComponent implements OnInit {
   }
 
   /**
-   * Generates a hue for an HSL color by splitting the range 0..360 into
-   * `amount` number of chunks.
-   *
-   * e.g. amount = 4
-   * |--0--|--1--|--2--|--3--|
-   * 0                      360
-   *
-   * @param index the index of the color
-   * @param amount amount of colors
-   */
-  private getHue(index: number, amount: number): number {
-    const chunkSize = 360 / amount;
-    return Math.floor(chunkSize * index + chunkSize / 2);
-  }
-
-  /**
    * Generates an HSL color based on the provided polygon.
    * Hue is set to polygon's hue.
    * Saturation is set to 100%, if the polygon is highlighted, 60% - otherwise
@@ -161,10 +142,10 @@ export class EnvironmentComponent implements OnInit {
   }
 
   polygonMouseEnter(polygon: Polygon): void {
-    polygon.highlight = true;
+    this.candidateService.polygonHovered(polygon);
   }
 
   polygonMouseLeave(polygon: Polygon): void {
-    polygon.highlight = false;
+    this.candidateService.polygonUnhovered(polygon);
   }
 }
