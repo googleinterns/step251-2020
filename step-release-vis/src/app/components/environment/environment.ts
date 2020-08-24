@@ -12,10 +12,10 @@ import {Environment} from '../../models/Data';
   styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit {
-  width: number;
-  height: number;
-  polygons: Polygon[];
+  @Input() width: number;
+  @Input() height: number;
   @Input() environment: Environment;
+  polygons: Polygon[];
 
   constructor(
     private route: ActivatedRoute,
@@ -23,9 +23,6 @@ export class EnvironmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // TODO(#147): make width and height configurable (requires parent component)
-    this.width = window.innerWidth;
-    this.height = window.innerHeight / 5;
     this.environmentService
       .getPolygons(this.environment)
       .subscribe(polygons => this.processPolygons(polygons));

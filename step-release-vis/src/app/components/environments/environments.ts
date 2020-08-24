@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Environment} from '../../models/Data';
 import {FileService} from '../../services/file';
 import {ParamService} from '../../services/param';
@@ -12,6 +12,8 @@ import {ActivatedRoute} from '@angular/router';
 export class EnvironmentsComponent implements OnInit {
   environments: Environment[];
   jsonUri: string;
+  envWidth: number;
+  envHeight: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,7 +26,13 @@ export class EnvironmentsComponent implements OnInit {
       this.jsonUri = jsonUri;
       this.fileService
         .readContents<Environment[]>(this.jsonUri)
-        .subscribe(environments => (this.environments = environments));
+        .subscribe(environments => this.processEnvironments(environments));
     });
+  }
+
+  private processEnvironments(environments: Environment[]): void {
+    this.envWidth = window.innerWidth;
+    this.envHeight = window.innerHeight / environments.length;
+    this.environments = environments;
   }
 }
