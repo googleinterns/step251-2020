@@ -64,4 +64,34 @@ describe('CandidateService', () => {
       ).toEqual(2);
     });
   });
+
+  describe('#polygonUnhovered', () => {
+    it('test', () => {
+      service = new CandidateService();
+      service.addCandidate(5, '1');
+      const polygonToBeHoveredOver: Polygon = new Polygon(
+        [new Point(0, 10), new Point(1, 0)],
+        '1'
+      );
+      const polygonTobeUnhovered: Polygon = new Polygon(
+        [new Point(0, 20), new Point(1, 0)],
+        '1'
+      );
+      const polygonsOfCandidate: Polygon[] = [
+        polygonToBeHoveredOver,
+        polygonTobeUnhovered,
+      ];
+      service.addPolygons(polygonsOfCandidate);
+      // first make all the polygons highlighted
+      service.polygonHovered(polygonToBeHoveredOver);
+      // then unhover
+      service.polygonUnhovered(polygonTobeUnhovered);
+
+      // all the polygons of candidate named '1' should have the highlight property false
+      expect(
+        service.cands.get('1').polygons.filter(polygon => polygon.highlight)
+          .length
+      ).toEqual(0);
+    });
+  });
 });
