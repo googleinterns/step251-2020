@@ -3,6 +3,7 @@ import {Environment} from '../../models/Data';
 import {FileService} from '../../services/file';
 import {ParamService} from '../../services/param';
 import {ActivatedRoute} from '@angular/router';
+import {CandidateService} from '../../services/candidate';
 
 @Component({
   selector: 'app-environments',
@@ -18,7 +19,8 @@ export class EnvironmentsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fileService: FileService,
-    private paramService: ParamService
+    private paramService: ParamService,
+    private candidateService: CandidateService
   ) {}
 
   ngOnInit(): void {
@@ -34,5 +36,9 @@ export class EnvironmentsComponent implements OnInit {
     this.envWidth = window.innerWidth;
     this.envHeight = window.innerHeight / environments.length;
     this.environments = environments;
+    for (const environment of this.environments) {
+      for (const snapshot of environment.snapshots) {
+      }
+    }
   }
 }
