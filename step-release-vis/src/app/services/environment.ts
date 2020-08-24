@@ -23,8 +23,6 @@ export class EnvironmentService {
     const polys: Polygon[] = [];
     let numberOfPolygons = 0;
 
-    // TODO(#166): change the beginning of the display.
-
     let newTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     let lastTimestampLowerBoundSet: TimestampLowerBoundSet = new TimestampLowerBoundSet();
     const lowerBounds: Map<number, Point[]> = new Map(); // both upper and lower bounds will contain the leftmost / rightmost point
