@@ -12,6 +12,10 @@ export class CandidateService {
     this.cands = new Map();
   }
 
+  getColor(candName: string): number {
+    return this.cands.get(candName).color;
+  }
+
   addCandidate(color: number, name: string): void {
     // if the candidate already exists, just update the color
     if (this.cands.has(name)) {
