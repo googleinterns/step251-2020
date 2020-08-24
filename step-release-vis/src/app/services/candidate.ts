@@ -8,7 +8,9 @@ import {Polygon} from '../models/Polygon';
 export class CandidateService {
   cands: Map<string, Candidate>;
 
-  constructor() {}
+  constructor() {
+    this.cands = new Map();
+  }
 
   addCandidate(color: number, name: string): void {
     this.cands.set(name, new Candidate(name, color));
