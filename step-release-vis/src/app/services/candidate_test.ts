@@ -41,4 +41,27 @@ describe('CandidateService', () => {
       expect(service.cands.get('2').polygons).toEqual(inputPolygons);
     });
   });
+
+  describe('#polygonHovered', () => {
+    it('test', () => {
+      service = new CandidateService();
+      service.addCandidate(5, '1');
+      const polygonToBeHoveredOver: Polygon = new Polygon(
+        [new Point(0, 10), new Point(1, 0)],
+        '1'
+      );
+      const polygonsOfCandidate: Polygon[] = [
+        polygonToBeHoveredOver,
+        new Polygon([new Point(0, 20), new Point(1, 0)], '1'),
+      ];
+      service.addPolygons(polygonsOfCandidate);
+      service.polygonHovered(polygonToBeHoveredOver);
+
+      // all the polygons of candidate named '1' should have the highlight property true
+      expect(
+        service.cands.get('1').polygons.filter(polygon => polygon.highlight)
+          .length
+      ).toEqual(2);
+    });
+  });
 });
