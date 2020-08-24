@@ -13,7 +13,13 @@ export class CandidateService {
   }
 
   addCandidate(color: number, name: string): void {
-    this.cands.set(name, new Candidate(name, color));
+    // if the candidate already exists, just update the color
+    if (this.cands.has(name)) {
+      const existingCandidate: Candidate = this.cands.get(name);
+      existingCandidate.color = color;
+    } else {
+      this.cands.set(name, new Candidate(name, color));
+    }
   }
 
   addPolygons(polygons: Polygon[]): void {

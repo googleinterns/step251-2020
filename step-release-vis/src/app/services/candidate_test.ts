@@ -19,6 +19,16 @@ describe('CandidateService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('#addCandidate', () => {
+    it('test if the color changes when the candidate already exists', () => {
+      service = new CandidateService();
+      service.addCandidate(3, '1');
+      // readd same candidate
+      service.addCandidate(6, '1');
+      expect(service.cands.get('1').color).toEqual(6);
+    });
+  });
+
   describe('#addPolygons', () => {
     it('candidate is already present in map', () => {
       service = new CandidateService();
