@@ -4,14 +4,14 @@ import {HomeComponent} from './components/home/home';
 import {SvgGridComponent} from './components/grid/svg/svg';
 import {CanvasGridComponent} from './components/grid/canvas/canvas';
 import {EnvironmentsComponent} from './components/environments/environments';
-import {FormComponent} from './components/form/form';
+import {DataSubmissionFormComponent} from './components/form/dataSubmissionForm';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'svg', component: SvgGridComponent},
   {path: 'canvas', component: CanvasGridComponent},
   {path: 'env', component: EnvironmentsComponent},
-  {path: 'form', component: FormComponent},
+  {path: 'form', component: DataSubmissionFormComponent},
 ];
 
 @NgModule({

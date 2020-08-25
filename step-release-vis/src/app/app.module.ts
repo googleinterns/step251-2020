@@ -10,7 +10,7 @@ import {HomeComponent} from './components/home/home';
 import {EnvironmentComponent} from './components/environment/environment';
 import {HttpClientModule} from '@angular/common/http';
 import {EnvironmentsComponent} from './components/environments/environments';
-import {FormComponent} from './components/form/form';
+import {DataSubmissionFormComponent} from './components/form/dataSubmissionForm';
 import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
@@ -21,7 +21,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     HomeComponent,
     EnvironmentComponent,
     EnvironmentsComponent,
-    FormComponent,
+    DataSubmissionFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,10 +3,10 @@ import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-form',
-  templateUrl: './form.html',
-  styleUrls: ['./form.css'],
+  templateUrl: './dataSubmissionForm.html',
+  styleUrls: ['./dataSubmissionForm.css'],
 })
-export class FormComponent implements OnInit {
+export class DataSubmissionFormComponent implements OnInit {
   dataForm;
 
   constructor(private formBuilder: FormBuilder) {

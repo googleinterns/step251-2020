@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {FormComponent} from './form';
+import {FormComponent} from './dataSubmissionForm';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 describe('FormComponent', () => {
