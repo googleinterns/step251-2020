@@ -11,4 +11,8 @@ export class FileService {
   readContents<T>(filePath: string): Observable<T> {
     return this.http.get<T>(filePath);
   }
+
+  getData(): string {
+    return window.localStorage.getItem('data');
+  }
 }

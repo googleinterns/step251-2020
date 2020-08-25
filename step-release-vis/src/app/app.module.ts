@@ -10,6 +10,8 @@ import {HomeComponent} from './components/home/home';
 import {EnvironmentComponent} from './components/environment/environment';
 import {HttpClientModule} from '@angular/common/http';
 import {EnvironmentsComponent} from './components/environments/environments';
+import {DataSubmissionFormComponent} from './components/form/dataSubmissionForm';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,8 +21,14 @@ import {EnvironmentsComponent} from './components/environments/environments';
     HomeComponent,
     EnvironmentComponent,
     EnvironmentsComponent,
+    DataSubmissionFormComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+  ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
 })

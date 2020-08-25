@@ -1,0 +1,11 @@
+<form [formGroup]="dataForm" (ngSubmit)="onSubmit(dataForm.value)">
+  <div>
+    <label for="data-text-box">
+      Input data for the protocol buffer here:
+    </label>
+    <br><br>
+    <input id="data-text-box" type="text" formControlName="data">
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
