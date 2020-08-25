@@ -69,6 +69,7 @@ describe('EnvironmentsComponent', () => {
       const candColor = candidateServiceStub.candColors.get(candName);
       expect(candColor).toBeTruthy();
       expect(candColors.has(candColor)).toBeFalse();
+      candColors.add(candColor);
     });
   });
 
