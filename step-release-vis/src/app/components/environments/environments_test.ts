@@ -8,7 +8,7 @@ import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
 import {ActivatedRoute} from '@angular/router';
 import {EnvironmentComponent} from '../environment/environment';
 
-fdescribe('EnvironmentsComponent', () => {
+describe('EnvironmentsComponent', () => {
   let component: EnvironmentsComponent;
   let fixture: ComponentFixture<EnvironmentsComponent>;
   let activatedRouteStub: ActivatedRouteStub;
@@ -51,6 +51,6 @@ fdescribe('EnvironmentsComponent', () => {
   });
 
   it('candidates should be added to service', () => {
-    expect();
+    // TODO(#176): add test
   });
 });
