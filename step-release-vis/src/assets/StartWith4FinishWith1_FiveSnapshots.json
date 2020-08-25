@@ -4,94 +4,94 @@
     "snapshots": [
       {
         "timestamp": 50,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 400
+            "candidate": "1",
+            "jobCount": 400
           },
           {
-            "name": "2",
-            "job_count": 500
+            "candidate": "2",
+            "jobCount": 500
           },
           {
-            "name": "3",
-            "job_count": 500
+            "candidate": "3",
+            "jobCount": 500
           },
           {
-            "name": "4",
-            "job_count": 600
+            "candidate": "4",
+            "jobCount": 600
           }
         ]
       },
       {
         "timestamp": 250,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 300
+            "candidate": "1",
+            "jobCount": 300
           },
           {
-            "name": "2",
-            "job_count": 500
+            "candidate": "2",
+            "jobCount": 500
           },
           {
-            "name": "3",
-            "job_count": 800
+            "candidate": "3",
+            "jobCount": 800
           },
           {
-            "name": "4",
-            "job_count": 400
+            "candidate": "4",
+            "jobCount": 400
           }
         ]
       },
       {
         "timestamp": 400,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 300
+            "candidate": "1",
+            "jobCount": 300
           },
           {
-            "name": "2",
-            "job_count": 200
+            "candidate": "2",
+            "jobCount": 200
           },
           {
-            "name": "3",
-            "job_count": 1200
+            "candidate": "3",
+            "jobCount": 1200
           },
           {
-            "name": "4",
-            "job_count": 300
+            "candidate": "4",
+            "jobCount": 300
           }
         ]
       },
       {
         "timestamp": 530,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 100
+            "candidate": "1",
+            "jobCount": 100
           },
           {
-            "name": "2",
-            "job_count": 200
+            "candidate": "2",
+            "jobCount": 200
           },
           {
-            "name": "3",
-            "job_count": 1600
+            "candidate": "3",
+            "jobCount": 1600
           },
           {
-            "name": "4",
-            "job_count": 100
+            "candidate": "4",
+            "jobCount": 100
           }
         ]
       },
       {
         "timestamp": 740,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "3",
-            "job_count": 2000
+            "candidate": "3",
+            "jobCount": 2000
           }
         ]
       }

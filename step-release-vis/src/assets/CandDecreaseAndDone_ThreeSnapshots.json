@@ -4,48 +4,48 @@
     "snapshots": [
       {
         "timestamp": 210,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 500
+            "candidate": "1",
+            "jobCount": 500
           },
           {
-            "name": "2",
-            "job_count": 1100
+            "candidate": "2",
+            "jobCount": 1100
           },
           {
-            "name": "3",
-            "job_count": 400
+            "candidate": "3",
+            "jobCount": 400
           }
         ]
       },
       {
         "timestamp": 555,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 800
+            "candidate": "1",
+            "jobCount": 800
           },
           {
-            "name": "2",
-            "job_count": 800
+            "candidate": "2",
+            "jobCount": 800
           },
           {
-            "name": "3",
-            "job_count": 400
+            "candidate": "3",
+            "jobCount": 400
           }
         ]
       },
       {
         "timestamp": 835,
-        "cands_info": [
+        "candsInfo": [
           {
-            "name": "1",
-            "job_count": 800
+            "candidate": "1",
+            "jobCount": 800
           },
           {
-            "name": "3",
-            "job_count": 1200
+            "candidate": "3",
+            "jobCount": 1200
           }
         ]
       }

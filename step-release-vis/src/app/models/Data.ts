@@ -1,11 +1,11 @@
 export interface CandidateInfo {
-  name: string;
-  job_count: number;
+  candidate: string;
+  jobCount: number;
 }
 
 export interface Snapshot {
   timestamp: number;
-  cands_info: CandidateInfo[];
+  candsInfo: CandidateInfo[];
 }
 
 export interface Environment {
