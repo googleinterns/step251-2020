@@ -34,4 +34,10 @@ describe('FileService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(testRequest.response);
   });
+
+  it('should return existing data', () => {
+    window.localStorage.setItem('data', 'this is a test');
+    const result = service.getData();
+    expect(result).toEqual('this is a test');
+  });
 });
