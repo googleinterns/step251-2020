@@ -16,6 +16,8 @@ export class EnvironmentsComponent implements OnInit {
   jsonUri: string;
   envWidth: number;
   envHeight: number;
+  minTimestamp: number;
+  maxTimestamp: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,13 +45,19 @@ export class EnvironmentsComponent implements OnInit {
     this.envHeight = window.innerHeight / environments.length;
     this.environments = environments;
     const candNames = new Set<string>();
+    let minTimestamp = Number.MAX_VALUE;
+    let maxTimestamp = 0;
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshots) {
+        minTimestamp = Math.min(minTimestamp, snapshot.timestamp);
+        maxTimestamp = Math.max(maxTimestamp, snapshot.timestamp);
         for (const candsInfo of snapshot.candsInfo) {
           candNames.add(candsInfo.candidate);
         }
       }
     }
+    this.minTimestamp = minTimestamp;
+    this.maxTimestamp = maxTimestamp;
     const shuffledIndices = shuffle(this.increasingSequence(0, candNames.size));
     [...candNames].forEach((name, index) => {
       const color = this.getHue(shuffledIndices[index], candNames.size);

@@ -9,7 +9,7 @@ import {Candidate} from '../app/models/Candidate';
   providedIn: 'root',
 })
 export class CandidateServiceStub {
-  candColors: Map<string, number>;
+  candColors = new Map<string, number>();
 
   getColor(candName: string): number {
     return 0;

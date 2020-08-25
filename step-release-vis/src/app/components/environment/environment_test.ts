@@ -30,6 +30,10 @@ describe('EnvironmentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentComponent);
     component = fixture.componentInstance;
+    component.width = 100;
+    component.height = 100;
+    component.minTimestamp = environmentServiceStub.minTimestamp;
+    component.maxTimestamp = environmentServiceStub.maxTimestamp;
     fixture.detectChanges();
   });
 
@@ -58,8 +62,6 @@ describe('EnvironmentComponent', () => {
   });
 
   it('polygons should fit the screen', () => {
-    component.width = 100;
-    component.height = 100;
     component.ngOnInit();
     fixture.detectChanges();
     component.polygons.forEach(({points}) =>

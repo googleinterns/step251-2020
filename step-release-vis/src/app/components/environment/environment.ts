@@ -13,6 +13,8 @@ import {CandidateService} from '../../services/candidate';
 export class EnvironmentComponent implements OnInit {
   @Input() width: number;
   @Input() height: number;
+  @Input() minTimestamp: number;
+  @Input() maxTimestamp: number;
   @Input() environment: Environment;
   polygons: Polygon[];
 
@@ -33,18 +35,11 @@ export class EnvironmentComponent implements OnInit {
    * @param polygons the polygons to process
    */
   private processPolygons(polygons: Polygon[]): void {
-    const startTime = this.reducePolygonPoints(
-      polygons,
-      Math.min,
-      ({x}) => x,
-      Number.MAX_VALUE
-    );
-    const endTime = this.reducePolygonPoints(polygons, Math.max, ({x}) => x, 0);
     this.polygons = polygons.map(polygon => {
       const scaledPolygon = this.scalePolygon(
         polygon,
-        startTime,
-        endTime,
+        this.minTimestamp,
+        this.maxTimestamp,
         0,
         100
       );
@@ -102,27 +97,6 @@ export class EnvironmentComponent implements OnInit {
   ): number {
     return (
       ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
-    );
-  }
-
-  /**
-   * Reduces an array of polygons to a number, based on the pointMapper and reducer.
-   *
-   * @param polygons an array of polygons
-   * @param reducer a reducing function for a set of numbers
-   * @param pointMapper a function, mapping a point to a number
-   * @param initialValue the initial value
-   */
-  private reducePolygonPoints(
-    polygons: Polygon[],
-    reducer: (...values: number[]) => number,
-    pointMapper: (point) => number,
-    initialValue: number
-  ): number {
-    return polygons.reduce(
-      (val, {points}) =>
-        reducer(val, ...points.map(point => pointMapper(point))),
-      initialValue
     );
   }
 

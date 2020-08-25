@@ -9,6 +9,8 @@ import {Environment} from '../app/models/Data';
 })
 export class EnvironmentServiceStub {
   candName = 'test_cand_name';
+  minTimestamp = 0;
+  maxTimestamp = 400;
 
   polygons: Polygon[] = [
     new Polygon(
