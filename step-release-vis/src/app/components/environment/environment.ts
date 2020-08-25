@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
-import {ActivatedRoute} from '@angular/router';
 import {Point} from '../../models/Point';
 import {Environment} from '../../models/Data';
 import {CandidateService} from '../../services/candidate';
@@ -18,7 +17,6 @@ export class EnvironmentComponent implements OnInit {
   polygons: Polygon[];
 
   constructor(
-    private route: ActivatedRoute,
     private environmentService: EnvironmentService,
     private candidateService: CandidateService
   ) {}

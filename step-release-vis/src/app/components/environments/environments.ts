@@ -33,6 +33,11 @@ export class EnvironmentsComponent implements OnInit {
     });
   }
 
+  /**
+   * Assigns each candidate a unique color and adds the candidate to the service.
+   *
+   * @param environments an array of environments
+   */
   private processEnvironments(environments: Environment[]): void {
     this.envWidth = window.innerWidth;
     this.envHeight = window.innerHeight / environments.length;
@@ -40,8 +45,8 @@ export class EnvironmentsComponent implements OnInit {
     const candNames = new Set<string>();
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshots) {
-        for (const candsInfo of snapshot.cands_info) {
-          candNames.add(candsInfo.name);
+        for (const candsInfo of snapshot.candsInfo) {
+          candNames.add(candsInfo.candidate);
         }
       }
     }

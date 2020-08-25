@@ -8,7 +8,7 @@ import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
 import {ActivatedRoute} from '@angular/router';
 import {EnvironmentComponent} from '../environment/environment';
 
-describe('EnvironmentsComponent', () => {
+fdescribe('EnvironmentsComponent', () => {
   let component: EnvironmentsComponent;
   let fixture: ComponentFixture<EnvironmentsComponent>;
   let activatedRouteStub: ActivatedRouteStub;
@@ -40,14 +40,17 @@ describe('EnvironmentsComponent', () => {
   });
 
   it('should assign environments field', () => {
-    fixture.detectChanges();
     expect(component.environments).toEqual(
       fileServiceStub.files[fileServiceStub.jsonUri]
     );
   });
 
-  it('should assign candWidth and candHeight fields', () => {
+  it('should assign envWidth and envHeight fields', () => {
     expect(component.envWidth).toBeTruthy();
     expect(component.envHeight).toBeTruthy();
+  });
+
+  it('candidates should be added to service', () => {
+    expect();
   });
 });
