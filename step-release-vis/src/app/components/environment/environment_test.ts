@@ -5,27 +5,23 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {EnvironmentService} from '../../services/environment';
 import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
-import {ActivatedRoute} from '@angular/router';
-import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
 import {By} from '@angular/platform-browser';
+import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
+import {CandidateService} from '../../services/candidate';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
   let fixture: ComponentFixture<EnvironmentComponent>;
   let environmentServiceStub: EnvironmentServiceStub;
-  let activatedRouteStub: ActivatedRouteStub;
-  const routeParams = {
-    jsonFile: 'test.json',
-    envName: 'test',
-  };
+  let candidateServiceStub: CandidateServiceStub;
   beforeEach(async(() => {
     environmentServiceStub = new EnvironmentServiceStub();
-    activatedRouteStub = new ActivatedRouteStub(routeParams);
+    candidateServiceStub = new CandidateServiceStub();
     TestBed.configureTestingModule({
       declarations: [EnvironmentComponent],
       providers: [
         {provide: EnvironmentService, useValue: environmentServiceStub},
-        {provide: ActivatedRoute, useValue: activatedRouteStub},
+        {provide: CandidateService, useValue: candidateServiceStub},
       ],
       imports: [RouterTestingModule, HttpClientTestingModule],
     }).compileComponents();
