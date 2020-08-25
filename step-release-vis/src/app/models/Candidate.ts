@@ -8,9 +8,12 @@ export class Candidate {
   constructor(candName: string, color: number) {
     this.candName = candName;
     this.color = color;
+    this.polygons = [];
   }
 
-  // TODO(#169): addPolugon(polygon: Polygon)
+  addPolygon(polygon: Polygon): void {
+    this.polygons.push(polygon);
+  }
 
   polygonHovered(): void {
     this.polygons.map(polygon => (polygon.highlight = true));

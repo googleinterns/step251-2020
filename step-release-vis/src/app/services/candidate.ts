@@ -8,9 +8,34 @@ import {Polygon} from '../models/Polygon';
 export class CandidateService {
   cands: Map<string, Candidate>;
 
-  constructor() {}
+  constructor() {
+    this.cands = new Map();
+  }
 
-  // TODO(#169): addCandidate(color, name) + addPolygons(polygons)
+  getColor(candName: string): number {
+    return this.cands.get(candName).color;
+  }
+
+  addCandidate(color: number, name: string): void {
+    // if the candidate already exists, just update the color
+    if (this.cands.has(name)) {
+      const existingCandidate: Candidate = this.cands.get(name);
+      existingCandidate.color = color;
+    } else {
+      this.cands.set(name, new Candidate(name, color));
+    }
+  }
+
+  addPolygons(polygons: Polygon[]): void {
+    for (const polygon of polygons) {
+      if (this.cands.has(polygon.candName)) {
+        this.cands.get(polygon.candName).addPolygon(polygon);
+      } else {
+        this.addCandidate(polygon.colorHue, polygon.candName);
+        this.cands.get(polygon.candName).addPolygon(polygon);
+      }
+    }
+  }
 
   polygonHovered(polygon: Polygon): void {
     this.cands.get(polygon.candName).polygonHovered();
