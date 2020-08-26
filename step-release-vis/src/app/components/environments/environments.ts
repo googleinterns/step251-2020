@@ -18,7 +18,11 @@ export class EnvironmentsComponent implements OnInit {
   maxTimestamp: number;
   envJson: string;
   // TODO(#185): add timeline points calculation
-  timelinePoints: TimelinePoint[] = [new TimelinePoint(1597790600, 500)];
+  timelinePoints: TimelinePoint[] = [
+    new TimelinePoint(1597790000, 100),
+    new TimelinePoint(1597790500, 500),
+    new TimelinePoint(1597791000, 800),
+  ];
 
   constructor(
     private fileService: FileService,
