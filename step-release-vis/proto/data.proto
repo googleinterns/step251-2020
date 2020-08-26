@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message CandidateInfo {
+  string candidate = 1;
+  int64 job_count = 2;
+}
+
+message Snapshot {
+  google.protobuf.Timestamp timestamp = 1;
+  repeated CandidateInfo candidates = 2;
+}
+
+message Env {
+  string name = 1;
+  repeated Snapshot snapshots = 2;
+}
+
+message Project {
+  string name = 1;
+  repeated Env envs = 2;
+}
