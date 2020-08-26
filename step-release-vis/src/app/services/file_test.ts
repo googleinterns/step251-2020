@@ -35,9 +35,11 @@ describe('FileService', () => {
     req.flush(testRequest.response);
   });
 
-  it('should return existing data', () => {
+  it('should return existing data', done => {
     window.localStorage.setItem('data', 'this is a test');
-    const result = service.getData();
-    expect(result).toEqual('this is a test');
+    service.getData().subscribe(result => {
+      expect(result).toEqual('this is a test');
+      done();
+    });
   });
 });

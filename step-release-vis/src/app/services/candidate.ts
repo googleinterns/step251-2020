@@ -41,7 +41,7 @@ export class CandidateService {
     this.cands.get(polygon.candName).polygonHovered();
   }
 
-  polygonUnhovered(polugon: Polygon): void {
-    this.cands.get(polugon.candName).polygonUnhovered();
+  polygonUnhovered(polygon: Polygon): void {
+    this.cands.get(polygon.candName).polygonUnhovered();
   }
 }
