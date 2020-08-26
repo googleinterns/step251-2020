@@ -2,10 +2,19 @@
   display: flex;
   align-items: center;
   height: 100%;
-  margin: 20px;
 }
 
 #svg {
   margin: 0 auto;
   display: block;
+}
+
+.environment-title {
+  color: dimgrey;
+  margin-bottom: 0px;
+  font-family: "Courier New";
+}
+
+.environment-container {
+  margin: 30px;
 }
