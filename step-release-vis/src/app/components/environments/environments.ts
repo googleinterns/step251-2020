@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Environment} from '../../models/Data';
 import {FileService} from '../../services/file';
-import {ParamService} from '../../services/param';
-import {ActivatedRoute, Router} from '@angular/router';
 import {CandidateService} from '../../services/candidate';
 import {shuffle} from 'lodash';
 
