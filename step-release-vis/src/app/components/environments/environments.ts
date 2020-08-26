@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Environment} from '../../models/Data';
 import {FileService} from '../../services/file';
 import {ParamService} from '../../services/param';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CandidateService} from '../../services/candidate';
 import {shuffle} from 'lodash';
 
@@ -13,25 +13,23 @@ import {shuffle} from 'lodash';
 })
 export class EnvironmentsComponent implements OnInit {
   environments: Environment[];
-  jsonUri: string;
   envWidth: number;
   envHeight: number;
   minTimestamp: number;
   maxTimestamp: number;
+  envJson: string;
 
   constructor(
-    private route: ActivatedRoute,
     private fileService: FileService,
-    private paramService: ParamService,
     private candidateService: CandidateService
   ) {}
 
   ngOnInit(): void {
-    this.paramService.param(this.route, 'jsonUri', '').subscribe(jsonUri => {
-      this.jsonUri = jsonUri;
-      this.fileService
-        .readContents<Environment[]>(this.jsonUri)
-        .subscribe(environments => this.processEnvironments(environments));
+    this.fileService.getData().subscribe(envJson => {
+      this.envJson = envJson;
+      if (this.envJson) {
+        this.processEnvironments(JSON.parse(this.envJson));
+      }
     });
   }
 

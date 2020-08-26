@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class FileService {
     return this.http.get<T>(filePath);
   }
 
-  getData(): string {
-    return window.localStorage.getItem('data');
+  getData(): Observable<string> {
+    return of(window.localStorage.getItem('data'));
   }
 }

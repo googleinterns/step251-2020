@@ -1,9 +1,14 @@
-<app-environment
-  *ngFor="let environment of environments"
-  [environment]="environment"
-  [width]="envWidth"
-  [height]="envHeight"
-  [minTimestamp]="minTimestamp"
-  [maxTimestamp]="maxTimestamp"
->
-</app-environment>
+<div *ngIf="envJson">
+  <app-environment
+    *ngFor="let environment of environments"
+    [environment]="environment"
+    [width]="envWidth"
+    [height]="envHeight"
+    [minTimestamp]="minTimestamp"
+    [maxTimestamp]="maxTimestamp"
+  >
+  </app-environment>
+</div>
+<div *ngIf="!envJson">
+  No input data found. Submit JSON through this <a [routerLink]="['/form']">form</a>.
+</div>
