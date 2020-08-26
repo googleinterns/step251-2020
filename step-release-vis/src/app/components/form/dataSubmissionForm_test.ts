@@ -24,4 +24,8 @@ describe('DataSubmissionFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('form invalid when empty', () => {
+    expect(component.dataForm.valid).toBeFalsy();
+  });
 });
