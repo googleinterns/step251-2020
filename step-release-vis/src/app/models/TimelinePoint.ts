@@ -9,6 +9,5 @@ export class TimelinePoint {
     this.timestampString = new Date(this.timestamp * 1000).toLocaleString(
       'en-GB'
     );
-    console.log(this.timestampString);
   }
 }
