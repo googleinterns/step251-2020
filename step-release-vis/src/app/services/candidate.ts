@@ -44,4 +44,25 @@ export class CandidateService {
   polygonUnhovered(polygon: Polygon): void {
     this.cands.get(polygon.candName).polygonUnhovered();
   }
+
+  /**
+   * Scales a value from one range to another.
+   *
+   * @param value the value to scale
+   * @param inStart start of the input interval
+   * @param inEnd end of the input interval
+   * @param outStart start of the output interval
+   * @param outEnd end of the output interval
+   */
+  scale(
+    value: number,
+    inStart: number,
+    inEnd: number,
+    outStart: number,
+    outEnd: number
+  ): number {
+    return (
+      ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
+    );
+  }
 }

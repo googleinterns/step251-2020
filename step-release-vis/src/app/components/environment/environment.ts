@@ -74,8 +74,8 @@ export class EnvironmentComponent implements OnInit {
       polygon.points.map(
         ({x, y}) =>
           new Point(
-            this.scale(x, xStart, xEnd, 0, this.svgWidth),
-            this.scale(
+            this.candidateService.scale(x, xStart, xEnd, 0, this.svgWidth),
+            this.candidateService.scale(
               100 - y,
               yStart,
               yEnd,
@@ -85,27 +85,6 @@ export class EnvironmentComponent implements OnInit {
           )
       ),
       polygon.candName
-    );
-  }
-
-  /**
-   * Scales a value from one range to another.
-   *
-   * @param value the value to scale
-   * @param inStart start of the input interval
-   * @param inEnd end of the input interval
-   * @param outStart start of the output interval
-   * @param outEnd end of the output interval
-   */
-  private scale(
-    value: number,
-    inStart: number,
-    inEnd: number,
-    outStart: number,
-    outEnd: number
-  ): number {
-    return (
-      ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
     );
   }
 

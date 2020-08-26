@@ -17,12 +17,9 @@ export class EnvironmentsComponent implements OnInit {
   minTimestamp: number;
   maxTimestamp: number;
   envJson: string;
-  // TODO(#185): add timeline points calculation
-  timelinePoints: TimelinePoint[] = [
-    new TimelinePoint(1597790000, 100),
-    new TimelinePoint(1597790500, 500),
-    new TimelinePoint(1597791000, 800),
-  ];
+  timelinePointWidth = 200;
+  timelinePointsAmount: number;
+  timelinePoints: TimelinePoint[];
 
   constructor(
     private fileService: FileService,
@@ -46,6 +43,9 @@ export class EnvironmentsComponent implements OnInit {
   private processEnvironments(environments: Environment[]): void {
     this.envWidth = window.innerWidth;
     this.envHeight = window.innerHeight / environments.length;
+    this.timelinePointsAmount = Math.floor(
+      this.envWidth / this.timelinePointWidth
+    );
     this.environments = environments;
     const candNames = new Set<string>();
     let minTimestamp = Number.MAX_VALUE;
@@ -61,6 +61,23 @@ export class EnvironmentsComponent implements OnInit {
     }
     this.minTimestamp = minTimestamp;
     this.maxTimestamp = maxTimestamp;
+    this.timelinePoints = [];
+    const chunkSize = (maxTimestamp - minTimestamp) / this.timelinePointsAmount;
+    for (let i = 0; i < this.timelinePointsAmount; i++) {
+      const relativeTimestamp = chunkSize * i + chunkSize / 2;
+      this.timelinePoints.push(
+        new TimelinePoint(
+          minTimestamp + relativeTimestamp,
+          this.candidateService.scale(
+            relativeTimestamp,
+            0,
+            maxTimestamp - minTimestamp,
+            0,
+            this.envWidth
+          )
+        )
+      );
+    }
     const shuffledIndices = shuffle(this.increasingSequence(0, candNames.size));
     [...candNames].forEach((name, index) => {
       const color = this.getHue(shuffledIndices[index], candNames.size);
