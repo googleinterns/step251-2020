@@ -4,6 +4,7 @@ import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
 import {Environment} from '../../models/Data';
 import {CandidateService} from '../../services/candidate';
+import {TimelinePoint} from '../../models/TimelinePoint';
 
 @Component({
   selector: 'app-environment',
@@ -11,11 +12,13 @@ import {CandidateService} from '../../services/candidate';
   styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit {
-  @Input() width: number;
-  @Input() height: number;
+  @Input() svgWidth: number;
+  @Input() svgHeight: number;
+  timelineHeight = 30;
   @Input() minTimestamp: number;
   @Input() maxTimestamp: number;
   @Input() environment: Environment;
+  @Input() timelinePoints: TimelinePoint[];
   polygons: Polygon[];
 
   constructor(
@@ -71,8 +74,14 @@ export class EnvironmentComponent implements OnInit {
       polygon.points.map(
         ({x, y}) =>
           new Point(
-            this.scale(x, xStart, xEnd, 0, this.width),
-            this.scale(100 - y, yStart, yEnd, 0, this.height)
+            this.scale(x, xStart, xEnd, 0, this.svgWidth),
+            this.scale(
+              100 - y,
+              yStart,
+              yEnd,
+              0,
+              this.svgHeight - this.timelineHeight
+            )
           )
       ),
       polygon.candName

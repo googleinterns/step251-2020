@@ -1,8 +1,7 @@
 <div class="environment-container">
   <p class="environment-title"> {{environment.environment}} </p>
-
-  <div id="svg-container">
-    <svg id="svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="width" [attr.height]="height">
+  <div class="candidates-container">
+    <svg class="candidates-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight">
       <polygon
         *ngFor="let polygon of polygons"
         [attr.points]="polygon.toAttributeString()"
@@ -11,6 +10,26 @@
         (mouseleave)="polygonMouseLeave(polygon)"
       >
       </polygon>
+      <rect [attr.x]="0" [attr.y]="svgHeight - timelineHeight / 2 - 5" [attr.width]="svgWidth" [attr.height]="2"
+            fill="gray"/>
+      <text
+        *ngFor="let timelinePoint of timelinePoints"
+        [attr.x]="timelinePoint.x"
+        [attr.y]="svgHeight - 3"
+        text-anchor="middle"
+        font-family="Roboto, Arial, sans-serif"
+        font-size="12"
+      >
+        {{ timelinePoint.timestampString }}
+      </text>
+      <line
+        *ngFor="let timelinePoint of timelinePoints"
+        [attr.x1]="timelinePoint.x"
+        [attr.y1]="svgHeight - timelineHeight + 2"
+        [attr.x2]="timelinePoint.x"
+        [attr.y2]="svgHeight - timelineHeight / 2 + 2"
+        stroke="gray"
+      />
     </svg>
   </div>
 </div>

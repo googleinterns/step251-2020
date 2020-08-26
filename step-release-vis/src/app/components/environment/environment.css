@@ -1,20 +1,15 @@
-#svg-container {
-  display: flex;
-  align-items: center;
-  height: 100%;
-}
-
-#svg {
-  margin: 0 auto;
-  display: block;
+.environment-container {
+  margin: 30px;
 }
 
 .environment-title {
   color: dimgrey;
-  margin-bottom: 0px;
-  font-family: "Courier New";
+  margin-bottom: 0;
+  font-family: "Courier New", sans-serif;
 }
 
-.environment-container {
-  margin: 30px;
+.candidates-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
