@@ -3,7 +3,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 50,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -24,7 +24,7 @@
         ]
       },
       {
-        "timestamp": 250,
+        "timestamp": 1597790200,
         "candsInfo": [
           {
             "candidate": "1",
@@ -45,7 +45,7 @@
         ]
       },
       {
-        "timestamp": 400,
+        "timestamp": 1597790400,
         "candsInfo": [
           {
             "candidate": "1",
@@ -66,7 +66,7 @@
         ]
       },
       {
-        "timestamp": 530,
+        "timestamp": 1597790600,
         "candsInfo": [
           {
             "candidate": "1",
@@ -87,7 +87,7 @@
         ]
       },
       {
-        "timestamp": 740,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "3",
@@ -101,7 +101,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 580,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -118,7 +118,7 @@
         ]
       },
       {
-        "timestamp": 879,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "4",
@@ -132,7 +132,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 125,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -149,7 +149,7 @@
         ]
       },
       {
-        "timestamp": 900,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "2",
@@ -163,7 +163,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 210,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -180,7 +180,7 @@
         ]
       },
       {
-        "timestamp": 555,
+        "timestamp": 1597790200,
         "candsInfo": [
           {
             "candidate": "1",
@@ -197,7 +197,7 @@
         ]
       },
       {
-        "timestamp": 835,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -215,7 +215,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 349,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -236,7 +236,7 @@
         ]
       },
       {
-        "timestamp": 745,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -258,7 +258,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 100,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -275,7 +275,7 @@
         ]
       },
       {
-        "timestamp": 368,
+        "timestamp": 1597790600,
         "candsInfo": [
           {
             "candidate": "1",
@@ -288,7 +288,7 @@
         ]
       },
       {
-        "timestamp": 950,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "3",
@@ -302,7 +302,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 100,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -315,7 +315,7 @@
         ]
       },
       {
-        "timestamp": 350,
+        "timestamp": 1597790200,
         "candsInfo": [
           {
             "candidate": "1",
@@ -332,7 +332,7 @@
         ]
       },
       {
-        "timestamp": 670,
+        "timestamp": 1597790400,
         "candsInfo": [
           {
             "candidate": "1",
@@ -349,7 +349,7 @@
         ]
       },
       {
-        "timestamp": 890,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "2",
@@ -371,7 +371,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 235,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -380,7 +380,7 @@
         ]
       },
       {
-        "timestamp": 405,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -398,7 +398,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 178,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -411,7 +411,7 @@
         ]
       },
       {
-        "timestamp": 345,
+        "timestamp": 1597790200,
         "candsInfo": [
           {
             "candidate": "1",
@@ -428,7 +428,7 @@
         ]
       },
       {
-        "timestamp": 780,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -446,7 +446,7 @@
     "environment": "prod",
     "snapshots": [
       {
-        "timestamp": 123,
+        "timestamp": 1597790000,
         "candsInfo": [
           {
             "candidate": "1",
@@ -455,7 +455,7 @@
         ]
       },
       {
-        "timestamp": 567,
+        "timestamp": 1597791000,
         "candsInfo": [
           {
             "candidate": "1",
