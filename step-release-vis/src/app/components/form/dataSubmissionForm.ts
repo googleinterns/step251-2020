@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -10,7 +10,7 @@ export class DataSubmissionFormComponent implements OnInit {
   dataForm;
 
   constructor(private formBuilder: FormBuilder) {
-    this.dataForm = this.formBuilder.group({data: ''});
+    this.dataForm = this.formBuilder.group({data: ['', Validators.required]});
   }
 
   ngOnInit(): void {}
