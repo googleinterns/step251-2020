@@ -3,6 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {EnvironmentComponent} from './environment';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {Environment} from '../../models/Data';
 import {EnvironmentService} from '../../services/environment';
 import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {By} from '@angular/platform-browser';
@@ -32,6 +33,10 @@ describe('EnvironmentComponent', () => {
     component = fixture.componentInstance;
     component.width = 100;
     component.height = 100;
+    component.environment = {
+      environment: 'test',
+      snapshots: [],
+    };
     component.minTimestamp = environmentServiceStub.minTimestamp;
     component.maxTimestamp = environmentServiceStub.maxTimestamp;
     fixture.detectChanges();
