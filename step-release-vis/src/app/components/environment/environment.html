@@ -1,7 +1,7 @@
-<div id="environment-container">
+<div class="environment-container">
   <p class="environment-title"> {{environment.environment}} </p>
-  <div id="svg-container">
-    <svg id="svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight">
+  <div class="candidates-container">
+    <svg id="candidates-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight">
       <polygon
         *ngFor="let polygon of polygons"
         [attr.points]="polygon.toAttributeString()"

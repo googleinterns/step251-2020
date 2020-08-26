@@ -1,12 +1,5 @@
-#svg-container {
-  display: flex;
-  align-items: center;
-  height: 100%;
-}
-
-#svg {
-  margin: 0 auto;
-  display: block;
+.environment-container {
+  margin: 30px;
 }
 
 .environment-title {
@@ -15,6 +8,13 @@
   font-family: "Courier New", sans-serif;
 }
 
-.environment-container {
-  margin: 30px;
+.candidates-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.candidate-svg {
+  margin: 0 auto;
+  display: block;
 }
