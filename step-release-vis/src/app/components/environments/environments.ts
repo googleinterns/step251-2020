@@ -3,6 +3,7 @@ import {Environment} from '../../models/Data';
 import {FileService} from '../../services/file';
 import {CandidateService} from '../../services/candidate';
 import {shuffle} from 'lodash';
+import {TimelinePoint} from '../../models/TimelinePoint';
 
 @Component({
   selector: 'app-environments',
@@ -16,6 +17,8 @@ export class EnvironmentsComponent implements OnInit {
   minTimestamp: number;
   maxTimestamp: number;
   envJson: string;
+  // TODO(#185): add timeline points calculation
+  timelinePoints: TimelinePoint[] = [new TimelinePoint(1597790600, 500)];
 
   constructor(
     private fileService: FileService,
