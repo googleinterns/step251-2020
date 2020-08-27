@@ -52,10 +52,10 @@ export class EnvironmentsComponent implements OnInit {
     let minTimestamp = Number.MAX_VALUE;
     let maxTimestamp = 0;
     for (const environment of this.environments) {
-      for (const snapshot of environment.snapshots) {
-        minTimestamp = Math.min(minTimestamp, snapshot.timestamp);
-        maxTimestamp = Math.max(maxTimestamp, snapshot.timestamp);
-        for (const candsInfo of snapshot.candsInfo) {
+      for (const snapshot of environment.snapshotsList) {
+        minTimestamp = Math.min(minTimestamp, snapshot.timestamp.seconds);
+        maxTimestamp = Math.max(maxTimestamp, snapshot.timestamp.seconds);
+        for (const candsInfo of snapshot.candidatesList) {
           candNames.add(candsInfo.candidate);
         }
       }

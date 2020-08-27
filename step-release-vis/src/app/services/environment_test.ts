@@ -22,26 +22,26 @@ describe('EnvironmentService', () => {
 
   it('#getPolygons should return polygons, representing the env', done => {
     const env: Environment = {
-      environment: 'test',
-      snapshots: [
+      name: 'test',
+      snapshotsList: [
         {
-          timestamp: 1,
-          candsInfo: [
+          timestamp: {seconds: 1, nanos: 0},
+          candidatesList: [
             {candidate: '1', jobCount: 30},
             {candidate: '2', jobCount: 70},
           ],
         },
         {
-          timestamp: 2,
-          candsInfo: [{candidate: '2', jobCount: 100}],
+          timestamp: {seconds: 2, nanos: 0},
+          candidatesList: [{candidate: '2', jobCount: 100}],
         },
       ],
     };
     service.getPolygons(env).subscribe(polygons => {
       expect(polygons).toBeTruthy();
       const envCandNames = new Set<string>();
-      for (const snapshot of env.snapshots) {
-        for (const candInfo of snapshot.candsInfo) {
+      for (const snapshot of env.snapshotsList) {
+        for (const candInfo of snapshot.candidatesList) {
           envCandNames.add(candInfo.candidate);
         }
       }
@@ -62,11 +62,20 @@ describe('EnvironmentService', () => {
   describe('#calculatePolygons', () => {
     it('one candidate has 2 polygons', () => {
       const inputEnvironment: Environment = {
-        environment: 'env',
-        snapshots: [
-          {timestamp: 1, candsInfo: [{candidate: '1', jobCount: 100}]},
-          {timestamp: 2, candsInfo: [{candidate: '2', jobCount: 100}]},
-          {timestamp: 3, candsInfo: [{candidate: '1', jobCount: 100}]},
+        name: 'env',
+        snapshotsList: [
+          {
+            timestamp: {seconds: 1, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
+          },
+          {
+            timestamp: {seconds: 2, nanos: 0},
+            candidatesList: [{candidate: '2', jobCount: 100}],
+          },
+          {
+            timestamp: {seconds: 3, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
+          },
         ],
       };
 
@@ -108,18 +117,18 @@ describe('EnvironmentService', () => {
 
     it('one candidate gets to 0 jobs', () => {
       const inputEnvironment: Environment = {
-        environment: 'env',
-        snapshots: [
+        name: 'env',
+        snapshotsList: [
           {
-            timestamp: 1,
-            candsInfo: [
+            timestamp: {seconds: 1, nanos: 0},
+            candidatesList: [
               {candidate: '1', jobCount: 30},
               {candidate: '2', jobCount: 70},
             ],
           },
           {
-            timestamp: 2,
-            candsInfo: [{candidate: '2', jobCount: 100}],
+            timestamp: {seconds: 2, nanos: 0},
+            candidatesList: [{candidate: '2', jobCount: 100}],
           },
         ],
       };
@@ -144,11 +153,11 @@ describe('EnvironmentService', () => {
 
     it('just one candidate with 100% of the jobs', () => {
       const inputEnvironment: Environment = {
-        environment: 'env',
-        snapshots: [
+        name: 'env',
+        snapshotsList: [
           {
-            timestamp: 1,
-            candsInfo: [{candidate: '1', jobCount: 100}],
+            timestamp: {seconds: 1, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
           },
         ],
       };
@@ -165,11 +174,11 @@ describe('EnvironmentService', () => {
 
     it('all have 0 jobs', () => {
       const inputEnvironment: Environment = {
-        environment: 'env',
-        snapshots: [
+        name: 'env',
+        snapshotsList: [
           {
-            timestamp: 1,
-            candsInfo: [
+            timestamp: {seconds: 1, nanos: 0},
+            candidatesList: [
               {candidate: '1', jobCount: 0},
               {candidate: '2', jobCount: 0},
             ],
@@ -187,15 +196,15 @@ describe('EnvironmentService', () => {
 
     it('new candidate appears', () => {
       const inputEnvironment: Environment = {
-        environment: 'env',
-        snapshots: [
+        name: 'env',
+        snapshotsList: [
           {
-            timestamp: 1,
-            candsInfo: [{candidate: '1', jobCount: 100}],
+            timestamp: {seconds: 1, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
           },
           {
-            timestamp: 2,
-            candsInfo: [
+            timestamp: {seconds: 2, nanos: 0},
+            candidatesList: [
               {candidate: '1', jobCount: 80},
               {candidate: '2', jobCount: 20},
             ],
@@ -222,18 +231,18 @@ describe('EnvironmentService', () => {
 
     it('both candidates get to 0 jobs at the same timestamp', () => {
       const inputEnvironment: Environment = {
-        environment: 'env',
-        snapshots: [
+        name: 'env',
+        snapshotsList: [
           {
-            timestamp: 1,
-            candsInfo: [
+            timestamp: {seconds: 1, nanos: 0},
+            candidatesList: [
               {candidate: '1', jobCount: 30},
               {candidate: '2', jobCount: 70},
             ],
           },
           {
-            timestamp: 2,
-            candsInfo: [],
+            timestamp: {seconds: 2, nanos: 0},
+            candidatesList: [],
           },
         ],
       };
@@ -256,27 +265,30 @@ describe('EnvironmentService', () => {
 
     it('one candidate appears and disapears', () => {
       const inputEnvironment: Environment = {
-        environment: 'env',
-        snapshots: [
+        name: 'env',
+        snapshotsList: [
           {
-            timestamp: 1,
-            candsInfo: [{candidate: '1', jobCount: 100}],
+            timestamp: {seconds: 1, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
           },
           {
-            timestamp: 2,
-            candsInfo: [
+            timestamp: {seconds: 2, nanos: 0},
+            candidatesList: [
               {candidate: '1', jobCount: 65},
               {candidate: '2', jobCount: 35},
             ],
           },
           {
-            timestamp: 3,
-            candsInfo: [
+            timestamp: {seconds: 3, nanos: 0},
+            candidatesList: [
               {candidate: '1', jobCount: 75},
               {candidate: '2', jobCount: 25},
             ],
           },
-          {timestamp: 4, candsInfo: [{candidate: '1', jobCount: 100}]},
+          {
+            timestamp: {seconds: 4, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
+          },
         ],
       };
       // @ts-ignore

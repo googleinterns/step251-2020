@@ -1,10 +1,13 @@
 [
   {
-    "environment": "autopush",
-    "snapshots": [
+    "name": "autopush",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 400
@@ -24,8 +27,11 @@
         ]
       },
       {
-        "timestamp": 1597790200,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790200,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 300
@@ -45,8 +51,11 @@
         ]
       },
       {
-        "timestamp": 1597790400,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790400,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 300
@@ -66,8 +75,11 @@
         ]
       },
       {
-        "timestamp": 1597790600,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790600,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 100
@@ -87,8 +99,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "3",
             "jobCount": 2000
@@ -98,11 +113,14 @@
     ]
   },
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 600
@@ -118,8 +136,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "4",
             "jobCount": 2000
@@ -129,11 +150,14 @@
     ]
   },
   {
-    "environment": "canary",
-    "snapshots": [
+    "name": "canary",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 100
@@ -149,8 +173,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "2",
             "jobCount": 2000
@@ -160,11 +187,14 @@
     ]
   },
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 500
@@ -180,8 +210,11 @@
         ]
       },
       {
-        "timestamp": 1597790200,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790200,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 800
@@ -197,8 +230,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 800
@@ -212,11 +248,14 @@
     ]
   },
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 500
@@ -236,8 +275,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 667
@@ -255,11 +297,14 @@
     ]
   },
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 800
@@ -275,8 +320,11 @@
         ]
       },
       {
-        "timestamp": 1597790600,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790600,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 1000
@@ -288,8 +336,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "3",
             "jobCount": 2000
@@ -299,11 +350,14 @@
     ]
   },
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 900
@@ -315,8 +369,11 @@
         ]
       },
       {
-        "timestamp": 1597790200,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790200,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 900
@@ -332,8 +389,11 @@
         ]
       },
       {
-        "timestamp": 1597790400,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790400,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 400
@@ -349,8 +409,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "2",
             "jobCount": 1200
@@ -368,11 +431,14 @@
     ]
   },
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 2000
@@ -380,8 +446,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 1568
@@ -395,11 +464,14 @@
     ]
   },
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 800
@@ -411,8 +483,11 @@
         ]
       },
       {
-        "timestamp": 1597790200,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790200,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 800
@@ -428,8 +503,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 800
@@ -443,11 +521,14 @@
     ]
   },
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
-        "timestamp": 1597790000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 2000
@@ -455,8 +536,11 @@
         ]
       },
       {
-        "timestamp": 1597791000,
-        "candsInfo": [
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 2000

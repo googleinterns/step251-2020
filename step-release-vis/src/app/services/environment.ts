@@ -30,9 +30,9 @@ export class EnvironmentService {
     const nameToActiveId: Map<string, number> = new Map();
     let lastTimeStamp = this.BEGINNING;
 
-    for (const snapshot of environment.snapshots) {
+    for (const snapshot of environment.snapshotsList) {
       const update: [TimestampLowerBoundSet, number] = this.computeNextSnapshot(
-        snapshot.candsInfo,
+        snapshot.candidatesList,
         lastTimestampLowerBoundSet,
         nameToActiveId,
         numberOfPolygons
@@ -45,7 +45,7 @@ export class EnvironmentService {
         upperBounds,
         newTimestampLowerBoundSet.snapshot,
         update[1],
-        snapshot.timestamp,
+        snapshot.timestamp.seconds,
         lastTimeStamp
       );
 
@@ -56,7 +56,7 @@ export class EnvironmentService {
         newTimestampLowerBoundSet,
         nameToActiveId
       ); // delete inexisting ones
-      lastTimeStamp = snapshot.timestamp;
+      lastTimeStamp = snapshot.timestamp.seconds;
     }
 
     // draw the vertical line and add remaining polys

@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {Polygon} from '../app/models/Polygon';
-import {EnvironmentService} from '../app/services/environment';
 import {Environment} from '../app/models/Data';
 
 @Injectable({
@@ -13,11 +11,14 @@ export class FileServiceStub {
   files = {
     [this.jsonUri]: [
       {
-        environment: 'prod',
-        snapshots: [
+        name: 'prod',
+        snapshotsList: [
           {
-            timestamp: 125,
-            candsInfo: [
+            timestamp: {
+              seconds: 125,
+              nanos: 0,
+            },
+            candidatesList: [
               {
                 candidate: '1',
                 jobCount: 100,
@@ -33,8 +34,11 @@ export class FileServiceStub {
             ],
           },
           {
-            timestamp: 900,
-            candsInfo: [
+            timestamp: {
+              seconds: 900,
+              nanos: 0,
+            },
+            candidatesList: [
               {
                 candidate: '2',
                 jobCount: 2000,

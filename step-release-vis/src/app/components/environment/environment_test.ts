@@ -33,8 +33,8 @@ describe('EnvironmentComponent', () => {
     component.svgWidth = 100;
     component.svgHeight = 100;
     component.environment = {
-      environment: 'test',
-      snapshots: [],
+      name: 'test',
+      snapshotsList: [],
     };
     component.minTimestamp = environmentServiceStub.minTimestamp;
     component.maxTimestamp = environmentServiceStub.maxTimestamp;
