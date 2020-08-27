@@ -13,10 +13,10 @@
       <rect [attr.x]="0" [attr.y]="svgHeight - timelineHeight / 2 - 5" [attr.width]="svgWidth" [attr.height]="2"
             fill="gray"/>
       <text
-        *ngFor="let timelinePoint of timelinePoints"
+        *ngFor="let timelinePoint of timelinePoints; let i = index"
         [attr.x]="timelinePoint.x"
         [attr.y]="svgHeight - 3"
-        text-anchor="middle"
+        [attr.text-anchor]="getTimelinePointTextAlignment(i)"
         font-family="Roboto, Arial, sans-serif"
         font-size="12"
       >

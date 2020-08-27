@@ -55,6 +55,19 @@ describe('EnvironmentsComponent', () => {
     expect(component.envHeight).toBeTruthy();
   });
 
+  fit('should calculate timelinePoints', () => {
+    expect(component.timelinePoints).toBeTruthy();
+  });
+
+  fit('timelinePoints should fit timeline and bounds', () => {
+    component.timelinePoints.forEach(({timestamp, x}) => {
+      expect(timestamp).toBeGreaterThanOrEqual(component.minTimestamp);
+      expect(timestamp).toBeLessThanOrEqual(component.maxTimestamp);
+      expect(x).toBeGreaterThanOrEqual(0);
+      expect(x).toBeLessThanOrEqual(component.envWidth);
+    });
+  });
+
   it('candidates should be added to service', () => {
     const candNames = getCandNames();
     expect(candNames.size).toEqual(candidateServiceStub.candColors.size);

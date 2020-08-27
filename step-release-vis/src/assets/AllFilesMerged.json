@@ -1,6 +1,6 @@
 [
   {
-    "environment": "prod",
+    "environment": "autopush",
     "snapshots": [
       {
         "timestamp": 1597790000,
@@ -129,7 +129,7 @@
     ]
   },
   {
-    "environment": "prod",
+    "environment": "canary",
     "snapshots": [
       {
         "timestamp": 1597790000,
