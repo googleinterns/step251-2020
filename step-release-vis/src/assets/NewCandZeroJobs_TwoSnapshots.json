@@ -1,10 +1,10 @@
 [
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
         "timestamp": 123,
-        "candsInfo": [
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 2000
@@ -13,7 +13,7 @@
       },
       {
         "timestamp": 567,
-        "candsInfo": [
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 2000

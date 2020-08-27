@@ -30,9 +30,9 @@ export class EnvironmentService {
     const nameToActiveId: Map<string, number> = new Map();
     let lastTimeStamp = this.BEGINNING;
 
-    for (const snapshot of environment.snapshots) {
+    for (const snapshot of environment.snapshotsList) {
       const update: [TimestampLowerBoundSet, number] = this.computeNextSnapshot(
-        snapshot.candsInfo,
+        snapshot.candidatesList,
         lastTimestampLowerBoundSet,
         nameToActiveId,
         numberOfPolygons

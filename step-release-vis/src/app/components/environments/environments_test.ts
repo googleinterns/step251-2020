@@ -88,9 +88,9 @@ describe('EnvironmentsComponent', () => {
 
   function getCandNames(): Set<string> {
     const candNames = new Set<string>();
-    component.environments.forEach(({snapshots}) => {
-      snapshots.forEach(({candsInfo}) => {
-        candsInfo.forEach(({candidate}) => {
+    component.environments.forEach(({snapshotsList}) => {
+      snapshotsList.forEach(({candidatesList}) => {
+        candidatesList.forEach(({candidate}) => {
           candNames.add(candidate);
         });
       });

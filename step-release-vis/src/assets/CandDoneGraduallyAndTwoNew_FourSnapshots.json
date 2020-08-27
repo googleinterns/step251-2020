@@ -1,10 +1,10 @@
 [
   {
-    "environment": "prod",
-    "snapshots": [
+    "name": "prod",
+    "snapshotsList": [
       {
         "timestamp": 100,
-        "candsInfo": [
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 900
@@ -17,7 +17,7 @@
       },
       {
         "timestamp": 350,
-        "candsInfo": [
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 900
@@ -34,7 +34,7 @@
       },
       {
         "timestamp": 670,
-        "candsInfo": [
+        "candidatesList": [
           {
             "candidate": "1",
             "jobCount": 400
@@ -51,7 +51,7 @@
       },
       {
         "timestamp": 890,
-        "candsInfo": [
+        "candidatesList": [
           {
             "candidate": "2",
             "jobCount": 1200

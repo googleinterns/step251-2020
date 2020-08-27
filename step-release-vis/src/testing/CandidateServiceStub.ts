@@ -1,9 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
 import {Polygon} from '../app/models/Polygon';
-import {EnvironmentService} from '../app/services/environment';
-import {Environment} from '../app/models/Data';
-import {Candidate} from '../app/models/Candidate';
 
 @Injectable({
   providedIn: 'root',

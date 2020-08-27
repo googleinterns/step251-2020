@@ -1,14 +1,9 @@
-export interface CandidateInfo {
-  candidate: string;
-  jobCount: number;
-}
+import {
+  Env as EnvProto,
+  Snapshot as SnapshotProto,
+  CandidateInfo as CandidateInfoProto,
+} from '../proto/generated/data_pb';
 
-export interface Snapshot {
-  timestamp: number;
-  candsInfo: CandidateInfo[];
-}
-
-export interface Environment {
-  environment: string;
-  snapshots: Snapshot[];
-}
+export type Environment = EnvProto.AsObject;
+export type CandidateInfo = CandidateInfoProto.AsObject;
+export type Snapshot = SnapshotProto.AsObject;
