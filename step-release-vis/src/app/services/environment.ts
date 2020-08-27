@@ -45,7 +45,7 @@ export class EnvironmentService {
         upperBounds,
         newTimestampLowerBoundSet.snapshot,
         update[1],
-        snapshot.timestamp,
+        snapshot.timestamp.seconds,
         lastTimeStamp
       );
 
@@ -56,7 +56,7 @@ export class EnvironmentService {
         newTimestampLowerBoundSet,
         nameToActiveId
       ); // delete inexisting ones
-      lastTimeStamp = snapshot.timestamp;
+      lastTimeStamp = snapshot.timestamp.seconds;
     }
 
     // draw the vertical line and add remaining polys
