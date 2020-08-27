@@ -45,3 +45,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+src/assets/cal90d.pb
+src/assets/cal90d_short.json
