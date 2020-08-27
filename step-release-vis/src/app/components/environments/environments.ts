@@ -4,6 +4,7 @@ import {FileService} from '../../services/file';
 import {CandidateService} from '../../services/candidate';
 import {shuffle} from 'lodash';
 import {TimelinePoint} from '../../models/TimelinePoint';
+import {Project} from '../../proto/generated/data_pb';
 
 @Component({
   selector: 'app-environments',
@@ -15,6 +16,7 @@ export class EnvironmentsComponent implements OnInit {
   envWidth: number;
   envHeight: number;
   envRightMargin = 100;
+  envsPerPage = 7;
   minTimestamp: number;
   maxTimestamp: number;
   envJson: string;
@@ -28,11 +30,35 @@ export class EnvironmentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // this.readJson();
+    this.readBinary();
+  }
+
+  // For debugging purposes
+  private readJson(): void {
     this.fileService.getData().subscribe(envJson => {
       this.envJson = envJson;
       if (this.envJson) {
         this.processEnvironments(JSON.parse(this.envJson));
       }
+    });
+  }
+
+  private readBinary(): void {
+    // TODO(#202): read from localStorage
+    this.envJson = '1'; // to suppress empty localStorage
+    this.fileService.readBinaryContents('assets/cal90d.pb').subscribe(data => {
+      const project: Project.AsObject = Project.deserializeBinary(
+        data
+      ).toObject();
+      this.processEnvironments(
+        project.envsList.map(env => {
+          env.snapshotsList = env.snapshotsList
+            .slice(0, 10) // TODO(#204): add custom time range and sparse timestamps
+            .sort((s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds); // The received timestamps are not sorted
+          return env;
+        })
+      );
     });
   }
 
@@ -43,7 +69,7 @@ export class EnvironmentsComponent implements OnInit {
    */
   private processEnvironments(environments: Environment[]): void {
     this.envWidth = window.innerWidth - this.envRightMargin;
-    this.envHeight = window.innerHeight / environments.length;
+    this.envHeight = window.innerHeight / this.envsPerPage;
     this.timelinePointsAmount = Math.floor(
       this.envWidth / this.timelinePointWidth
     );
