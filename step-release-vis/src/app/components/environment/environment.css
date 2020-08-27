@@ -3,3 +3,16 @@
   margin-bottom: 0;
   font-family: "Courier New", sans-serif;
 }
+
+#tooltip {
+  width: 10%;
+  height: 10%;
+  padding: 1%;
+
+  background-color: rgba(240, 240, 240, 0.8);
+  border: 1px solid black;
+
+  text-align: center;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 2vmin;
+}

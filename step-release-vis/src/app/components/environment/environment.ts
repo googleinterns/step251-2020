@@ -101,6 +101,8 @@ export class EnvironmentComponent implements OnInit {
     return `hsl(${polygon.colorHue}, ${saturation}, 50%)`;
   }
 
+  // TODO(ancar): Fix the highlighting.
+
   polygonMouseEnter(polygon: Polygon): void {
     this.candidateService.polygonHovered(polygon);
   }
@@ -117,4 +119,18 @@ export class EnvironmentComponent implements OnInit {
     }
     return 'middle';
   }
+
+  showTooltip(event: MouseEvent, polygon: Polygon): void {
+    const tooltip = document.getElementById('tooltip');
+    const rapidLink: string =
+      '<a href="' + 'https://rapid/' + polygon.candName + '">See on rapid</a>';
+    const innerHTML: string =
+      'Name of candidate: ' + polygon.candName + '<br>' + rapidLink;
+    tooltip.innerHTML = innerHTML;
+    tooltip.style.display = 'block';
+    tooltip.style.top = event.pageY.toString() + 'px';
+    tooltip.style.left = event.pageX.toString() + 'px';
+  }
+
+  // TODO(ancar): Add method for the tooltip to disappear correctly.
 }
