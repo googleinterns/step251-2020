@@ -108,4 +108,13 @@ export class EnvironmentComponent implements OnInit {
   polygonMouseLeave(polygon: Polygon): void {
     this.candidateService.polygonUnhovered(polygon);
   }
+
+  getTimelinePointTextAlignment(index: number): string {
+    if (index === 0) {
+      return 'start';
+    } else if (index === this.timelinePoints.length - 1) {
+      return 'end';
+    }
+    return 'middle';
+  }
 }

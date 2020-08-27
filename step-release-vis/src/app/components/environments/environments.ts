@@ -14,6 +14,7 @@ export class EnvironmentsComponent implements OnInit {
   environments: Environment[];
   envWidth: number;
   envHeight: number;
+  envRightMargin = 100;
   minTimestamp: number;
   maxTimestamp: number;
   envJson: string;
@@ -41,7 +42,7 @@ export class EnvironmentsComponent implements OnInit {
    * @param environments an array of environments
    */
   private processEnvironments(environments: Environment[]): void {
-    this.envWidth = window.innerWidth;
+    this.envWidth = window.innerWidth - this.envRightMargin;
     this.envHeight = window.innerHeight / environments.length;
     this.timelinePointsAmount = Math.floor(
       this.envWidth / this.timelinePointWidth
@@ -62,9 +63,10 @@ export class EnvironmentsComponent implements OnInit {
     this.minTimestamp = minTimestamp;
     this.maxTimestamp = maxTimestamp;
     this.timelinePoints = [];
-    const chunkSize = (maxTimestamp - minTimestamp) / this.timelinePointsAmount;
-    for (let i = 0; i < this.timelinePointsAmount; i++) {
-      const relativeTimestamp = chunkSize * i + chunkSize / 2;
+    const timelineChunkSize =
+      (maxTimestamp - minTimestamp) / this.timelinePointsAmount;
+    for (let i = 0; i <= this.timelinePointsAmount; i++) {
+      const relativeTimestamp = timelineChunkSize * i;
       this.timelinePoints.push(
         new TimelinePoint(
           minTimestamp + relativeTimestamp,
