@@ -25,14 +25,14 @@ describe('EnvironmentService', () => {
       name: 'test',
       snapshotsList: [
         {
-          timestamp: 1,
+          timestamp: {seconds: 1, nanos: 0},
           candidatesList: [
             {candidate: '1', jobCount: 30},
             {candidate: '2', jobCount: 70},
           ],
         },
         {
-          timestamp: 2,
+          timestamp: {seconds: 2, nanos: 0},
           candidatesList: [{candidate: '2', jobCount: 100}],
         },
       ],
@@ -64,9 +64,18 @@ describe('EnvironmentService', () => {
       const inputEnvironment: Environment = {
         name: 'env',
         snapshotsList: [
-          {timestamp: 1, candidatesList: [{candidate: '1', jobCount: 100}]},
-          {timestamp: 2, candidatesList: [{candidate: '2', jobCount: 100}]},
-          {timestamp: 3, candidatesList: [{candidate: '1', jobCount: 100}]},
+          {
+            timestamp: {seconds: 1, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
+          },
+          {
+            timestamp: {seconds: 2, nanos: 0},
+            candidatesList: [{candidate: '2', jobCount: 100}],
+          },
+          {
+            timestamp: {seconds: 3, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
+          },
         ],
       };
 
@@ -111,14 +120,14 @@ describe('EnvironmentService', () => {
         name: 'env',
         snapshotsList: [
           {
-            timestamp: 1,
+            timestamp: {seconds: 1, nanos: 0},
             candidatesList: [
               {candidate: '1', jobCount: 30},
               {candidate: '2', jobCount: 70},
             ],
           },
           {
-            timestamp: 2,
+            timestamp: {seconds: 2, nanos: 0},
             candidatesList: [{candidate: '2', jobCount: 100}],
           },
         ],
@@ -147,7 +156,7 @@ describe('EnvironmentService', () => {
         name: 'env',
         snapshotsList: [
           {
-            timestamp: 1,
+            timestamp: {seconds: 1, nanos: 0},
             candidatesList: [{candidate: '1', jobCount: 100}],
           },
         ],
@@ -168,7 +177,7 @@ describe('EnvironmentService', () => {
         name: 'env',
         snapshotsList: [
           {
-            timestamp: 1,
+            timestamp: {seconds: 1, nanos: 0},
             candidatesList: [
               {candidate: '1', jobCount: 0},
               {candidate: '2', jobCount: 0},
@@ -190,11 +199,11 @@ describe('EnvironmentService', () => {
         name: 'env',
         snapshotsList: [
           {
-            timestamp: 1,
+            timestamp: {seconds: 1, nanos: 0},
             candidatesList: [{candidate: '1', jobCount: 100}],
           },
           {
-            timestamp: 2,
+            timestamp: {seconds: 2, nanos: 0},
             candidatesList: [
               {candidate: '1', jobCount: 80},
               {candidate: '2', jobCount: 20},
@@ -225,14 +234,14 @@ describe('EnvironmentService', () => {
         name: 'env',
         snapshotsList: [
           {
-            timestamp: 1,
+            timestamp: {seconds: 1, nanos: 0},
             candidatesList: [
               {candidate: '1', jobCount: 30},
               {candidate: '2', jobCount: 70},
             ],
           },
           {
-            timestamp: 2,
+            timestamp: {seconds: 2, nanos: 0},
             candidatesList: [],
           },
         ],
@@ -259,24 +268,27 @@ describe('EnvironmentService', () => {
         name: 'env',
         snapshotsList: [
           {
-            timestamp: 1,
+            timestamp: {seconds: 1, nanos: 0},
             candidatesList: [{candidate: '1', jobCount: 100}],
           },
           {
-            timestamp: 2,
+            timestamp: {seconds: 2, nanos: 0},
             candidatesList: [
               {candidate: '1', jobCount: 65},
               {candidate: '2', jobCount: 35},
             ],
           },
           {
-            timestamp: 3,
+            timestamp: {seconds: 3, nanos: 0},
             candidatesList: [
               {candidate: '1', jobCount: 75},
               {candidate: '2', jobCount: 25},
             ],
           },
-          {timestamp: 4, candidatesList: [{candidate: '1', jobCount: 100}]},
+          {
+            timestamp: {seconds: 4, nanos: 0},
+            candidatesList: [{candidate: '1', jobCount: 100}],
+          },
         ],
       };
       // @ts-ignore
