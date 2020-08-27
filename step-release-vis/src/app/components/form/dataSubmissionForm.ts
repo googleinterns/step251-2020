@@ -9,7 +9,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class DataSubmissionFormComponent implements OnInit {
   dataForm: FormGroup;
-  file: File;
+  file: File = null;
 
   constructor(private router: Router) {
     this.dataForm = new FormGroup({
@@ -25,6 +25,13 @@ export class DataSubmissionFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!this.dataForm.value.text && this.file == null) {
+      window.alert(
+        'Both fields are empty!\nPlease select a file or paste the data in the text box!'
+      );
+      return;
+    }
+
     if (this.dataForm.value.text) {
       window.localStorage.setItem('data', this.dataForm.value.text);
     } else {
