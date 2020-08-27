@@ -3,7 +3,10 @@
     "name": "autopush",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -24,7 +27,10 @@
         ]
       },
       {
-        "timestamp": 1597790200,
+        "timestamp": {
+          "seconds": 1597790200,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -45,7 +51,10 @@
         ]
       },
       {
-        "timestamp": 1597790400,
+        "timestamp": {
+          "seconds": 1597790400,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -66,7 +75,10 @@
         ]
       },
       {
-        "timestamp": 1597790600,
+        "timestamp": {
+          "seconds": 1597790600,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -87,7 +99,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "3",
@@ -101,7 +116,10 @@
     "name": "prod",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -118,7 +136,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "4",
@@ -132,7 +153,10 @@
     "name": "canary",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -149,7 +173,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "2",
@@ -163,7 +190,10 @@
     "name": "prod",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -180,7 +210,10 @@
         ]
       },
       {
-        "timestamp": 1597790200,
+        "timestamp": {
+          "seconds": 1597790200,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -197,7 +230,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -215,7 +251,10 @@
     "name": "prod",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -236,7 +275,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -258,7 +300,10 @@
     "name": "prod",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -275,7 +320,10 @@
         ]
       },
       {
-        "timestamp": 1597790600,
+        "timestamp": {
+          "seconds": 1597790600,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -288,7 +336,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "3",
@@ -302,7 +353,10 @@
     "name": "prod",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -315,7 +369,10 @@
         ]
       },
       {
-        "timestamp": 1597790200,
+        "timestamp": {
+          "seconds": 1597790200,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -332,7 +389,10 @@
         ]
       },
       {
-        "timestamp": 1597790400,
+        "timestamp": {
+          "seconds": 1597790400,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -349,7 +409,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "2",
@@ -371,7 +434,10 @@
     "name": "prod",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -380,7 +446,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -398,7 +467,10 @@
     "name": "prod",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -411,7 +483,10 @@
         ]
       },
       {
-        "timestamp": 1597790200,
+        "timestamp": {
+          "seconds": 1597790200,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -428,7 +503,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -446,7 +524,10 @@
     "name": "prod",
     "snapshotsList": [
       {
-        "timestamp": 1597790000,
+        "timestamp": {
+          "seconds": 1597790000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
@@ -455,7 +536,10 @@
         ]
       },
       {
-        "timestamp": 1597791000,
+        "timestamp": {
+          "seconds": 1597791000,
+          "nanos": 0
+        },
         "candidatesList": [
           {
             "candidate": "1",
