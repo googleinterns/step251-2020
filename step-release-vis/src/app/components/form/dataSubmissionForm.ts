@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import {Router} from '@angular/router';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -9,15 +10,14 @@ import {FormBuilder} from '@angular/forms';
 export class DataSubmissionFormComponent implements OnInit {
   dataForm;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.dataForm = this.formBuilder.group({data: ''});
+  constructor(private router: Router, private formBuilder: FormBuilder) {
+    this.dataForm = this.formBuilder.group({data: ['', Validators.required]});
   }
 
   ngOnInit(): void {}
 
   onSubmit(data): void {
-    window.localStorage.setItem('data', data);
-    this.dataForm.reset();
-    console.log('Data saved!', data);
+    window.localStorage.setItem('data', data.data);
+    this.router.navigate(['env']);
   }
 }

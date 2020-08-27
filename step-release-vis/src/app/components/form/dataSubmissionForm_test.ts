@@ -1,15 +1,16 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {DataSubmissionFormComponent} from './dataSubmissionForm';
-import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterTestingModule} from '@angular/router/testing';
 
-describe('DataSumbissionFormComponent', () => {
+describe('DataSubmissionFormComponent', () => {
   let component: DataSubmissionFormComponent;
   let fixture: ComponentFixture<DataSubmissionFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, FormsModule],
+      imports: [ReactiveFormsModule, FormsModule, RouterTestingModule],
       declarations: [DataSubmissionFormComponent],
     }).compileComponents();
   }));
@@ -22,5 +23,9 @@ describe('DataSumbissionFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('form invalid when empty', () => {
+    expect(component.dataForm.valid).toBeFalsy();
   });
 });

@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Environment} from '../../models/Data';
 import {FileService} from '../../services/file';
-import {ParamService} from '../../services/param';
-import {ActivatedRoute} from '@angular/router';
 import {CandidateService} from '../../services/candidate';
 import {shuffle} from 'lodash';
+import {TimelinePoint} from '../../models/TimelinePoint';
 
 @Component({
   selector: 'app-environments',
@@ -13,25 +12,29 @@ import {shuffle} from 'lodash';
 })
 export class EnvironmentsComponent implements OnInit {
   environments: Environment[];
-  jsonUri: string;
   envWidth: number;
   envHeight: number;
   minTimestamp: number;
   maxTimestamp: number;
+  envJson: string;
+  // TODO(#185): add timeline points calculation
+  timelinePoints: TimelinePoint[] = [
+    new TimelinePoint(1597790000, 100),
+    new TimelinePoint(1597790500, 500),
+    new TimelinePoint(1597791000, 800),
+  ];
 
   constructor(
-    private route: ActivatedRoute,
     private fileService: FileService,
-    private paramService: ParamService,
     private candidateService: CandidateService
   ) {}
 
   ngOnInit(): void {
-    this.paramService.param(this.route, 'jsonUri', '').subscribe(jsonUri => {
-      this.jsonUri = jsonUri;
-      this.fileService
-        .readContents<Environment[]>(this.jsonUri)
-        .subscribe(environments => this.processEnvironments(environments));
+    this.fileService.getData().subscribe(envJson => {
+      this.envJson = envJson;
+      if (this.envJson) {
+        this.processEnvironments(JSON.parse(this.envJson));
+      }
     });
   }
 

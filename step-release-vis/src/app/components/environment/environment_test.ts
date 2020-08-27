@@ -30,8 +30,12 @@ describe('EnvironmentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentComponent);
     component = fixture.componentInstance;
-    component.width = 100;
-    component.height = 100;
+    component.svgWidth = 100;
+    component.svgHeight = 100;
+    component.environment = {
+      environment: 'test',
+      snapshots: [],
+    };
     component.minTimestamp = environmentServiceStub.minTimestamp;
     component.maxTimestamp = environmentServiceStub.maxTimestamp;
     fixture.detectChanges();
@@ -67,9 +71,9 @@ describe('EnvironmentComponent', () => {
     component.polygons.forEach(({points}) =>
       points.forEach(({x, y}) => {
         expect(x).toBeGreaterThanOrEqual(0);
-        expect(x).toBeLessThanOrEqual(component.width);
+        expect(x).toBeLessThanOrEqual(component.svgWidth);
         expect(y).toBeGreaterThanOrEqual(0);
-        expect(y).toBeLessThanOrEqual(component.height);
+        expect(y).toBeLessThanOrEqual(component.svgHeight);
       })
     );
   });

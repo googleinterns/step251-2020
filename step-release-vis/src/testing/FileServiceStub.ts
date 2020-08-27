@@ -49,4 +49,8 @@ export class FileServiceStub {
   readContents(filePath: string): Observable<Environment[]> {
     return of(this.files[filePath]);
   }
+
+  getData(): Observable<string> {
+    return of(JSON.stringify(this.files[this.jsonUri]));
+  }
 }
