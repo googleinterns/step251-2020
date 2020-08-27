@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Environment} from '../../models/Data';
 import {FileService} from '../../services/file';
+import {ProtoBufferService} from '../../services/proto_buffer';
 import {CandidateService} from '../../services/candidate';
 import {shuffle} from 'lodash';
 import {TimelinePoint} from '../../models/TimelinePoint';
-import {Project} from '../../proto/generated/data_pb';
 
 @Component({
   selector: 'app-environments',
@@ -26,7 +26,8 @@ export class EnvironmentsComponent implements OnInit {
 
   constructor(
     private fileService: FileService,
-    private candidateService: CandidateService
+    private candidateService: CandidateService,
+    private protoBufferService: ProtoBufferService
   ) {}
 
   ngOnInit(): void {
@@ -48,11 +49,9 @@ export class EnvironmentsComponent implements OnInit {
     // TODO(#202): read from localStorage
     this.envJson = '1'; // to suppress empty localStorage
     this.fileService.readBinaryContents('assets/cal90d.pb').subscribe(data => {
-      const project: Project.AsObject = Project.deserializeBinary(
-        data
-      ).toObject();
+      const envs = this.protoBufferService.getEnvs(data as Uint8Array);
       this.processEnvironments(
-        project.envsList.map(env => {
+        envs.map(env => {
           env.snapshotsList = env.snapshotsList
             .slice(0, 10) // TODO(#204): add custom time range and sparse timestamps
             .sort((s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds); // The received timestamps are not sorted
