@@ -28,4 +28,16 @@ export class CandidateServiceStub {
   addCandidate(color: number, name: string): void {
     this.candColors.set(name, color);
   }
+
+  scale(
+    value: number,
+    inStart: number,
+    inEnd: number,
+    outStart: number,
+    outEnd: number
+  ): number {
+    return (
+      ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
+    );
+  }
 }

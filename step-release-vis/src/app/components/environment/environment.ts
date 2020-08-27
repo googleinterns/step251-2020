@@ -4,6 +4,7 @@ import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
 import {Environment} from '../../models/Data';
 import {CandidateService} from '../../services/candidate';
+import {TimelinePoint} from '../../models/TimelinePoint';
 
 @Component({
   selector: 'app-environment',
@@ -11,11 +12,13 @@ import {CandidateService} from '../../services/candidate';
   styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit {
-  @Input() width: number;
-  @Input() height: number;
+  @Input() svgWidth: number;
+  @Input() svgHeight: number;
+  timelineHeight = 30;
   @Input() minTimestamp: number;
   @Input() maxTimestamp: number;
   @Input() environment: Environment;
+  @Input() timelinePoints: TimelinePoint[];
   polygons: Polygon[];
 
   constructor(
@@ -71,32 +74,17 @@ export class EnvironmentComponent implements OnInit {
       polygon.points.map(
         ({x, y}) =>
           new Point(
-            this.scale(x, xStart, xEnd, 0, this.width),
-            this.scale(100 - y, yStart, yEnd, 0, this.height)
+            this.candidateService.scale(x, xStart, xEnd, 0, this.svgWidth),
+            this.candidateService.scale(
+              100 - y,
+              yStart,
+              yEnd,
+              0,
+              this.svgHeight - this.timelineHeight
+            )
           )
       ),
       polygon.candName
-    );
-  }
-
-  /**
-   * Scales a value from one range to another.
-   *
-   * @param value the value to scale
-   * @param inStart start of the input interval
-   * @param inEnd end of the input interval
-   * @param outStart start of the output interval
-   * @param outEnd end of the output interval
-   */
-  private scale(
-    value: number,
-    inStart: number,
-    inEnd: number,
-    outStart: number,
-    outEnd: number
-  ): number {
-    return (
-      ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
     );
   }
 
@@ -119,5 +107,14 @@ export class EnvironmentComponent implements OnInit {
 
   polygonMouseLeave(polygon: Polygon): void {
     this.candidateService.polygonUnhovered(polygon);
+  }
+
+  getTimelinePointTextAlignment(index: number): string {
+    if (index === 0) {
+      return 'start';
+    } else if (index === this.timelinePoints.length - 1) {
+      return 'end';
+    }
+    return 'middle';
   }
 }

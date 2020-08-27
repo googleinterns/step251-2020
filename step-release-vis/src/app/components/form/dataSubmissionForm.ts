@@ -12,7 +12,6 @@ export class DataSubmissionFormComponent implements OnInit {
 
   constructor(private router: Router, private formBuilder: FormBuilder) {
     this.dataForm = this.formBuilder.group({data: ['', Validators.required]});
-
   }
 
   ngOnInit(): void {}

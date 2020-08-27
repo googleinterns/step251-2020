@@ -101,4 +101,21 @@ describe('CandidateService', () => {
       ).toEqual(0);
     });
   });
+
+  describe('#scale', () => {
+    it('scale middle values', () => {
+      expect(service.scale(3.5, 0, 10, 0, 100)).toBeCloseTo(35, 5);
+      expect(service.scale(5, 0, 10, 0, 100)).toBeCloseTo(50, 5);
+      expect(service.scale(9.1, 0, 10, 0, 100)).toBeCloseTo(91, 5);
+    });
+
+    it('scale range ends', () => {
+      expect(service.scale(0, 0, 10, 0, 100)).toBeCloseTo(0, 5);
+      expect(service.scale(10, 0, 10, 0, 100)).toBeCloseTo(100, 5);
+    });
+
+    it('scale to non intersecting ranges', () => {
+      expect(service.scale(6, 0, 10, 100, 200)).toBeCloseTo(160, 5);
+    });
+  });
 });

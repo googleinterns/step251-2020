@@ -3,7 +3,6 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {EnvironmentComponent} from './environment';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {Environment} from '../../models/Data';
 import {EnvironmentService} from '../../services/environment';
 import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {By} from '@angular/platform-browser';
@@ -31,8 +30,8 @@ describe('EnvironmentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentComponent);
     component = fixture.componentInstance;
-    component.width = 100;
-    component.height = 100;
+    component.svgWidth = 100;
+    component.svgHeight = 100;
     component.environment = {
       environment: 'test',
       snapshots: [],
@@ -72,9 +71,9 @@ describe('EnvironmentComponent', () => {
     component.polygons.forEach(({points}) =>
       points.forEach(({x, y}) => {
         expect(x).toBeGreaterThanOrEqual(0);
-        expect(x).toBeLessThanOrEqual(component.width);
+        expect(x).toBeLessThanOrEqual(component.svgWidth);
         expect(y).toBeGreaterThanOrEqual(0);
-        expect(y).toBeLessThanOrEqual(component.height);
+        expect(y).toBeLessThanOrEqual(component.svgHeight);
       })
     );
   });
