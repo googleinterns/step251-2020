@@ -12,7 +12,7 @@ export class FileService {
     return this.http.get<T>(filePath);
   }
 
-  readBinaryContents(filePath: string): Observable<any> {
+  readBinaryContents(filePath: string): Observable<ArrayBuffer> {
     return this.http.get(filePath, {responseType: 'arraybuffer'});
   }
 

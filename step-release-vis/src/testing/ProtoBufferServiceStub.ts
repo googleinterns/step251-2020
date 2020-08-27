@@ -6,7 +6,7 @@ import {Project} from '../app/proto/generated/data_pb';
 @Injectable({
   providedIn: 'root',
 })
-export class FileServiceStub {
+export class ProtoBufferServiceStub {
   envs = [
     {
       name: 'prod',
