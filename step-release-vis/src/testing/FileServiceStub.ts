@@ -14,7 +14,10 @@ export class FileServiceStub {
         name: 'prod',
         snapshotsList: [
           {
-            timestamp: 125,
+            timestamp: {
+              seconds: 125,
+              nanos: 0,
+            },
             candidatesList: [
               {
                 candidate: '1',
@@ -31,7 +34,10 @@ export class FileServiceStub {
             ],
           },
           {
-            timestamp: 900,
+            timestamp: {
+              seconds: 900,
+              nanos: 0,
+            },
             candidatesList: [
               {
                 candidate: '2',
