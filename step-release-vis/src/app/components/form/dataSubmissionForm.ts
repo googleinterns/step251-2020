@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -8,16 +8,33 @@ import {FormBuilder, Validators} from '@angular/forms';
   styleUrls: ['./dataSubmissionForm.css'],
 })
 export class DataSubmissionFormComponent implements OnInit {
-  dataForm;
+  dataForm: FormGroup;
+  file: File;
 
-  constructor(private router: Router, private formBuilder: FormBuilder) {
-    this.dataForm = this.formBuilder.group({data: ['', Validators.required]});
+  constructor(private router: Router) {
+    this.dataForm = new FormGroup({
+      file: new FormControl(null),
+      text: new FormControl(''),
+    });
   }
 
   ngOnInit(): void {}
 
-  onSubmit(data): void {
-    window.localStorage.setItem('data', data.data);
+  onFileChange(event): void {
+    this.file = event.target.files[0];
+  }
+
+  onSubmit(): void {
+    if (this.dataForm.value.text) {
+      window.localStorage.setItem('data', this.dataForm.value.text);
+    } else {
+      const fileReader: FileReader = new FileReader();
+      fileReader.onload = event => {
+        window.localStorage.setItem('data', event.target.result.toString());
+      };
+      fileReader.readAsText(this.file);
+    }
+
     this.router.navigate(['env']);
   }
 }

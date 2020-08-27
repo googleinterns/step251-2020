@@ -1,11 +1,26 @@
-<form [formGroup]="dataForm" (ngSubmit)="onSubmit(dataForm.value)">
+<form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="file-box">
+      Upload data file here:
+    </label>
+    <br><br>
+    <input id="file-box" type="file" formControlName="file" (change)="onFileChange($event)">
+  </div>
+
+  <br>
+  <p> OR </p>
+  <br>
+
   <div>
     <label for="data-text-box">
       Input data for the protocol buffer here:
+      *this takes priority
     </label>
     <br><br>
-    <textarea id="data-text-box" type="text" formControlName="data"></textarea>
+    <textarea id="data-text-box" formControlName="text"></textarea>
   </div>
 
   <button type="submit">Submit</button>
 </form>
+
+
