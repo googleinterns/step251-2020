@@ -66,6 +66,13 @@ export class CandidateService {
     );
   }
 
+  /**
+   * Returns a sparse verison of the provided array. Contains min(max, array.length) elements.
+   *
+   * @param max maximum amount of elements in resulting array
+   * @param array the array
+   * @param includeLast whether the last element of the array must be included
+   */
   sparseArray<T>(max: number, array: T[], includeLast = false): T[] {
     if (array.length <= max) {
       return array;
