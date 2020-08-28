@@ -105,7 +105,7 @@ export class EnvironmentsComponent implements OnInit {
     this.startTimestamp = startTimestamp;
     this.endTimestamp = endTimestamp;
 
-    const candNames = new Set<string>();
+    const candNames = new Set<string>(); // candidates fitting start...end
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshotsList) {
         for (const candsInfo of snapshot.candidatesList) {
