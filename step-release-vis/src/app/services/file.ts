@@ -12,6 +12,10 @@ export class FileService {
     return this.http.get<T>(filePath);
   }
 
+  readBinaryContents(filePath: string): Observable<ArrayBuffer> {
+    return this.http.get(filePath, {responseType: 'arraybuffer'});
+  }
+
   getData(): Observable<string> {
     return of(window.localStorage.getItem('data'));
   }
