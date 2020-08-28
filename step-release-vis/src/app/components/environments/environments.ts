@@ -14,7 +14,7 @@ import {TimelinePoint} from '../../models/TimelinePoint';
 export class EnvironmentsComponent implements OnInit {
   readonly ENVS_PER_PAGE = 7;
   readonly ENV_RIGHT_MARGIN = 100;
-  readonly TIMELINE_POINT_WIDTH = 200;
+  readonly TIMELINE_POINT_WIDTH = 130;
   readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
 
   environments: Environment[];
@@ -117,7 +117,8 @@ export class EnvironmentsComponent implements OnInit {
     const timelineChunkSize =
       (this.endTimestamp - this.startTimestamp) / this.timelinePointsAmount;
     for (let i = 0; i <= this.timelinePointsAmount; i++) {
-      const relativeTimestamp = timelineChunkSize * i;
+      let relativeTimestamp = timelineChunkSize * i;
+      relativeTimestamp = Math.floor(relativeTimestamp / 60) * 60; // Round seconds
       this.timelinePoints.push(
         new TimelinePoint(
           this.startTimestamp + relativeTimestamp,
