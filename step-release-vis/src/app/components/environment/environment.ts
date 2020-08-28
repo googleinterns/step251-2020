@@ -101,22 +101,37 @@ export class EnvironmentComponent implements OnInit {
     return `hsl(${polygon.colorHue}, ${saturation}, 50%)`;
   }
 
-  polygonMouseEnter(polygon: Polygon): void {
+  polygonMouseEnter(polygon: Polygon, event: MouseEvent): void {
     this.candidateService.polygonHovered(polygon);
+    this.moveTooltip(event);
   }
 
   polygonMouseLeave(polygon: Polygon): void {
     this.candidateService.polygonUnhovered(polygon);
+    this.hideTooltip();
   }
 
-  displayTooltip(event: MouseEvent): void {
+  moveTooltip(event: MouseEvent): void {
     const tooltip = document.querySelector('app-tooltip');
     const divTooltip = tooltip.querySelector('div');
+    const mouseX = event.pageX - window.scrollX;
+    const mouseY = event.pageY - window.scrollY;
+
+    if (mouseX + divTooltip.offsetWidth > window.innerWidth) {
+      divTooltip.style.left =
+        (mouseX - divTooltip.offsetWidth).toString() + 'px';
+    } else {
+      divTooltip.style.left = (mouseX + 20).toString() + 'px';
+    }
+
+    if (mouseY + divTooltip.offsetHeight > window.innerHeight) {
+      divTooltip.style.top =
+        (mouseY - divTooltip.offsetHeight).toString() + 'px';
+    } else {
+      divTooltip.style.top = (mouseY + 20).toString() + 'px';
+    }
 
     divTooltip.style.display = 'block';
-    divTooltip.style.top =
-      (event.pageY - window.scrollY + 20).toString() + 'px';
-    divTooltip.style.left = (event.pageX + 20).toString() + 'px';
   }
 
   hideTooltip(): void {
@@ -133,6 +148,4 @@ export class EnvironmentComponent implements OnInit {
     }
     return 'middle';
   }
-
-  computeMousePosition(event: MouseEvent): void {}
 }

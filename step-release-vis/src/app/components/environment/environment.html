@@ -7,10 +7,9 @@
         *ngFor="let polygon of polygons"
         [attr.points]="polygon.toAttributeString()"
         [attr.fill]="getColor(polygon)"
-        (mouseenter)="polygonMouseEnter(polygon)"
+        (mouseenter)="polygonMouseEnter(polygon, $event)"
         (mouseleave)="polygonMouseLeave(polygon)"
-        (mousemove)="displayTooltip($event)"
-        (mouseout)="hideTooltip()"
+        (mousemove)="moveTooltip($event)"
       >
       </polygon>
       <rect [attr.x]="0" [attr.y]="svgHeight - timelineHeight / 2 - 5" [attr.width]="svgWidth" [attr.height]="2"
