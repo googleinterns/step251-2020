@@ -9,8 +9,6 @@
         [attr.fill]="getColor(polygon)"
         (mouseenter)="polygonMouseEnter(polygon)"
         (mouseleave)="polygonMouseLeave(polygon)"
-        (mouseover)="showTooltip($event, polygon)"
-        (mousemove)="showTooltip($event, polygon)"
       >
       </polygon>
       <rect [attr.x]="0" [attr.y]="svgHeight - timelineHeight / 2 - 5" [attr.width]="svgWidth" [attr.height]="2"
