@@ -58,6 +58,10 @@ export class FileServiceStub {
     return of(new Uint8Array());
   }
 
+  getBinaryData(): Observable<ArrayBuffer> {
+    return of(new Uint8Array());
+  }
+
   getData(): Observable<string> {
     return of(JSON.stringify(this.files[this.jsonUri]));
   }

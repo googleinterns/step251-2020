@@ -48,7 +48,7 @@ export class EnvironmentsComponent implements OnInit {
   private readBinary(): void {
     // TODO(#202): read from localStorage
     this.envJson = '1'; // to suppress empty localStorage
-    this.fileService.readBinaryContents('assets/cal90d.pb').subscribe(data => {
+    this.fileService.getBinaryData().subscribe(data => {
       const envs = this.protoBufferService.getEnvs(data as Uint8Array);
       this.processEnvironments(
         envs.map(env => {
