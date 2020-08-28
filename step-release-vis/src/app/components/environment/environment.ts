@@ -40,7 +40,8 @@ export class EnvironmentComponent implements OnInit {
   }
 
   /**
-   * Filters the snapshots according to start/end timestamps and and snapshots per env value.
+   * Filters the snapshots according to start/end timestamps
+   * and returns a sparse version of the resulting snapshots.
    *
    * @param environment the polygons to process
    */
