@@ -109,6 +109,22 @@ export class EnvironmentComponent implements OnInit {
     this.candidateService.polygonUnhovered(polygon);
   }
 
+  displayTooltip(event: MouseEvent): void {
+    const tooltip = document.querySelector('app-tooltip');
+    const divTooltip = tooltip.querySelector('div');
+
+    divTooltip.style.display = 'block';
+    divTooltip.style.top =
+      (event.pageY - window.scrollY + 20).toString() + 'px';
+    divTooltip.style.left = (event.pageX + 20).toString() + 'px';
+  }
+
+  hideTooltip(): void {
+    const tooltip = document.querySelector('app-tooltip');
+    const divTooltip = tooltip.querySelector('div');
+    divTooltip.style.display = 'none';
+  }
+
   getTimelinePointTextAlignment(index: number): string {
     if (index === 0) {
       return 'start';
@@ -117,4 +133,6 @@ export class EnvironmentComponent implements OnInit {
     }
     return 'middle';
   }
+
+  computeMousePosition(event: MouseEvent): void {}
 }

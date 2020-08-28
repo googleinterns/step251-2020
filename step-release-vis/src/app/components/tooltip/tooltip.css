@@ -1,0 +1,11 @@
+div {
+  position: fixed;
+  display: none;
+
+  width: 10%;
+  height: 10%;
+  padding: 1%;
+
+  background-color: rgba(240, 240, 240, 0.8);
+  border: 1px solid black;
+}
