@@ -54,6 +54,10 @@ export class FileServiceStub {
     return of(this.files[filePath]);
   }
 
+  readBinaryContents(filePath: string): Observable<ArrayBuffer> {
+    return of(new Uint8Array());
+  }
+
   getData(): Observable<string> {
     return of(JSON.stringify(this.files[this.jsonUri]));
   }
