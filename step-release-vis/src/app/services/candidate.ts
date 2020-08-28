@@ -65,4 +65,16 @@ export class CandidateService {
       ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
     );
   }
+
+  sparseArray<T>(max: number, array: T[]): T[] {
+    if (array.length <= max) {
+      return array;
+    }
+    const res: T[] = [];
+    for (let i = 0; i < max; i++) {
+      const index = Math.floor(this.scale(i, 0, max, 0, array.length));
+      res.push(array[index]);
+    }
+    return res;
+  }
 }

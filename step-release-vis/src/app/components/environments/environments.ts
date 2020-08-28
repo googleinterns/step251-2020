@@ -21,10 +21,10 @@ export class EnvironmentsComponent implements OnInit {
   envWidth: number;
   envHeight: number;
 
-  minTimestamp: number;
-  maxTimestamp: number;
-  startTimestamp: number;
-  endTimestamp: number;
+  minTimestamp: number; // min timestamp across every environment
+  maxTimestamp: number; // max timestamp across every environment
+  startTimestamp: number; // current start timestamp
+  endTimestamp: number; // current end timestamp
 
   envJson: string;
   timelinePointsAmount: number;
@@ -58,9 +58,10 @@ export class EnvironmentsComponent implements OnInit {
       const envs = this.protoBufferService.getEnvs(data as Uint8Array);
       this.processEnvironments(
         envs.map(env => {
-          env.snapshotsList = env.snapshotsList
-            .sort((s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds) // The received timestamps are not sorted
-            .slice(-200); // TODO(#204): add custom time range and sparse timestamps
+          // The received timestamps are not sorted
+          env.snapshotsList = env.snapshotsList.sort(
+            (s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds
+          );
           return env;
         })
       );
@@ -108,7 +109,12 @@ export class EnvironmentsComponent implements OnInit {
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshotsList) {
         for (const candsInfo of snapshot.candidatesList) {
-          candNames.add(candsInfo.candidate);
+          if (
+            snapshot.timestamp.seconds >= this.startTimestamp &&
+            snapshot.timestamp.seconds <= this.endTimestamp
+          ) {
+            candNames.add(candsInfo.candidate);
+          }
         }
       }
     }

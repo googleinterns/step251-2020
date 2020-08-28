@@ -45,19 +45,21 @@ export class EnvironmentComponent implements OnInit {
   private filterSnapshots(environment: Environment): Snapshot[] {
     const snapshots = environment.snapshotsList;
     let startIndex = snapshots.findIndex(
-      snapshot => snapshot.timestamp >= this.startTimestamp
+      snapshot => snapshot.timestamp.seconds >= this.startTimestamp
     ); // inclusive
     if (startIndex < 0) {
-      startIndex = 0;
+      startIndex = snapshots.length; // all snapshots < start - nothing to display
     }
     let endIndex = snapshots.findIndex(
-      snapshot => snapshot.timestamp > this.endTimestamp
+      snapshot => snapshot.timestamp.seconds > this.endTimestamp
     ); // exclusive
     if (endIndex < 0) {
-      endIndex = snapshots.length;
+      endIndex = snapshots.length; // all snapshots <= end - all applicable
     }
-    console.log(startIndex + ' ' + endIndex + '. ' + snapshots.length);
-    return snapshots.slice(startIndex, endIndex);
+    return this.candidateService.sparseArray(
+      this.SNAPSHOTS_PER_ENV,
+      snapshots.slice(startIndex, endIndex)
+    );
   }
 
   /**
