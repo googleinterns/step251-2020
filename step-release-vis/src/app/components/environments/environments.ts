@@ -55,16 +55,10 @@ export class EnvironmentsComponent implements OnInit {
     // TODO(#202): read from localStorage
     this.envJson = '1'; // to suppress empty localStorage
     this.fileService.getBinaryData().subscribe(data => {
-      const envs = this.protoBufferService.getEnvs(data as Uint8Array);
-      this.processEnvironments(
-        envs.map(env => {
-          // The received timestamps are not sorted
-          env.snapshotsList = env.snapshotsList.sort(
-            (s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds
-          );
-          return env;
-        })
+      const envs: Environment[] = this.protoBufferService.getEnvs(
+        data as Uint8Array
       );
+      this.processEnvironments(envs);
     });
   }
 
@@ -79,7 +73,7 @@ export class EnvironmentsComponent implements OnInit {
     this.timelinePointsAmount = Math.floor(
       this.envWidth / this.TIMELINE_POINT_WIDTH
     );
-    this.environments = environments;
+    this.environments = this.sortEnvSnapshots(environments);
 
     let minTimestamp = Number.MAX_VALUE;
     let maxTimestamp = 0;
@@ -172,5 +166,19 @@ export class EnvironmentsComponent implements OnInit {
       res.push(i);
     }
     return res;
+  }
+
+  /**
+   * Sorts the snapshots by timestamp.
+   *
+   * @param envs an array of environments
+   */
+  private sortEnvSnapshots(envs: Environment[]): Environment[] {
+    return envs.map(env => {
+      env.snapshotsList = env.snapshotsList.sort(
+        (s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds
+      );
+      return env;
+    });
   }
 }
