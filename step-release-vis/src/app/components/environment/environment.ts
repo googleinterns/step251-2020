@@ -17,7 +17,7 @@ export class EnvironmentComponent implements OnInit {
   @Input() svgWidth: number;
   @Input() svgHeight: number;
 
-  // TODO(#204): add polygon filtering and sparsing
+  // TODO(#204): add polygon filtering and sparsing. Apply updates in ngOnChanges.
   @Input() startTimestamp: number;
   @Input() endTimestamp: number;
 
