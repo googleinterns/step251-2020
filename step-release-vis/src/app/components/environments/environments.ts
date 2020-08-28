@@ -60,7 +60,7 @@ export class EnvironmentsComponent implements OnInit {
         envs.map(env => {
           env.snapshotsList = env.snapshotsList
             .sort((s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds) // The received timestamps are not sorted
-            .slice(-100); // TODO(#204): add custom time range and sparse timestamps
+            .slice(-200); // TODO(#204): add custom time range and sparse timestamps
           return env;
         })
       );

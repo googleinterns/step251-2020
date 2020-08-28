@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
-import {Environment} from '../../models/Data';
+import {Environment, Snapshot} from '../../models/Data';
 import {CandidateService} from '../../services/candidate';
 import {TimelinePoint} from '../../models/TimelinePoint';
 
@@ -13,11 +13,12 @@ import {TimelinePoint} from '../../models/TimelinePoint';
 })
 export class EnvironmentComponent implements OnInit {
   readonly TIMELINE_HEIGHT = 30;
+  readonly SNAPSHOTS_PER_ENV = 100;
 
   @Input() svgWidth: number;
   @Input() svgHeight: number;
 
-  // TODO(#204): add polygon filtering and sparsing. Apply updates in ngOnChanges.
+  // TODO(#204): add polygon filtering and sparsing
   @Input() startTimestamp: number;
   @Input() endTimestamp: number;
 
@@ -32,8 +33,31 @@ export class EnvironmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.environmentService
-      .getPolygons(this.environment.snapshotsList)
+      .getPolygons(this.filterSnapshots(this.environment))
       .subscribe(polygons => this.processPolygons(polygons));
+  }
+
+  /**
+   * Filters the snapshots according to start/end timestamps and
+   *
+   * @param environment the polygons to process
+   */
+  private filterSnapshots(environment: Environment): Snapshot[] {
+    const snapshots = environment.snapshotsList;
+    let startIndex = snapshots.findIndex(
+      snapshot => snapshot.timestamp >= this.startTimestamp
+    ); // inclusive
+    if (startIndex < 0) {
+      startIndex = 0;
+    }
+    let endIndex = snapshots.findIndex(
+      snapshot => snapshot.timestamp > this.endTimestamp
+    ); // exclusive
+    if (endIndex < 0) {
+      endIndex = snapshots.length;
+    }
+    console.log(startIndex + ' ' + endIndex + '. ' + snapshots.length);
+    return snapshots.slice(startIndex, endIndex);
   }
 
   /**
