@@ -12,7 +12,7 @@ import {TimelinePoint} from '../../models/TimelinePoint';
   styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit {
-  readonly TIMELINE_HEIGHT = 30;
+  readonly TIMELINE_HEIGHT = 40;
   readonly SNAPSHOTS_PER_ENV = 100;
 
   @Input() svgWidth: number;
@@ -135,6 +135,17 @@ export class EnvironmentComponent implements OnInit {
     return `hsl(${polygon.colorHue}, ${saturation}, 50%)`;
   }
 
+  /**
+   * Returns an opacity value based on polygons highlight property.
+   *
+   * @param polygon the polygon
+   */
+  getOpacity(polygon: Polygon): string {
+    return polygon.highlight ? '1.0' : '0.7';
+  }
+
+  // TODO(ancar): Fix the highlighting.
+
   polygonMouseEnter(polygon: Polygon): void {
     this.candidateService.polygonHovered(polygon);
   }
@@ -151,4 +162,18 @@ export class EnvironmentComponent implements OnInit {
     }
     return 'middle';
   }
+
+  showTooltip(event: MouseEvent, polygon: Polygon): void {
+    const tooltip = document.getElementById('tooltip');
+    const rapidLink: string =
+      '<a href="' + 'https://rapid/' + polygon.candName + '">See on rapid</a>';
+    const innerHTML: string =
+      'Name of candidate: ' + polygon.candName + '<br>' + rapidLink;
+    tooltip.innerHTML = innerHTML;
+    tooltip.style.display = 'block';
+    tooltip.style.top = event.pageY.toString() + 'px';
+    tooltip.style.left = event.pageX.toString() + 'px';
+  }
+
+  // TODO(ancar): Add method for the tooltip to disappear correctly.
 }
