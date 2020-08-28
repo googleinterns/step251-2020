@@ -18,7 +18,7 @@ export class EnvironmentComponent implements OnInit {
   @Input() svgWidth: number;
   @Input() svgHeight: number;
 
-  // TODO(#204):   // TODO(#204): Apply updates in ngOnChanges.
+  // TODO(#204): Apply updates in ngOnChanges.
   @Input() startTimestamp: number;
   @Input() endTimestamp: number;
 
