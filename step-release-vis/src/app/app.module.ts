@@ -12,7 +12,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {EnvironmentsComponent} from './components/environments/environments';
 import {DataSubmissionFormComponent} from './components/form/dataSubmissionForm';
 import {ReactiveFormsModule} from '@angular/forms';
-import { TooltipComponent } from './tooltip/tooltip.component';
+import {TooltipComponent} from './components/tooltip/tooltip';
 
 @NgModule({
   declarations: [
