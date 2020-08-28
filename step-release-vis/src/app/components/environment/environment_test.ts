@@ -36,8 +36,8 @@ describe('EnvironmentComponent', () => {
       name: 'test',
       snapshotsList: [],
     };
-    component.minTimestamp = environmentServiceStub.minTimestamp;
-    component.maxTimestamp = environmentServiceStub.maxTimestamp;
+    component.startTimestamp = environmentServiceStub.minTimestamp;
+    component.endTimestamp = environmentServiceStub.maxTimestamp;
     fixture.detectChanges();
   });
 
