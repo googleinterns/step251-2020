@@ -66,13 +66,16 @@ export class CandidateService {
     );
   }
 
-  sparseArray<T>(max: number, array: T[]): T[] {
+  sparseArray<T>(max: number, array: T[], includeLast = false): T[] {
     if (array.length <= max) {
       return array;
     }
     const res: T[] = [];
     for (let i = 0; i < max; i++) {
-      const index = Math.floor(this.scale(i, 0, max, 0, array.length));
+      let index = Math.floor(this.scale(i, 0, max, 0, array.length));
+      if (includeLast && i === max - 1) {
+        index = array.length - 1;
+      }
       res.push(array[index]);
     }
     return res;

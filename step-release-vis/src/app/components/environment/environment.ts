@@ -25,6 +25,7 @@ export class EnvironmentComponent implements OnInit {
   @Input() environment: Environment;
   @Input() timelinePoints: TimelinePoint[];
   polygons: Polygon[];
+  displayedSnapshots: Snapshot[];
 
   constructor(
     private environmentService: EnvironmentService,
@@ -32,8 +33,9 @@ export class EnvironmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.displayedSnapshots = this.filterSnapshots(this.environment);
     this.environmentService
-      .getPolygons(this.filterSnapshots(this.environment))
+      .getPolygons(this.displayedSnapshots)
       .subscribe(polygons => this.processPolygons(polygons));
   }
 
@@ -58,7 +60,8 @@ export class EnvironmentComponent implements OnInit {
     }
     return this.candidateService.sparseArray(
       this.SNAPSHOTS_PER_ENV,
-      snapshots.slice(startIndex, endIndex)
+      snapshots.slice(startIndex, endIndex),
+      true
     );
   }
 

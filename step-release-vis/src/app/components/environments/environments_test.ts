@@ -25,7 +25,7 @@ describe('EnvironmentsComponent', () => {
     activatedRouteStub = new ActivatedRouteStub({
       jsonUri: fileServiceStub.jsonUri,
     });
-    candidateServiceStub = new CandidateServiceStub();
+    candidateServiceStub = new CandidateServiceStub(new CandidateService());
     protoBufferServiceStub = new ProtoBufferServiceStub();
     TestBed.configureTestingModule({
       declarations: [EnvironmentsComponent, EnvironmentComponent],
