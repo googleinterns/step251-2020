@@ -2,8 +2,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {EnvironmentsComponent} from './environments';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {FileServiceStub} from '../../../testing/FileServiceStub';
-import {FileService} from '../../services/file';
+import {DataServiceStub} from '../../../testing/DataServiceStub';
+import {DataService} from '../../services/data';
 import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
 import {ActivatedRoute} from '@angular/router';
 import {EnvironmentComponent} from '../environment/environment';
@@ -11,27 +11,32 @@ import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidate';
 import {ProtoBufferService} from '../../services/proto_buffer';
 import {ProtoBufferServiceStub} from '../../../testing/ProtoBufferServiceStub';
+import {TooltipComponent} from '../tooltip/tooltip';
 
 describe('EnvironmentsComponent', () => {
   let component: EnvironmentsComponent;
   let fixture: ComponentFixture<EnvironmentsComponent>;
   let activatedRouteStub: ActivatedRouteStub;
-  let fileServiceStub: FileServiceStub;
+  let dataServiceStub: DataServiceStub;
   let candidateServiceStub: CandidateServiceStub;
   let protoBufferServiceStub: ProtoBufferServiceStub;
 
   beforeEach(async(() => {
-    fileServiceStub = new FileServiceStub();
+    dataServiceStub = new DataServiceStub();
     activatedRouteStub = new ActivatedRouteStub({
-      jsonUri: fileServiceStub.jsonUri,
+      jsonUri: dataServiceStub.data.jsonData,
     });
     candidateServiceStub = new CandidateServiceStub(new CandidateService());
     protoBufferServiceStub = new ProtoBufferServiceStub();
     TestBed.configureTestingModule({
-      declarations: [EnvironmentsComponent, EnvironmentComponent],
+      declarations: [
+        EnvironmentsComponent,
+        EnvironmentComponent,
+        TooltipComponent,
+      ],
       imports: [HttpClientTestingModule],
       providers: [
-        {provide: FileService, useValue: fileServiceStub},
+        {provide: DataService, useValue: dataServiceStub},
         {provide: ActivatedRoute, useValue: activatedRouteStub},
         {provide: CandidateService, useValue: candidateServiceStub},
         {provide: ProtoBufferService, useValue: protoBufferServiceStub},
@@ -93,7 +98,7 @@ describe('EnvironmentsComponent', () => {
     it('should produce sorted snapshots', () => {
       component
         // @ts-ignore
-        .sortEnvSnapshots(fileServiceStub.files[fileServiceStub.jsonUri])
+        .sortEnvSnapshots(dataServiceStub.data.jsonData)
         .forEach(({snapshotsList}) => {
           for (let i = 1; i < snapshotsList.length; i++) {
             expect(snapshotsList[i].timestamp.seconds).toBeGreaterThan(

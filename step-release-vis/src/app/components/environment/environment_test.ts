@@ -9,6 +9,7 @@ import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidate';
 import {SimpleChange} from '@angular/core';
+import {TooltipComponent} from '../tooltip/tooltip';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -19,7 +20,7 @@ describe('EnvironmentComponent', () => {
     environmentServiceStub = new EnvironmentServiceStub();
     candidateServiceStub = new CandidateServiceStub(new CandidateService());
     TestBed.configureTestingModule({
-      declarations: [EnvironmentComponent],
+      declarations: [EnvironmentComponent, TooltipComponent],
       providers: [
         {provide: EnvironmentService, useValue: environmentServiceStub},
         {provide: CandidateService, useValue: candidateServiceStub},
