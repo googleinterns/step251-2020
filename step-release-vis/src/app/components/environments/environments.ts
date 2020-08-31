@@ -182,4 +182,12 @@ export class EnvironmentsComponent implements OnInit {
       return env;
     });
   }
+
+  // TODO(#219): add time range form
+  rangeShift(shift: number): void {
+    this.onTimeRangeUpdate(
+      this.startTimestamp + shift,
+      this.endTimestamp + shift
+    );
+  }
 }
