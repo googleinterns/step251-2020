@@ -3,6 +3,7 @@ import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
 import {Environment} from '../../models/Data';
+import {SnapshotInterval} from '../../models/SnapshotInterval';
 import {CandidateService} from '../../services/candidate';
 import {TimelinePoint} from '../../models/TimelinePoint';
 
@@ -25,6 +26,8 @@ export class EnvironmentComponent implements OnInit {
   @Input() timelinePoints: TimelinePoint[];
   polygons: Polygon[];
 
+  snapshotIntervals: SnapshotInterval[];
+
   constructor(
     private environmentService: EnvironmentService,
     private candidateService: CandidateService
@@ -34,7 +37,11 @@ export class EnvironmentComponent implements OnInit {
     this.environmentService
       .getPolygons(this.environment.snapshotsList)
       .subscribe(polygons => this.processPolygons(polygons));
+
+    this.computeSnapshotIntervals();
   }
+
+  computeSnapshotIntervals(): void {}
 
   /**
    * Processes the polygons by scaling their coordinates to svg size.
