@@ -44,7 +44,9 @@ export class EnvironmentComponent implements OnInit {
     this.computeSnapshotIntervals();
   }
 
-  computeSnapshotIntervals(): void {}
+  computeSnapshotIntervals(): void {
+    // TODO(#221): implement this
+  }
 
   /**
    * Filters the snapshots according to start/end timestamps

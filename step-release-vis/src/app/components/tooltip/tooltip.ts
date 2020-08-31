@@ -15,7 +15,7 @@ export class TooltipComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-  // TODO(naoai): Implement functions for updating tooltip data
+  // TODO(#210): Implement functions for updating tooltip data
 
   changeEnvironment(snapInterval: SnapshotInterval[]): void {
     this.snapshotIntervals = snapInterval;
