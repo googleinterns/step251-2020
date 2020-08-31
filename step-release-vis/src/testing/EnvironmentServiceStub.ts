@@ -103,6 +103,42 @@ export class EnvironmentServiceStub {
       },
       {
         timestamp: {
+          seconds: 100,
+          nanos: 0,
+        },
+        candidatesList: [
+          {
+            candidate: '2',
+            jobCount: 1000,
+          },
+        ],
+      },
+      {
+        timestamp: {
+          seconds: 200,
+          nanos: 0,
+        },
+        candidatesList: [
+          {
+            candidate: '2',
+            jobCount: 500,
+          },
+        ],
+      },
+      {
+        timestamp: {
+          seconds: 300,
+          nanos: 0,
+        },
+        candidatesList: [
+          {
+            candidate: '2',
+            jobCount: 2000,
+          },
+        ],
+      },
+      {
+        timestamp: {
           seconds: 400,
           nanos: 0,
         },

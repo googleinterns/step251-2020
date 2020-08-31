@@ -8,6 +8,7 @@ import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidate';
+import {SimpleChange} from '@angular/core';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -43,11 +44,11 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('polygons', () => {
-    it('polygons should be assigned', () => {
+    it('should be assigned', () => {
       expect(component.polygons).toBeTruthy();
     });
 
-    it('polygons should fit the screen', () => {
+    it('should fit the screen', () => {
       component.ngOnInit();
       fixture.detectChanges();
       component.polygons.forEach(({points}) =>
@@ -60,7 +61,7 @@ describe('EnvironmentComponent', () => {
       );
     });
 
-    it('polygons should respond to hover events', () => {
+    it('should respond to hover events', () => {
       const polygons = fixture.debugElement.queryAll(By.css('polygon'));
       for (let i = 0; i < polygons.length; i++) {
         polygons[i].triggerEventHandler('mouseenter', {});
@@ -75,17 +76,17 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('displayedSnapshots field', () => {
-    it('displayedSnapshots should be assigned', () => {
+    it('should be assigned', () => {
       expect(component.displayedSnapshots).toBeTruthy();
     });
 
-    it('displayedSnapshots size should be limited', () => {
+    it('should be limited in size', () => {
       expect(component.displayedSnapshots.length).toBeLessThanOrEqual(
         component.SNAPSHOTS_PER_ENV
       );
     });
 
-    it('displayedSnapshots timestamps should be in increasing order', () => {
+    it('should have timestamps in increasing order', () => {
       const snapshots = component.displayedSnapshots;
       for (let i = 1; i < snapshots.length; i++) {
         expect(snapshots[i].timestamp.seconds).toBeGreaterThan(
@@ -94,7 +95,30 @@ describe('EnvironmentComponent', () => {
       }
     });
 
-    it('displayedSnapshots timestamps should fit the range', () => {
+    it('should have timestamps fitting the range', () => {
+      component.displayedSnapshots.forEach(({timestamp}) => {
+        expect(timestamp.seconds).toBeGreaterThanOrEqual(
+          component.startTimestamp
+        );
+        expect(timestamp.seconds).toBeLessThanOrEqual(component.endTimestamp);
+      });
+    });
+  });
+
+  fdescribe('time range update', () => {
+    beforeEach(() => {
+      component.ngOnChanges({
+        startTimestamp: new SimpleChange(0, 100, false),
+        endTimestamp: new SimpleChange(400, 200, false),
+      });
+    });
+
+    it('should update fields', () => {
+      expect(component.startTimestamp).toEqual(100);
+      expect(component.endTimestamp).toEqual(200);
+    });
+
+    fit('should have update displayed snapshots', () => {
       component.displayedSnapshots.forEach(({timestamp}) => {
         expect(timestamp.seconds).toBeGreaterThanOrEqual(
           component.startTimestamp
