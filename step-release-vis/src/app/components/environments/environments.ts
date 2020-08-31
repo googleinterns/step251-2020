@@ -183,8 +183,11 @@ export class EnvironmentsComponent implements OnInit {
     });
   }
 
-  private time(): void {
-    this.endTimestamp -= this.WEEK_SECONDS;
-    this.startTimestamp -= this.WEEK_SECONDS;
+  // TODO(#219): add time range form
+  rangeShift(shift: number): void {
+    this.onTimeRangeUpdate(
+      this.startTimestamp + shift,
+      this.endTimestamp + shift
+    );
   }
 }

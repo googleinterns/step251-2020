@@ -1,4 +1,5 @@
-<button (click)="time()">time</button>
+<!-- TODO(#219): add time range form -->
+<button (click)="rangeShift(-WEEK_SECONDS / 2)">time</button>
 <div *ngIf="envJson">
   <app-environment
     *ngFor="let environment of environments"

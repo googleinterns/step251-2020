@@ -1,4 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
@@ -11,14 +17,13 @@ import {TimelinePoint} from '../../models/TimelinePoint';
   templateUrl: './environment.html',
   styleUrls: ['./environment.css'],
 })
-export class EnvironmentComponent implements OnInit {
+export class EnvironmentComponent implements OnInit, OnChanges {
   readonly TIMELINE_HEIGHT = 40;
-  readonly SNAPSHOTS_PER_ENV = 100;
+  readonly SNAPSHOTS_PER_ENV = 500;
 
   @Input() svgWidth: number;
   @Input() svgHeight: number;
 
-  // TODO(#204): Apply updates in ngOnChanges.
   @Input() startTimestamp: number;
   @Input() endTimestamp: number;
 
@@ -33,6 +38,13 @@ export class EnvironmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.processEnvironment();
+  }
+
+  /**
+   * Initialises component fields, calculates the polygons.
+   */
+  private processEnvironment(): void {
     this.displayedSnapshots = this.filterSnapshots(this.environment);
     this.environmentService
       .getPolygons(this.displayedSnapshots)
@@ -84,6 +96,23 @@ export class EnvironmentComponent implements OnInit {
       return scaledPolygon;
     });
     this.candidateService.addPolygons(this.polygons);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    let changed = false;
+    const startChanges = changes.startTimestamp;
+    if (startChanges && !startChanges.isFirstChange()) {
+      this.startTimestamp = startChanges.currentValue;
+      changed = true;
+    }
+    const endChanges = changes.endTimestamp;
+    if (endChanges && !endChanges.isFirstChange()) {
+      this.endTimestamp = endChanges.currentValue;
+      changed = true;
+    }
+    if (changed) {
+      this.processEnvironment();
+    }
   }
 
   /**
