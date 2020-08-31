@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Environment} from '../../models/Data';
-import {DataService} from '../../services/data';
-import {ProtoBufferService} from '../../services/proto_buffer';
-import {CandidateService} from '../../services/candidate';
+import {DataService} from '../../services/dataService';
+import {ProtoBufferService} from '../../services/protoBufferService';
+import {CandidateService} from '../../services/candidateService';
 import {shuffle} from 'lodash';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Observable} from 'rxjs';

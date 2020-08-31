@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {DataService} from './data';
+import {DataService} from './dataService';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -26,7 +26,7 @@ describe('DataService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should read existing file', () => {
+  it('should read proto from file', () => {
     service
       .getProtoData(testRequest.filePath)
       .subscribe(contents => expect(contents).toEqual(testRequest.response));
@@ -35,7 +35,7 @@ describe('DataService', () => {
     req.flush(testRequest.response);
   });
 
-  it('should return existing data', done => {
+  it('should read proto from local storage', done => {
     window.localStorage.setItem('data', 'this is a test');
     service.getLocalProtoData().subscribe(result => {
       expect(result).toEqual('this is a test');
@@ -43,5 +43,8 @@ describe('DataService', () => {
     });
   });
 
-  // TODO(#223): add tests for new methods
+  // TODO(#223): complete test cases
+  it('should read binary proto from file');
+  it('should read binary data from local storage');
+  it('should read json data from local storage');
 });

@@ -3,11 +3,11 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {EnvironmentComponent} from './environment';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {EnvironmentService} from '../../services/environment';
+import {EnvironmentService} from '../../services/environmentService';
 import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
-import {CandidateService} from '../../services/candidate';
+import {CandidateService} from '../../services/candidateService';
 import {SimpleChange} from '@angular/core';
 
 describe('EnvironmentComponent', () => {

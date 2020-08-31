@@ -3,13 +3,13 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {EnvironmentsComponent} from './environments';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {DataServiceStub} from '../../../testing/DataServiceStub';
-import {DataService} from '../../services/data';
+import {DataService} from '../../services/dataService';
 import {ActivatedRouteStub} from '../../../testing/ActivatedRouteStub';
 import {ActivatedRoute} from '@angular/router';
 import {EnvironmentComponent} from '../environment/environment';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
-import {CandidateService} from '../../services/candidate';
-import {ProtoBufferService} from '../../services/proto_buffer';
+import {CandidateService} from '../../services/candidateService';
+import {ProtoBufferService} from '../../services/protoBufferService';
 import {ProtoBufferServiceStub} from '../../../testing/ProtoBufferServiceStub';
 import {TooltipComponent} from '../tooltip/tooltip';
 

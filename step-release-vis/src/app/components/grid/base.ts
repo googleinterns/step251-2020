@@ -1,5 +1,5 @@
 import {ActivatedRoute} from '@angular/router';
-import {ParamService} from '../../services/param';
+import {ParamService} from '../../services/paramService';
 
 export abstract class BaseGridComponent {
   xMargin = 10;

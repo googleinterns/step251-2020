@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ParamService} from '../../../services/param';
+import {ParamService} from '../../../services/paramService';
 import {BaseGridComponent} from '../base';
 
 @Component({
