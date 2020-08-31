@@ -35,6 +35,18 @@ export class FileServiceStub {
           },
           {
             timestamp: {
+              seconds: 1000,
+              nanos: 0,
+            },
+            candidatesList: [
+              {
+                candidate: '2',
+                jobCount: 1000,
+              },
+            ],
+          },
+          {
+            timestamp: {
               seconds: 900,
               nanos: 0,
             },

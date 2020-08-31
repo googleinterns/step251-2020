@@ -1,11 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Polygon} from '../app/models/Polygon';
+import {CandidateService} from '../app/services/candidate';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CandidateServiceStub {
+  constructor(private candidateService: CandidateService) {}
   candColors = new Map<string, number>();
+  scale = this.candidateService.scale;
+  sparseArray = this.candidateService.sparseArray;
 
   getColor(candName: string): number {
     return 0;
@@ -23,17 +27,5 @@ export class CandidateServiceStub {
 
   addCandidate(color: number, name: string): void {
     this.candColors.set(name, color);
-  }
-
-  scale(
-    value: number,
-    inStart: number,
-    inEnd: number,
-    outStart: number,
-    outEnd: number
-  ): number {
-    return (
-      ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
-    );
   }
 }
