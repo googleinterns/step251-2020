@@ -9,7 +9,6 @@ import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidate';
 import {SimpleChange} from '@angular/core';
-import {TooltipComponent} from '../tooltip/tooltip';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
