@@ -118,4 +118,45 @@ describe('CandidateService', () => {
       expect(service.scale(6, 0, 10, 100, 200)).toBeCloseTo(160, 5);
     });
   });
+
+  describe('#sparseArray', () => {
+    const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    it('amount equal to array length', () => {
+      expect(service.sparseArray(array.length, array)).toEqual(array);
+    });
+
+    it('amount equal to length/2', () => {
+      expect(service.sparseArray(array.length / 2, array)).toEqual(
+        array.filter((value, index) => index % 2 === 0)
+      );
+    });
+
+    it('amount bigger than length', () => {
+      expect(service.sparseArray(array.length + 50, array)).toEqual(array);
+    });
+
+    it('length not divisible by amount', () => {
+      const array2 = [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+      ];
+      expect(service.sparseArray(5, array2)).toEqual([1, 4, 7, 11, 14]);
+      expect(service.sparseArray(5, array2, true)).toEqual([1, 4, 7, 11, 17]);
+    });
+  });
 });

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {EnvironmentService} from '../../services/environment';
 import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
-import {Environment} from '../../models/Data';
+import {Environment, Snapshot} from '../../models/Data';
 import {CandidateService} from '../../services/candidate';
 import {TimelinePoint} from '../../models/TimelinePoint';
 
@@ -13,17 +13,19 @@ import {TimelinePoint} from '../../models/TimelinePoint';
 })
 export class EnvironmentComponent implements OnInit {
   readonly TIMELINE_HEIGHT = 30;
+  readonly SNAPSHOTS_PER_ENV = 100;
 
   @Input() svgWidth: number;
   @Input() svgHeight: number;
 
-  // TODO(#204): add polygon filtering and sparsing. Apply updates in ngOnChanges.
+  // TODO(#204): Apply updates in ngOnChanges.
   @Input() startTimestamp: number;
   @Input() endTimestamp: number;
 
   @Input() environment: Environment;
   @Input() timelinePoints: TimelinePoint[];
   polygons: Polygon[];
+  displayedSnapshots: Snapshot[];
 
   constructor(
     private environmentService: EnvironmentService,
@@ -31,9 +33,37 @@ export class EnvironmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.displayedSnapshots = this.filterSnapshots(this.environment);
     this.environmentService
-      .getPolygons(this.environment.snapshotsList)
+      .getPolygons(this.displayedSnapshots)
       .subscribe(polygons => this.processPolygons(polygons));
+  }
+
+  /**
+   * Filters the snapshots according to start/end timestamps
+   * and returns a sparse version of the resulting snapshots.
+   *
+   * @param environment the polygons to process
+   */
+  private filterSnapshots(environment: Environment): Snapshot[] {
+    const snapshots = environment.snapshotsList;
+    let startIndex = snapshots.findIndex(
+      snapshot => snapshot.timestamp.seconds >= this.startTimestamp
+    ); // inclusive
+    if (startIndex < 0) {
+      startIndex = snapshots.length; // all snapshots < start - nothing to display
+    }
+    let endIndex = snapshots.findIndex(
+      snapshot => snapshot.timestamp.seconds > this.endTimestamp
+    ); // exclusive
+    if (endIndex < 0) {
+      endIndex = snapshots.length; // all snapshots <= end - all applicable
+    }
+    return this.candidateService.sparseArray(
+      this.SNAPSHOTS_PER_ENV,
+      snapshots.slice(startIndex, endIndex),
+      true
+    );
   }
 
   /**
