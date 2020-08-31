@@ -89,7 +89,7 @@ describe('EnvironmentsComponent', () => {
     });
   });
 
-  fdescribe('#sortEnvSnapshots', () => {
+  describe('#sortEnvSnapshots', () => {
     it('should produce sorted snapshots', () => {
       component
         // @ts-ignore
