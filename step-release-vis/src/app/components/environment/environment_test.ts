@@ -105,7 +105,7 @@ describe('EnvironmentComponent', () => {
     });
   });
 
-  fdescribe('time range update', () => {
+  describe('time range update', () => {
     beforeEach(() => {
       component.ngOnChanges({
         startTimestamp: new SimpleChange(0, 100, false),
@@ -118,7 +118,7 @@ describe('EnvironmentComponent', () => {
       expect(component.endTimestamp).toEqual(200);
     });
 
-    fit('should have update displayed snapshots', () => {
+    it('should have update displayed snapshots', () => {
       component.displayedSnapshots.forEach(({timestamp}) => {
         expect(timestamp.seconds).toBeGreaterThanOrEqual(
           component.startTimestamp
