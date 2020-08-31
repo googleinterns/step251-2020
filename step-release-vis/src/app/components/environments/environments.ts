@@ -14,17 +14,17 @@ import {TimelinePoint} from '../../models/TimelinePoint';
 export class EnvironmentsComponent implements OnInit {
   readonly ENVS_PER_PAGE = 7;
   readonly ENV_RIGHT_MARGIN = 100;
-  readonly TIMELINE_POINT_WIDTH = 200;
+  readonly TIMELINE_POINT_WIDTH = 130;
   readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
 
   environments: Environment[];
   envWidth: number;
   envHeight: number;
 
-  minTimestamp: number;
-  maxTimestamp: number;
-  startTimestamp: number;
-  endTimestamp: number;
+  minTimestamp: number; // min timestamp across every environment
+  maxTimestamp: number; // max timestamp across every environment
+  startTimestamp: number; // current start timestamp
+  endTimestamp: number; // current end timestamp
 
   envJson: string;
   timelinePointsAmount: number;
@@ -55,15 +55,10 @@ export class EnvironmentsComponent implements OnInit {
     // TODO(#202): read from localStorage
     this.envJson = '1'; // to suppress empty localStorage
     this.fileService.getBinaryData().subscribe(data => {
-      const envs = this.protoBufferService.getEnvs(data as Uint8Array);
-      this.processEnvironments(
-        envs.map(env => {
-          env.snapshotsList = env.snapshotsList
-            .sort((s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds) // The received timestamps are not sorted
-            .slice(-100); // TODO(#204): add custom time range and sparse timestamps
-          return env;
-        })
+      const envs: Environment[] = this.protoBufferService.getEnvs(
+        data as Uint8Array
       );
+      this.processEnvironments(envs);
     });
   }
 
@@ -78,7 +73,7 @@ export class EnvironmentsComponent implements OnInit {
     this.timelinePointsAmount = Math.floor(
       this.envWidth / this.TIMELINE_POINT_WIDTH
     );
-    this.environments = environments;
+    this.environments = this.sortEnvSnapshots(environments);
 
     let minTimestamp = Number.MAX_VALUE;
     let maxTimestamp = 0;
@@ -104,11 +99,16 @@ export class EnvironmentsComponent implements OnInit {
     this.startTimestamp = startTimestamp;
     this.endTimestamp = endTimestamp;
 
-    const candNames = new Set<string>();
+    const candNames = new Set<string>(); // candidates which fit start...end
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshotsList) {
         for (const candsInfo of snapshot.candidatesList) {
-          candNames.add(candsInfo.candidate);
+          if (
+            snapshot.timestamp.seconds >= this.startTimestamp &&
+            snapshot.timestamp.seconds <= this.endTimestamp
+          ) {
+            candNames.add(candsInfo.candidate);
+          }
         }
       }
     }
@@ -117,7 +117,8 @@ export class EnvironmentsComponent implements OnInit {
     const timelineChunkSize =
       (this.endTimestamp - this.startTimestamp) / this.timelinePointsAmount;
     for (let i = 0; i <= this.timelinePointsAmount; i++) {
-      const relativeTimestamp = timelineChunkSize * i;
+      let relativeTimestamp = timelineChunkSize * i;
+      relativeTimestamp = Math.floor(relativeTimestamp / 60) * 60; // Round seconds
       this.timelinePoints.push(
         new TimelinePoint(
           this.startTimestamp + relativeTimestamp,
@@ -166,5 +167,19 @@ export class EnvironmentsComponent implements OnInit {
       res.push(i);
     }
     return res;
+  }
+
+  /**
+   * Sorts the snapshots by timestamp.
+   *
+   * @param envs an array of environments
+   */
+  private sortEnvSnapshots(envs: Environment[]): Environment[] {
+    return envs.map(env => {
+      env.snapshotsList = env.snapshotsList.sort(
+        (s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds
+      );
+      return env;
+    });
   }
 }

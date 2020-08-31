@@ -7,29 +7,40 @@
         *ngFor="let polygon of polygons"
         [attr.points]="polygon.toAttributeString()"
         [attr.fill]="getColor(polygon)"
+        [attr.fill-opacity]="getOpacity(polygon)"
         (mouseenter)="polygonMouseEnter(polygon, $event)"
         (mouseleave)="polygonMouseLeave(polygon)"
         (mousemove)="moveTooltip($event)"
       >
       </polygon>
-      <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT / 2 - 5" [attr.width]="svgWidth" [attr.height]="2"
+      <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT + 10" [attr.width]="svgWidth" [attr.height]="2"
             fill="gray"/>
       <text
         *ngFor="let timelinePoint of timelinePoints; let i = index"
         [attr.x]="timelinePoint.x"
-        [attr.y]="svgHeight - 3"
+        [attr.y]="svgHeight - 12"
         [attr.text-anchor]="getTimelinePointTextAlignment(i)"
         font-family="Roboto, Arial, sans-serif"
         font-size="12"
       >
-        {{ timelinePoint.timestampString }}
+        {{ timelinePoint.timeString }}
+      </text>
+      <text
+        *ngFor="let timelinePoint of timelinePoints; let i = index"
+        [attr.x]="timelinePoint.x"
+        [attr.y]="svgHeight"
+        [attr.text-anchor]="getTimelinePointTextAlignment(i)"
+        font-family="Roboto, Arial, sans-serif"
+        font-size="12"
+      >
+        {{ timelinePoint.dateString }}
       </text>
       <line
         *ngFor="let timelinePoint of timelinePoints"
         [attr.x1]="timelinePoint.x"
         [attr.y1]="svgHeight - TIMELINE_HEIGHT + 2"
         [attr.x2]="timelinePoint.x"
-        [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 + 2"
+        [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 - 3"
         stroke="gray"
       />
     </svg>

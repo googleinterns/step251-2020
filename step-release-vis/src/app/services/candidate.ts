@@ -65,4 +65,26 @@ export class CandidateService {
       ((value - inStart) * (outEnd - outStart)) / (inEnd - inStart) + outStart
     );
   }
+
+  /**
+   * Returns a sparse verison of the provided array. Contains min(max, array.length) elements.
+   *
+   * @param max maximum amount of elements in resulting array
+   * @param array the array
+   * @param includeLast whether the last element of the array must be included
+   */
+  sparseArray<T>(max: number, array: T[], includeLast = false): T[] {
+    if (array.length <= max) {
+      return array;
+    }
+    const res: T[] = [];
+    for (let i = 0; i < max; i++) {
+      let index = Math.floor(this.scale(i, 0, max, 0, array.length));
+      if (includeLast && i === max - 1) {
+        index = array.length - 1;
+      }
+      res.push(array[index]);
+    }
+    return res;
+  }
 }
