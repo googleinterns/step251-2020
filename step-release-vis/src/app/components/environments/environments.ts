@@ -53,16 +53,6 @@ export class EnvironmentsComponent implements OnInit {
     );
   }
 
-  /*
-        src/app/components/environments/environments.html
-        modified:   src/app/components/environments/environments.ts
-        modified:   src/app/components/form/dataSubmissionForm.ts
-        renamed:    src/app/services/file.ts -> src/app/services/data.ts
-        renamed:    src/app/services/file_test.ts -> src/app/services/data_test.ts
-        modified:   src/app/services/proto_buffer.ts
-
-   */
-
   // For debugging purposes
   private readJsonData(): void {
     this.readData(this.dataService.getLocalJsonData, data => JSON.parse(data));
