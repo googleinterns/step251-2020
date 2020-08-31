@@ -64,8 +64,8 @@ describe('EnvironmentsComponent', () => {
 
   it('timelinePoints should fit timeline and bounds', () => {
     component.timelinePoints.forEach(({timestamp, x}) => {
-      expect(timestamp).toBeGreaterThanOrEqual(component.minTimestamp);
-      expect(timestamp).toBeLessThanOrEqual(component.maxTimestamp);
+      expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp);
+      expect(timestamp).toBeLessThanOrEqual(component.endTimestamp);
       expect(x).toBeGreaterThanOrEqual(0);
       expect(x).toBeLessThanOrEqual(component.envWidth);
     });

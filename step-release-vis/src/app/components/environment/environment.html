@@ -12,7 +12,7 @@
         (mousemove)="moveTooltip($event)"
       >
       </polygon>
-      <rect [attr.x]="0" [attr.y]="svgHeight - timelineHeight / 2 - 5" [attr.width]="svgWidth" [attr.height]="2"
+      <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT / 2 - 5" [attr.width]="svgWidth" [attr.height]="2"
             fill="gray"/>
       <text
         *ngFor="let timelinePoint of timelinePoints; let i = index"
@@ -27,9 +27,9 @@
       <line
         *ngFor="let timelinePoint of timelinePoints"
         [attr.x1]="timelinePoint.x"
-        [attr.y1]="svgHeight - timelineHeight + 2"
+        [attr.y1]="svgHeight - TIMELINE_HEIGHT + 2"
         [attr.x2]="timelinePoint.x"
-        [attr.y2]="svgHeight - timelineHeight / 2 + 2"
+        [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 + 2"
         stroke="gray"
       />
     </svg>

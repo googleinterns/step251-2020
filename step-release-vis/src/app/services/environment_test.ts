@@ -6,7 +6,7 @@ import {
   TimestampLowerBoundSet,
 } from './environment';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {CandidateInfo, Environment} from '../models/Data';
+import {CandidateInfo, Snapshot} from '../models/Data';
 import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
 
@@ -21,26 +21,23 @@ describe('EnvironmentService', () => {
   });
 
   it('#getPolygons should return polygons, representing the env', done => {
-    const env: Environment = {
-      name: 'test',
-      snapshotsList: [
-        {
-          timestamp: {seconds: 1, nanos: 0},
-          candidatesList: [
-            {candidate: '1', jobCount: 30},
-            {candidate: '2', jobCount: 70},
-          ],
-        },
-        {
-          timestamp: {seconds: 2, nanos: 0},
-          candidatesList: [{candidate: '2', jobCount: 100}],
-        },
-      ],
-    };
-    service.getPolygons(env).subscribe(polygons => {
+    const snapshots: Snapshot[] = [
+      {
+        timestamp: {seconds: 1, nanos: 0},
+        candidatesList: [
+          {candidate: '1', jobCount: 30},
+          {candidate: '2', jobCount: 70},
+        ],
+      },
+      {
+        timestamp: {seconds: 2, nanos: 0},
+        candidatesList: [{candidate: '2', jobCount: 100}],
+      },
+    ];
+    service.getPolygons(snapshots).subscribe(polygons => {
       expect(polygons).toBeTruthy();
       const envCandNames = new Set<string>();
-      for (const snapshot of env.snapshotsList) {
+      for (const snapshot of snapshots) {
         for (const candInfo of snapshot.candidatesList) {
           envCandNames.add(candInfo.candidate);
         }
@@ -61,23 +58,20 @@ describe('EnvironmentService', () => {
 
   describe('#calculatePolygons', () => {
     it('one candidate has 2 polygons', () => {
-      const inputEnvironment: Environment = {
-        name: 'env',
-        snapshotsList: [
-          {
-            timestamp: {seconds: 1, nanos: 0},
-            candidatesList: [{candidate: '1', jobCount: 100}],
-          },
-          {
-            timestamp: {seconds: 2, nanos: 0},
-            candidatesList: [{candidate: '2', jobCount: 100}],
-          },
-          {
-            timestamp: {seconds: 3, nanos: 0},
-            candidatesList: [{candidate: '1', jobCount: 100}],
-          },
-        ],
-      };
+      const snapshots: Snapshot[] = [
+        {
+          timestamp: {seconds: 1, nanos: 0},
+          candidatesList: [{candidate: '1', jobCount: 100}],
+        },
+        {
+          timestamp: {seconds: 2, nanos: 0},
+          candidatesList: [{candidate: '2', jobCount: 100}],
+        },
+        {
+          timestamp: {seconds: 3, nanos: 0},
+          candidatesList: [{candidate: '1', jobCount: 100}],
+        },
+      ];
 
       const poly0: Polygon = new Polygon(
         [
@@ -107,7 +101,7 @@ describe('EnvironmentService', () => {
       );
 
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
+      const result: Polygon[] = service.calculatePolygons(snapshots);
 
       expect(result.length).toEqual(3);
       expect(result[0]).toEqual(poly0);
@@ -116,24 +110,21 @@ describe('EnvironmentService', () => {
     });
 
     it('one candidate gets to 0 jobs', () => {
-      const inputEnvironment: Environment = {
-        name: 'env',
-        snapshotsList: [
-          {
-            timestamp: {seconds: 1, nanos: 0},
-            candidatesList: [
-              {candidate: '1', jobCount: 30},
-              {candidate: '2', jobCount: 70},
-            ],
-          },
-          {
-            timestamp: {seconds: 2, nanos: 0},
-            candidatesList: [{candidate: '2', jobCount: 100}],
-          },
-        ],
-      };
+      const snapshots: Snapshot[] = [
+        {
+          timestamp: {seconds: 1, nanos: 0},
+          candidatesList: [
+            {candidate: '1', jobCount: 30},
+            {candidate: '2', jobCount: 70},
+          ],
+        },
+        {
+          timestamp: {seconds: 2, nanos: 0},
+          candidatesList: [{candidate: '2', jobCount: 100}],
+        },
+      ];
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
+      const result: Polygon[] = service.calculatePolygons(snapshots);
 
       // first element in the output should be the first closed polygon
       expect(result[0].candName).toEqual('1');
@@ -152,18 +143,15 @@ describe('EnvironmentService', () => {
     });
 
     it('just one candidate with 100% of the jobs', () => {
-      const inputEnvironment: Environment = {
-        name: 'env',
-        snapshotsList: [
-          {
-            timestamp: {seconds: 1, nanos: 0},
-            candidatesList: [{candidate: '1', jobCount: 100}],
-          },
-        ],
-      };
+      const snapshots: Snapshot[] = [
+        {
+          timestamp: {seconds: 1, nanos: 0},
+          candidatesList: [{candidate: '1', jobCount: 100}],
+        },
+      ];
 
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
+      const result: Polygon[] = service.calculatePolygons(snapshots);
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
@@ -173,20 +161,17 @@ describe('EnvironmentService', () => {
     });
 
     it('all have 0 jobs', () => {
-      const inputEnvironment: Environment = {
-        name: 'env',
-        snapshotsList: [
-          {
-            timestamp: {seconds: 1, nanos: 0},
-            candidatesList: [
-              {candidate: '1', jobCount: 0},
-              {candidate: '2', jobCount: 0},
-            ],
-          },
-        ],
-      };
+      const snapshots: Snapshot[] = [
+        {
+          timestamp: {seconds: 1, nanos: 0},
+          candidatesList: [
+            {candidate: '1', jobCount: 0},
+            {candidate: '2', jobCount: 0},
+          ],
+        },
+      ];
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
+      const result: Polygon[] = service.calculatePolygons(snapshots);
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([{x: 1, y: 100}]);
@@ -195,24 +180,21 @@ describe('EnvironmentService', () => {
     });
 
     it('new candidate appears', () => {
-      const inputEnvironment: Environment = {
-        name: 'env',
-        snapshotsList: [
-          {
-            timestamp: {seconds: 1, nanos: 0},
-            candidatesList: [{candidate: '1', jobCount: 100}],
-          },
-          {
-            timestamp: {seconds: 2, nanos: 0},
-            candidatesList: [
-              {candidate: '1', jobCount: 80},
-              {candidate: '2', jobCount: 20},
-            ],
-          },
-        ],
-      };
+      const snapshots: Snapshot[] = [
+        {
+          timestamp: {seconds: 1, nanos: 0},
+          candidatesList: [{candidate: '1', jobCount: 100}],
+        },
+        {
+          timestamp: {seconds: 2, nanos: 0},
+          candidatesList: [
+            {candidate: '1', jobCount: 80},
+            {candidate: '2', jobCount: 20},
+          ],
+        },
+      ];
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
+      const result: Polygon[] = service.calculatePolygons(snapshots);
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
@@ -230,24 +212,21 @@ describe('EnvironmentService', () => {
     });
 
     it('both candidates get to 0 jobs at the same timestamp', () => {
-      const inputEnvironment: Environment = {
-        name: 'env',
-        snapshotsList: [
-          {
-            timestamp: {seconds: 1, nanos: 0},
-            candidatesList: [
-              {candidate: '1', jobCount: 30},
-              {candidate: '2', jobCount: 70},
-            ],
-          },
-          {
-            timestamp: {seconds: 2, nanos: 0},
-            candidatesList: [],
-          },
-        ],
-      };
+      const snapshots: Snapshot[] = [
+        {
+          timestamp: {seconds: 1, nanos: 0},
+          candidatesList: [
+            {candidate: '1', jobCount: 30},
+            {candidate: '2', jobCount: 70},
+          ],
+        },
+        {
+          timestamp: {seconds: 2, nanos: 0},
+          candidatesList: [],
+        },
+      ];
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
+      const result: Polygon[] = service.calculatePolygons(snapshots);
 
       expect(result[0].candName).toEqual('1');
       expect(result[0].points).toEqual([
@@ -264,35 +243,32 @@ describe('EnvironmentService', () => {
     });
 
     it('one candidate appears and disapears', () => {
-      const inputEnvironment: Environment = {
-        name: 'env',
-        snapshotsList: [
-          {
-            timestamp: {seconds: 1, nanos: 0},
-            candidatesList: [{candidate: '1', jobCount: 100}],
-          },
-          {
-            timestamp: {seconds: 2, nanos: 0},
-            candidatesList: [
-              {candidate: '1', jobCount: 65},
-              {candidate: '2', jobCount: 35},
-            ],
-          },
-          {
-            timestamp: {seconds: 3, nanos: 0},
-            candidatesList: [
-              {candidate: '1', jobCount: 75},
-              {candidate: '2', jobCount: 25},
-            ],
-          },
-          {
-            timestamp: {seconds: 4, nanos: 0},
-            candidatesList: [{candidate: '1', jobCount: 100}],
-          },
-        ],
-      };
+      const snapshots: Snapshot[] = [
+        {
+          timestamp: {seconds: 1, nanos: 0},
+          candidatesList: [{candidate: '1', jobCount: 100}],
+        },
+        {
+          timestamp: {seconds: 2, nanos: 0},
+          candidatesList: [
+            {candidate: '1', jobCount: 65},
+            {candidate: '2', jobCount: 35},
+          ],
+        },
+        {
+          timestamp: {seconds: 3, nanos: 0},
+          candidatesList: [
+            {candidate: '1', jobCount: 75},
+            {candidate: '2', jobCount: 25},
+          ],
+        },
+        {
+          timestamp: {seconds: 4, nanos: 0},
+          candidatesList: [{candidate: '1', jobCount: 100}],
+        },
+      ];
       // @ts-ignore
-      const result: Polygon[] = service.calculatePolygons(inputEnvironment);
+      const result: Polygon[] = service.calculatePolygons(snapshots);
 
       // first element in the output should be the first closed polygon
       expect(result[0].candName).toEqual('2');
@@ -784,7 +760,7 @@ describe('EnvironmentService', () => {
       expect(resultMap.get('1')).toEqual(100);
     });
 
-    it('input empty CanditateInfo[]', () => {
+    it('input empty CandidateInfo[]', () => {
       // @ts-ignore
       const resultMap: Map<string, number> = service.getPercentages([]);
 
