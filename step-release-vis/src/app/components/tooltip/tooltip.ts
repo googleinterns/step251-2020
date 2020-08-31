@@ -15,15 +15,14 @@ export class TooltipComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+  // TODO(naoai): Implement functions for updating tooltip data
 
-  changeEnvironment(snapInterval: SnapshotInterval[]) {
+  changeEnvironment(snapInterval: SnapshotInterval[]): void {
     this.snapshotIntervals = snapInterval;
     this.binarySearchIndex();
   }
 
-  moveMouse(): void {
-    // TODO(naoai): Implement this function to change interval if the mouse moves inside the environment
-  }
+  moveMouse(): void {}
 
   changeCandidate(newName: string): void {
     this.candidateName = newName;
