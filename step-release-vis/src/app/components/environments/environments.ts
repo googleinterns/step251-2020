@@ -12,15 +12,21 @@ import {TimelinePoint} from '../../models/TimelinePoint';
   styleUrls: ['./environments.css'],
 })
 export class EnvironmentsComponent implements OnInit {
+  readonly ENVS_PER_PAGE = 7;
+  readonly ENV_RIGHT_MARGIN = 100;
+  readonly TIMELINE_POINT_WIDTH = 200;
+  readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
+
   environments: Environment[];
   envWidth: number;
   envHeight: number;
-  envRightMargin = 100;
-  envsPerPage = 7;
+
   minTimestamp: number;
   maxTimestamp: number;
+  startTimestamp: number;
+  endTimestamp: number;
+
   envJson: string;
-  timelinePointWidth = 200;
   timelinePointsAmount: number;
   timelinePoints: TimelinePoint[];
 
@@ -48,13 +54,13 @@ export class EnvironmentsComponent implements OnInit {
   private readBinary(): void {
     // TODO(#202): read from localStorage
     this.envJson = '1'; // to suppress empty localStorage
-    this.fileService.readBinaryContents('assets/cal90d.pb').subscribe(data => {
+    this.fileService.getBinaryData().subscribe(data => {
       const envs = this.protoBufferService.getEnvs(data as Uint8Array);
       this.processEnvironments(
         envs.map(env => {
           env.snapshotsList = env.snapshotsList
-            .slice(0, 10) // TODO(#204): add custom time range and sparse timestamps
-            .sort((s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds); // The received timestamps are not sorted
+            .sort((s1, s2) => s1.timestamp.seconds - s2.timestamp.seconds) // The received timestamps are not sorted
+            .slice(-100); // TODO(#204): add custom time range and sparse timestamps
           return env;
         })
       );
@@ -67,45 +73,65 @@ export class EnvironmentsComponent implements OnInit {
    * @param environments an array of environments
    */
   private processEnvironments(environments: Environment[]): void {
-    this.envWidth = window.innerWidth - this.envRightMargin;
-    this.envHeight = window.innerHeight / this.envsPerPage;
+    this.envWidth = window.innerWidth - this.ENV_RIGHT_MARGIN;
+    this.envHeight = window.innerHeight / this.ENVS_PER_PAGE;
     this.timelinePointsAmount = Math.floor(
-      this.envWidth / this.timelinePointWidth
+      this.envWidth / this.TIMELINE_POINT_WIDTH
     );
     this.environments = environments;
-    const candNames = new Set<string>();
+
     let minTimestamp = Number.MAX_VALUE;
     let maxTimestamp = 0;
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshotsList) {
         minTimestamp = Math.min(minTimestamp, snapshot.timestamp.seconds);
         maxTimestamp = Math.max(maxTimestamp, snapshot.timestamp.seconds);
+      }
+    }
+    this.minTimestamp = minTimestamp;
+    this.maxTimestamp = maxTimestamp;
+
+    this.onTimeRangeUpdate(
+      this.maxTimestamp - this.WEEK_SECONDS,
+      this.maxTimestamp
+    );
+  }
+
+  /**
+   * Updates the timeline with new start and end values (caught by child in ngOnChanges).
+   */
+  onTimeRangeUpdate(startTimestamp, endTimestamp): void {
+    this.startTimestamp = startTimestamp;
+    this.endTimestamp = endTimestamp;
+
+    const candNames = new Set<string>();
+    for (const environment of this.environments) {
+      for (const snapshot of environment.snapshotsList) {
         for (const candsInfo of snapshot.candidatesList) {
           candNames.add(candsInfo.candidate);
         }
       }
     }
-    this.minTimestamp = minTimestamp;
-    this.maxTimestamp = maxTimestamp;
+
     this.timelinePoints = [];
     const timelineChunkSize =
-      (maxTimestamp - minTimestamp) / this.timelinePointsAmount;
+      (this.endTimestamp - this.startTimestamp) / this.timelinePointsAmount;
     for (let i = 0; i <= this.timelinePointsAmount; i++) {
       const relativeTimestamp = timelineChunkSize * i;
       this.timelinePoints.push(
         new TimelinePoint(
-          minTimestamp + relativeTimestamp,
+          this.startTimestamp + relativeTimestamp,
           this.candidateService.scale(
             relativeTimestamp,
             0,
-            maxTimestamp - minTimestamp,
+            this.endTimestamp - this.startTimestamp,
             0,
             this.envWidth
           )
         )
       );
     }
-    const shuffledIndices = shuffle(this.increasingSequence(0, candNames.size));
+    const shuffledIndices = shuffle(this.increasingSequence(0, candNames.size)); // mapping to shuffle the colors
     [...candNames].forEach((name, index) => {
       const color = this.getHue(shuffledIndices[index], candNames.size);
       this.candidateService.addCandidate(color, name);

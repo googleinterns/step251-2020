@@ -12,11 +12,15 @@ import {TimelinePoint} from '../../models/TimelinePoint';
   styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit {
+  readonly TIMELINE_HEIGHT = 30;
+
   @Input() svgWidth: number;
   @Input() svgHeight: number;
-  timelineHeight = 30;
-  @Input() minTimestamp: number;
-  @Input() maxTimestamp: number;
+
+  // TODO(#204): add polygon filtering and sparsing. Apply updates in ngOnChanges.
+  @Input() startTimestamp: number;
+  @Input() endTimestamp: number;
+
   @Input() environment: Environment;
   @Input() timelinePoints: TimelinePoint[];
   polygons: Polygon[];
@@ -28,7 +32,7 @@ export class EnvironmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.environmentService
-      .getPolygons(this.environment)
+      .getPolygons(this.environment.snapshotsList)
       .subscribe(polygons => this.processPolygons(polygons));
   }
 
@@ -41,8 +45,8 @@ export class EnvironmentComponent implements OnInit {
     this.polygons = polygons.map(polygon => {
       const scaledPolygon = this.scalePolygon(
         polygon,
-        this.minTimestamp,
-        this.maxTimestamp,
+        this.startTimestamp,
+        this.endTimestamp,
         0,
         100
       );
@@ -80,7 +84,7 @@ export class EnvironmentComponent implements OnInit {
               yStart,
               yEnd,
               0,
-              this.svgHeight - this.timelineHeight
+              this.svgHeight - this.TIMELINE_HEIGHT
             )
           )
       ),

@@ -1,10 +1,14 @@
 <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
   <div>
     <label for="file-box">
-      Upload data file here:
+      Upload binary data file here:
     </label>
     <br><br>
-    <input id="file-box" type="file" formControlName="file" (change)="onFileChange($event)">
+    <input id="file-box"
+           type="file"
+           formControlName="file"
+           accept=".pb"
+           (change)="onFileChange($event)">
   </div>
 
   <br>
@@ -13,7 +17,7 @@
 
   <div>
     <label for="data-text-box">
-      Input data for the protocol buffer here:
+      Input JSON data here:
       *this takes priority
     </label>
     <br><br>

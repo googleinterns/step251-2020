@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
-import {CandidateInfo, Environment} from '../models/Data';
+import {CandidateInfo, Snapshot} from '../models/Data';
 import {Observable, of} from 'rxjs';
 
 @Injectable({
@@ -15,11 +15,11 @@ export class EnvironmentService {
   }
 
   // xs: 0-100, ys: timestamps
-  getPolygons(environment: Environment): Observable<Polygon[]> {
-    return of(this.calculatePolygons(environment));
+  getPolygons(snapshots: Snapshot[]): Observable<Polygon[]> {
+    return of(this.calculatePolygons(snapshots));
   }
 
-  private calculatePolygons(environment: Environment): Polygon[] {
+  private calculatePolygons(snapshots: Snapshot[]): Polygon[] {
     const polys: Polygon[] = [];
     let numberOfPolygons = 0;
 
@@ -30,7 +30,7 @@ export class EnvironmentService {
     const nameToActiveId: Map<string, number> = new Map();
     let lastTimeStamp = this.BEGINNING;
 
-    for (const snapshot of environment.snapshotsList) {
+    for (const snapshot of snapshots) {
       const update: [TimestampLowerBoundSet, number] = this.computeNextSnapshot(
         snapshot.candidatesList,
         lastTimestampLowerBoundSet,
