@@ -182,4 +182,9 @@ export class EnvironmentsComponent implements OnInit {
       return env;
     });
   }
+
+  private time(): void {
+    this.endTimestamp -= this.WEEK_SECONDS;
+    this.startTimestamp -= this.WEEK_SECONDS;
+  }
 }
