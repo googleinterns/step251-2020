@@ -62,7 +62,7 @@ describe('EnvironmentsComponent', () => {
     expect(component.timelinePoints).toBeTruthy();
   });
 
-  it('timelinePoints should fit timeline and bounds', () => {
+  it('should generate timelinePoints which fit timeline and bounds', () => {
     component.timelinePoints.forEach(({timestamp, x}) => {
       expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp);
       expect(timestamp).toBeLessThanOrEqual(component.endTimestamp);
@@ -71,7 +71,7 @@ describe('EnvironmentsComponent', () => {
     });
   });
 
-  it('candidates should be added to service', () => {
+  it('should add candidates to service', () => {
     const candNames = getCandNames();
     expect(candNames.size).toEqual(candidateServiceStub.candColors.size);
     candNames.forEach(candName => {
@@ -79,13 +79,28 @@ describe('EnvironmentsComponent', () => {
     });
   });
 
-  it('candidates should have unique colors', () => {
+  it('should generate unqiue colors for candidates', () => {
     const candColors = new Set<number>();
     getCandNames().forEach(candName => {
       const candColor = candidateServiceStub.candColors.get(candName);
       expect(candColor).toBeTruthy();
       expect(candColors.has(candColor)).toBeFalse();
       candColors.add(candColor);
+    });
+  });
+
+  fdescribe('#sortEnvSnapshots', () => {
+    it('should produce sorted snapshots', () => {
+      component
+        // @ts-ignore
+        .sortEnvSnapshots(fileServiceStub.files[fileServiceStub.jsonUri])
+        .forEach(({snapshotsList}) => {
+          for (let i = 1; i < snapshotsList.length; i++) {
+            expect(snapshotsList[i].timestamp.seconds).toBeGreaterThan(
+              snapshotsList[i - 1].timestamp.seconds
+            );
+          }
+        });
     });
   });
 
