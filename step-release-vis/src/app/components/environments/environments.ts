@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Environment} from '../../models/Data';
-import {FileService} from '../../services/file';
+import {DataService} from '../../services/data';
 import {ProtoBufferService} from '../../services/proto_buffer';
 import {CandidateService} from '../../services/candidate';
 import {shuffle} from 'lodash';
 import {TimelinePoint} from '../../models/TimelinePoint';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-environments',
@@ -26,39 +27,56 @@ export class EnvironmentsComponent implements OnInit {
   startTimestamp: number; // current start timestamp
   endTimestamp: number; // current end timestamp
 
-  envJson: string;
+  dataFound: boolean;
   timelinePointsAmount: number;
   timelinePoints: TimelinePoint[];
 
   constructor(
-    private fileService: FileService,
+    private dataService: DataService,
     private candidateService: CandidateService,
     private protoBufferService: ProtoBufferService
   ) {}
 
   ngOnInit(): void {
-    // this.readJson();
-    this.readBinary();
+    this.readProtoBinaryData();
   }
+
+  private readProtoData(): void {
+    this.readData(this.dataService.getLocalProtoData, data =>
+      this.protoBufferService.getEnvsFromString(data)
+    );
+  }
+
+  private readProtoBinaryData(): void {
+    this.readData(this.dataService.getLocalProtoBinaryData, data =>
+      this.protoBufferService.getEnvsFromBinary(data as Uint8Array)
+    );
+  }
+
+  /*
+        src/app/components/environments/environments.html
+        modified:   src/app/components/environments/environments.ts
+        modified:   src/app/components/form/dataSubmissionForm.ts
+        renamed:    src/app/services/file.ts -> src/app/services/data.ts
+        renamed:    src/app/services/file_test.ts -> src/app/services/data_test.ts
+        modified:   src/app/services/proto_buffer.ts
+
+   */
 
   // For debugging purposes
-  private readJson(): void {
-    this.fileService.getData().subscribe(envJson => {
-      this.envJson = envJson;
-      if (this.envJson) {
-        this.processEnvironments(JSON.parse(this.envJson));
-      }
-    });
+  private readJsonData(): void {
+    this.readData(this.dataService.getLocalJsonData, data => JSON.parse(data));
   }
 
-  private readBinary(): void {
-    // TODO(#202): read from localStorage
-    this.envJson = '1'; // to suppress empty localStorage
-    this.fileService.getBinaryData().subscribe(data => {
-      const envs: Environment[] = this.protoBufferService.getEnvs(
-        data as Uint8Array
-      );
-      this.processEnvironments(envs);
+  private readData<T>(
+    dataProvider: () => Observable<T>,
+    data2env: (a: T) => Environment[]
+  ): void {
+    dataProvider().subscribe(data => {
+      if (data) {
+        this.dataFound = true;
+        this.processEnvironments(data2env(data));
+      }
     });
   }
 
