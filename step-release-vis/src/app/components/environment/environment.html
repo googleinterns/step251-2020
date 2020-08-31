@@ -1,7 +1,7 @@
 <div class="environment-container">
   <p class="environment-title"> {{environment.name}} </p>
   <div class="candidates-container">
-    <div id="tooltip" style="position: fixed; display: none;"></div>
+    <app-tooltip></app-tooltip>
     <svg class="candidates-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight">
       <polygon
         *ngFor="let polygon of polygons"
@@ -9,8 +9,6 @@
         [attr.fill]="getColor(polygon)"
         (mouseenter)="polygonMouseEnter(polygon)"
         (mouseleave)="polygonMouseLeave(polygon)"
-        (mouseover)="showTooltip($event, polygon)"
-        (mousemove)="showTooltip($event, polygon)"
       >
       </polygon>
       <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT / 2 - 5" [attr.width]="svgWidth" [attr.height]="2"
