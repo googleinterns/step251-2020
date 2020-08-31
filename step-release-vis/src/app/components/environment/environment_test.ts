@@ -20,7 +20,7 @@ describe('EnvironmentComponent', () => {
     environmentServiceStub = new EnvironmentServiceStub();
     candidateServiceStub = new CandidateServiceStub(new CandidateService());
     TestBed.configureTestingModule({
-      declarations: [EnvironmentComponent, TooltipComponent],
+      declarations: [EnvironmentComponent],
       providers: [
         {provide: EnvironmentService, useValue: environmentServiceStub},
         {provide: CandidateService, useValue: candidateServiceStub},
