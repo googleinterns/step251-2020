@@ -4,7 +4,7 @@ import {
   EnvironmentService,
   PolygonLowerBoundYPosition,
   TimestampLowerBoundSet,
-} from './environment';
+} from './environmentService';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {CandidateInfo, Snapshot} from '../models/Data';
 import {Point} from '../models/Point';

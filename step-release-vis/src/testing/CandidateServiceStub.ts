@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Polygon} from '../app/models/Polygon';
-import {CandidateService} from '../app/services/candidate';
+import {CandidateService} from '../app/services/candidateService';
 
 @Injectable({
   providedIn: 'root',

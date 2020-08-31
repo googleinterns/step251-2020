@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {ParamService} from './param';
+import {ParamService} from './paramService';
 import {ActivatedRouteStub} from '../../testing/ActivatedRouteStub';
 
 describe('ParamService', () => {

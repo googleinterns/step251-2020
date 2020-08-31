@@ -47,7 +47,11 @@ export class ProtoBufferServiceStub {
     },
   ];
 
-  getEnvs(data: Uint8Array): Environment[] {
+  getEnvsFromBinary(data: Uint8Array): Environment[] {
+    return this.envs;
+  }
+
+  getEnvsFromString(data: Uint8Array): Environment[] {
     return this.envs;
   }
 }

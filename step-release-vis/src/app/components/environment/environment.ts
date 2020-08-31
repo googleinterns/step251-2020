@@ -5,11 +5,11 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import {EnvironmentService} from '../../services/environment';
+import {EnvironmentService} from '../../services/environmentService';
 import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
 import {Environment, Snapshot} from '../../models/Data';
-import {CandidateService} from '../../services/candidate';
+import {CandidateService} from '../../services/candidateService';
 import {TimelinePoint} from '../../models/TimelinePoint';
 
 @Component({

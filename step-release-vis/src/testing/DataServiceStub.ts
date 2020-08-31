@@ -1,15 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {Environment} from '../app/models/Data';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FileServiceStub {
-  jsonUri = 'env.json';
-
-  files = {
-    [this.jsonUri]: [
+export class DataServiceStub {
+  data = {
+    jsonData: [
       {
         name: 'prod',
         snapshotsList: [
@@ -60,21 +57,24 @@ export class FileServiceStub {
         ],
       },
     ],
+
+    // TODO(#223): add proto data
+    protoData: '',
   };
 
-  readContents(filePath: string): Observable<Environment[]> {
-    return of(this.files[filePath]);
+  getProtoData = this.getLocalProtoData;
+
+  getBinaryProtoData = this.getLocalProtoBinaryData;
+
+  getLocalProtoData(): Observable<string> {
+    return of(this.data.protoData);
   }
 
-  readBinaryContents(filePath: string): Observable<ArrayBuffer> {
+  getLocalProtoBinaryData(): Observable<ArrayBuffer> {
     return of(new Uint8Array());
   }
 
-  getBinaryData(): Observable<ArrayBuffer> {
-    return of(new Uint8Array());
-  }
-
-  getData(): Observable<string> {
-    return of(JSON.stringify(this.files[this.jsonUri]));
+  getLocalJsonData(): Observable<string> {
+    return of(JSON.stringify(this.data.jsonData));
   }
 }

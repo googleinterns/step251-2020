@@ -8,7 +8,16 @@ import {Environment} from '../models/Data';
 export class ProtoBufferService {
   constructor() {}
 
-  getEnvs(data: Uint8Array): Environment[] {
+  getEnvsFromBinary(data: Uint8Array): Environment[] {
     return Project.deserializeBinary(data).toObject().envsList;
+  }
+
+  getEnvsFromString(data: string): Environment[] {
+    // unsupported with public version of protocol buffers
+    console.assert(
+      false,
+      'getting environments from proto string is unsupported'
+    );
+    return [];
   }
 }
