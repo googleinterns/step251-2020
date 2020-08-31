@@ -20,7 +20,7 @@ export class EnvironmentsComponent implements OnInit {
   environments: Environment[];
   envWidth: number;
   envHeight: number;
-
+  
   minTimestamp: number;
   maxTimestamp: number;
   startTimestamp: number;
