@@ -12,7 +12,7 @@ import {TimelinePoint} from '../../models/TimelinePoint';
   styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit {
-  readonly TIMELINE_HEIGHT = 30;
+  readonly TIMELINE_HEIGHT = 40;
   readonly SNAPSHOTS_PER_ENV = 100;
 
   @Input() svgWidth: number;
@@ -133,6 +133,15 @@ export class EnvironmentComponent implements OnInit {
   getColor(polygon: Polygon): string {
     const saturation = polygon.highlight ? '100%' : '60%';
     return `hsl(${polygon.colorHue}, ${saturation}, 50%)`;
+  }
+
+  /**
+   * Returns an opacity value based on polygons highlight property.
+   *
+   * @param polygon the polygon
+   */
+  getOpacity(polygon: Polygon): string {
+    return polygon.highlight ? '1.0' : '0.7';
   }
 
   polygonMouseEnter(polygon: Polygon): void {
