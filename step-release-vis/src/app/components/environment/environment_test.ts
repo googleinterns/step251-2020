@@ -3,12 +3,13 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {EnvironmentComponent} from './environment';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {EnvironmentService} from '../../services/environment';
+import {EnvironmentService} from '../../services/environmentService';
 import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
-import {CandidateService} from '../../services/candidate';
 import {SnapshotInterval} from '../../models/SnapshotInterval';
+import {CandidateService} from '../../services/candidateService';
+import {SimpleChange} from '@angular/core';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -44,11 +45,11 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('polygons', () => {
-    it('polygons should be assigned', () => {
+    it('should be assigned', () => {
       expect(component.polygons).toBeTruthy();
     });
 
-    it('polygons should fit the screen', () => {
+    it('should fit the screen', () => {
       component.ngOnInit();
       fixture.detectChanges();
       component.polygons.forEach(({points}) =>
@@ -61,7 +62,7 @@ describe('EnvironmentComponent', () => {
       );
     });
 
-    it('polygons should respond to hover events', () => {
+    it('should respond to hover events', () => {
       const polygons = fixture.debugElement.queryAll(By.css('polygon'));
       for (let i = 0; i < polygons.length; i++) {
         polygons[i].triggerEventHandler('mouseenter', {});
@@ -73,20 +74,41 @@ describe('EnvironmentComponent', () => {
         expect(component.polygons[i].highlight).toBeFalse();
       }
     });
+
+    it('tooltip should show, move position and disappear', () => {
+      const tooltip = document.querySelector('app-tooltip');
+      const div = document.createElement('div');
+      div.style.position = 'fixed';
+      tooltip.appendChild(div);
+      const polygons = fixture.debugElement.queryAll(By.css('polygon'));
+
+      polygons[1].triggerEventHandler('mouseenter', {});
+      fixture.detectChanges();
+      expect(div.style.display).toBe('block');
+
+      polygons[1].triggerEventHandler('mousemove', {pageX: 500, pageY: 200});
+      fixture.detectChanges();
+      expect(div.style.top).toBe('220px');
+      expect(div.style.left).toBe('520px');
+
+      polygons[1].triggerEventHandler('mouseleave', {});
+      fixture.detectChanges();
+      expect(div.style.display).toBe('none');
+    });
   });
 
   describe('displayedSnapshots field', () => {
-    it('displayedSnapshots should be assigned', () => {
+    it('should be assigned', () => {
       expect(component.displayedSnapshots).toBeTruthy();
     });
 
-    it('displayedSnapshots size should be limited', () => {
+    it('should be limited in size', () => {
       expect(component.displayedSnapshots.length).toBeLessThanOrEqual(
         component.SNAPSHOTS_PER_ENV
       );
     });
 
-    it('displayedSnapshots timestamps should be in increasing order', () => {
+    it('should have timestamps in increasing order', () => {
       const snapshots = component.displayedSnapshots;
       for (let i = 1; i < snapshots.length; i++) {
         expect(snapshots[i].timestamp.seconds).toBeGreaterThan(
@@ -95,7 +117,30 @@ describe('EnvironmentComponent', () => {
       }
     });
 
-    it('displayedSnapshots timestamps should fit the range', () => {
+    it('should have timestamps fitting the range', () => {
+      component.displayedSnapshots.forEach(({timestamp}) => {
+        expect(timestamp.seconds).toBeGreaterThanOrEqual(
+          component.startTimestamp
+        );
+        expect(timestamp.seconds).toBeLessThanOrEqual(component.endTimestamp);
+      });
+    });
+  });
+
+  describe('time range update', () => {
+    beforeEach(() => {
+      component.ngOnChanges({
+        startTimestamp: new SimpleChange(0, 100, false),
+        endTimestamp: new SimpleChange(400, 200, false),
+      });
+    });
+
+    it('should update fields', () => {
+      expect(component.startTimestamp).toEqual(100);
+      expect(component.endTimestamp).toEqual(200);
+    });
+
+    it('should have update displayed snapshots', () => {
       component.displayedSnapshots.forEach(({timestamp}) => {
         expect(timestamp.seconds).toBeGreaterThanOrEqual(
           component.startTimestamp

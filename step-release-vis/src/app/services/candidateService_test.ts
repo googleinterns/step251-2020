@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {CandidateService} from './candidate';
+import {CandidateService} from './candidateService';
 import {Polygon} from '../models/Polygon';
 import {Point} from '../models/Point';
 

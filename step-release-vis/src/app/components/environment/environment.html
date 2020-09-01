@@ -8,8 +8,9 @@
         [attr.points]="polygon.toAttributeString()"
         [attr.fill]="getColor(polygon)"
         [attr.fill-opacity]="getOpacity(polygon)"
-        (mouseenter)="polygonMouseEnter(polygon)"
+        (mouseenter)="polygonMouseEnter(polygon, $event)"
         (mouseleave)="polygonMouseLeave(polygon)"
+        (mousemove)="moveTooltip($event)"
       >
       </polygon>
       <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT + 10" [attr.width]="svgWidth" [attr.height]="2"

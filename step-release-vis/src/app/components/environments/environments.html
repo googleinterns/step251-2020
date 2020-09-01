@@ -1,4 +1,6 @@
-<div *ngIf="envJson">
+<!-- TODO(#219): add time range form -->
+<div *ngIf="dataFound">
+  <button (click)="rangeShift(-WEEK_SECONDS / 2)">-3.5 days</button>
   <app-environment
     *ngFor="let environment of environments"
     [environment]="environment"
@@ -10,6 +12,6 @@
   >
   </app-environment>
 </div>
-<div *ngIf="!envJson">
+<div *ngIf="!dataFound">
   No input data found. <a [routerLink]="['/form']">Submit data</a>.
 </div>

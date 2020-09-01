@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {ProtoBufferService} from './proto_buffer';
+import {ProtoBufferService} from './protoBufferService';
 
 describe('ProtoBufferServiceService', () => {
   let service: ProtoBufferService;

@@ -54,7 +54,7 @@ export class DataSubmissionFormComponent implements OnInit {
     }
 
     if (this.dataForm.value.text) {
-      window.localStorage.setItem('data', this.dataForm.value.text);
+      window.localStorage.setItem('json_data', this.dataForm.value.text);
     } else {
       const fileReader: FileReader = new FileReader();
       fileReader.onload = event => {
@@ -64,7 +64,7 @@ export class DataSubmissionFormComponent implements OnInit {
         } else {
           result = this.arrayBufferToString(event.target.result as ArrayBuffer);
         }
-        window.localStorage.setItem('binaryData', result);
+        window.localStorage.setItem('binary_data', result);
       };
       fileReader.readAsBinaryString(this.file);
     }

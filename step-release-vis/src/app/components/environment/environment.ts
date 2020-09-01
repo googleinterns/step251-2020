@@ -1,10 +1,16 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {EnvironmentService} from '../../services/environment';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import {EnvironmentService} from '../../services/environmentService';
 import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
 import {Environment, Snapshot} from '../../models/Data';
+import {CandidateService} from '../../services/candidateService';
 import {SnapshotInterval} from '../../models/SnapshotInterval';
-import {CandidateService} from '../../services/candidate';
 import {TimelinePoint} from '../../models/TimelinePoint';
 
 @Component({
@@ -12,14 +18,13 @@ import {TimelinePoint} from '../../models/TimelinePoint';
   templateUrl: './environment.html',
   styleUrls: ['./environment.css'],
 })
-export class EnvironmentComponent implements OnInit {
+export class EnvironmentComponent implements OnInit, OnChanges {
   readonly TIMELINE_HEIGHT = 40;
-  readonly SNAPSHOTS_PER_ENV = 100;
+  readonly SNAPSHOTS_PER_ENV = 500;
 
   @Input() svgWidth: number;
   @Input() svgHeight: number;
 
-  // TODO(#204): Apply updates in ngOnChanges.
   @Input() startTimestamp: number;
   @Input() endTimestamp: number;
 
@@ -36,6 +41,13 @@ export class EnvironmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.processEnvironment();
+  }
+
+  /**
+   * Initialises component fields, calculates the polygons.
+   */
+  private processEnvironment(): void {
     this.displayedSnapshots = this.filterSnapshots(this.environment);
     this.environmentService
       .getPolygons(this.displayedSnapshots)
@@ -116,6 +128,23 @@ export class EnvironmentComponent implements OnInit {
     this.candidateService.addPolygons(this.polygons);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    let changed = false;
+    const startChanges = changes.startTimestamp;
+    if (startChanges && !startChanges.isFirstChange()) {
+      this.startTimestamp = startChanges.currentValue;
+      changed = true;
+    }
+    const endChanges = changes.endTimestamp;
+    if (endChanges && !endChanges.isFirstChange()) {
+      this.endTimestamp = endChanges.currentValue;
+      changed = true;
+    }
+    if (changed) {
+      this.processEnvironment();
+    }
+  }
+
   /**
    * Scales the polygon's points.
    * x: xStart..xEnd -> 0..svg.width
@@ -174,12 +203,43 @@ export class EnvironmentComponent implements OnInit {
     return polygon.highlight ? '1.0' : '0.7';
   }
 
-  polygonMouseEnter(polygon: Polygon): void {
+  polygonMouseEnter(polygon: Polygon, event: MouseEvent): void {
     this.candidateService.polygonHovered(polygon);
+    this.moveTooltip(event);
   }
 
   polygonMouseLeave(polygon: Polygon): void {
     this.candidateService.polygonUnhovered(polygon);
+    this.hideTooltip();
+  }
+
+  moveTooltip(event: MouseEvent): void {
+    const tooltip = document.querySelector('app-tooltip');
+    const divTooltip = tooltip.querySelector('div');
+    const mouseX = event.pageX - window.scrollX;
+    const mouseY = event.pageY - window.scrollY;
+
+    if (mouseX + divTooltip.offsetWidth > window.innerWidth) {
+      divTooltip.style.left =
+        (mouseX - divTooltip.offsetWidth).toString() + 'px';
+    } else {
+      divTooltip.style.left = (mouseX + 20).toString() + 'px';
+    }
+
+    if (mouseY + divTooltip.offsetHeight > window.innerHeight) {
+      divTooltip.style.top =
+        (mouseY - divTooltip.offsetHeight).toString() + 'px';
+    } else {
+      divTooltip.style.top = (mouseY + 20).toString() + 'px';
+    }
+
+    divTooltip.style.display = 'block';
+  }
+
+  hideTooltip(): void {
+    const tooltip = document.querySelector('app-tooltip');
+    const divTooltip = tooltip.querySelector('div');
+    divTooltip.style.display = 'none';
   }
 
   getTimelinePointTextAlignment(index: number): string {
