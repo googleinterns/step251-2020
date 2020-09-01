@@ -57,6 +57,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   computeSnapshotIntervals(): void {
+    this.snapshotIntervals = [];
     if (this.displayedSnapshots.length === 0) {
       return;
     }

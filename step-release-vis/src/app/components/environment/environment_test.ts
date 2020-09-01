@@ -164,6 +164,10 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('computeSnapshotIntervals', () => {
+    beforeEach(() => {
+      component.startTimestamp = 1;
+    });
+
     it('no timestamps', () => {
       component.displayedSnapshots = [];
       component.computeSnapshotIntervals();
@@ -175,12 +179,11 @@ describe('EnvironmentComponent', () => {
       component.displayedSnapshots = [{timestamp: 1, candidatesList: []}];
       component.computeSnapshotIntervals();
 
-      expect(component.snapshotIntervals.length).toEqual(1);
-      expect(component.snapshotIntervals[0]).toEqual({
-        start: 1,
-        end: 1,
-        snapshot: component.displayedSnapshots[0],
-      });
+      const expectedResult: SnapshotInterval[] = [
+        new SnapshotInterval(1, 1, component.displayedSnapshots[0]),
+      ];
+
+      expect(component.snapshotIntervals).toEqual(expectedResult);
     });
 
     it('three intervals', () => {
@@ -191,22 +194,13 @@ describe('EnvironmentComponent', () => {
       ];
       component.computeSnapshotIntervals();
 
-      expect(component.snapshotIntervals.length).toEqual(3);
-      expect(component.snapshotIntervals[0]).toEqual({
-        start: 1,
-        end: 3,
-        snapshot: component.displayedSnapshots[0],
-      });
-      expect(component.snapshotIntervals[1]).toEqual({
-        start: 3,
-        end: 6.5,
-        snapshot: component.displayedSnapshots[1],
-      });
-      expect(component.snapshotIntervals[2]).toEqual({
-        start: 6.5,
-        end: 8,
-        snapshot: component.displayedSnapshots[2],
-      });
+      const expectedResult: SnapshotInterval[] = [
+        new SnapshotInterval(1, 3, component.displayedSnapshots[0]),
+        new SnapshotInterval(3, 6.5, component.displayedSnapshots[1]),
+        new SnapshotInterval(6.5, 8, component.displayedSnapshots[2]),
+      ];
+
+      expect(component.snapshotIntervals).toEqual(expectedResult);
     });
   });
 });
