@@ -10,6 +10,7 @@ import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
 import {Environment, Snapshot} from '../../models/Data';
 import {CandidateService} from '../../services/candidateService';
+import {SnapshotInterval} from '../../models/SnapshotInterval';
 import {TimelinePoint} from '../../models/TimelinePoint';
 
 @Component({
@@ -32,6 +33,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   polygons: Polygon[];
   displayedSnapshots: Snapshot[];
 
+  snapshotIntervals: SnapshotInterval[];
+
   constructor(
     private environmentService: EnvironmentService,
     private candidateService: CandidateService
@@ -49,6 +52,12 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.environmentService
       .getPolygons(this.displayedSnapshots)
       .subscribe(polygons => this.processPolygons(polygons));
+
+    this.computeSnapshotIntervals();
+  }
+
+  computeSnapshotIntervals(): void {
+    // TODO(#221): implement this
   }
 
   /**
