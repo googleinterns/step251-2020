@@ -5,8 +5,8 @@
  * @param envName the environment on which the tooltip is
  */
 export class Tooltip {
-  x: number;
-  y: number;
+  mouseX: number;
+  mouseY: number;
   show = false;
   envName: string;
 }

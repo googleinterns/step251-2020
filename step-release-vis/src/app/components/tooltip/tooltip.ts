@@ -33,22 +33,25 @@ export class TooltipComponent implements OnInit {
 
   binarySearchIndex(): void {}
 
+  // computes the left position of the tooltip according to the mouse's X position
   getLeft(): string {
     const divTooltip = document.getElementById(this.tooltip.envName);
-    if (this.tooltip.x + divTooltip.offsetWidth > window.innerWidth) {
-      return this.tooltip.x - divTooltip.offsetWidth + 'px';
+    if (this.tooltip.mouseX + divTooltip.offsetWidth > window.innerWidth) {
+      return this.tooltip.mouseX - divTooltip.offsetWidth + 'px';
     }
-    return this.tooltip.x + 20 + 'px';
+    return this.tooltip.mouseX + 20 + 'px';
   }
 
+  // computes the top position of the tooltip according to the mouse's Y position
   getTop(): string {
     const divTooltip = document.getElementById(this.tooltip.envName);
-    if (this.tooltip.y + divTooltip.offsetHeight > window.innerHeight) {
-      return this.tooltip.y - divTooltip.offsetHeight + 'px';
+    if (this.tooltip.mouseY + divTooltip.offsetHeight > window.innerHeight) {
+      return this.tooltip.mouseY - divTooltip.offsetHeight + 'px';
     }
-    return this.tooltip.y + 20 + 'px';
+    return this.tooltip.mouseY + 20 + 'px';
   }
 
+  // make the tooltip visible or not
   getShow(): string {
     if (this.tooltip.show) {
       return 'block';

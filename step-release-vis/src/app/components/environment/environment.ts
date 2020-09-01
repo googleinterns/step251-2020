@@ -195,8 +195,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   moveTooltip(event: MouseEvent): void {
-    this.tooltip.x = event.pageX - window.scrollX;
-    this.tooltip.y = event.pageY - window.scrollY;
+    this.tooltip.mouseX = event.pageX - window.scrollX;
+    this.tooltip.mouseY = event.pageY - window.scrollY;
     this.tooltip.show = true;
     this.tooltip.envName = this.environment.name;
   }
