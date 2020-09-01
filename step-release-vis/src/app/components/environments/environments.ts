@@ -17,6 +17,7 @@ export class EnvironmentsComponent implements OnInit {
   readonly ENV_RIGHT_MARGIN = 100;
   readonly TIMELINE_POINT_WIDTH = 130;
   readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
+  readonly TZ_OFFSET = new Date().getTimezoneOffset() * 60;
 
   environments: Environment[];
   envWidth: number;
@@ -94,19 +95,15 @@ export class EnvironmentsComponent implements OnInit {
     this.minTimestamp = minTimestamp;
     this.maxTimestamp = maxTimestamp;
 
-    this.onTimeRangeUpdate(
-      this.maxTimestamp - this.WEEK_SECONDS,
-      this.maxTimestamp
-    );
+    this.startTimestamp = this.maxTimestamp - this.WEEK_SECONDS;
+    this.endTimestamp = this.maxTimestamp;
+    this.onTimeRangeUpdate();
   }
 
   /**
    * Updates the timeline with new start and end values (caught by child in ngOnChanges).
    */
-  onTimeRangeUpdate(startTimestamp, endTimestamp): void {
-    this.startTimestamp = startTimestamp;
-    this.endTimestamp = endTimestamp;
-
+  onTimeRangeUpdate(): void {
     const candNames = new Set<string>(); // candidates which fit start...end
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshotsList) {
@@ -191,11 +188,36 @@ export class EnvironmentsComponent implements OnInit {
     });
   }
 
-  // TODO(#219): add time range form
-  rangeShift(shift: number): void {
-    this.onTimeRangeUpdate(
-      this.startTimestamp + shift,
-      this.endTimestamp + shift
-    );
+  onEndTimestampChange(event: Event): void {
+    this.endTimestamp = this.getTimestampFromEvent(event);
+    this.onTimeRangeUpdate();
+  }
+
+  onStartTimestampChange(event: Event): void {
+    this.startTimestamp = this.getTimestampFromEvent(event);
+    this.onTimeRangeUpdate();
+  }
+
+  /**
+   * Returns an ISO formatted string **yyyy-MM-ddThh:mm:ss** with time in local timezone.
+   *
+   * @param timestamp the timestamp in seconds
+   */
+  private getLocalISOString(timestamp: number): string {
+    // toISOString() converts to UTC
+    return new Date((timestamp - this.TZ_OFFSET) * 1000)
+      .toISOString()
+      .slice(0, -5);
+  }
+
+  /**
+   * Returns a UTC timestamp in seconds from the date value in the event.
+   * Opposite of {@link getLocalISOString}
+   *
+   * @param event the event containing ISO date
+   */
+  private getTimestampFromEvent(event: Event): number {
+    // Date.parse() takes timezone into account
+    return Date.parse((event.target as HTMLInputElement).value) / 1000;
   }
 }

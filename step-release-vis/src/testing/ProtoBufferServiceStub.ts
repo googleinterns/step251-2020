@@ -13,7 +13,7 @@ export class ProtoBufferServiceStub {
       snapshotsList: [
         {
           timestamp: {
-            seconds: 125,
+            seconds: 1591119200,
             nanos: 0,
           },
           candidatesList: [
@@ -33,7 +33,27 @@ export class ProtoBufferServiceStub {
         },
         {
           timestamp: {
-            seconds: 900,
+            seconds: 1591619200,
+            nanos: 0,
+          },
+          candidatesList: [
+            {
+              candidate: '1',
+              jobCount: 100,
+            },
+            {
+              candidate: '2',
+              jobCount: 1000,
+            },
+            {
+              candidate: '3',
+              jobCount: 900,
+            },
+          ],
+        },
+        {
+          timestamp: {
+            seconds: 1598399200,
             nanos: 0,
           },
           candidatesList: [
