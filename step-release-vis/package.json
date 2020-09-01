@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "./genproto.sh; ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -21,7 +21,9 @@
     "@angular/router": "~10.0.6",
     "google-protobuf": "^3.13.0",
     "lodash": "^4.17.20",
+    "protobuf-compiler": "^1.0.2",
     "protobufjs": "^6.10.1",
+    "protoc": "^1.0.4",
     "rxjs": "~6.5.5",
     "ts-protoc-gen": "^0.12.0",
     "tslib": "^2.0.0",
