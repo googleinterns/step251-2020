@@ -188,8 +188,15 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   moveTooltip(event: MouseEvent): void {
     this.tooltip.mouseX = event.pageX - window.scrollX;
     this.tooltip.mouseY = event.pageY - window.scrollY;
+
+    const svgElements = document.getElementsByClassName('candidates-svg');
+    this.tooltip.svgMouseY =
+      event.pageY - svgElements[0].getBoundingClientRect().left;
+
     this.tooltip.show = true;
     this.tooltip.envName = this.environment.name;
+    this.tooltip.envWidth = this.svgWidth;
+    this.tooltip.displayedSnapshots = this.displayedSnapshots;
   }
 
   hideTooltip(): void {
