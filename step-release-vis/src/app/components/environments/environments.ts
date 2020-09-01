@@ -17,6 +17,7 @@ export class EnvironmentsComponent implements OnInit {
   readonly ENV_RIGHT_MARGIN = 100;
   readonly TIMELINE_POINT_WIDTH = 130;
   readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
+  readonly TZ_OFFSET = new Date().getTimezoneOffset() * 60;
 
   environments: Environment[];
   envWidth: number;
@@ -198,15 +199,25 @@ export class EnvironmentsComponent implements OnInit {
   }
 
   /**
-   * Returns an ISO formatted string **yyyy-MM-ddThh:mm**.
+   * Returns an ISO formatted string **yyyy-MM-ddThh:mm:ss** with time in local timezone.
    *
    * @param timestamp the timestamp in seconds
    */
-  getISOString(timestamp: number): string {
-    return new Date(timestamp * 1000).toISOString().slice(0, -8);
+  private getLocalISOString(timestamp: number): string {
+    // toISOString() converts to UTC
+    return new Date((timestamp - this.TZ_OFFSET) * 1000)
+      .toISOString()
+      .slice(0, -5);
   }
 
-  getTimestampFromEvent(event: Event): number {
+  /**
+   * Returns a UTC timestamp in seconds from the date value in the event.
+   * Opposite of {@link getLocalISOString}
+   *
+   * @param event the event containing ISO date
+   */
+  private getTimestampFromEvent(event: Event): number {
+    // Date.parse() takes timezone into account
     return Date.parse((event.target as HTMLInputElement).value) / 1000;
   }
 }

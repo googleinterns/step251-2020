@@ -1,18 +1,20 @@
 <div *ngIf="dataFound">
   <div class="timerange">
     <input
+      id="timerange-start-input"
       type="datetime-local"
-      [attr.value]="getISOString(startTimestamp)"
-      [attr.min]="getISOString(minTimestamp)"
-      [attr.max]="getISOString(endTimestamp)"
+      [attr.value]="getLocalISOString(startTimestamp)"
+      [attr.min]="getLocalISOString(minTimestamp)"
+      [attr.max]="getLocalISOString(endTimestamp)"
       (input)="onStartTimestampChange($event)"
     >
     &mdash;
     <input
+      id="timerange-end-input"
       type="datetime-local"
-      [attr.value]="getISOString(endTimestamp)"
-      [attr.min]="getISOString(startTimestamp)"
-      [attr.max]="getISOString(maxTimestamp)"
+      [attr.value]="getLocalISOString(endTimestamp)"
+      [attr.min]="getLocalISOString(startTimestamp)"
+      [attr.max]="getLocalISOString(maxTimestamp)"
       (input)="onEndTimestampChange($event)"
     >
   </div>
