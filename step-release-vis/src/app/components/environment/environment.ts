@@ -11,6 +11,7 @@ import {Point} from '../../models/Point';
 import {Environment, Snapshot} from '../../models/Data';
 import {CandidateService} from '../../services/candidateService';
 import {TimelinePoint} from '../../models/TimelinePoint';
+import {Tooltip} from '../../models/Tooltip';
 
 @Component({
   selector: 'app-environment',
@@ -30,6 +31,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   @Input() environment: Environment;
   @Input() timelinePoints: TimelinePoint[];
   polygons: Polygon[];
+  tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
 
   constructor(
@@ -184,32 +186,14 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   moveTooltip(event: MouseEvent): void {
-    const tooltip = document.querySelector('app-tooltip');
-    const divTooltip = tooltip.querySelector('div');
-    const mouseX = event.pageX - window.scrollX;
-    const mouseY = event.pageY - window.scrollY;
-
-    if (mouseX + divTooltip.offsetWidth > window.innerWidth) {
-      divTooltip.style.left =
-        (mouseX - divTooltip.offsetWidth).toString() + 'px';
-    } else {
-      divTooltip.style.left = (mouseX + 20).toString() + 'px';
-    }
-
-    if (mouseY + divTooltip.offsetHeight > window.innerHeight) {
-      divTooltip.style.top =
-        (mouseY - divTooltip.offsetHeight).toString() + 'px';
-    } else {
-      divTooltip.style.top = (mouseY + 20).toString() + 'px';
-    }
-
-    divTooltip.style.display = 'block';
+    this.tooltip.mouseX = event.pageX - window.scrollX;
+    this.tooltip.mouseY = event.pageY - window.scrollY;
+    this.tooltip.show = true;
+    this.tooltip.envName = this.environment.name;
   }
 
   hideTooltip(): void {
-    const tooltip = document.querySelector('app-tooltip');
-    const divTooltip = tooltip.querySelector('div');
-    divTooltip.style.display = 'none';
+    this.tooltip.show = false;
   }
 
   getTimelinePointTextAlignment(index: number): string {

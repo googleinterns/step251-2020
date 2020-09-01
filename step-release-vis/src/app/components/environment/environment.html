@@ -1,7 +1,7 @@
 <div class="environment-container">
   <p class="environment-title"> {{environment.name}} </p>
   <div class="candidates-container">
-    <app-tooltip></app-tooltip>
+    <app-tooltip [tooltip]="tooltip"></app-tooltip>
     <svg class="candidates-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight">
       <polygon
         *ngFor="let polygon of polygons"
@@ -20,7 +20,6 @@
         [attr.x]="timelinePoint.x"
         [attr.y]="svgHeight - 12"
         [attr.text-anchor]="getTimelinePointTextAlignment(i)"
-        font-family="Roboto, Arial, sans-serif"
         font-size="12"
       >
         {{ timelinePoint.timeString }}
@@ -30,7 +29,6 @@
         [attr.x]="timelinePoint.x"
         [attr.y]="svgHeight"
         [attr.text-anchor]="getTimelinePointTextAlignment(i)"
-        font-family="Roboto, Arial, sans-serif"
         font-size="12"
       >
         {{ timelinePoint.dateString }}
