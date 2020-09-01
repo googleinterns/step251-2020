@@ -9,6 +9,7 @@ import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidateService';
 import {SimpleChange} from '@angular/core';
+import {TooltipComponent} from '../tooltip/tooltip';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -19,7 +20,7 @@ describe('EnvironmentComponent', () => {
     environmentServiceStub = new EnvironmentServiceStub();
     candidateServiceStub = new CandidateServiceStub(new CandidateService());
     TestBed.configureTestingModule({
-      declarations: [EnvironmentComponent],
+      declarations: [EnvironmentComponent, TooltipComponent],
       providers: [
         {provide: EnvironmentService, useValue: environmentServiceStub},
         {provide: CandidateService, useValue: candidateServiceStub},
@@ -72,27 +73,6 @@ describe('EnvironmentComponent', () => {
         fixture.detectChanges();
         expect(component.polygons[i].highlight).toBeFalse();
       }
-    });
-
-    it('tooltip should show, move position and disappear', () => {
-      const tooltip = document.querySelector('app-tooltip');
-      const div = document.createElement('div');
-      div.style.position = 'fixed';
-      tooltip.appendChild(div);
-      const polygons = fixture.debugElement.queryAll(By.css('polygon'));
-
-      polygons[1].triggerEventHandler('mouseenter', {});
-      fixture.detectChanges();
-      expect(div.style.display).toBe('block');
-
-      polygons[1].triggerEventHandler('mousemove', {pageX: 500, pageY: 200});
-      fixture.detectChanges();
-      expect(div.style.top).toBe('220px');
-      expect(div.style.left).toBe('520px');
-
-      polygons[1].triggerEventHandler('mouseleave', {});
-      fixture.detectChanges();
-      expect(div.style.display).toBe('none');
     });
   });
 
