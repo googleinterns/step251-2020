@@ -14,4 +14,10 @@ export class SnapshotInterval {
   start: number;
   end: number;
   snapshot: Snapshot;
+
+  constructor(start: number, end: number, snapshot: Snapshot) {
+    this.start = start;
+    this.end = end;
+    this.snapshot = snapshot;
+  }
 }
