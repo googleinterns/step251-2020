@@ -34,8 +34,8 @@ describe('EnvironmentComponent', () => {
     component.svgWidth = 100;
     component.svgHeight = 100;
     component.environment = environmentServiceStub.env;
-    component.startTimestamp = environmentServiceStub.minTimestamp;
-    component.endTimestamp = environmentServiceStub.maxTimestamp;
+    component.startTimestamp = environmentServiceStub.polyMinTimestamp;
+    component.endTimestamp = environmentServiceStub.polyMaxTimestamp;
     fixture.detectChanges();
   });
 

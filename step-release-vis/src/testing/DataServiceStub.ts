@@ -1,65 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
+import {SampleData} from './SampleData';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataServiceStub {
+  sampleData = new SampleData();
   data = {
-    jsonData: [
-      {
-        name: 'prod',
-        snapshotsList: [
-          {
-            timestamp: {
-              seconds: 125,
-              nanos: 0,
-            },
-            candidatesList: [
-              {
-                candidate: '1',
-                jobCount: 100,
-              },
-              {
-                candidate: '2',
-                jobCount: 1000,
-              },
-              {
-                candidate: '3',
-                jobCount: 900,
-              },
-            ],
-          },
-          {
-            timestamp: {
-              seconds: 1000,
-              nanos: 0,
-            },
-            candidatesList: [
-              {
-                candidate: '2',
-                jobCount: 1000,
-              },
-            ],
-          },
-          {
-            timestamp: {
-              seconds: 900,
-              nanos: 0,
-            },
-            candidatesList: [
-              {
-                candidate: '2',
-                jobCount: 2000,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-
-    // TODO(#223): add proto data
-    protoData: '',
+    jsonData: this.sampleData.envs,
+    protoData: this.sampleData.envsProto,
   };
 
   getProtoData = this.getLocalProtoData;
