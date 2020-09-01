@@ -45,7 +45,28 @@ export class EnvironmentComponent implements OnInit {
   }
 
   computeSnapshotIntervals(): void {
-    // TODO(#221): implement this
+    if (this.displayedSnapshots.length === 0) {
+      return;
+    }
+
+    let lastEnd: number = this.startTimestamp;
+    for (let i = 0; i < this.displayedSnapshots.length - 1; i++) {
+      const nextEnd =
+        (this.displayedSnapshots[i].timestamp +
+          this.displayedSnapshots[i + 1].timestamp) /
+        2;
+      this.snapshotIntervals.push(
+        new SnapshotInterval(lastEnd, nextEnd, this.displayedSnapshots[i])
+      );
+      lastEnd = nextEnd;
+    }
+
+    const lastSnapshot: Snapshot = this.displayedSnapshots[
+      this.displayedSnapshots.length - 1
+    ];
+    this.snapshotIntervals.push(
+      new SnapshotInterval(lastEnd, lastSnapshot.timestamp, lastSnapshot)
+    );
   }
 
   /**

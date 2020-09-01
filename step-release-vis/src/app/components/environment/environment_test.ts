@@ -8,6 +8,7 @@ import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidate';
+import {SnapshotInterval} from '../../models/SnapshotInterval';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -114,6 +115,53 @@ describe('EnvironmentComponent', () => {
   it('candName should be assigned', () => {
     component.polygons.forEach(({candName}) => {
       expect(candName).toEqual(environmentServiceStub.candName);
+    });
+  });
+
+  describe('computeSnapshotIntervals', () => {
+    it('no timestamps', () => {
+      component.displayedSnapshots = [];
+      component.computeSnapshotIntervals();
+
+      expect(component.snapshotIntervals.length).toEqual(0);
+    });
+
+    it('only one timestamp', () => {
+      component.displayedSnapshots = [{timestamp: 1, candidatesList: []}];
+      component.computeSnapshotIntervals();
+
+      expect(component.snapshotIntervals.length).toEqual(1);
+      expect(component.snapshotIntervals[0]).toEqual({
+        start: 1,
+        end: 1,
+        snapshot: component.displayedSnapshots[0],
+      });
+    });
+
+    it('three intervals', () => {
+      component.displayedSnapshots = [
+        {timestamp: 1, candidatesList: []},
+        {timestamp: 5, candidatesList: []},
+        {timestamp: 8, candidatesList: []},
+      ];
+      component.computeSnapshotIntervals();
+
+      expect(component.snapshotIntervals.length).toEqual(3);
+      expect(component.snapshotIntervals[0]).toEqual({
+        start: 1,
+        end: 3,
+        snapshot: component.displayedSnapshots[0],
+      });
+      expect(component.snapshotIntervals[1]).toEqual({
+        start: 3,
+        end: 6.5,
+        snapshot: component.displayedSnapshots[1],
+      });
+      expect(component.snapshotIntervals[2]).toEqual({
+        start: 6.5,
+        end: 8,
+        snapshot: component.displayedSnapshots[2],
+      });
     });
   });
 });
