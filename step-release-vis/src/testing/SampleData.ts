@@ -1,6 +1,8 @@
 import {Polygon} from '../app/models/Polygon';
 
 export class SampleData {
+  envMin = 1591119200;
+  envMax = 1598399200;
   envs = [
     {
       name: 'test',
@@ -157,70 +159,68 @@ export class SampleData {
 ]`;
 
   testCandName = 'test_cand_name';
-  polyMinTimestamp = 0;
-  polyMaxTimestamp = 400;
   polygons: Polygon[] = [
     new Polygon(
       [
-        {x: 0, y: 0},
-        {x: 0, y: 100},
-        {x: 100, y: 0},
+        {x: 1591119200, y: 0},
+        {x: 1591119200, y: 100},
+        {x: 1591619200, y: 0},
       ],
       this.testCandName
     ),
     new Polygon(
       [
-        {x: 0, y: 100},
-        {x: 100, y: 100},
-        {x: 100, y: 0},
+        {x: 1591119200, y: 100},
+        {x: 1591619200, y: 100},
+        {x: 1591619200, y: 0},
       ],
       this.testCandName
     ),
     new Polygon(
       [
-        {x: 100, y: 0},
-        {x: 100, y: 100},
-        {x: 200, y: 0},
+        {x: 1591619200, y: 0},
+        {x: 1591619200, y: 100},
+        {x: 1591619200, y: 0},
       ],
       this.testCandName
     ),
     new Polygon(
       [
-        {x: 100, y: 100},
-        {x: 200, y: 100},
-        {x: 200, y: 0},
+        {x: 1591619200, y: 100},
+        {x: 1591619200, y: 100},
+        {x: 1591619200, y: 0},
       ],
       this.testCandName
     ),
     new Polygon(
       [
-        {x: 200, y: 0},
-        {x: 200, y: 100},
-        {x: 300, y: 0},
+        {x: 1591619200, y: 0},
+        {x: 1591619200, y: 100},
+        {x: 1598019200, y: 0},
       ],
       this.testCandName
     ),
     new Polygon(
       [
-        {x: 200, y: 100},
-        {x: 300, y: 100},
-        {x: 300, y: 0},
+        {x: 1591619200, y: 100},
+        {x: 1598019200, y: 100},
+        {x: 1598019200, y: 0},
       ],
       this.testCandName
     ),
     new Polygon(
       [
-        {x: 300, y: 0},
-        {x: 300, y: 100},
-        {x: 400, y: 0},
+        {x: 1598019200, y: 0},
+        {x: 1598019200, y: 100},
+        {x: 1598399200, y: 0},
       ],
       this.testCandName
     ),
     new Polygon(
       [
-        {x: 300, y: 100},
-        {x: 400, y: 100},
-        {x: 400, y: 0},
+        {x: 1598019200, y: 100},
+        {x: 1598399200, y: 100},
+        {x: 1598399200, y: 0},
       ],
       this.testCandName
     ),
