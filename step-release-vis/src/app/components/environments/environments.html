@@ -1,6 +1,21 @@
-<!-- TODO(#219): add time range form -->
 <div *ngIf="dataFound">
-  <button (click)="rangeShift(-WEEK_SECONDS / 2)">-3.5 days</button>
+  <div class="timerange">
+    <input
+      type="datetime-local"
+      [attr.value]="getISOString(startTimestamp)"
+      [attr.min]="getISOString(minTimestamp)"
+      [attr.max]="getISOString(endTimestamp)"
+      (input)="onStartTimestampChange($event)"
+    >
+    &mdash;
+    <input
+      type="datetime-local"
+      [attr.value]="getISOString(endTimestamp)"
+      [attr.min]="getISOString(startTimestamp)"
+      [attr.max]="getISOString(maxTimestamp)"
+      (input)="onEndTimestampChange($event)"
+    >
+  </div>
   <app-environment
     *ngFor="let environment of environments"
     [environment]="environment"
