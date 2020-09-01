@@ -7,7 +7,6 @@ import {EnvironmentService} from '../../services/environmentService';
 import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
-import {SnapshotInterval} from '../../models/SnapshotInterval';
 import {CandidateService} from '../../services/candidateService';
 import {SimpleChange} from '@angular/core';
 
@@ -160,47 +159,6 @@ describe('EnvironmentComponent', () => {
   it('candName should be assigned', () => {
     component.polygons.forEach(({candName}) => {
       expect(candName).toEqual(environmentServiceStub.candName);
-    });
-  });
-
-  describe('computeSnapshotIntervals', () => {
-    beforeEach(() => {
-      component.startTimestamp = 1;
-    });
-
-    it('no timestamps', () => {
-      component.displayedSnapshots = [];
-      component.computeSnapshotIntervals();
-
-      expect(component.snapshotIntervals.length).toEqual(0);
-    });
-
-    it('only one timestamp', () => {
-      component.displayedSnapshots = [{timestamp: 1, candidatesList: []}];
-      component.computeSnapshotIntervals();
-
-      const expectedResult: SnapshotInterval[] = [
-        new SnapshotInterval(1, 1, component.displayedSnapshots[0]),
-      ];
-
-      expect(component.snapshotIntervals).toEqual(expectedResult);
-    });
-
-    it('three intervals', () => {
-      component.displayedSnapshots = [
-        {timestamp: 1, candidatesList: []},
-        {timestamp: 5, candidatesList: []},
-        {timestamp: 8, candidatesList: []},
-      ];
-      component.computeSnapshotIntervals();
-
-      const expectedResult: SnapshotInterval[] = [
-        new SnapshotInterval(1, 3, component.displayedSnapshots[0]),
-        new SnapshotInterval(3, 6.5, component.displayedSnapshots[1]),
-        new SnapshotInterval(6.5, 8, component.displayedSnapshots[2]),
-      ];
-
-      expect(component.snapshotIntervals).toEqual(expectedResult);
     });
   });
 });

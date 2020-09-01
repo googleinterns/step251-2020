@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SnapshotInterval} from '../../models/SnapshotInterval';
+import {Snapshot} from '../../models/Data';
 
 @Component({
   selector: 'app-tooltip',
@@ -7,26 +7,10 @@ import {SnapshotInterval} from '../../models/SnapshotInterval';
   styleUrls: ['./tooltip.css'],
 })
 export class TooltipComponent implements OnInit {
-  currentSnapshotIndex: number;
-  snapshotIntervals: SnapshotInterval[];
-
-  candidateName: string;
+  currentSnapshot: Snapshot;
 
   constructor() {}
 
   ngOnInit(): void {}
   // TODO(#210): Implement functions for updating tooltip data
-
-  changeEnvironment(snapInterval: SnapshotInterval[]): void {
-    this.snapshotIntervals = snapInterval;
-    this.binarySearchIndex();
-  }
-
-  moveMouse(): void {}
-
-  changeCandidate(newName: string): void {
-    this.candidateName = newName;
-  }
-
-  binarySearchIndex(): void {}
 }

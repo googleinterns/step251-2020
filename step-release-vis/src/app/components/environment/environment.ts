@@ -10,7 +10,6 @@ import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
 import {Environment, Snapshot} from '../../models/Data';
 import {CandidateService} from '../../services/candidateService';
-import {SnapshotInterval} from '../../models/SnapshotInterval';
 import {TimelinePoint} from '../../models/TimelinePoint';
 
 @Component({
@@ -33,8 +32,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   polygons: Polygon[];
   displayedSnapshots: Snapshot[];
 
-  snapshotIntervals: SnapshotInterval[];
-
   constructor(
     private environmentService: EnvironmentService,
     private candidateService: CandidateService
@@ -52,34 +49,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.environmentService
       .getPolygons(this.displayedSnapshots)
       .subscribe(polygons => this.processPolygons(polygons));
-
-    this.computeSnapshotIntervals();
-  }
-
-  computeSnapshotIntervals(): void {
-    this.snapshotIntervals = [];
-    if (this.displayedSnapshots.length === 0) {
-      return;
-    }
-
-    let lastEnd: number = this.startTimestamp;
-    for (let i = 0; i < this.displayedSnapshots.length - 1; i++) {
-      const nextEnd =
-        (this.displayedSnapshots[i].timestamp +
-          this.displayedSnapshots[i + 1].timestamp) /
-        2;
-      this.snapshotIntervals.push(
-        new SnapshotInterval(lastEnd, nextEnd, this.displayedSnapshots[i])
-      );
-      lastEnd = nextEnd;
-    }
-
-    const lastSnapshot: Snapshot = this.displayedSnapshots[
-      this.displayedSnapshots.length - 1
-    ];
-    this.snapshotIntervals.push(
-      new SnapshotInterval(lastEnd, lastSnapshot.timestamp, lastSnapshot)
-    );
   }
 
   /**
