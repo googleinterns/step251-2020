@@ -11,6 +11,10 @@ export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip = new Tooltip();
   @Input() currentSnapshot: Snapshot;
   @Input() currentCandidate: string;
+  width = 200;
+  height = 50;
+
+  // TODO(#234): Compute width/height of the tooltip according to the data.
 
   constructor() {}
 
@@ -46,31 +50,31 @@ export class TooltipComponent implements OnInit {
       candidateInfo += candidateDescription;
     }
 
+    this.updateStyle();
     return currentTime + candidateInfo;
-  }
+}
 
   // computes the left position of the tooltip according to the mouse's X position
   getLeft(): string {
     const divTooltip = document.getElementById(this.tooltip.envName);
-    if (divTooltip != null) {
-      if (this.tooltip.mouseX + divTooltip.offsetWidth > window.innerWidth) {
-        return this.tooltip.mouseX - divTooltip.offsetWidth + 'px';
-      }
-      return this.tooltip.mouseX + 20 + 'px';
+
+    if (this.tooltip.mouseX + divTooltip.offsetWidth + 40 > window.innerWidth) {
+      return this.tooltip.mouseX - divTooltip.offsetWidth - 10 + 'px';
     }
-    return '';
+    return this.tooltip.mouseX + 20 + 'px';
   }
 
   // computes the top position of the tooltip according to the mouse's Y position
   getTop(): string {
     const divTooltip = document.getElementById(this.tooltip.envName);
-    if (divTooltip != null) {
-      if (this.tooltip.mouseY + divTooltip.offsetHeight > window.innerHeight) {
-        return this.tooltip.mouseY - divTooltip.offsetHeight + 'px';
-      }
-      return this.tooltip.mouseY + 20 + 'px';
+
+    if (
+      this.tooltip.mouseY + divTooltip.offsetHeight + 40 >
+      window.innerHeight
+    ) {
+      return this.tooltip.mouseY - divTooltip.offsetHeight - 10 + 'px';
     }
-    return '';
+    return this.tooltip.mouseY + 20 + 'px';
   }
 
   // make the tooltip visible or not
@@ -79,6 +83,26 @@ export class TooltipComponent implements OnInit {
       return 'block';
     } else {
       return 'none';
+    }
+  }
+
+  getWidth(): string {
+    return this.width + 'px';
+  }
+
+  getHeight(): string {
+    return this.height + 'px';
+  }
+
+  private updateStyle(): void {
+    const tooltipElement = document.getElementById(this.tooltip.envName);
+    if (tooltipElement) {
+      const style = tooltipElement.style;
+      style.width = this.getWidth();
+      style.height = this.getHeight();
+      style.left = this.getLeft();
+      style.top = this.getTop();
+      style.display = this.getShow();
     }
   }
 }

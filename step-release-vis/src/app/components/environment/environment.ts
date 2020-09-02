@@ -178,19 +178,18 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     return polygon.highlight ? '1.0' : '0.7';
   }
 
-  polygonMouseEnter(polygon: Polygon, event: MouseEvent): void {
+  enteredPolygon(polygon: Polygon): void {
     this.candidateService.polygonHovered(polygon);
     this.currentCandidate = polygon.candName;
-    this.moveTooltip(event);
   }
 
-  polygonMouseLeave(polygon: Polygon): void {
+  leftPolygon(polygon: Polygon): void {
     this.candidateService.polygonUnhovered(polygon);
-    this.hideTooltip();
   }
 
-  enteredEnvironment(): void {
+  enteredEnvironment(event: MouseEvent): void {
     this.tooltip.envName = this.environment.name;
+    this.moveTooltip(event);
   }
 
   moveTooltip(event: MouseEvent): void {
@@ -202,6 +201,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
 
     this.updateCurrentSnapshot(svgMouseX);
+  }
+
+  leftEnvironment(event: MouseEvent): void {
+    this.hideTooltip();
   }
 
   hideTooltip(): void {
