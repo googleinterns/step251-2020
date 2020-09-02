@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Snapshot} from '../../models/Data';
 import {Tooltip} from '../../models/Tooltip';
-import {CandidateService} from '../../services/candidateService';
 
 @Component({
   selector: 'app-tooltip',
@@ -12,7 +11,7 @@ export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip = new Tooltip();
   @Input() currentSnapshot: Snapshot;
 
-  constructor(private candidateService: CandidateService) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
