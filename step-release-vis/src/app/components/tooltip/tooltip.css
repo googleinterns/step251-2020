@@ -2,9 +2,11 @@
   position: fixed;
   display: none;
 
-  width: 10%;
-  height: 20%;
+  width: 20%;
+  height: 15%;
   padding: 1%;
+
+  font-size: x-small;
 
   background-color: rgba(240, 240, 240, 0.8);
   border: 1px solid black;

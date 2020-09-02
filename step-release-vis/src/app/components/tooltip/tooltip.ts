@@ -10,6 +10,7 @@ import {Tooltip} from '../../models/Tooltip';
 export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip = new Tooltip();
   @Input() currentSnapshot: Snapshot;
+  @Input() currentCandidate: string;
 
   constructor() {}
 
@@ -19,9 +20,11 @@ export class TooltipComponent implements OnInit {
     return this.tooltip.envName !== undefined;
   }
 
-  // Displayes date,time,local timezone and candidate info with rapid links.
+  /* Displays date,time,local timezone and candidate info with rapid links.
+   *  Current candidate info is written in bold.
+   */
   getData(): string {
-    const dateTime: Date = new Date(
+    const dateTime: string = new Date(
       this.currentSnapshot.timestamp.seconds * 1000
     ).toLocaleString('en-GB');
     const localTimeZone: string = Intl.DateTimeFormat().resolvedOptions()
@@ -29,10 +32,18 @@ export class TooltipComponent implements OnInit {
     const currentTime: string =
       '<h3>' + dateTime + ' ' + localTimeZone + '</h3>';
 
-    const candidateInfo: string = '';
-    for (let candidate of this.currentSnapshot.candidatesList) {
-      candidate +=
-        '<p>' + candidate.candidate + ': ' + candidate.jobCount + '</p>';
+    let candidateInfo = '';
+    for (const candidate of this.currentSnapshot.candidatesList) {
+      const name: string = candidate.candidate;
+      const link = `<a href=${'https://rapid/' + name}>${name}</a>`;
+      let candidateDescription =
+        '<p>' + link + ': ' + candidate.jobCount + ' jobs</p>';
+
+      if (name === this.currentCandidate) {
+        candidateDescription = `<b>${candidateDescription}</b>`;
+      }
+
+      candidateInfo += candidateDescription;
     }
 
     return currentTime + candidateInfo;

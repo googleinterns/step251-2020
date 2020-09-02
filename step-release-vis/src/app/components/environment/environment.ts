@@ -33,7 +33,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   polygons: Polygon[];
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
+
   currentSnapshot: Snapshot;
+  currentCandidate: string;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -178,6 +180,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   polygonMouseEnter(polygon: Polygon, event: MouseEvent): void {
     this.candidateService.polygonHovered(polygon);
+    this.currentCandidate = polygon.candName;
     this.moveTooltip(event);
   }
 
