@@ -195,9 +195,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.tooltip.mouseX = event.pageX - window.scrollX;
     this.tooltip.mouseY = event.pageY - window.scrollY;
 
-    const svgElements = document.getElementsByClassName('candidates-svg');
-    this.tooltip.svgMouseY =
-      event.pageY - svgElements[0].getBoundingClientRect().left;
+    const svgElement = document.getElementById(this.environment.name + '-svg');
+    this.tooltip.svgMouseX =
+      event.pageX - svgElement.getBoundingClientRect().left;
 
     this.tooltip.show = true;
   }

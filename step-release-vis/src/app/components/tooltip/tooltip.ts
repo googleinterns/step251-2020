@@ -17,48 +17,58 @@ export class TooltipComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getSnapshot(): Snapshot {
-    console.log(this.tooltip.envName);
-    console.log(this.tooltip.displayedSnapshots);
-
+  getSnapshot(): void {
     const tooltip = this.tooltip;
     let index = Math.floor(
-      (tooltip.svgMouseY * (tooltip.displayedSnapshots.length - 1)) /
+      (tooltip.svgMouseX * (tooltip.displayedSnapshots.length - 1)) /
         tooltip.envWidth
     );
 
-    const firstTimestamp = tooltip.displayedSnapshots[0].timestamp;
+    const firstTimestamp = tooltip.displayedSnapshots[0].timestamp.seconds;
     const lastTimestamp =
       tooltip.displayedSnapshots[tooltip.displayedSnapshots.length - 1]
-        .timestamp;
+        .timestamp.seconds;
 
     // which one is closer? index or index + 1
     if (index + 1 < tooltip.displayedSnapshots.length) {
       const lastTimestampScaled: number = this.candidateService.scale(
-        tooltip.displayedSnapshots[index].timestamp,
+        tooltip.displayedSnapshots[index].timestamp.seconds,
         firstTimestamp,
         lastTimestamp,
         0,
         tooltip.envWidth
       );
       const nextTimestampScaled: number = this.candidateService.scale(
-        tooltip.displayedSnapshots[index + 1].timestamp,
+        tooltip.displayedSnapshots[index + 1].timestamp.seconds,
         firstTimestamp,
         lastTimestamp,
         0,
         tooltip.envWidth
       );
 
-      if (tooltip.svgMouseY > (lastTimestampScaled + nextTimestampScaled) / 2) {
+      if (tooltip.svgMouseX > (lastTimestampScaled + nextTimestampScaled) / 2) {
         index++;
       }
     }
 
-    return tooltip.displayedSnapshots[index];
+    this.currentSnapshot = tooltip.displayedSnapshots[index];
   }
 
   getData(): string {
-    return this.getSnapshot();
+    if (this.tooltip.displayedSnapshots === undefined) {
+      return 'tooltip field not yet initialized';
+    }
+
+    this.getSnapshot();
+
+    const dateTime = new Date(this.currentSnapshot.timestamp.seconds * 1000)
+      .toLocaleString('en-GB')
+      .split(', ');
+    const dateString = dateTime[0];
+    const timeString = dateTime[1];
+
+    // TODO(#210): add other details
+    return 'Current time is:' + dateString + ', ' + timeString;
   }
 
   // computes the left position of the tooltip according to the mouse's X position

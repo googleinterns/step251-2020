@@ -70,41 +70,41 @@ describe('TooltipComponent', () => {
   describe('getSnapshot', () => {
     it('should round to the left', () => {
       component.tooltip.displayedSnapshots = [
-        {timestamp: 1, candidatesList: []},
-        {timestamp: 11, candidatesList: []},
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
       ];
 
-      component.tooltip.svgMouseY = 43;
+      component.tooltip.svgMouseX = 43;
       component.tooltip.envWidth = 100;
 
-      const result = component.getSnapshot().timestamp;
-      expect(result).toEqual(1);
+      component.getSnapshot();
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(1);
     });
 
     it('should round to the right', () => {
       component.tooltip.displayedSnapshots = [
-        {timestamp: 1, candidatesList: []},
-        {timestamp: 11, candidatesList: []},
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
       ];
 
-      component.tooltip.svgMouseY = 53;
+      component.tooltip.svgMouseX = 53;
       component.tooltip.envWidth = 100;
 
-      const result = component.getSnapshot().timestamp;
-      expect(result).toEqual(11);
+      component.getSnapshot();
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
     });
 
     it('should be exactly the last snapshot', () => {
       component.tooltip.displayedSnapshots = [
-        {timestamp: 1, candidatesList: []},
-        {timestamp: 11, candidatesList: []},
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
       ];
 
-      component.tooltip.svgMouseY = 100;
+      component.tooltip.svgMouseX = 100;
       component.tooltip.envWidth = 100;
 
-      const result = component.getSnapshot();
-      expect(result.timestamp).toEqual(11);
+      component.getSnapshot();
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
     });
   });
 });
