@@ -3,6 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {TooltipComponent} from './tooltip';
 import {Tooltip} from '../../models/Tooltip';
 import {By} from '@angular/platform-browser';
+import {Snapshot} from '../../models/Data';
 
 describe('TooltipComponent', () => {
   let component: TooltipComponent;
@@ -29,6 +30,10 @@ describe('TooltipComponent', () => {
       component.tooltip = new Tooltip();
       component.tooltip.mouseX = 200;
       component.tooltip.envName = '1';
+      component.currentSnapshot = {
+        timestamp: {seconds: undefined, nanos: undefined},
+        candidatesList: undefined,
+      };
       const div = fixture.debugElement.query(By.css('div'));
 
       component.getLeft();
@@ -41,6 +46,10 @@ describe('TooltipComponent', () => {
       component.tooltip = new Tooltip();
       component.tooltip.mouseY = 500;
       component.tooltip.envName = '1';
+      component.currentSnapshot = {
+        timestamp: {seconds: undefined, nanos: undefined},
+        candidatesList: undefined,
+      };
       const div = fixture.debugElement.query(By.css('div'));
 
       component.getTop();
@@ -64,47 +73,6 @@ describe('TooltipComponent', () => {
       fixture.detectChanges();
 
       expect(div.nativeElement.style.display).toBe('none');
-    });
-  });
-
-  describe('getSnapshot', () => {
-    it('should round to the left', () => {
-      component.tooltip.displayedSnapshots = [
-        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
-        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
-      ];
-
-      component.tooltip.svgMouseX = 43;
-      component.tooltip.envWidth = 100;
-
-      component.getSnapshot();
-      expect(component.currentSnapshot.timestamp.seconds).toEqual(1);
-    });
-
-    it('should round to the right', () => {
-      component.tooltip.displayedSnapshots = [
-        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
-        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
-      ];
-
-      component.tooltip.svgMouseX = 53;
-      component.tooltip.envWidth = 100;
-
-      component.getSnapshot();
-      expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
-    });
-
-    it('should be exactly the last snapshot', () => {
-      component.tooltip.displayedSnapshots = [
-        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
-        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
-      ];
-
-      component.tooltip.svgMouseX = 100;
-      component.tooltip.envWidth = 100;
-
-      component.getSnapshot();
-      expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
     });
   });
 });

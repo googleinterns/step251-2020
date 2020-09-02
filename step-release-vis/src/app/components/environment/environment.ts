@@ -33,6 +33,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   polygons: Polygon[];
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
+  currentSnapshot: Snapshot;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -187,19 +188,17 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   enteredEnvironment(): void {
     this.tooltip.envName = this.environment.name;
-    this.tooltip.envWidth = this.svgWidth;
-    this.tooltip.displayedSnapshots = this.displayedSnapshots;
   }
 
   moveTooltip(event: MouseEvent): void {
     this.tooltip.mouseX = event.pageX - window.scrollX;
     this.tooltip.mouseY = event.pageY - window.scrollY;
+    this.tooltip.show = true;
 
     const svgElement = document.getElementById(this.environment.name + '-svg');
-    this.tooltip.svgMouseX =
-      event.pageX - svgElement.getBoundingClientRect().left;
+    const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
 
-    this.tooltip.show = true;
+    this.getSnapshot(svgMouseX);
   }
 
   hideTooltip(): void {
@@ -213,5 +212,45 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       return 'end';
     }
     return 'middle';
+  }
+
+  /*
+   * Computes the closes snapshot to the current position of the mouse.
+   *
+   * @param svgMouseX the position of the mouse relative to the svg
+   */
+  getSnapshot(svgMouseX: number): void {
+    let index = Math.floor(
+      (svgMouseX * (this.displayedSnapshots.length - 1)) / this.svgWidth
+    );
+
+    const firstTimestamp = this.displayedSnapshots[0].timestamp.seconds;
+    const lastTimestamp = this.displayedSnapshots[
+      this.displayedSnapshots.length - 1
+    ].timestamp.seconds;
+
+    // which one is closer? index or index + 1
+    if (index + 1 < this.displayedSnapshots.length) {
+      const lastTimestampScaled: number = this.candidateService.scale(
+        this.displayedSnapshots[index].timestamp.seconds,
+        firstTimestamp,
+        lastTimestamp,
+        0,
+        this.svgWidth
+      );
+      const nextTimestampScaled: number = this.candidateService.scale(
+        this.displayedSnapshots[index + 1].timestamp.seconds,
+        firstTimestamp,
+        lastTimestamp,
+        0,
+        this.svgWidth
+      );
+
+      if (svgMouseX > (lastTimestampScaled + nextTimestampScaled) / 2) {
+        index++;
+      }
+    }
+
+    this.currentSnapshot = this.displayedSnapshots[index];
   }
 }
