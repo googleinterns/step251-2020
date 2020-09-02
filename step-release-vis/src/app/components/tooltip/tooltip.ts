@@ -21,7 +21,7 @@ export class TooltipComponent implements OnInit {
   }
 
   /* Displays date,time,local timezone and candidate info with rapid links.
-   *  Current candidate info is written in bold.
+   * Current candidate info is written in bold.
    */
   getData(): string {
     const dateTime: string = new Date(
@@ -37,7 +37,7 @@ export class TooltipComponent implements OnInit {
       const name: string = candidate.candidate;
       const link = `<a href=${'https://rapid/' + name}>${name}</a>`;
       let candidateDescription =
-        '<p>' + link + ': ' + candidate.jobCount + ' jobs</p>';
+        '<p>' + link + ': ' + candidate.jobCount + ' job(s)</p>';
 
       if (name === this.currentCandidate) {
         candidateDescription = `<b>${candidateDescription}</b>`;
