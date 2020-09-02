@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Snapshot} from '../../models/Data';
 import {Tooltip} from '../../models/Tooltip';
-import {CandidateService} from '../../services/candidateService';
 
 @Component({
   selector: 'app-tooltip',
@@ -12,7 +11,7 @@ export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip = new Tooltip();
   @Input() currentSnapshot: Snapshot;
 
-  constructor(private candidateService: CandidateService) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -23,11 +22,10 @@ export class TooltipComponent implements OnInit {
   getData(): string {
     const dateTime: Date = new Date(
       this.currentSnapshot.timestamp.seconds * 1000
-    );
+    ).toLocaleString('en-GB');
     const localTimeZone: string = Intl.DateTimeFormat().resolvedOptions()
       .timeZone;
-    // TODO(#210): add other details
-    return dateTime.toLocaleString('en-GB') + ' ' + localTimeZone;
+    const currentTime: string = dateTime + ' ' + localTimeZone;
   }
 
   // computes the left position of the tooltip according to the mouse's X position
