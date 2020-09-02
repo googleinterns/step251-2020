@@ -33,24 +33,22 @@ describe('DataService', () => {
   });
 
   it('should read proto from file', done => {
-    service.getProtoData(testProtoRequest.filePath).subscribe(contents => {
-      expect(contents).toEqual(testProtoRequest.response);
-      done();
-    });
-    const req = httpMock.expectOne(testProtoRequest.filePath);
-    expect(req.request.method).toBe('GET');
-    req.flush(testProtoRequest.response);
+    testRequest(testProtoRequest, done);
   });
 
   it('should read binary proto from file', done => {
-    service.getProtoData(testBinaryRequest.filePath).subscribe(contents => {
-      expect(contents).toEqual(testBinaryRequest.response);
+    testRequest(testBinaryRequest, done);
+  });
+
+  function testRequest(request, done): void {
+    service.getProtoData(request.filePath).subscribe(contents => {
+      expect(contents).toEqual(request.response);
       done();
     });
-    const req = httpMock.expectOne(testBinaryRequest.filePath);
+    const req = httpMock.expectOne(request.filePath);
     expect(req.request.method).toBe('GET');
-    req.flush(testBinaryRequest.response);
-  });
+    req.flush(request.response);
+  }
 
   it('should read proto from local storage', done => {
     const data = 'this is a proto test data';
