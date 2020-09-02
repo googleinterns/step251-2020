@@ -183,4 +183,18 @@ describe('EnvironmentComponent', () => {
       expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
     });
   });
+
+  it('tooltip should be shown when flag is true', () => {
+    component.tooltip.show = true;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('app-tooltip'))).toBeTruthy();
+
+    component.tooltip.show = false;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('app-tooltip'))).toBeFalsy();
+  });
+
+  describe('current snapshot vertical line', () => {
+    // TODO(#237): add vertical line tests
+  });
 });

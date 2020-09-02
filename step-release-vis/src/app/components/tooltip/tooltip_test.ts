@@ -50,13 +50,5 @@ describe('TooltipComponent', () => {
 
       expect(component.getTop()).toBe('520px');
     });
-
-    it('#getShow should be block when true and none when false', () => {
-      component.tooltip.show = true;
-      expect(component.getShow()).toBe('block');
-
-      component.tooltip.show = false;
-      expect(component.getShow()).toBe('none');
-    });
   });
 });
