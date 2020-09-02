@@ -256,4 +256,14 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
     this.currentSnapshot = this.displayedSnapshots[index];
   }
+
+  getLineX(): number {
+    return this.candidateService.scale(
+      this.currentSnapshot.timestamp.seconds,
+      this.startTimestamp,
+      this.endTimestamp,
+      0,
+      this.svgWidth
+    );
+  }
 }
