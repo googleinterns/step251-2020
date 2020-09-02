@@ -7,8 +7,9 @@ import {Tooltip} from '../../models/Tooltip';
   templateUrl: './tooltip.html',
   styleUrls: ['./tooltip.css'],
 })
-export class TooltipComponent implements OnInit {@Input() tooltip: Tooltip = new Tooltip();
- @Input() currentSnapshot: Snapshot;
+export class TooltipComponent implements OnInit {
+  @Input() tooltip: Tooltip;
+  @Input() currentSnapshot: Snapshot;
   width = 200;
   height = 50;
 
@@ -19,7 +20,7 @@ export class TooltipComponent implements OnInit {@Input() tooltip: Tooltip = new
   ngOnInit(): void {}
 
   isReady(): boolean {
-    return this.tooltip.envName !== undefined;
+    return this.currentSnapshot !== undefined;
   }
 
   getData(): string {
@@ -56,15 +57,6 @@ export class TooltipComponent implements OnInit {@Input() tooltip: Tooltip = new
     return this.tooltip.mouseY + 20 + 'px';
   }
 
-  // make the tooltip visible or not
-  getShow(): string {
-    if (this.tooltip.show) {
-      return 'block';
-    } else {
-      return 'none';
-    }
-  }
-
   getWidth(): string {
     return this.width + 'px';
   }
@@ -81,7 +73,6 @@ export class TooltipComponent implements OnInit {@Input() tooltip: Tooltip = new
       style.height = this.getHeight();
       style.left = this.getLeft();
       style.top = this.getTop();
-      style.display = this.getShow();
     }
   }
 }
