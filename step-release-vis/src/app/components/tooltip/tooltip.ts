@@ -11,6 +11,10 @@ import {CandidateService} from '../../services/candidateService';
 export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip = new Tooltip();
   currentSnapshot: Snapshot;
+  width: number;
+  height: number;
+
+  // TODO(#234): Compute width/height of the tooltip according to the data.
 
   constructor(private candidateService: CandidateService) {}
 
