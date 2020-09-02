@@ -3,6 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {TooltipComponent} from './tooltip';
 import {Tooltip} from '../../models/Tooltip';
 import {By} from '@angular/platform-browser';
+import {Candidate} from '../../models/Candidate';
 
 describe('TooltipComponent', () => {
   let component: TooltipComponent;
@@ -21,7 +22,7 @@ describe('TooltipComponent', () => {
     component.tooltip.envName = '1';
     component.currentSnapshot = {
       timestamp: {seconds: undefined, nanos: undefined},
-      candidatesList: undefined,
+      candidatesList: [],
     };
     fixture.detectChanges();
   });
@@ -57,6 +58,14 @@ describe('TooltipComponent', () => {
 
       component.tooltip.show = false;
       expect(component.getShow()).toBe('none');
+    });
+
+    it('#getHeight should add 20px for each candidate', () => {
+      component.currentSnapshot.candidatesList.push({
+        candidate: '',
+        jobCount: 0,
+      });
+      expect(component.getHeight()).toEqual('50px');
     });
   });
 });

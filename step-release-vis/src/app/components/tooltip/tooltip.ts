@@ -12,9 +12,7 @@ export class TooltipComponent implements OnInit {
   @Input() currentSnapshot: Snapshot;
   @Input() currentCandidate: string;
   width = 200;
-  height = 50;
-
-  // TODO(#234): Compute width/height of the tooltip according to the data.
+  height = 30;
 
   constructor() {}
 
@@ -52,7 +50,7 @@ export class TooltipComponent implements OnInit {
 
     this.updateStyle();
     return currentTime + candidateInfo;
-}
+  }
 
   // computes the left position of the tooltip according to the mouse's X position
   getLeft(): string {
@@ -91,7 +89,7 @@ export class TooltipComponent implements OnInit {
   }
 
   getHeight(): string {
-    return this.height + 'px';
+    return this.height + 20 * this.currentSnapshot.candidatesList.length + 'px';
   }
 
   private updateStyle(): void {
