@@ -78,8 +78,8 @@ export class TooltipComponent implements OnInit {
   getLeft(): string {
     const divTooltip = document.getElementById(this.tooltip.envName);
 
-    if (this.tooltip.mouseX + divTooltip.offsetWidth > window.innerWidth) {
-      return this.tooltip.mouseX - divTooltip.offsetWidth + 'px';
+    if (this.tooltip.mouseX + divTooltip.offsetWidth + 40 > window.innerWidth) {
+      return this.tooltip.mouseX - divTooltip.offsetWidth - 10 + 'px';
     }
     return this.tooltip.mouseX + 20 + 'px';
   }
@@ -88,8 +88,11 @@ export class TooltipComponent implements OnInit {
   getTop(): string {
     const divTooltip = document.getElementById(this.tooltip.envName);
 
-    if (this.tooltip.mouseY + divTooltip.offsetHeight > window.innerHeight) {
-      return this.tooltip.mouseY - divTooltip.offsetHeight + 'px';
+    if (
+      this.tooltip.mouseY + divTooltip.offsetHeight + 40 >
+      window.innerHeight
+    ) {
+      return this.tooltip.mouseY - divTooltip.offsetHeight - 10 + 'px';
     }
     return this.tooltip.mouseY + 20 + 'px';
   }
