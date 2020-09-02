@@ -2,10 +2,9 @@
   position: fixed;
   display: none;
 
-  width: 10%;
-  height: 20%;
-  padding: 1%;
+  padding: 10px;
 
   background-color: rgba(240, 240, 240, 0.8);
   border: 1px solid black;
+  border-radius: 3px;
 }
