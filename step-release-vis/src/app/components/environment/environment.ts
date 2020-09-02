@@ -185,6 +185,12 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.hideTooltip();
   }
 
+  enteredEnvironment(): void {
+    this.tooltip.envName = this.environment.name;
+    this.tooltip.envWidth = this.svgWidth;
+    this.tooltip.displayedSnapshots = this.displayedSnapshots;
+  }
+
   moveTooltip(event: MouseEvent): void {
     this.tooltip.mouseX = event.pageX - window.scrollX;
     this.tooltip.mouseY = event.pageY - window.scrollY;
@@ -194,9 +200,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       event.pageY - svgElements[0].getBoundingClientRect().left;
 
     this.tooltip.show = true;
-    this.tooltip.envName = this.environment.name;
-    this.tooltip.envWidth = this.svgWidth;
-    this.tooltip.displayedSnapshots = this.displayedSnapshots;
   }
 
   hideTooltip(): void {

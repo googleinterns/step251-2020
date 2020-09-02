@@ -11,15 +11,16 @@ import {last} from 'rxjs/operators';
 })
 export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip = new Tooltip();
-
   currentSnapshot: Snapshot;
 
   constructor(private candidateService: CandidateService) {}
 
   ngOnInit(): void {}
-  // TODO(#210): Implement functions for updating tooltip data
 
   getSnapshot(): Snapshot {
+    console.log(this.tooltip.envName);
+    console.log(this.tooltip.displayedSnapshots);
+
     const tooltip = this.tooltip;
     let index = Math.floor(
       (tooltip.svgMouseY * (tooltip.displayedSnapshots.length - 1)) /
@@ -56,7 +57,9 @@ export class TooltipComponent implements OnInit {
     return tooltip.displayedSnapshots[index];
   }
 
-  getData(): void {}
+  getData(): string {
+    return this.getSnapshot();
+  }
 
   // computes the left position of the tooltip according to the mouse's X position
   getLeft(): string {

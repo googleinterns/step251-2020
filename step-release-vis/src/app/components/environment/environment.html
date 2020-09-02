@@ -2,7 +2,7 @@
   <p class="environment-title"> {{environment.name}} </p>
   <div class="candidates-container">
     <app-tooltip [tooltip]="tooltip"></app-tooltip>
-    <svg class="candidates-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight">
+    <svg class="candidates-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight" (mouseenter)="enteredEnvironment()">
       <polygon
         *ngFor="let polygon of polygons"
         [attr.points]="polygon.toAttributeString()"
