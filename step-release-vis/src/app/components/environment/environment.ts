@@ -10,7 +10,6 @@ import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
 import {Environment, Snapshot} from '../../models/Data';
 import {CandidateService} from '../../services/candidateService';
-import {SnapshotInterval} from '../../models/SnapshotInterval';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Tooltip} from '../../models/Tooltip';
 
@@ -35,8 +34,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
 
-  snapshotIntervals: SnapshotInterval[];
-
   constructor(
     private environmentService: EnvironmentService,
     private candidateService: CandidateService
@@ -54,12 +51,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.environmentService
       .getPolygons(this.displayedSnapshots)
       .subscribe(polygons => this.processPolygons(polygons));
-
-    this.computeSnapshotIntervals();
-  }
-
-  computeSnapshotIntervals(): void {
-    // TODO(#221): implement this
   }
 
   /**
@@ -194,11 +185,21 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.hideTooltip();
   }
 
+  enteredEnvironment(): void {
+    this.tooltip.envName = this.environment.name;
+    this.tooltip.envWidth = this.svgWidth;
+    this.tooltip.displayedSnapshots = this.displayedSnapshots;
+  }
+
   moveTooltip(event: MouseEvent): void {
     this.tooltip.mouseX = event.pageX - window.scrollX;
     this.tooltip.mouseY = event.pageY - window.scrollY;
+
+    const svgElement = document.getElementById(this.environment.name + '-svg');
+    this.tooltip.svgMouseX =
+      event.pageX - svgElement.getBoundingClientRect().left;
+
     this.tooltip.show = true;
-    this.tooltip.envName = this.environment.name;
   }
 
   hideTooltip(): void {

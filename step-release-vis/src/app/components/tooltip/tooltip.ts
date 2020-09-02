@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SnapshotInterval} from '../../models/SnapshotInterval';
+import {Snapshot} from '../../models/Data';
 import {Tooltip} from '../../models/Tooltip';
+import {CandidateService} from '../../services/candidateService';
 
 @Component({
   selector: 'app-tooltip',
@@ -8,30 +9,65 @@ import {Tooltip} from '../../models/Tooltip';
   styleUrls: ['./tooltip.css'],
 })
 export class TooltipComponent implements OnInit {
-  currentSnapshotIndex: number;
-  snapshotIntervals: SnapshotInterval[];
-
   @Input() tooltip: Tooltip = new Tooltip();
+  currentSnapshot: Snapshot;
 
-  candidateName: string;
-
-  constructor() {}
+  constructor(private candidateService: CandidateService) {}
 
   ngOnInit(): void {}
-  // TODO(#210): Implement functions for updating tooltip data
 
-  changeEnvironment(snapInterval: SnapshotInterval[]): void {
-    this.snapshotIntervals = snapInterval;
-    this.binarySearchIndex();
+  getSnapshot(): void {
+    const tooltip = this.tooltip;
+    let index = Math.floor(
+      (tooltip.svgMouseX * (tooltip.displayedSnapshots.length - 1)) /
+        tooltip.envWidth
+    );
+
+    const firstTimestamp = tooltip.displayedSnapshots[0].timestamp.seconds;
+    const lastTimestamp =
+      tooltip.displayedSnapshots[tooltip.displayedSnapshots.length - 1]
+        .timestamp.seconds;
+
+    // which one is closer? index or index + 1
+    if (index + 1 < tooltip.displayedSnapshots.length) {
+      const lastTimestampScaled: number = this.candidateService.scale(
+        tooltip.displayedSnapshots[index].timestamp.seconds,
+        firstTimestamp,
+        lastTimestamp,
+        0,
+        tooltip.envWidth
+      );
+      const nextTimestampScaled: number = this.candidateService.scale(
+        tooltip.displayedSnapshots[index + 1].timestamp.seconds,
+        firstTimestamp,
+        lastTimestamp,
+        0,
+        tooltip.envWidth
+      );
+
+      if (tooltip.svgMouseX > (lastTimestampScaled + nextTimestampScaled) / 2) {
+        index++;
+      }
+    }
+
+    this.currentSnapshot = tooltip.displayedSnapshots[index];
   }
 
-  moveMouse(): void {}
+  getData(): string {
+    if (this.tooltip.displayedSnapshots === undefined) {
+      return 'tooltip field not yet initialized';
+    }
 
-  changeCandidate(newName: string): void {
-    this.candidateName = newName;
+    this.getSnapshot();
+
+    const dateTime: Date = new Date(
+      this.currentSnapshot.timestamp.seconds * 1000
+    );
+    const localTimeZone: string = Intl.DateTimeFormat().resolvedOptions()
+      .timeZone;
+    // TODO(#210): add other details
+    return dateTime.toLocaleString('en-GB') + ' ' + localTimeZone;
   }
-
-  binarySearchIndex(): void {}
 
   // computes the left position of the tooltip according to the mouse's X position
   getLeft(): string {

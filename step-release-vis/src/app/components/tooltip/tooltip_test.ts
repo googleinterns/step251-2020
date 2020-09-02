@@ -24,44 +24,87 @@ describe('TooltipComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('#getLeft should get a position with 20px added', () => {
-    component.tooltip = new Tooltip();
-    component.tooltip.mouseX = 200;
-    component.tooltip.envName = '1';
-    const div = fixture.debugElement.query(By.css('div'));
+  describe('Compute tooltip location', () => {
+    it('#getLeft should get a position with 20px added', () => {
+      component.tooltip = new Tooltip();
+      component.tooltip.mouseX = 200;
+      component.tooltip.envName = '1';
+      const div = fixture.debugElement.query(By.css('div'));
 
-    component.getLeft();
-    fixture.detectChanges();
+      component.getLeft();
+      fixture.detectChanges();
 
-    expect(div.nativeElement.style.left).toBe('220px');
+      expect(div.nativeElement.style.left).toBe('220px');
+    });
+
+    it('#getTop should get a position with 20px added', () => {
+      component.tooltip = new Tooltip();
+      component.tooltip.mouseY = 500;
+      component.tooltip.envName = '1';
+      const div = fixture.debugElement.query(By.css('div'));
+
+      component.getTop();
+      fixture.detectChanges();
+
+      expect(div.nativeElement.style.top).toBe('520px');
+    });
+
+    it('#getShow should be block when true and none when false', () => {
+      component.tooltip = new Tooltip();
+      const div = fixture.debugElement.query(By.css('div'));
+
+      component.tooltip.show = true;
+      component.getShow();
+      fixture.detectChanges();
+
+      expect(div.nativeElement.style.display).toBe('block');
+
+      component.tooltip.show = false;
+      component.getShow();
+      fixture.detectChanges();
+
+      expect(div.nativeElement.style.display).toBe('none');
+    });
   });
 
-  it('#getTop should get a position with 20px added', () => {
-    component.tooltip = new Tooltip();
-    component.tooltip.mouseY = 500;
-    component.tooltip.envName = '1';
-    const div = fixture.debugElement.query(By.css('div'));
+  describe('getSnapshot', () => {
+    it('should round to the left', () => {
+      component.tooltip.displayedSnapshots = [
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
+      ];
 
-    component.getTop();
-    fixture.detectChanges();
+      component.tooltip.svgMouseX = 43;
+      component.tooltip.envWidth = 100;
 
-    expect(div.nativeElement.style.top).toBe('520px');
-  });
+      component.getSnapshot();
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(1);
+    });
 
-  it('#getShow should be block when true and none when false', () => {
-    component.tooltip = new Tooltip();
-    const div = fixture.debugElement.query(By.css('div'));
+    it('should round to the right', () => {
+      component.tooltip.displayedSnapshots = [
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
+      ];
 
-    component.tooltip.show = true;
-    component.getShow();
-    fixture.detectChanges();
+      component.tooltip.svgMouseX = 53;
+      component.tooltip.envWidth = 100;
 
-    expect(div.nativeElement.style.display).toBe('block');
+      component.getSnapshot();
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
+    });
 
-    component.tooltip.show = false;
-    component.getShow();
-    fixture.detectChanges();
+    it('should be exactly the last snapshot', () => {
+      component.tooltip.displayedSnapshots = [
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
+      ];
 
-    expect(div.nativeElement.style.display).toBe('none');
+      component.tooltip.svgMouseX = 100;
+      component.tooltip.envWidth = 100;
+
+      component.getSnapshot();
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
+    });
   });
 });
