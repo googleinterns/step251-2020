@@ -1,4 +1,4 @@
 <div class="tooltip" id="{{tooltip.envName}}"
      [ngStyle]="{left: getLeft(), top: getTop(), display: getShow()}">
-  <p *ngIf="isReady()"> {{getData()}} </p>
+  <div *ngIf="isReady()"> {{getData()}} </div>
 </div>

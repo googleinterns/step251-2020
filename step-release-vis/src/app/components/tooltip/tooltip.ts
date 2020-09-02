@@ -19,13 +19,23 @@ export class TooltipComponent implements OnInit {
     return this.tooltip.envName !== undefined;
   }
 
+  // Displayes date,time,local timezone and candidate info with rapid links.
   getData(): string {
     const dateTime: Date = new Date(
       this.currentSnapshot.timestamp.seconds * 1000
     ).toLocaleString('en-GB');
     const localTimeZone: string = Intl.DateTimeFormat().resolvedOptions()
       .timeZone;
-    const currentTime: string = dateTime + ' ' + localTimeZone;
+    const currentTime: string =
+      '<h3>' + dateTime + ' ' + localTimeZone + '</h3>';
+
+    const candidateInfo: string = '';
+    for (let candidate of this.currentSnapshot.candidatesList) {
+      candidate +=
+        '<p>' + candidate.candidate + ': ' + candidate.jobCount + '</p>';
+    }
+
+    return currentTime + candidateInfo;
   }
 
   // computes the left position of the tooltip according to the mouse's X position
