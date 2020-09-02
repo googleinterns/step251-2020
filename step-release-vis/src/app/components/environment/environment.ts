@@ -186,8 +186,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   enteredEnvironment(event: MouseEvent): void {
     this.tooltip.envName = this.environment.name;
-    this.tooltip.envWidth = this.svgWidth;
-    this.tooltip.displayedSnapshots = this.displayedSnapshots;
     this.moveTooltip(event);
   }
 

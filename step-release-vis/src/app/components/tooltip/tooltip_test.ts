@@ -3,7 +3,6 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {TooltipComponent} from './tooltip';
 import {Tooltip} from '../../models/Tooltip';
 import {By} from '@angular/platform-browser';
-import {Snapshot} from '../../models/Data';
 
 describe('TooltipComponent', () => {
   let component: TooltipComponent;
@@ -20,6 +19,10 @@ describe('TooltipComponent', () => {
     component = fixture.componentInstance;
     component.tooltip = new Tooltip();
     component.tooltip.envName = '1';
+    component.currentSnapshot = {
+      timestamp: {seconds: undefined, nanos: undefined},
+      candidatesList: undefined,
+    };
     fixture.detectChanges();
   });
 
@@ -30,10 +33,6 @@ describe('TooltipComponent', () => {
   describe('Compute tooltip location', () => {
     it('#getLeft should get a position with 20px added', () => {
       component.tooltip.mouseX = 200;
-      component.currentSnapshot = {
-        timestamp: {seconds: undefined, nanos: undefined},
-        candidatesList: undefined,
-      };
       const div = fixture.debugElement.query(By.css('div'));
 
       component.getLeft();
@@ -44,10 +43,6 @@ describe('TooltipComponent', () => {
 
     it('#getTop should get a position with 20px added', () => {
       component.tooltip.mouseY = 500;
-      component.currentSnapshot = {
-        timestamp: {seconds: undefined, nanos: undefined},
-        candidatesList: undefined,
-      };
       const div = fixture.debugElement.query(By.css('div'));
 
       component.getTop();
@@ -57,14 +52,10 @@ describe('TooltipComponent', () => {
     });
 
     it('#getShow should be block when true and none when false', () => {
-      component.tooltip = new Tooltip();
-
       component.tooltip.show = true;
-
       expect(component.getShow()).toBe('block');
 
       component.tooltip.show = false;
-
       expect(component.getShow()).toBe('none');
     });
   });
