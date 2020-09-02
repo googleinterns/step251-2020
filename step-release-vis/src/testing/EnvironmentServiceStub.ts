@@ -14,8 +14,8 @@ export class EnvironmentServiceStub {
   candName = this.sampleData.testCandName;
   polygons = this.sampleData.getPolygons();
 
-  polyMinTimestamp = this.sampleData.polyMinTimestamp;
-  polyMaxTimestamp = this.sampleData.polyMaxTimestamp;
+  envMin = this.sampleData.envMin;
+  envMax = this.sampleData.envMax;
 
   getPolygons(environment: Environment): Observable<Polygon[]> {
     return of(new SampleData().getPolygons());

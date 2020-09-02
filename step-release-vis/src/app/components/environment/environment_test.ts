@@ -35,8 +35,8 @@ describe('EnvironmentComponent', () => {
     component.svgWidth = 100;
     component.svgHeight = 100;
     component.environment = environmentServiceStub.env;
-    component.startTimestamp = environmentServiceStub.polyMinTimestamp;
-    component.endTimestamp = environmentServiceStub.polyMaxTimestamp;
+    component.startTimestamp = environmentServiceStub.envMin;
+    component.endTimestamp = environmentServiceStub.envMax;
     fixture.detectChanges();
   });
 
@@ -107,19 +107,23 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('time range update', () => {
+    let oldStart;
+    let oldEnd;
     beforeEach(() => {
+      oldStart = component.startTimestamp;
+      oldEnd = component.endTimestamp;
       component.ngOnChanges({
-        startTimestamp: new SimpleChange(0, 100, false),
-        endTimestamp: new SimpleChange(400, 200, false),
+        startTimestamp: new SimpleChange(oldStart, oldStart + 1000, false),
+        endTimestamp: new SimpleChange(oldEnd, oldEnd - 1000, false),
       });
     });
 
     it('should update fields', () => {
-      expect(component.startTimestamp).toEqual(100);
-      expect(component.endTimestamp).toEqual(200);
+      expect(component.startTimestamp).toEqual(oldStart + 1000);
+      expect(component.endTimestamp).toEqual(oldEnd - 1000);
     });
 
-    it('should have update displayed snapshots', () => {
+    it('should update displayed snapshots', () => {
       component.displayedSnapshots.forEach(({timestamp}) => {
         expect(timestamp.seconds).toBeGreaterThanOrEqual(
           component.startTimestamp
