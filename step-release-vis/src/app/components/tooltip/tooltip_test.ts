@@ -17,6 +17,8 @@ describe('TooltipComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TooltipComponent);
     component = fixture.componentInstance;
+    component.tooltip = new Tooltip();
+    component.tooltip.envName = '1';
     fixture.detectChanges();
   });
 
@@ -26,44 +28,29 @@ describe('TooltipComponent', () => {
 
   describe('Compute tooltip location', () => {
     it('#getLeft should get a position with 20px added', () => {
-      component.tooltip = new Tooltip();
       component.tooltip.mouseX = 200;
-      component.tooltip.envName = '1';
-      const div = fixture.debugElement.query(By.css('div'));
-
-      component.getLeft();
       fixture.detectChanges();
 
-      expect(div.nativeElement.style.left).toBe('220px');
+      expect(component.getLeft()).toBe('220px');
     });
 
     it('#getTop should get a position with 20px added', () => {
-      component.tooltip = new Tooltip();
       component.tooltip.mouseY = 500;
-      component.tooltip.envName = '1';
-      const div = fixture.debugElement.query(By.css('div'));
-
-      component.getTop();
       fixture.detectChanges();
 
-      expect(div.nativeElement.style.top).toBe('520px');
+      expect(component.getTop()).toBe('520px');
     });
 
     it('#getShow should be block when true and none when false', () => {
       component.tooltip = new Tooltip();
-      const div = fixture.debugElement.query(By.css('div'));
 
       component.tooltip.show = true;
-      component.getShow();
-      fixture.detectChanges();
 
-      expect(div.nativeElement.style.display).toBe('block');
+      expect(component.getShow()).toBe('block');
 
       component.tooltip.show = false;
-      component.getShow();
-      fixture.detectChanges();
 
-      expect(div.nativeElement.style.display).toBe('none');
+      expect(component.getShow()).toBe('none');
     });
   });
 
