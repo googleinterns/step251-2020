@@ -33,31 +33,23 @@ describe('TooltipComponent', () => {
 
   describe('Compute tooltip location', () => {
     it('#getLeft should get a position with 20px added', () => {
-      component.tooltip.mouseX = 200;
+      component.tooltip.mouseX = 100;
       const div = fixture.debugElement.query(By.css('div'));
 
       component.getLeft();
       fixture.detectChanges();
 
-      expect(component.getLeft()).toBe('220px');
+      expect(component.getLeft()).toBe('120px');
     });
 
     it('#getTop should get a position with 20px added', () => {
-      component.tooltip.mouseY = 500;
+      component.tooltip.mouseY = 100;
       const div = fixture.debugElement.query(By.css('div'));
 
       component.getTop();
+
       fixture.detectChanges();
-
-      expect(component.getTop()).toBe('520px');
-    });
-
-    it('#getShow should be block when true and none when false', () => {
-      component.tooltip.show = true;
-      expect(component.getShow()).toBe('block');
-
-      component.tooltip.show = false;
-      expect(component.getShow()).toBe('none');
+      expect(component.getTop()).toBe('120px');
     });
 
     it('#getHeight should add 20px for each candidate', () => {

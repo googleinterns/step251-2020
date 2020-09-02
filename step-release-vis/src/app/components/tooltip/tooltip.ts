@@ -8,9 +8,10 @@ import {Tooltip} from '../../models/Tooltip';
   styleUrls: ['./tooltip.css'],
 })
 export class TooltipComponent implements OnInit {
-  @Input() tooltip: Tooltip = new Tooltip();
+  @Input() tooltip: Tooltip;
   @Input() currentSnapshot: Snapshot;
   @Input() currentCandidate: string;
+
   width = 200;
   height = 30;
 
@@ -19,7 +20,7 @@ export class TooltipComponent implements OnInit {
   ngOnInit(): void {}
 
   isReady(): boolean {
-    return this.tooltip.envName !== undefined;
+    return this.currentSnapshot !== undefined;
   }
 
   /* Displays date,time,local timezone and candidate info with rapid links.
@@ -75,15 +76,6 @@ export class TooltipComponent implements OnInit {
     return this.tooltip.mouseY + 20 + 'px';
   }
 
-  // make the tooltip visible or not
-  getShow(): string {
-    if (this.tooltip.show) {
-      return 'block';
-    } else {
-      return 'none';
-    }
-  }
-
   getWidth(): string {
     return this.width + 'px';
   }
@@ -100,7 +92,6 @@ export class TooltipComponent implements OnInit {
       style.height = this.getHeight();
       style.left = this.getLeft();
       style.top = this.getTop();
-      style.display = this.getShow();
     }
   }
 }

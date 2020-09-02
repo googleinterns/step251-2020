@@ -2,6 +2,7 @@
   <p class="environment-title"> {{environment.name}} </p>
   <div>
     <app-tooltip
+        *ngIf="tooltip.show"
         [tooltip]="tooltip"
         [currentSnapshot]="currentSnapshot"
         [currentCandidate]="currentCandidate"
@@ -20,6 +21,15 @@
         (mouseleave)="leftPolygon(polygon)"
       >
       </polygon>
+      <rect
+        *ngIf="currentSnapshot"
+        id="cur-snapshot-line"
+        [attr.x]="getLineX() - 1"
+        [attr.y]="0"
+        [attr.width]="2"
+        [attr.height]="svgHeight - TIMELINE_HEIGHT + 10"
+        fill="white"
+      />
       <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT + 10" [attr.width]="svgWidth" [attr.height]="2"
             fill="gray"/>
       <text

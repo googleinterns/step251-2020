@@ -1,6 +1,6 @@
 .tooltip {
   position: fixed;
-  display: none;
+  display: block;
 
   padding: 10px;
 

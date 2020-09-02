@@ -13,6 +13,11 @@
   font-family: "Courier New", sans-serif;
 }
 
+#cur-snapshot-line {
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
 #tooltip {
   width: 10%;
   height: 10%;

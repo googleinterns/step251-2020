@@ -205,6 +205,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   leftEnvironment(event: MouseEvent): void {
     this.hideTooltip();
+    this.currentSnapshot = undefined;
   }
 
   hideTooltip(): void {
@@ -229,7 +230,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     let index = Math.floor(
       (svgMouseX * (this.displayedSnapshots.length - 1)) / this.svgWidth
     );
-
+    if (index < 0) {
+      return;
+    }
     const firstTimestamp = this.displayedSnapshots[0].timestamp.seconds;
     const lastTimestamp = this.displayedSnapshots[
       this.displayedSnapshots.length - 1
@@ -258,5 +261,15 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     }
 
     this.currentSnapshot = this.displayedSnapshots[index];
+  }
+
+  getLineX(): number {
+    return this.candidateService.scale(
+      this.currentSnapshot.timestamp.seconds,
+      this.startTimestamp,
+      this.endTimestamp,
+      0,
+      this.svgWidth
+    );
   }
 }
