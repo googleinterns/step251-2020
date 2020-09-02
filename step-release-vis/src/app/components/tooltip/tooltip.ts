@@ -1,69 +1,28 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Snapshot} from '../../models/Data';
 import {Tooltip} from '../../models/Tooltip';
-import {CandidateService} from '../../services/candidateService';
 
 @Component({
   selector: 'app-tooltip',
   templateUrl: './tooltip.html',
   styleUrls: ['./tooltip.css'],
 })
-export class TooltipComponent implements OnInit {
-  @Input() tooltip: Tooltip = new Tooltip();
-  currentSnapshot: Snapshot;
+export class TooltipComponent implements OnInit {@Input() tooltip: Tooltip = new Tooltip();
+ @Input() currentSnapshot: Snapshot;
   width = 200;
   height = 50;
 
   // TODO(#234): Compute width/height of the tooltip according to the data.
 
-  constructor(private candidateService: CandidateService) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
-  getSnapshot(): void {
-    const tooltip = this.tooltip;
-    let index = Math.floor(
-      (tooltip.svgMouseX * (tooltip.displayedSnapshots.length - 1)) /
-        tooltip.envWidth
-    );
-
-    const firstTimestamp = tooltip.displayedSnapshots[0].timestamp.seconds;
-    const lastTimestamp =
-      tooltip.displayedSnapshots[tooltip.displayedSnapshots.length - 1]
-        .timestamp.seconds;
-
-    // which one is closer? index or index + 1
-    if (index + 1 < tooltip.displayedSnapshots.length) {
-      const lastTimestampScaled: number = this.candidateService.scale(
-        tooltip.displayedSnapshots[index].timestamp.seconds,
-        firstTimestamp,
-        lastTimestamp,
-        0,
-        tooltip.envWidth
-      );
-      const nextTimestampScaled: number = this.candidateService.scale(
-        tooltip.displayedSnapshots[index + 1].timestamp.seconds,
-        firstTimestamp,
-        lastTimestamp,
-        0,
-        tooltip.envWidth
-      );
-
-      if (tooltip.svgMouseX > (lastTimestampScaled + nextTimestampScaled) / 2) {
-        index++;
-      }
-    }
-
-    this.currentSnapshot = tooltip.displayedSnapshots[index];
+  isReady(): boolean {
+    return this.tooltip.envName !== undefined;
   }
 
   getData(): string {
-    if (this.tooltip.displayedSnapshots === undefined) {
-      return 'tooltip field not yet initialized';
-    }
-
-    this.getSnapshot();
-
     const dateTime: Date = new Date(
       this.currentSnapshot.timestamp.seconds * 1000
     );

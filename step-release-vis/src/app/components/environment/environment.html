@@ -1,7 +1,7 @@
 <div class="environment-container">
   <p class="environment-title"> {{environment.name}} </p>
   <div>
-    <app-tooltip [tooltip]="tooltip"></app-tooltip>
+    <app-tooltip [tooltip]="tooltip" [currentSnapshot]="currentSnapshot"></app-tooltip>
     <svg id="{{environment.name}}-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight"
          (mouseenter)="enteredEnvironment($event)"
          (mouseleave)="leftEnvironment($event)"

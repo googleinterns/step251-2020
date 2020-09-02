@@ -145,4 +145,42 @@ describe('EnvironmentComponent', () => {
       expect(candName).toEqual(environmentServiceStub.candName);
     });
   });
+
+  describe('getSnapshot', () => {
+    it('should round to the left', () => {
+      component.displayedSnapshots = [
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
+      ];
+
+      component.svgWidth = 100;
+
+      component.updateCurrentSnapshot(43);
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(1);
+    });
+
+    it('should round to the right', () => {
+      component.displayedSnapshots = [
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
+      ];
+
+      component.svgWidth = 100;
+
+      component.updateCurrentSnapshot(53);
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
+    });
+
+    it('should be exactly the last snapshot', () => {
+      component.displayedSnapshots = [
+        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
+        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
+      ];
+
+      component.svgWidth = 100;
+
+      component.updateCurrentSnapshot(100);
+      expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
+    });
+  });
 });
