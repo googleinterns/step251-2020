@@ -201,7 +201,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     const svgElement = document.getElementById(this.environment.name + '-svg');
     const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
 
-    this.getSnapshot(svgMouseX);
+    this.updateCurrentSnapshot(svgMouseX);
   }
 
   hideTooltip(): void {
@@ -222,7 +222,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
    *
    * @param svgMouseX the position of the mouse relative to the svg
    */
-  getSnapshot(svgMouseX: number): void {
+  updateCurrentSnapshot(svgMouseX: number): void {
     let index = Math.floor(
       (svgMouseX * (this.displayedSnapshots.length - 1)) / this.svgWidth
     );

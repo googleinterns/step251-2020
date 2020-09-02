@@ -155,7 +155,7 @@ describe('EnvironmentComponent', () => {
 
       component.svgWidth = 100;
 
-      component.getSnapshot(43);
+      component.updateCurrentSnapshot(43);
       expect(component.currentSnapshot.timestamp.seconds).toEqual(1);
     });
 
@@ -167,7 +167,7 @@ describe('EnvironmentComponent', () => {
 
       component.svgWidth = 100;
 
-      component.getSnapshot(53);
+      component.updateCurrentSnapshot(53);
       expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
     });
 
@@ -179,7 +179,7 @@ describe('EnvironmentComponent', () => {
 
       component.svgWidth = 100;
 
-      component.getSnapshot(100);
+      component.updateCurrentSnapshot(100);
       expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
     });
   });
