@@ -11,7 +11,7 @@
         [attr.points]="polygon.toAttributeString()"
         [attr.fill]="getColor(polygon)"
         [attr.fill-opacity]="getOpacity(polygon)"
-        (mouseenter)="enteredPolygon(polygon, $event)"
+        (mouseenter)="enteredPolygon(polygon)"
         (mouseleave)="leftPolygon(polygon)"
       >
       </polygon>

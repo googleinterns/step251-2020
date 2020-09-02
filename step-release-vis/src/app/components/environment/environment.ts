@@ -175,9 +175,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     return polygon.highlight ? '1.0' : '0.7';
   }
 
-  enteredPolygon(polygon: Polygon, event: MouseEvent): void {
+  enteredPolygon(polygon: Polygon): void {
     this.candidateService.polygonHovered(polygon);
-    this.moveTooltip(event);
   }
 
   leftPolygon(polygon: Polygon): void {
