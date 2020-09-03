@@ -232,4 +232,41 @@ describe('EnvironmentComponent', () => {
       return fixture.debugElement.query(By.css('#cur-snapshot-line'));
     }
   });
+
+  describe('expansion', () => {
+    it('should be triggered on env title click', () => {
+      expect(component.expanded).toBeFalse();
+      expect(component.svgWidth).toEqual(component.svgSmallWidth);
+      expect(component.svgHeight).toEqual(component.svgSmallHeight);
+
+      fixture.debugElement
+        .query(By.css('.environment-title'))
+        .triggerEventHandler('click', {});
+      expect(component.expanded).toBeTrue();
+      expect(component.svgWidth).toEqual(component.svgBigWidth);
+      expect(component.svgHeight).toEqual(component.svgBigHeight);
+
+      fixture.debugElement
+        .query(By.css('.environment-title'))
+        .triggerEventHandler('click', {});
+      expect(component.expanded).toBeFalse();
+      expect(component.svgWidth).toEqual(component.svgSmallWidth);
+      expect(component.svgHeight).toEqual(component.svgSmallHeight);
+    });
+
+    it('should hide/unhide the timeline', () => {
+      expect(fixture.debugElement.query(By.css('#timeline'))).toBeFalsy();
+      fixture.debugElement
+        .query(By.css('.environment-title'))
+        .triggerEventHandler('click', {});
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('#timeline'))).toBeTruthy();
+
+      fixture.debugElement
+        .query(By.css('.environment-title'))
+        .triggerEventHandler('click', {});
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('#timeline'))).toBeFalsy();
+    });
+  });
 });
