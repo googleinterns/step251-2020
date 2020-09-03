@@ -18,6 +18,8 @@ export class EnvironmentsComponent implements OnInit {
   readonly TIMELINE_POINT_WIDTH = 130;
   readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
   readonly TZ_OFFSET = new Date().getTimezoneOffset() * 60;
+  readonly START_TIMESTAMP_KEY = 'start_timestamp';
+  readonly END_TIMESTAMP_KEY = 'end_timestamp';
 
   environments: Environment[];
   envWidth: number;
@@ -95,9 +97,22 @@ export class EnvironmentsComponent implements OnInit {
     this.minTimestamp = minTimestamp;
     this.maxTimestamp = maxTimestamp;
 
-    this.startTimestamp = this.maxTimestamp - this.WEEK_SECONDS;
-    this.endTimestamp = this.maxTimestamp;
+    this.setStartEndTimestamps();
     this.onTimeRangeUpdate();
+  }
+
+  private setStartEndTimestamps(): void {
+    const localStartTimestamp = this.getStartTimestampFromStorage();
+    const localEndTimestamp = this.getEndTimestampFromStorage();
+    if (localStartTimestamp && localEndTimestamp) {
+      this.startTimestamp = parseInt(localStartTimestamp, 10);
+      this.endTimestamp = parseInt(localEndTimestamp, 10);
+    } else {
+      this.startTimestamp = this.maxTimestamp - this.WEEK_SECONDS;
+      this.endTimestamp = this.maxTimestamp;
+      this.saveStartTimestampToStorage();
+      this.saveEndTimestampToStorage();
+    }
   }
 
   /**
@@ -190,12 +205,30 @@ export class EnvironmentsComponent implements OnInit {
 
   onEndTimestampChange(event: Event): void {
     this.endTimestamp = this.getTimestampFromEvent(event);
+    this.saveEndTimestampToStorage();
     this.onTimeRangeUpdate();
   }
 
   onStartTimestampChange(event: Event): void {
     this.startTimestamp = this.getTimestampFromEvent(event);
+    this.saveStartTimestampToStorage();
     this.onTimeRangeUpdate();
+  }
+
+  getStartTimestampFromStorage(): string {
+    return sessionStorage.getItem(this.START_TIMESTAMP_KEY);
+  }
+
+  saveStartTimestampToStorage(): void {
+    sessionStorage.setItem(this.START_TIMESTAMP_KEY, `${this.startTimestamp}`);
+  }
+
+  getEndTimestampFromStorage(): string {
+    return sessionStorage.getItem(this.END_TIMESTAMP_KEY);
+  }
+
+  saveEndTimestampToStorage(): void {
+    sessionStorage.setItem(this.END_TIMESTAMP_KEY, `${this.endTimestamp}`);
   }
 
   /**
