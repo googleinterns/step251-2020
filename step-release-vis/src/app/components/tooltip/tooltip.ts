@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {Snapshot} from '../../models/Data';
 import {Tooltip} from '../../models/Tooltip';
 
@@ -10,6 +10,9 @@ import {Tooltip} from '../../models/Tooltip';
 export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip;
   @Input() currentSnapshot: Snapshot;
+  @Output() tooltipHovered = new EventEmitter<boolean>();
+  width = 200;
+  height = 50;
   @Input() currentCandidate: string;
 
   /* Set tooltip font size to "fontMultiplier vw" */
@@ -92,13 +95,11 @@ export class TooltipComponent implements OnInit {
   }
 
   enteredTooltip(): void {
-    if (this.tooltip.clickOn) {
-      this.tooltip.hoveredOver = true;
-    }
+    this.tooltipHovered.emit(true);
   }
 
   leftTooltip(): void {
-    this.tooltip.hoveredOver = false;
+    this.tooltipHovered.emit(false);
     this.tooltip.clickOn = false;
   }
 
