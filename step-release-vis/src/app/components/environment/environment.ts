@@ -223,6 +223,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     }
   }
 
+  // TODO(ancar): Make it work for when it leaves the environment, not
+  // it disappers only when you enter and then leave the tooltip.
   leftEnvironment(event: MouseEvent): void {
     if (!this.tooltip.clickOn) {
       this.hideTooltip();
