@@ -147,40 +147,34 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('getSnapshot', () => {
-    it('should round to the left', () => {
+    beforeEach(() => {
       component.displayedSnapshots = [
         {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
         {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
       ];
+      component.svgWidth = 200;
+      component.startTimestamp = 0;
+      component.endTimestamp = 100;
+    });
 
-      component.svgWidth = 100;
-
-      component.updateCurrentSnapshot(43);
+    it('should round to the left', () => {
+      component.updateCurrentSnapshot(11);
       expect(component.currentSnapshot.timestamp.seconds).toEqual(1);
     });
 
     it('should round to the right', () => {
-      component.displayedSnapshots = [
-        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
-        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
-      ];
-
-      component.svgWidth = 100;
-
-      component.updateCurrentSnapshot(53);
+      component.updateCurrentSnapshot(13);
       expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
     });
 
     it('should be exactly the last snapshot', () => {
-      component.displayedSnapshots = [
-        {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
-        {timestamp: {seconds: 11, nanos: 0}, candidatesList: []},
-      ];
-
-      component.svgWidth = 100;
-
-      component.updateCurrentSnapshot(100);
+      component.updateCurrentSnapshot(22);
       expect(component.currentSnapshot.timestamp.seconds).toEqual(11);
+    });
+
+    it('should be undefined when mouse is outside polygon zone', () => {
+      component.updateCurrentSnapshot(23);
+      expect(component.currentSnapshot).toEqual(undefined);
     });
   });
 
