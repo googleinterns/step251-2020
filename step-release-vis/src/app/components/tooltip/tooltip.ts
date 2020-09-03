@@ -10,10 +10,11 @@ import {Tooltip} from '../../models/Tooltip';
 export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip;
   @Input() currentSnapshot: Snapshot;
-  width = 200;
-  height = 50;
+  @Input() currentCandidate: string;
 
-  // TODO(#234): Compute width/height of the tooltip according to the data.
+  readonly PIXELS_PER_CAND = 20;
+  width = 200;
+  height = 30;
 
   constructor() {}
 
@@ -23,15 +24,33 @@ export class TooltipComponent implements OnInit {
     return this.currentSnapshot !== undefined;
   }
 
+  /* Displays date,time,local timezone and candidate info with rapid links.
+   * Current candidate info is written in bold.
+   */
   getData(): string {
-    const dateTime: Date = new Date(
+    const dateTime: string = new Date(
       this.currentSnapshot.timestamp.seconds * 1000
-    );
+    ).toLocaleString('en-GB');
     const localTimeZone: string = Intl.DateTimeFormat().resolvedOptions()
       .timeZone;
-    // TODO(#210): add other details
+    const currentTime: string =
+      '<h3>' + dateTime + ' ' + localTimeZone + '</h3>';
+
+    let candidateInfo = '';
+    for (const candidate of this.currentSnapshot.candidatesList) {
+      const name: string = candidate.candidate;
+      const link = `<a href=${'https://rapid/' + name}>${name}</a>`;
+      let candidateDescription = `<p>${link}: ${candidate.jobCount} job(s)</p>`;
+
+      if (name === this.currentCandidate) {
+        candidateDescription = `<b>${candidateDescription}</b>`;
+      }
+
+      candidateInfo += candidateDescription;
+    }
+
     this.updateStyle();
-    return dateTime.toLocaleString('en-GB') + ' ' + localTimeZone;
+    return currentTime + candidateInfo;
   }
 
   // computes the left position of the tooltip according to the mouse's X position
@@ -62,7 +81,11 @@ export class TooltipComponent implements OnInit {
   }
 
   getHeight(): string {
-    return this.height + 'px';
+    return (
+      this.height +
+      this.PIXELS_PER_CAND * this.currentSnapshot.candidatesList.length +
+      'px'
+    );
   }
 
   private updateStyle(): void {

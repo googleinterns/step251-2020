@@ -33,7 +33,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   polygons: Polygon[];
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
+
   currentSnapshot: Snapshot;
+  currentCandidate: string;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -178,6 +180,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   enteredPolygon(polygon: Polygon): void {
     this.candidateService.polygonHovered(polygon);
+    this.currentCandidate = polygon.candName;
   }
 
   leftPolygon(polygon: Polygon): void {
