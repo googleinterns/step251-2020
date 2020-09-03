@@ -12,7 +12,6 @@ import {Environment, Snapshot} from '../../models/Data';
 import {CandidateService} from '../../services/candidateService';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Tooltip} from '../../models/Tooltip';
-import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-environment',
