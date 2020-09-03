@@ -208,7 +208,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   moveTooltip(event: MouseEvent): void {
-    if (!this.clickOn) {
+    if (!this.tooltip.clickOn) {
       this.tooltip.mouseX = event.pageX - window.scrollX;
       this.tooltip.mouseY = event.pageY - window.scrollY;
       this.tooltip.show = true;
@@ -223,9 +223,13 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   leftEnvironment(event: MouseEvent): void {
-    this.hideTooltip();
     this.currentSnapshot = undefined;
-    this.clickOn = false;
+    if (!this.tooltip.clickOn && !this.tooltip.hoveredOver) {
+      this.hideTooltip();
+    } else if (this.tooltip.clickOn) {
+      this.hideTooltip();
+      this.updateClickOn();
+    }
   }
 
   hideTooltip(): void {
@@ -328,6 +332,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   updateClickOn(): void {
-    this.clickOn = !this.clickOn;
+    this.tooltip.clickOn = !this.tooltip.clickOn;
   }
 }
