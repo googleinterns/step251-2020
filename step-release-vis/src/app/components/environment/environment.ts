@@ -34,6 +34,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
   currentSnapshot: Snapshot;
+  // when clickOn is true, the tooltip and the line stop moving after the mouse
+  clickOn: boolean;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -185,24 +187,32 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   enteredEnvironment(event: MouseEvent): void {
-    this.tooltip.envName = this.environment.name;
-    this.moveTooltip(event);
+    if (!this.clickOn) {
+      this.tooltip.envName = this.environment.name;
+      this.moveTooltip(event);
+    }
   }
 
   moveTooltip(event: MouseEvent): void {
-    this.tooltip.mouseX = event.pageX - window.scrollX;
-    this.tooltip.mouseY = event.pageY - window.scrollY;
-    this.tooltip.show = true;
+    if (!this.clickOn) {
+      this.tooltip.mouseX = event.pageX - window.scrollX;
+      this.tooltip.mouseY = event.pageY - window.scrollY;
+      this.tooltip.show = true;
 
-    const svgElement = document.getElementById(this.environment.name + '-svg');
-    const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
+      const svgElement = document.getElementById(
+        this.environment.name + '-svg'
+      );
+      const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
 
-    this.updateCurrentSnapshot(svgMouseX);
+      this.updateCurrentSnapshot(svgMouseX);
+    }
   }
 
   leftEnvironment(event: MouseEvent): void {
-    this.hideTooltip();
-    this.currentSnapshot = undefined;
+    if (!this.clickOn) {
+      this.hideTooltip();
+      this.currentSnapshot = undefined;
+    }
   }
 
   hideTooltip(): void {
@@ -268,5 +278,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       0,
       this.svgWidth
     );
+  }
+
+  updateClickOn(): void {
+    this.clickOn = !this.clickOn;
   }
 }
