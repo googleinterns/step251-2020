@@ -51,6 +51,11 @@ describe('EnvironmentsComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    sessionStorage.removeItem(component.START_TIMESTAMP_KEY);
+    sessionStorage.removeItem(component.END_TIMESTAMP_KEY);
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -66,6 +71,28 @@ describe('EnvironmentsComponent', () => {
 
   it('should calculate timelinePoints', () => {
     expect(component.timelinePoints).toBeTruthy();
+  });
+
+  describe('start/end fields', () => {
+    it('should assign start/end fields', () => {
+      expect(component.startTimestamp).toBeTruthy();
+      expect(component.endTimestamp).toBeTruthy();
+    });
+
+    it('should read start/end from sessionStorage', () => {
+      sessionStorage.setItem(
+        component.START_TIMESTAMP_KEY,
+        `${component.minTimestamp}`
+      );
+      sessionStorage.setItem(
+        component.END_TIMESTAMP_KEY,
+        `${component.maxTimestamp}`
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(component.startTimestamp).toEqual(component.minTimestamp);
+      expect(component.endTimestamp).toEqual(component.maxTimestamp);
+    });
   });
 
   it('should generate timelinePoints which fit timeline and bounds', () => {
@@ -174,8 +201,7 @@ describe('EnvironmentsComponent', () => {
     });
   });
 
-  describe('timerange update', () => {
-    const tzOffset = new Date().getTimezoneOffset() * 60;
+  describe('time range update', () => {
     it('should update start/end timestamps on event triggers', () => {
       const startInput = fixture.debugElement.query(
         By.css('#timerange-start-input')
@@ -183,16 +209,35 @@ describe('EnvironmentsComponent', () => {
       const endInput = fixture.debugElement.query(
         By.css('#timerange-end-input')
       );
-      const oldStart = component.startTimestamp;
-      const oldEnd = component.endTimestamp;
-      startInput.triggerEventHandler('input', event(oldStart + 1000));
-      endInput.triggerEventHandler('input', event(oldEnd - 1000));
-      expect(component.startTimestamp).toEqual(oldStart + 1000);
-      expect(component.endTimestamp).toEqual(oldEnd - 1000);
+      const newStart = component.startTimestamp + 1000;
+      const newEnd = component.endTimestamp - 1000;
+      startInput.triggerEventHandler('input', event(newStart));
+      endInput.triggerEventHandler('input', event(newEnd));
+      expect(component.startTimestamp).toEqual(newStart);
+      expect(component.endTimestamp).toEqual(newEnd);
       component.timelinePoints.forEach(({timestamp}) => {
         expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp);
         expect(timestamp).toBeLessThanOrEqual(component.endTimestamp);
       });
+    });
+
+    it('should save start/end timestamps to storage', () => {
+      const startInput = fixture.debugElement.query(
+        By.css('#timerange-start-input')
+      );
+      const endInput = fixture.debugElement.query(
+        By.css('#timerange-end-input')
+      );
+      const newStart = component.startTimestamp + 1000;
+      const newEnd = component.endTimestamp - 1000;
+      startInput.triggerEventHandler('input', event(newStart));
+      endInput.triggerEventHandler('input', event(newEnd));
+      expect(sessionStorage.getItem(component.START_TIMESTAMP_KEY)).toEqual(
+        `${newStart}`
+      );
+      expect(sessionStorage.getItem(component.END_TIMESTAMP_KEY)).toEqual(
+        `${newEnd}`
+      );
     });
   });
 
