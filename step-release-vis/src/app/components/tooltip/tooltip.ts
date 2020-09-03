@@ -12,6 +12,7 @@ export class TooltipComponent implements OnInit {
   @Input() currentSnapshot: Snapshot;
   @Input() currentCandidate: string;
 
+  readonly PIXELS_PER_CAND = 20;
   width = 200;
   height = 30;
 
@@ -39,8 +40,7 @@ export class TooltipComponent implements OnInit {
     for (const candidate of this.currentSnapshot.candidatesList) {
       const name: string = candidate.candidate;
       const link = `<a href=${'https://rapid/' + name}>${name}</a>`;
-      let candidateDescription =
-        '<p>' + link + ': ' + candidate.jobCount + ' job(s)</p>';
+      let candidateDescription = `<p>${link}: ${candidate.jobCount} job(s)</p>`;
 
       if (name === this.currentCandidate) {
         candidateDescription = `<b>${candidateDescription}</b>`;
@@ -81,7 +81,11 @@ export class TooltipComponent implements OnInit {
   }
 
   getHeight(): string {
-    return this.height + 20 * this.currentSnapshot.candidatesList.length + 'px';
+    return (
+      this.height +
+      this.PIXELS_PER_CAND * this.currentSnapshot.candidatesList.length +
+      'px'
+    );
   }
 
   private updateStyle(): void {
