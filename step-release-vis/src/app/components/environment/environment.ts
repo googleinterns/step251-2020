@@ -187,10 +187,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   enteredEnvironment(event: MouseEvent): void {
-    if (!this.clickOn) {
-      this.tooltip.envName = this.environment.name;
-      this.moveTooltip(event);
-    }
+    this.tooltip.envName = this.environment.name;
+    this.moveTooltip(event);
   }
 
   moveTooltip(event: MouseEvent): void {
@@ -209,10 +207,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   leftEnvironment(event: MouseEvent): void {
-    if (!this.clickOn) {
-      this.hideTooltip();
-      this.currentSnapshot = undefined;
-    }
+    this.hideTooltip();
+    this.currentSnapshot = undefined;
+    this.clickOn = false;
   }
 
   hideTooltip(): void {
