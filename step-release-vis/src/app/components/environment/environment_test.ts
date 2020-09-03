@@ -8,7 +8,7 @@ import {EnvironmentServiceStub} from '../../../testing/EnvironmentServiceStub';
 import {By} from '@angular/platform-browser';
 import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidateService';
-import {SimpleChange} from '@angular/core';
+import {DebugElement, SimpleChange} from '@angular/core';
 import {TooltipComponent} from '../tooltip/tooltip';
 
 describe('EnvironmentComponent', () => {
@@ -195,6 +195,39 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('current snapshot vertical line', () => {
-    // TODO(#237): add vertical line tests
+    it(`should show if currentSnapshot is present, shouldn't otherwise`, () => {
+      component.currentSnapshot = {
+        timestamp: {seconds: 0, nanos: 0},
+        candidatesList: [],
+      };
+      fixture.detectChanges();
+      expect(getLine()).toBeTruthy();
+
+      component.currentSnapshot = undefined;
+      fixture.detectChanges();
+      expect(getLine()).toBeFalsy();
+    });
+
+    it('should respond to currentSnapshot changes', () => {
+      component.currentSnapshot = {
+        timestamp: {seconds: component.startTimestamp, nanos: 0},
+        candidatesList: [],
+      };
+      fixture.detectChanges();
+      expect(getLine().nativeElement.getAttribute('x')).toEqual('-1');
+
+      component.currentSnapshot = {
+        timestamp: {seconds: component.endTimestamp, nanos: 0},
+        candidatesList: [],
+      };
+      fixture.detectChanges();
+      expect(getLine().nativeElement.getAttribute('x')).toEqual(
+        `${component.svgWidth - 1}`
+      );
+    });
+
+    function getLine(): DebugElement {
+      return fixture.debugElement.query(By.css('#cur-snapshot-line'));
+    }
   });
 });
