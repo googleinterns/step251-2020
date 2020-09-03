@@ -185,6 +185,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   leftPolygon(polygon: Polygon): void {
     this.candidateService.polygonUnhovered(polygon);
+    this.currentCandidate = undefined;
   }
 
   enteredEnvironment(event: MouseEvent): void {
