@@ -222,41 +222,54 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     return 'middle';
   }
 
+  /* Returns the distance in pixels from the svg border. */
+  getPositionFromTimestamp(time: number): number {
+    return this.candidateService.scale(
+      time,
+      this.startTimestamp,
+      this.endTimestamp,
+      0,
+      this.svgWidth
+    );
+  }
+
   /*
-   * Computes the closes snapshot to the current position of the mouse.
-   *
+   * Computes the closest snapshot to the current position of the mouse.
+   * If mouse is outside data zone, set currentSnapshot to undefined.
    * @param svgMouseX the position of the mouse relative to the svg
    */
   updateCurrentSnapshot(svgMouseX: number): void {
-    let index = Math.floor(
-      (svgMouseX * (this.displayedSnapshots.length - 1)) / this.svgWidth
+    const firstDisplayedTimestampScaled = this.getPositionFromTimestamp(
+      this.displayedSnapshots[0].timestamp.seconds
     );
-    if (index < 0) {
+    const lastDisplayedTimestampScaled = this.getPositionFromTimestamp(
+      this.displayedSnapshots[this.displayedSnapshots.length - 1].timestamp
+        .seconds
+    );
+
+    if (
+      svgMouseX < firstDisplayedTimestampScaled ||
+      svgMouseX > lastDisplayedTimestampScaled
+    ) {
+      this.currentSnapshot = undefined;
       return;
     }
-    const firstTimestamp = this.displayedSnapshots[0].timestamp.seconds;
-    const lastTimestamp = this.displayedSnapshots[
-      this.displayedSnapshots.length - 1
-    ].timestamp.seconds;
 
+    let index = Math.floor(
+      ((svgMouseX - firstDisplayedTimestampScaled) *
+        (this.displayedSnapshots.length - 1)) /
+        (lastDisplayedTimestampScaled - firstDisplayedTimestampScaled)
+    );
     // which one is closer? index or index + 1
     if (index + 1 < this.displayedSnapshots.length) {
-      const lastTimestampScaled: number = this.candidateService.scale(
-        this.displayedSnapshots[index].timestamp.seconds,
-        firstTimestamp,
-        lastTimestamp,
-        0,
-        this.svgWidth
+      const prevTimestampScaled: number = this.getPositionFromTimestamp(
+        this.displayedSnapshots[index].timestamp.seconds
       );
-      const nextTimestampScaled: number = this.candidateService.scale(
-        this.displayedSnapshots[index + 1].timestamp.seconds,
-        firstTimestamp,
-        lastTimestamp,
-        0,
-        this.svgWidth
+      const nextTimestampScaled: number = this.getPositionFromTimestamp(
+        this.displayedSnapshots[index + 1].timestamp.seconds
       );
 
-      if (svgMouseX > (lastTimestampScaled + nextTimestampScaled) / 2) {
+      if (svgMouseX > (prevTimestampScaled + nextTimestampScaled) / 2) {
         index++;
       }
     }
@@ -265,12 +278,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   getLineX(): number {
-    return this.candidateService.scale(
-      this.currentSnapshot.timestamp.seconds,
-      this.startTimestamp,
-      this.endTimestamp,
-      0,
-      this.svgWidth
+    return this.getPositionFromTimestamp(
+      this.currentSnapshot.timestamp.seconds
     );
   }
 }
