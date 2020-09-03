@@ -91,6 +91,17 @@ export class TooltipComponent implements OnInit {
     );
   }
 
+  enteredTooltip(): void {
+    if (this.tooltip.clickOn) {
+      this.tooltip.hoveredOver = true;
+    }
+  }
+
+  leftTooltip(): void {
+    this.tooltip.hoveredOver = false;
+    this.tooltip.clickOn = false;
+  }
+
   private updateStyle(): void {
     const tooltipElement = document.getElementById(this.tooltip.envName);
     if (tooltipElement) {
