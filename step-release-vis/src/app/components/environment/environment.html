@@ -5,6 +5,7 @@
       *ngIf="tooltip.show"
       [tooltip]="tooltip"
       [currentSnapshot]="currentSnapshot"
+      (tooltipHovered)="setTooltipHovered($event)"
     ></app-tooltip>
     <svg id="{{environment.name}}-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight"
          (mouseenter)="enteredEnvironment($event)"

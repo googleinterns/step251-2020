@@ -34,6 +34,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
   currentSnapshot: Snapshot;
+  tooltipHovered: boolean;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -205,12 +206,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   leftEnvironment(event: MouseEvent): void {
-    this.currentSnapshot = undefined;
-    if (!this.tooltip.clickOn && !this.tooltip.hoveredOver) {
+    if (!this.tooltip.clickOn) {
       this.hideTooltip();
-    } else if (this.tooltip.clickOn) {
-      this.hideTooltip();
-      this.updateClickOn();
+      this.currentSnapshot = undefined;
     }
   }
 
@@ -281,5 +279,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   updateClickOn(): void {
     this.tooltip.clickOn = !this.tooltip.clickOn;
+  }
+
+  setTooltipHovered(value: boolean): void {
+    this.tooltipHovered = value;
   }
 }
