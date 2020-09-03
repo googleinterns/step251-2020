@@ -2,15 +2,21 @@
   font-family: Roboto, Arial, sans-serif;
 }
 
-.environment-container {
-  margin-top: 8px;
-}
-
 .environment-title {
   color: dimgrey;
   margin-bottom: 0;
   margin-top: 0;
   font-family: "Courier New", sans-serif;
+  display: inline-block;
+  vertical-align: top;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expand-icon {
+  vertical-align: top;
+  display: inline
 }
 
 #cur-snapshot-line {

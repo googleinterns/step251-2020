@@ -65,7 +65,7 @@ describe('EnvironmentComponent', () => {
     });
 
     it('should respond to hover events', () => {
-      const polygons = fixture.debugElement.queryAll(By.css('polygon'));
+      const polygons = fixture.debugElement.queryAll(By.css('.cand-polygon'));
       for (let i = 0; i < polygons.length; i++) {
         polygons[i].triggerEventHandler('mouseenter', {});
         fixture.detectChanges();
@@ -234,14 +234,14 @@ describe('EnvironmentComponent', () => {
       expect(component.svgHeight).toEqual(component.svgSmallHeight);
 
       fixture.debugElement
-        .query(By.css('.environment-title'))
+        .query(By.css('.title'))
         .triggerEventHandler('click', {});
       expect(component.expanded).toBeTrue();
       expect(component.svgWidth).toEqual(component.svgBigWidth);
       expect(component.svgHeight).toEqual(component.svgBigHeight);
 
       fixture.debugElement
-        .query(By.css('.environment-title'))
+        .query(By.css('.title'))
         .triggerEventHandler('click', {});
       expect(component.expanded).toBeFalse();
       expect(component.svgWidth).toEqual(component.svgSmallWidth);
@@ -251,13 +251,13 @@ describe('EnvironmentComponent', () => {
     it('should hide/unhide the timeline', () => {
       expect(fixture.debugElement.query(By.css('#timeline'))).toBeFalsy();
       fixture.debugElement
-        .query(By.css('.environment-title'))
+        .query(By.css('.title'))
         .triggerEventHandler('click', {});
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('#timeline'))).toBeTruthy();
 
       fixture.debugElement
-        .query(By.css('.environment-title'))
+        .query(By.css('.title'))
         .triggerEventHandler('click', {});
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('#timeline'))).toBeFalsy();

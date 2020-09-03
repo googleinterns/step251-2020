@@ -100,7 +100,7 @@ describe('EnvironmentsComponent', () => {
       expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp);
       expect(timestamp).toBeLessThanOrEqual(component.endTimestamp);
       expect(x).toBeGreaterThanOrEqual(0);
-      expect(x).toBeLessThanOrEqual(component.envSmallWidth);
+      expect(x).toBeLessThanOrEqual(component.envBigWidth);
     });
   });
   it('should have first and last timeline points close to edges', () => {
