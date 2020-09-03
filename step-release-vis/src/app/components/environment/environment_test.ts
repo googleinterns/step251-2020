@@ -146,7 +146,7 @@ describe('EnvironmentComponent', () => {
     });
   });
 
-  describe('getSnapshot', () => {
+  describe('updateCurrentSnapshot', () => {
     beforeEach(() => {
       component.displayedSnapshots = [
         {timestamp: {seconds: 1, nanos: 0}, candidatesList: []},
