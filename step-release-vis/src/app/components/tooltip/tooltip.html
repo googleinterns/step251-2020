@@ -1,4 +1,5 @@
 <div class="tooltip" id="{{tooltip.envName}}"
   *ngIf="isReady()"
-  [innerHTML]="getData()">
+     [ngStyle]="{'font-size':fontMultiplier+'vw'}"
+     [innerHTML]="getData()">
 </div>
