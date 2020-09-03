@@ -1,3 +1,5 @@
-<div class="tooltip" id="{{tooltip.envName}}">
-  <p *ngIf="isReady()"> {{getData()}} </p>
+<div class="tooltip" id="{{tooltip.envName}}"
+  (mouseenter)="enteredTooltip()"
+  (mouseleave)="leftTooltip()">
+  <p *ngIf="isReady()"> {{getData()}}</p>
 </div>
