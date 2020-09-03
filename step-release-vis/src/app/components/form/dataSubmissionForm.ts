@@ -65,11 +65,10 @@ export class DataSubmissionFormComponent implements OnInit {
           result = this.arrayBufferToString(event.target.result as ArrayBuffer);
         }
         window.localStorage.setItem('binary_data', result);
+        this.router.navigate(['env']);
       };
       fileReader.readAsBinaryString(this.file);
     }
-
-    this.router.navigate(['env']);
   }
 
   arrayBufferToString(buf: ArrayBuffer): string {
