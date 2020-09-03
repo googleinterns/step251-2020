@@ -22,8 +22,13 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   readonly TIMELINE_HEIGHT = 40;
   readonly SNAPSHOTS_PER_ENV = 500;
 
-  @Input() svgWidth: number;
-  @Input() svgHeight: number;
+  @Input() svgSmallWidth: number;
+  @Input() svgSmallHeight: number;
+  @Input() svgBigWidth: number;
+  @Input() svgBigHeight: number;
+
+  svgWidth: number;
+  svgHeight: number;
 
   @Input() startTimestamp: number;
   @Input() endTimestamp: number;
@@ -36,6 +41,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   currentSnapshot: Snapshot;
   currentCandidate: string;
+  expanded = false;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -43,6 +49,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    this.updateDimensions();
     this.processEnvironment();
   }
 
@@ -148,7 +155,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
               yStart,
               yEnd,
               0,
-              this.svgHeight - this.TIMELINE_HEIGHT
+              this.expanded
+                ? this.svgHeight - this.TIMELINE_HEIGHT
+                : this.svgHeight
             )
           )
       ),
@@ -272,5 +281,16 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       0,
       this.svgWidth
     );
+  }
+
+  handleExpand(): void {
+    this.expanded = !this.expanded;
+    this.updateDimensions();
+    this.processEnvironment();
+  }
+
+  private updateDimensions(): void {
+    this.svgWidth = this.expanded ? this.svgBigWidth : this.svgSmallWidth;
+    this.svgHeight = this.expanded ? this.svgBigHeight : this.svgSmallHeight;
   }
 }

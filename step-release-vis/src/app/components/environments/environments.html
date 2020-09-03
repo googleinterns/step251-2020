@@ -21,8 +21,10 @@
   <app-environment
     *ngFor="let environment of environments"
     [environment]="environment"
-    [svgWidth]="envWidth"
-    [svgHeight]="envHeight"
+    [svgSmallWidth]="envSmallWidth"
+    [svgSmallHeight]="envSmallHeight"
+    [svgBigWidth]="envBigWidth"
+    [svgBigHeight]="envBigHeight"
     [startTimestamp]="startTimestamp"
     [endTimestamp]="endTimestamp"
     [timelinePoints]="timelinePoints"
