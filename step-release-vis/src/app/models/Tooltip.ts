@@ -7,6 +7,8 @@
 export class Tooltip {
   mouseX: number;
   mouseY: number;
+  clickOn: boolean;
+  hoveredOver: boolean;
 
   show = false;
 
