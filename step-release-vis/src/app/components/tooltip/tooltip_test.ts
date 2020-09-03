@@ -51,13 +51,5 @@ describe('TooltipComponent', () => {
       fixture.detectChanges();
       expect(component.getTop()).toBe('120px');
     });
-
-    it('#getHeight should add 20px for each candidate', () => {
-      component.currentSnapshot.candidatesList.push({
-        candidate: '',
-        jobCount: 0,
-      });
-      expect(component.getHeight()).toEqual('50px');
-    });
   });
 });

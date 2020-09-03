@@ -12,9 +12,15 @@ export class TooltipComponent implements OnInit {
   @Input() currentSnapshot: Snapshot;
   @Input() currentCandidate: string;
 
-  readonly PIXELS_PER_CAND = 20;
-  width = 200;
-  height = 30;
+  /* Set tooltip font size to "fontMultiplier vw" */
+  readonly oneVwInPixels =
+    Math.max(document.documentElement.clientWidth, window.innerWidth || 0) /
+    100;
+  readonly fontMultiplier = 0.8;
+  readonly PIXELS_PER_CAND = 2 * (this.fontMultiplier * this.oneVwInPixels);
+
+  width = 14 * this.oneVwInPixels;
+  height = 2.5 * this.oneVwInPixels;
 
   constructor() {}
 
@@ -30,11 +36,8 @@ export class TooltipComponent implements OnInit {
   getData(): string {
     const dateTime: string = new Date(
       this.currentSnapshot.timestamp.seconds * 1000
-    ).toLocaleString('en-GB');
-    const localTimeZone: string = Intl.DateTimeFormat().resolvedOptions()
-      .timeZone;
-    const currentTime: string =
-      '<h3>' + dateTime + ' ' + localTimeZone + '</h3>';
+    ).toLocaleString('en-GB', {timeZoneName: 'short'});
+    const currentTime = `<h3>${dateTime}</h3>`;
 
     let candidateInfo = '';
     for (const candidate of this.currentSnapshot.candidatesList) {
