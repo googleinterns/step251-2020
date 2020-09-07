@@ -14,8 +14,9 @@ import {Observable} from 'rxjs';
 })
 export class EnvironmentsComponent implements OnInit {
   readonly ENVS_PER_PAGE = 30;
-  readonly ENVS_PER_PAGE_EXPANDED = 5;
-  readonly ENV_RIGHT_MARGIN = 100;
+  readonly ENVS_PER_PAGE_EXPANDED = 7;
+  readonly ENV_RIGHT_MARGIN = 20;
+  readonly TITLE_WIDTH = 280;
   readonly TIMELINE_POINT_WIDTH = 130;
   readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
   readonly TZ_OFFSET = new Date().getTimezoneOffset() * 60;
@@ -83,7 +84,8 @@ export class EnvironmentsComponent implements OnInit {
    * @param environments an array of environments
    */
   private processEnvironments(environments: Environment[]): void {
-    this.envSmallWidth = window.innerWidth - this.ENV_RIGHT_MARGIN;
+    this.envSmallWidth =
+      window.innerWidth - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
     this.envSmallHeight = window.innerHeight / this.ENVS_PER_PAGE;
     this.envBigWidth = window.innerWidth - this.ENV_RIGHT_MARGIN;
     this.envBigHeight = window.innerHeight / this.ENVS_PER_PAGE_EXPANDED;
