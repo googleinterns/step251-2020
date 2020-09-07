@@ -338,4 +338,12 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   setTooltipHovered(value: boolean): void {
     this.tooltipHovered = value;
   }
+
+  leaveDiv(): void {
+    if (!this.tooltipHovered) {
+      this.hideTooltip();
+      this.currentSnapshot = undefined;
+      this.tooltip.clickOn = false;
+    }
+  }
 }
