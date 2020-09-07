@@ -266,19 +266,23 @@ describe('EnvironmentComponent', () => {
 
   describe('movement of the tooltip', () => {
     beforeEach(() => {
-      component.environment.name = '1';
+      // component.environment.name = '1';
     });
 
     it('#enteredEnvironment', () => {
-      const svg = fixture.debugElement.query(By.css('svg'));
+      const svg = fixture.debugElement.query(
+        By.css(`#${component.environment.name}-svg`)
+      );
       svg.triggerEventHandler('mouseenter', {});
       fixture.detectChanges();
 
-      expect(component.tooltip.envName).toBe('1');
+      expect(component.tooltip.envName).toBe(component.environment.name);
     });
 
     it('#moveTooltip with both cases of clickOn', () => {
-      const svg = fixture.debugElement.query(By.css('svg'));
+      const svg = fixture.debugElement.query(
+        By.css(`#${component.environment.name}-svg`)
+      );
       svg.triggerEventHandler('mousemove', {pageX: 100, pageY: 100});
       fixture.detectChanges();
 
@@ -296,7 +300,9 @@ describe('EnvironmentComponent', () => {
     });
 
     it('#leftEnvironment with both cases of clickOn', () => {
-      const svg = fixture.debugElement.query(By.css('svg'));
+      const svg = fixture.debugElement.query(
+        By.css(`#${component.environment.name}-svg`)
+      );
       svg.triggerEventHandler('mouseleave', {});
       fixture.detectChanges();
 
@@ -314,7 +320,9 @@ describe('EnvironmentComponent', () => {
   });
 
   it('update ClickOn on click event', () => {
-    const svg = fixture.debugElement.query(By.css('svg'));
+    const svg = fixture.debugElement.query(
+      By.css(`#${component.environment.name}-svg`)
+    );
     svg.triggerEventHandler('click', {});
     fixture.detectChanges();
 
