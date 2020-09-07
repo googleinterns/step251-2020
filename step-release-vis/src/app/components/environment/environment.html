@@ -10,7 +10,7 @@
     ></app-tooltip>
     <svg id="{{environment.name}}-svg" xmlns="http://www.w3.org/2000/svg" [attr.width]="svgWidth" [attr.height]="svgHeight"
          (mouseenter)="enteredEnvironment($event)"
-         (mouseleave)="leftEnvironment($event)"
+         (mouseleave)="leftEnvironment()"
          (mousemove)="moveTooltip($event)"
          (click)="updateClickOn()"
     >
