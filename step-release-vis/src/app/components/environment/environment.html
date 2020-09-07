@@ -43,7 +43,8 @@
           [attr.width]="2"
           [attr.height]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
           fill="white"/>
-    <text *ngIf="displayedSnapshots.length === 0"
+    <text id="no-data"
+          *ngIf="displayedSnapshots.length === 0"
           [attr.x]="svgWidth / 2"
           [attr.y]="svgHeight / 2"
           text-anchor="middle">
