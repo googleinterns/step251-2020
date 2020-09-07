@@ -1,6 +1,6 @@
 <div class="environment-container">
   <p class="environment-title"> {{environment.name}} </p>
-  <div>
+  <div (mouseleave)="leaveDiv()">
     <app-tooltip
       *ngIf="tooltip.show"
       [tooltip]="tooltip"
