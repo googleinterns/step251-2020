@@ -266,6 +266,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       svgMouseX > lastDisplayedTimestampScaled
     ) {
       this.currentSnapshot = undefined;
+      this.curGlobalTimestamp.seconds = undefined;
       return;
     }
 
@@ -323,5 +324,18 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   getEnvPaddingBottom(): string {
     return this.expanded ? '15px' : '0px';
+  }
+
+  shouldDisplayLine(): boolean {
+    if (!this.curGlobalTimestamp) {
+      return false;
+    }
+    return (
+      this.displayedSnapshots[0].timestamp.seconds <
+        this.curGlobalTimestamp.seconds &&
+      this.curGlobalTimestamp.seconds <
+        this.displayedSnapshots[this.displayedSnapshots.length - 1].timestamp
+          .seconds
+    );
   }
 }
