@@ -22,14 +22,14 @@
   <app-environment
     *ngFor="let environment of environments"
     [environment]="environment"
-    [svgSmallWidth]="envSmallWidth"
+    [svgWidth]="envWidth"
     [svgSmallHeight]="envSmallHeight"
-    [svgBigWidth]="envBigWidth"
     [svgBigHeight]="envBigHeight"
     [startTimestamp]="startTimestamp"
     [endTimestamp]="endTimestamp"
     [timelinePoints]="timelinePoints"
     [titleWidth]="TITLE_WIDTH"
+    [curGlobalTimestamp]="curGlobalTimestamp"
   >
   </app-environment>
 </div>
