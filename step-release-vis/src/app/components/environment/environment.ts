@@ -8,7 +8,7 @@ import {
 import {EnvironmentService} from '../../services/environmentService';
 import {Polygon} from '../../models/Polygon';
 import {Point} from '../../models/Point';
-import {Environment, Snapshot} from '../../models/Data';
+import {Environment, Snapshot, Timestamp} from '../../models/Data';
 import {CandidateService} from '../../services/candidateService';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Tooltip} from '../../models/Tooltip';
@@ -24,17 +24,16 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   readonly TITLE_MARGIN = 10;
   readonly TITLE_ICON_SIZE = 20;
 
-  @Input() svgSmallWidth: number;
   @Input() svgSmallHeight: number;
-  @Input() svgBigWidth: number;
+  @Input() svgWidth: number;
   @Input() svgBigHeight: number;
   @Input() titleWidth;
 
-  svgWidth: number;
   svgHeight: number;
 
   @Input() startTimestamp: number;
   @Input() endTimestamp: number;
+  @Input() curGlobalTimestamp: Timestamp;
 
   @Input() environment: Environment;
   @Input() timelinePoints: TimelinePoint[];
@@ -47,7 +46,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   clickOn: boolean;
   currentCandidate: string;
   expanded = false;
-  tooltipHovered: boolean;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -229,6 +227,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     if (!this.tooltip.clickOn) {
       this.hideTooltip();
       this.currentSnapshot = undefined;
+      this.curGlobalTimestamp.seconds = undefined;
     }
   }
 
@@ -275,6 +274,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       svgMouseX > lastDisplayedTimestampScaled
     ) {
       this.currentSnapshot = undefined;
+      this.curGlobalTimestamp.seconds = undefined;
       return;
     }
 
@@ -298,11 +298,14 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     }
 
     this.currentSnapshot = this.displayedSnapshots[index];
+    this.curGlobalTimestamp.seconds = this.currentSnapshot.timestamp.seconds;
   }
 
   getLineX(): number {
     return this.getPositionFromTimestamp(
-      this.currentSnapshot.timestamp.seconds
+      this.currentSnapshot
+        ? this.currentSnapshot.timestamp.seconds
+        : this.curGlobalTimestamp.seconds
     );
   }
 
@@ -313,22 +316,32 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   private updateDimensions(): void {
-    this.svgWidth = this.expanded ? this.svgBigWidth : this.svgSmallWidth;
     this.svgHeight = this.expanded ? this.svgBigHeight : this.svgSmallHeight;
   }
 
   getTitleDisplay(): string {
-    return this.expanded ? 'block' : 'inline';
+    return 'inline';
   }
 
   getTitleNameWidth(): string {
-    return this.expanded
-      ? 'auto'
-      : `${this.titleWidth - this.TITLE_MARGIN - this.TITLE_ICON_SIZE}px`;
+    return `${this.titleWidth - this.TITLE_MARGIN - this.TITLE_ICON_SIZE}px`;
   }
 
   getEnvPaddingBottom(): string {
     return this.expanded ? '15px' : '0px';
+  }
+
+  shouldDisplayLine(): boolean {
+    if (!this.curGlobalTimestamp) {
+      return false;
+    }
+    return (
+      this.displayedSnapshots[0].timestamp.seconds <=
+        this.curGlobalTimestamp.seconds &&
+      this.curGlobalTimestamp.seconds <=
+        this.displayedSnapshots[this.displayedSnapshots.length - 1].timestamp
+          .seconds
+    );
   }
 
   /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either

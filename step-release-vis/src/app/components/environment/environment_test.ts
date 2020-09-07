@@ -10,6 +10,7 @@ import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidateService';
 import {DebugElement, SimpleChange} from '@angular/core';
 import {TooltipComponent} from '../tooltip/tooltip';
+import {shouldBeautify} from '@angular-devkit/build-angular/src/utils/environment-options';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -32,13 +33,13 @@ describe('EnvironmentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentComponent);
     component = fixture.componentInstance;
-    component.svgBigWidth = 100;
+    component.svgWidth = 100;
     component.svgBigHeight = 100;
-    component.svgSmallWidth = 80;
     component.svgSmallHeight = 30;
     component.environment = environmentServiceStub.env;
     component.startTimestamp = environmentServiceStub.envMin;
     component.endTimestamp = environmentServiceStub.envMax;
+    component.curGlobalTimestamp = {seconds: undefined};
     fixture.detectChanges();
   });
 
@@ -191,17 +192,16 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('current snapshot vertical line', () => {
-    it(`should show if currentSnapshot is present, shouldn't otherwise`, () => {
+    it(`should show if currentSnapshot is present`, () => {
+      expect(getLine()).toBeFalsy();
+
       component.currentSnapshot = {
-        timestamp: {seconds: 0, nanos: 0},
+        timestamp: {seconds: component.startTimestamp, nanos: 0},
         candidatesList: [],
       };
+      component.curGlobalTimestamp.seconds = component.startTimestamp;
       fixture.detectChanges();
       expect(getLine()).toBeTruthy();
-
-      component.currentSnapshot = undefined;
-      fixture.detectChanges();
-      expect(getLine()).toBeFalsy();
     });
 
     it('should respond to currentSnapshot changes', () => {
@@ -209,6 +209,7 @@ describe('EnvironmentComponent', () => {
         timestamp: {seconds: component.startTimestamp, nanos: 0},
         candidatesList: [],
       };
+      component.curGlobalTimestamp.seconds = component.startTimestamp;
       fixture.detectChanges();
       expect(getLine().nativeElement.getAttribute('x')).toEqual('-1');
 
@@ -222,6 +223,22 @@ describe('EnvironmentComponent', () => {
       );
     });
 
+    it(`should show if curGlobalTimestamp is in visible time range, shouldn't otherwise`, () => {
+      expect(getLine()).toBeFalsy();
+
+      component.currentSnapshot = {
+        timestamp: {seconds: component.startTimestamp, nanos: 0},
+        candidatesList: [],
+      };
+      component.curGlobalTimestamp.seconds = component.startTimestamp;
+      fixture.detectChanges();
+      expect(getLine()).toBeTruthy();
+
+      component.curGlobalTimestamp.seconds = component.startTimestamp - 1000;
+      fixture.detectChanges();
+      expect(getLine()).toBeFalsy();
+    });
+
     function getLine(): DebugElement {
       return fixture.debugElement.query(By.css('#cur-snapshot-line'));
     }
@@ -230,21 +247,21 @@ describe('EnvironmentComponent', () => {
   describe('expansion', () => {
     it('should be triggered on env title click', () => {
       expect(component.expanded).toBeFalse();
-      expect(component.svgWidth).toEqual(component.svgSmallWidth);
+      expect(component.svgWidth).toEqual(component.svgWidth);
       expect(component.svgHeight).toEqual(component.svgSmallHeight);
 
       fixture.debugElement
         .query(By.css('.title'))
         .triggerEventHandler('click', {});
       expect(component.expanded).toBeTrue();
-      expect(component.svgWidth).toEqual(component.svgBigWidth);
+      expect(component.svgWidth).toEqual(component.svgWidth);
       expect(component.svgHeight).toEqual(component.svgBigHeight);
 
       fixture.debugElement
         .query(By.css('.title'))
         .triggerEventHandler('click', {});
       expect(component.expanded).toBeFalse();
-      expect(component.svgWidth).toEqual(component.svgSmallWidth);
+      expect(component.svgWidth).toEqual(component.svgWidth);
       expect(component.svgHeight).toEqual(component.svgSmallHeight);
     });
 

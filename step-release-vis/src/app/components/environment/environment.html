@@ -36,8 +36,7 @@
       (mouseenter)="enteredEnvironment($event)"
       (mouseleave)="leftEnvironment()"
       (mousemove)="moveTooltip($event)"
-      (click)="updateClickOn($event)"
-    >
+      (click)="updateClickOn($event)">
       <polygon
         class="cand-polygon"
         *ngFor="let polygon of polygons"
@@ -48,7 +47,7 @@
         (mouseleave)="leftPolygon(polygon)"
       />
       <rect
-        *ngIf="currentSnapshot"
+        *ngIf="shouldDisplayLine()"
         id="cur-snapshot-line"
         [attr.x]="getLineX() - 1"
         [attr.y]="0"
