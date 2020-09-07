@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Environment} from '../../models/Data';
+import {Environment, Timestamp} from '../../models/Data';
 import {DataService} from '../../services/dataService';
 import {ProtoBufferService} from '../../services/protoBufferService';
 import {CandidateService} from '../../services/candidateService';
@@ -34,6 +34,7 @@ export class EnvironmentsComponent implements OnInit {
   maxTimestamp: number; // max timestamp across every environment
   startTimestamp: number; // current start timestamp
   endTimestamp: number; // current end timestamp
+  curGlobalTimestamp: Timestamp = {seconds: undefined}; // shared current timestamp
 
   dataFound: boolean;
   timelinePointsAmount: number;

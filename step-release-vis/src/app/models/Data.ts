@@ -7,3 +7,7 @@ import {
 export type Environment = EnvProto.AsObject;
 export type CandidateInfo = CandidateInfoProto.AsObject;
 export type Snapshot = SnapshotProto.AsObject;
+export interface Timestamp {
+  seconds: number;
+  nanos?: number;
+}
