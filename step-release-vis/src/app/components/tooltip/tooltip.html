@@ -1,5 +1,7 @@
 <div class="tooltip" id="{{tooltip.envName}}"
+     *ngIf="isReady()"
+     [ngStyle]="{'font-size':fontMultiplier+'vw'}"
+     [innerHTML]="getData()"
      (mouseenter)="enteredTooltip()"
-     (mouseleave)="leftTooltip()"
-     [innerHTML]="getData()">
+     (mouseleave)="leftTooltip()">
 </div>
