@@ -32,8 +32,10 @@ describe('EnvironmentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentComponent);
     component = fixture.componentInstance;
-    component.svgWidth = 100;
-    component.svgHeight = 100;
+    component.svgBigWidth = 100;
+    component.svgBigHeight = 100;
+    component.svgSmallWidth = 80;
+    component.svgSmallHeight = 30;
     component.environment = environmentServiceStub.env;
     component.startTimestamp = environmentServiceStub.envMin;
     component.endTimestamp = environmentServiceStub.envMax;
@@ -223,5 +225,42 @@ describe('EnvironmentComponent', () => {
     function getLine(): DebugElement {
       return fixture.debugElement.query(By.css('#cur-snapshot-line'));
     }
+  });
+
+  describe('expansion', () => {
+    it('should be triggered on env title click', () => {
+      expect(component.expanded).toBeFalse();
+      expect(component.svgWidth).toEqual(component.svgSmallWidth);
+      expect(component.svgHeight).toEqual(component.svgSmallHeight);
+
+      fixture.debugElement
+        .query(By.css('.environment-title'))
+        .triggerEventHandler('click', {});
+      expect(component.expanded).toBeTrue();
+      expect(component.svgWidth).toEqual(component.svgBigWidth);
+      expect(component.svgHeight).toEqual(component.svgBigHeight);
+
+      fixture.debugElement
+        .query(By.css('.environment-title'))
+        .triggerEventHandler('click', {});
+      expect(component.expanded).toBeFalse();
+      expect(component.svgWidth).toEqual(component.svgSmallWidth);
+      expect(component.svgHeight).toEqual(component.svgSmallHeight);
+    });
+
+    it('should hide/unhide the timeline', () => {
+      expect(fixture.debugElement.query(By.css('#timeline'))).toBeFalsy();
+      fixture.debugElement
+        .query(By.css('.environment-title'))
+        .triggerEventHandler('click', {});
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('#timeline'))).toBeTruthy();
+
+      fixture.debugElement
+        .query(By.css('.environment-title'))
+        .triggerEventHandler('click', {});
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('#timeline'))).toBeFalsy();
+    });
   });
 });

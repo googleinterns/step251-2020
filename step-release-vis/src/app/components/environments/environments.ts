@@ -13,7 +13,8 @@ import {Observable} from 'rxjs';
   styleUrls: ['./environments.css'],
 })
 export class EnvironmentsComponent implements OnInit {
-  readonly ENVS_PER_PAGE = 7;
+  readonly ENVS_PER_PAGE = 30;
+  readonly ENVS_PER_PAGE_EXPANDED = 5;
   readonly ENV_RIGHT_MARGIN = 100;
   readonly TIMELINE_POINT_WIDTH = 130;
   readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
@@ -22,8 +23,11 @@ export class EnvironmentsComponent implements OnInit {
   readonly END_TIMESTAMP_KEY = 'end_timestamp';
 
   environments: Environment[];
-  envWidth: number;
-  envHeight: number;
+
+  envSmallWidth: number;
+  envSmallHeight: number;
+  envBigWidth: number;
+  envBigHeight: number;
 
   minTimestamp: number; // min timestamp across every environment
   maxTimestamp: number; // max timestamp across every environment
@@ -79,11 +83,10 @@ export class EnvironmentsComponent implements OnInit {
    * @param environments an array of environments
    */
   private processEnvironments(environments: Environment[]): void {
-    this.envWidth = window.innerWidth - this.ENV_RIGHT_MARGIN;
-    this.envHeight = window.innerHeight / this.ENVS_PER_PAGE;
-    this.timelinePointsAmount = Math.floor(
-      this.envWidth / this.TIMELINE_POINT_WIDTH
-    );
+    this.envSmallWidth = window.innerWidth - this.ENV_RIGHT_MARGIN;
+    this.envSmallHeight = window.innerHeight / this.ENVS_PER_PAGE;
+    this.envBigWidth = window.innerWidth - this.ENV_RIGHT_MARGIN;
+    this.envBigHeight = window.innerHeight / this.ENVS_PER_PAGE_EXPANDED;
     this.environments = this.sortEnvSnapshots(environments);
 
     let minTimestamp = Number.MAX_VALUE;
@@ -132,7 +135,9 @@ export class EnvironmentsComponent implements OnInit {
         }
       }
     }
-
+    this.timelinePointsAmount = Math.floor(
+      this.envBigWidth / this.TIMELINE_POINT_WIDTH
+    );
     this.timelinePoints = [];
     const timelineChunkSize =
       (this.endTimestamp - this.startTimestamp) / this.timelinePointsAmount;
@@ -147,7 +152,7 @@ export class EnvironmentsComponent implements OnInit {
             0,
             this.endTimestamp - this.startTimestamp,
             0,
-            this.envWidth
+            this.envBigWidth
           )
         )
       );
