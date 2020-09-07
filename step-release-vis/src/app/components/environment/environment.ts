@@ -293,6 +293,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     );
   }
 
+  /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either
+  clickOn becomes false or the mouse leaves the <div> of the environment */
   updateClickOn(): void {
     this.tooltip.clickOn = !this.tooltip.clickOn;
   }
