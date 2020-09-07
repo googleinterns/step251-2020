@@ -65,8 +65,8 @@ describe('EnvironmentsComponent', () => {
   });
 
   it('should assign envWidth and envHeight fields', () => {
-    expect(component.envWidth).toBeTruthy();
-    expect(component.envHeight).toBeTruthy();
+    expect(component.envSmallWidth).toBeTruthy();
+    expect(component.envSmallHeight).toBeTruthy();
   });
 
   it('should calculate timelinePoints', () => {
@@ -100,7 +100,7 @@ describe('EnvironmentsComponent', () => {
       expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp);
       expect(timestamp).toBeLessThanOrEqual(component.endTimestamp);
       expect(x).toBeGreaterThanOrEqual(0);
-      expect(x).toBeLessThanOrEqual(component.envWidth);
+      expect(x).toBeLessThanOrEqual(component.envSmallWidth);
     });
   });
   it('should have first and last timeline points close to edges', () => {

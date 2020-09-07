@@ -1,6 +1,11 @@
 <div class="environment-container">
-  <p class="environment-title"> {{environment.name}} </p>
+  <!-- TODO(#248): display title and env in one line if not expanded -->
+  <p
+    class="environment-title"
+    (click)="handleExpand()"
+  >{{environment.name}}</p>
   <div (mouseleave)="leaveDiv()">
+  <p class="environment-title"> {{environment.name}} </p>
     <app-tooltip
       *ngIf="tooltip.show"
       [tooltip]="tooltip"
@@ -28,37 +33,39 @@
         [attr.x]="getLineX() - 1"
         [attr.y]="0"
         [attr.width]="2"
-        [attr.height]="svgHeight - TIMELINE_HEIGHT + 10"
+        [attr.height]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
         fill="white"
       />
-      <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT + 10" [attr.width]="svgWidth" [attr.height]="2"
-            fill="gray"/>
-      <text
-        *ngFor="let timelinePoint of timelinePoints; let i = index"
-        [attr.x]="timelinePoint.x"
-        [attr.y]="svgHeight - 12"
-        [attr.text-anchor]="getTimelinePointTextAlignment(i)"
-        font-size="12"
-      >
-        {{ timelinePoint.timeString }}
-      </text>
-      <text
-        *ngFor="let timelinePoint of timelinePoints; let i = index"
-        [attr.x]="timelinePoint.x"
-        [attr.y]="svgHeight"
-        [attr.text-anchor]="getTimelinePointTextAlignment(i)"
-        font-size="12"
-      >
-        {{ timelinePoint.dateString }}
-      </text>
-      <line
-        *ngFor="let timelinePoint of timelinePoints"
-        [attr.x1]="timelinePoint.x"
-        [attr.y1]="svgHeight - TIMELINE_HEIGHT + 2"
-        [attr.x2]="timelinePoint.x"
-        [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 - 3"
-        stroke="gray"
-      />
+      <g id="timeline" *ngIf="expanded">
+        <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT + 10" [attr.width]="svgWidth" [attr.height]="2"
+              fill="gray"/>
+        <text
+          *ngFor="let timelinePoint of timelinePoints; let i = index"
+          [attr.x]="timelinePoint.x"
+          [attr.y]="svgHeight - 12"
+          [attr.text-anchor]="getTimelinePointTextAlignment(i)"
+          font-size="12"
+        >
+          {{ timelinePoint.timeString }}
+        </text>
+        <text
+          *ngFor="let timelinePoint of timelinePoints; let i = index"
+          [attr.x]="timelinePoint.x"
+          [attr.y]="svgHeight"
+          [attr.text-anchor]="getTimelinePointTextAlignment(i)"
+          font-size="12"
+        >
+          {{ timelinePoint.dateString }}
+        </text>
+        <line
+          *ngFor="let timelinePoint of timelinePoints"
+          [attr.x1]="timelinePoint.x"
+          [attr.y1]="svgHeight - TIMELINE_HEIGHT + 2"
+          [attr.x2]="timelinePoint.x"
+          [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 - 3"
+          stroke="gray"
+        />
+      </g>
     </svg>
   </div>
 </div>
