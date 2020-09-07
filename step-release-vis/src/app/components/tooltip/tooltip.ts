@@ -11,6 +11,10 @@ export class TooltipComponent implements OnInit {
   @Input() tooltip: Tooltip;
   @Input() currentSnapshot: Snapshot;
   @Output() tooltipHovered = new EventEmitter<boolean>();
+  @Output() tooltipHovered: EventEmitter<boolean> = new EventEmitter();
+  @Input() currentCandidate: string;
+
+  readonly PIXELS_PER_CAND = 20;
   width = 200;
   height = 50;
   @Input() currentCandidate: string;
