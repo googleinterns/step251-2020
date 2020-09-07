@@ -224,4 +224,73 @@ describe('EnvironmentComponent', () => {
       return fixture.debugElement.query(By.css('#cur-snapshot-line'));
     }
   });
+
+  describe('movement of the tooltip', () => {
+    beforeEach(() => {
+      component.environment.name = '1';
+    });
+
+    it('#enteredEnvironment', () => {
+      const svg = fixture.debugElement.query(By.css('svg'));
+      svg.triggerEventHandler('mouseenter', {});
+      fixture.detectChanges();
+
+      expect(component.tooltip.envName).toBe('1');
+    });
+
+    it('#moveTooltip with both cases of clickOn', () => {
+      const svg = fixture.debugElement.query(By.css('svg'));
+      svg.triggerEventHandler('mousemove', {pageX: 100, pageY: 100});
+      fixture.detectChanges();
+
+      expect(component.tooltip.mouseX).toEqual(100);
+      expect(component.tooltip.mouseY).toEqual(100);
+
+      svg.triggerEventHandler('click', {});
+      fixture.detectChanges();
+      svg.triggerEventHandler('mousemove', {pageX: 110});
+      fixture.detectChanges();
+
+      // the position should be the same as clickOn is true
+      expect(component.tooltip.mouseX).toEqual(100);
+      expect(component.tooltip.mouseY).toEqual(100);
+    });
+
+    it('#leftEnvironment with both cases of clickOn', () => {
+      const svg = fixture.debugElement.query(By.css('svg'));
+      svg.triggerEventHandler('mouseleave', {});
+      fixture.detectChanges();
+
+      expect(component.tooltip.show).toBeFalse();
+
+      svg.triggerEventHandler('mouseenter', {});
+      fixture.detectChanges();
+      svg.triggerEventHandler('click', {});
+      fixture.detectChanges();
+      svg.triggerEventHandler('mouseleave', {});
+      fixture.detectChanges();
+
+      expect(component.tooltip.show).toBeTrue();
+    });
+  });
+
+  it('update ClickOn on click event', () => {
+    const svg = fixture.debugElement.query(By.css('svg'));
+    svg.triggerEventHandler('click', {});
+    fixture.detectChanges();
+
+    expect(component.tooltip.clickOn).toBeTrue();
+
+    svg.triggerEventHandler('click', {});
+    fixture.detectChanges();
+
+    expect(component.tooltip.clickOn).toBeFalse();
+  });
+
+  it('#hidetooltip', () => {
+    component.hideTooltip();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('app-tooltip'))).toBeFalsy();
+  });
 });
