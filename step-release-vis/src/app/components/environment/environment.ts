@@ -325,7 +325,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   shouldDisplayLine(): boolean {
-    if (!this.curGlobalTimestamp || this.displayedSnapshots.length == 0) {
+    if (!this.curGlobalTimestamp || this.displayedSnapshots.length === 0) {
       return false;
     }
     return (
