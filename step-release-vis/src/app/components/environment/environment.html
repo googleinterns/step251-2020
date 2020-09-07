@@ -29,6 +29,19 @@
        (mouseenter)="enteredEnvironment($event)"
        (mouseleave)="leftEnvironment($event)"
        (mousemove)="moveTooltip($event)">
+    <line [attr.x1]="0"
+          [attr.y1]="0"
+          [attr.x2]="svgWidth"
+          [attr.y2]="0"
+          stroke="gray"
+    />
+    <line *ngIf="!expanded"
+          [attr.x1]="0"
+          [attr.y1]="svgHeight"
+          [attr.x2]="svgWidth"
+          [attr.y2]="svgHeight"
+          stroke="gray"
+    />
     <polygon class="cand-polygon"
              *ngFor="let polygon of polygons"
              [attr.points]="polygon.toAttributeString()"
@@ -47,7 +60,8 @@
           *ngIf="displayedSnapshots.length === 0"
           [attr.x]="svgWidth / 2"
           [attr.y]="svgHeight / 2"
-          text-anchor="middle">
+          text-anchor="middle"
+          alignment-baseline="middle">
       No data for this period
     </text>
     <g id="timeline" *ngIf="expanded">
