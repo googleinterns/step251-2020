@@ -10,6 +10,7 @@ import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidateService';
 import {DebugElement, SimpleChange} from '@angular/core';
 import {TooltipComponent} from '../tooltip/tooltip';
+import {shouldBeautify} from '@angular-devkit/build-angular/src/utils/environment-options';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
@@ -221,6 +222,22 @@ describe('EnvironmentComponent', () => {
       expect(getLine().nativeElement.getAttribute('x')).toEqual(
         `${component.svgWidth - 1}`
       );
+    });
+
+    it(`should show if curGlobalTimestamp is in visible time range, shouldn't otherwise`, () => {
+      expect(getLine()).toBeFalsy();
+
+      component.currentSnapshot = {
+        timestamp: {seconds: component.startTimestamp, nanos: 0},
+        candidatesList: [],
+      };
+      component.curGlobalTimestamp.seconds = component.startTimestamp;
+      fixture.detectChanges();
+      expect(getLine()).toBeTruthy();
+
+      component.curGlobalTimestamp.seconds = component.startTimestamp - 1000;
+      fixture.detectChanges();
+      expect(getLine()).toBeFalsy();
     });
 
     function getLine(): DebugElement {
