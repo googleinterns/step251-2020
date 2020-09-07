@@ -331,9 +331,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       return false;
     }
     return (
-      this.displayedSnapshots[0].timestamp.seconds <
+      this.displayedSnapshots[0].timestamp.seconds <=
         this.curGlobalTimestamp.seconds &&
-      this.curGlobalTimestamp.seconds <
+      this.curGlobalTimestamp.seconds <=
         this.displayedSnapshots[this.displayedSnapshots.length - 1].timestamp
           .seconds
     );

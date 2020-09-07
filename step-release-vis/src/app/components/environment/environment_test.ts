@@ -39,6 +39,7 @@ describe('EnvironmentComponent', () => {
     component.environment = environmentServiceStub.env;
     component.startTimestamp = environmentServiceStub.envMin;
     component.endTimestamp = environmentServiceStub.envMax;
+    component.curGlobalTimestamp = {seconds: undefined};
     fixture.detectChanges();
   });
 
@@ -191,17 +192,16 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('current snapshot vertical line', () => {
-    it(`should show if currentSnapshot is present, shouldn't otherwise`, () => {
+    it(`should show if currentSnapshot is present`, () => {
+      expect(getLine()).toBeFalsy();
+
       component.currentSnapshot = {
-        timestamp: {seconds: 0, nanos: 0},
+        timestamp: {seconds: component.startTimestamp, nanos: 0},
         candidatesList: [],
       };
+      component.curGlobalTimestamp.seconds = component.startTimestamp;
       fixture.detectChanges();
       expect(getLine()).toBeTruthy();
-
-      component.currentSnapshot = undefined;
-      fixture.detectChanges();
-      expect(getLine()).toBeFalsy();
     });
 
     it('should respond to currentSnapshot changes', () => {
@@ -209,6 +209,7 @@ describe('EnvironmentComponent', () => {
         timestamp: {seconds: component.startTimestamp, nanos: 0},
         candidatesList: [],
       };
+      component.curGlobalTimestamp.seconds = component.startTimestamp;
       fixture.detectChanges();
       expect(getLine().nativeElement.getAttribute('x')).toEqual('-1');
 
