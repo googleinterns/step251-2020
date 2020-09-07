@@ -37,8 +37,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   currentSnapshot: Snapshot;
   currentCandidate: string;
 
-  tooltipHovered: boolean;
-
   constructor(
     private environmentService: EnvironmentService,
     private candidateService: CandidateService
