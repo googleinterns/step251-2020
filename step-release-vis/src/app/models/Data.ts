@@ -3,11 +3,9 @@ import {
   Snapshot as SnapshotProto,
   CandidateInfo as CandidateInfoProto,
 } from '../proto/generated/data_pb';
+import {google_protobuf_timestamp_pb} from 'google-protobuf/google/protobuf/timestamp_pb';
 
 export type Environment = EnvProto.AsObject;
 export type CandidateInfo = CandidateInfoProto.AsObject;
 export type Snapshot = SnapshotProto.AsObject;
-export interface Timestamp {
-  seconds: number;
-  nanos?: number;
-}
+export type Timestamp = google_protobuf_timestamp_pb.Timestamp.AsObject;
