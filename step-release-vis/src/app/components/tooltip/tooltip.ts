@@ -98,15 +98,6 @@ export class TooltipComponent implements OnInit {
     );
   }
 
-  enteredTooltip(): void {
-    this.tooltipHovered.emit(true);
-  }
-
-  leftTooltip(): void {
-    this.tooltipHovered.emit(false);
-    this.tooltip.clickOn = false;
-  }
-
   private updateStyle(): void {
     const tooltipElement = document.getElementById(this.tooltip.envName);
     if (tooltipElement) {

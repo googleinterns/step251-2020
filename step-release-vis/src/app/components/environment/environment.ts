@@ -204,8 +204,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   enteredEnvironment(event: MouseEvent): void {
-    this.tooltip.envName = this.environment.name;
-    this.moveTooltip(event);
+    if (!this.tooltip.clickOn) {
+      this.tooltip.envName = this.environment.name;
+      this.moveTooltip(event);
+    }
   }
 
   moveTooltip(event: MouseEvent): void {
@@ -223,8 +225,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     }
   }
 
-  // TODO(ancar): Make it work for when it leaves the environment, not
-  // it disappers only when you enter and then leave the tooltip.
   leftEnvironment(): void {
     if (!this.tooltip.clickOn) {
       this.hideTooltip();
@@ -335,15 +335,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.tooltip.clickOn = !this.tooltip.clickOn;
   }
 
-  setTooltipHovered(value: boolean): void {
-    this.tooltipHovered = value;
-  }
-
   leaveDiv(): void {
-    if (!this.tooltipHovered) {
-      this.hideTooltip();
-      this.currentSnapshot = undefined;
-      this.tooltip.clickOn = false;
-    }
+    this.hideTooltip();
+    this.currentSnapshot = undefined;
+    this.tooltip.clickOn = false;
   }
 }
