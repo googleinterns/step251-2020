@@ -52,6 +52,13 @@
       [attr.height]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
       fill="white"
     />
+    <text
+      *ngIf="displayedSnapshots.length === 0"
+      [attr.x]="svgWidth / 2"
+      [attr.y]="svgHeight / 2"
+      text-anchor="middle"
+    >No data for this period
+    </text>
     <g id="timeline" *ngIf="expanded">
       <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT + 10" [attr.width]="svgWidth" [attr.height]="2"
             fill="gray"/>
@@ -61,9 +68,7 @@
         [attr.y]="svgHeight - 12"
         [attr.text-anchor]="getTimelinePointTextAlignment(i)"
         font-size="12"
-      >
-        {{ timelinePoint.timeString }}
-      </text>
+      >{{ timelinePoint.timeString }}</text>
       <text
         *ngFor="let timelinePoint of timelinePoints; let i = index"
         [attr.x]="timelinePoint.x"
