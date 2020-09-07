@@ -25,9 +25,8 @@ export class EnvironmentsComponent implements OnInit {
 
   environments: Environment[];
 
-  envSmallWidth: number;
   envSmallHeight: number;
-  envBigWidth: number;
+  envWidth: number;
   envBigHeight: number;
 
   minTimestamp: number; // min timestamp across every environment
@@ -85,10 +84,9 @@ export class EnvironmentsComponent implements OnInit {
    * @param environments an array of environments
    */
   private processEnvironments(environments: Environment[]): void {
-    this.envSmallWidth =
+    this.envWidth =
       window.innerWidth - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
     this.envSmallHeight = window.innerHeight / this.ENVS_PER_PAGE;
-    this.envBigWidth = window.innerWidth - this.ENV_RIGHT_MARGIN;
     this.envBigHeight = window.innerHeight / this.ENVS_PER_PAGE_EXPANDED;
     this.environments = this.sortEnvSnapshots(environments);
 
@@ -139,7 +137,7 @@ export class EnvironmentsComponent implements OnInit {
       }
     }
     this.timelinePointsAmount = Math.floor(
-      this.envBigWidth / this.TIMELINE_POINT_WIDTH
+      this.envWidth / this.TIMELINE_POINT_WIDTH
     );
     this.timelinePoints = [];
     const timelineChunkSize =
@@ -155,7 +153,7 @@ export class EnvironmentsComponent implements OnInit {
             0,
             this.endTimestamp - this.startTimestamp,
             0,
-            this.envBigWidth
+            this.envWidth
           )
         )
       );

@@ -33,9 +33,8 @@ describe('EnvironmentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentComponent);
     component = fixture.componentInstance;
-    component.svgBigWidth = 100;
+    component.svgWidth = 100;
     component.svgBigHeight = 100;
-    component.svgSmallWidth = 80;
     component.svgSmallHeight = 30;
     component.environment = environmentServiceStub.env;
     component.startTimestamp = environmentServiceStub.envMin;
@@ -248,21 +247,21 @@ describe('EnvironmentComponent', () => {
   describe('expansion', () => {
     it('should be triggered on env title click', () => {
       expect(component.expanded).toBeFalse();
-      expect(component.svgWidth).toEqual(component.svgSmallWidth);
+      expect(component.svgWidth).toEqual(component.svgWidth);
       expect(component.svgHeight).toEqual(component.svgSmallHeight);
 
       fixture.debugElement
         .query(By.css('.title'))
         .triggerEventHandler('click', {});
       expect(component.expanded).toBeTrue();
-      expect(component.svgWidth).toEqual(component.svgBigWidth);
+      expect(component.svgWidth).toEqual(component.svgWidth);
       expect(component.svgHeight).toEqual(component.svgBigHeight);
 
       fixture.debugElement
         .query(By.css('.title'))
         .triggerEventHandler('click', {});
       expect(component.expanded).toBeFalse();
-      expect(component.svgWidth).toEqual(component.svgSmallWidth);
+      expect(component.svgWidth).toEqual(component.svgWidth);
       expect(component.svgHeight).toEqual(component.svgSmallHeight);
     });
 

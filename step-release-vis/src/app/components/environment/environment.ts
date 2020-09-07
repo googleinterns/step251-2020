@@ -24,13 +24,11 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   readonly TITLE_MARGIN = 10;
   readonly TITLE_ICON_SIZE = 20;
 
-  @Input() svgSmallWidth: number;
   @Input() svgSmallHeight: number;
-  @Input() svgBigWidth: number;
+  @Input() svgWidth: number;
   @Input() svgBigHeight: number;
   @Input() titleWidth;
 
-  svgWidth: number;
   svgHeight: number;
 
   @Input() startTimestamp: number;
@@ -308,18 +306,15 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   private updateDimensions(): void {
-    this.svgWidth = this.expanded ? this.svgBigWidth : this.svgSmallWidth;
     this.svgHeight = this.expanded ? this.svgBigHeight : this.svgSmallHeight;
   }
 
   getTitleDisplay(): string {
-    return this.expanded ? 'block' : 'inline';
+    return 'inline';
   }
 
   getTitleNameWidth(): string {
-    return this.expanded
-      ? 'auto'
-      : `${this.titleWidth - this.TITLE_MARGIN - this.TITLE_ICON_SIZE}px`;
+    return `${this.titleWidth - this.TITLE_MARGIN - this.TITLE_ICON_SIZE}px`;
   }
 
   getEnvPaddingBottom(): string {
