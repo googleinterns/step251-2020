@@ -10,7 +10,7 @@ import {Observable, of} from 'rxjs';
 export class EnvironmentService {
   BEGINNING: number;
   /* Edges stores the number of points shared by candidates, DTI: edges[x,y] = edges[y,x] */
-  edges: Map<[string, string], number> = new Map();
+  edges: Map<string, number> = new Map();
 
   constructor() {
     this.BEGINNING = -1;
@@ -85,11 +85,12 @@ export class EnvironmentService {
 
   private incrementNoOfEdges(cand1: string, cand2: string): void {
     let prevValue = 0;
-    if (this.edges.has([cand1, cand2]) === true) {
-      prevValue = this.edges.get([cand1, cand2]);
+    const key = cand1 + '-' + cand2;
+    if (this.edges.has(key) === true) {
+      prevValue = this.edges.get(key);
     }
 
-    this.edges.set([cand1, cand2], prevValue + 1);
+    this.edges.set(key, prevValue + 1);
   }
 
   private addEdgesForSnapshot(

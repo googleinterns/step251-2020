@@ -107,6 +107,10 @@ describe('EnvironmentService', () => {
       expect(result[0]).toEqual(poly0);
       expect(result[1]).toEqual(poly1);
       expect(result[2]).toEqual(poly2);
+
+      expect(service.edges.size).toEqual(2);
+      expect(service.edges.get('1-2')).toEqual(2);
+      expect(service.edges.get('2-1')).toEqual(2);
     });
 
     it('one candidate gets to 0 jobs', () => {
@@ -140,6 +144,10 @@ describe('EnvironmentService', () => {
         {x: 2, y: 100},
         {x: 1, y: 100},
       ]);
+
+      expect(service.edges.size).toEqual(2);
+      expect(service.edges.get('1-2')).toEqual(2);
+      expect(service.edges.get('2-1')).toEqual(2);
     });
 
     it('just one candidate with 100% of the jobs', () => {
@@ -158,6 +166,8 @@ describe('EnvironmentService', () => {
         {x: 1, y: 0},
         {x: 1, y: 100},
       ]);
+
+      expect(service.edges.size).toEqual(0);
     });
 
     it('all have 0 jobs', () => {
@@ -177,6 +187,10 @@ describe('EnvironmentService', () => {
       expect(result[0].points).toEqual([{x: 1, y: 100}]);
       expect(result[1].candName).toEqual('2');
       expect(result[1].points).toEqual([{x: 1, y: 100}]);
+
+      expect(service.edges.size).toEqual(2);
+      expect(service.edges.get('1-2')).toEqual(1);
+      expect(service.edges.get('2-1')).toEqual(1);
     });
 
     it('new candidate appears', () => {
@@ -209,6 +223,10 @@ describe('EnvironmentService', () => {
         {x: 2, y: 80},
         {x: 2, y: 100},
       ]);
+
+      expect(service.edges.size).toEqual(2);
+      expect(service.edges.get('1-2')).toEqual(1);
+      expect(service.edges.get('2-1')).toEqual(1);
     });
 
     it('both candidates get to 0 jobs at the same timestamp', () => {
@@ -240,6 +258,10 @@ describe('EnvironmentService', () => {
         {x: 2, y: 100},
         {x: 1, y: 100},
       ]);
+
+      expect(service.edges.size).toEqual(2);
+      expect(service.edges.get('1-2')).toEqual(2);
+      expect(service.edges.get('2-1')).toEqual(2);
     });
 
     it('one candidate appears and disapears', () => {
@@ -291,6 +313,10 @@ describe('EnvironmentService', () => {
         {x: 2, y: 65},
         {x: 1, y: 100},
       ]);
+
+      expect(service.edges.size).toEqual(2);
+      expect(service.edges.get('1-2')).toEqual(3);
+      expect(service.edges.get('2-1')).toEqual(3);
     });
   });
 
