@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {Environment, Timestamp} from '../../models/Data';
 import {DataService} from '../../services/dataService';
 import {ProtoBufferService} from '../../services/protoBufferService';
@@ -49,6 +49,11 @@ export class EnvironmentsComponent implements OnInit {
     this.readProtoBinaryData();
   }
 
+  @HostListener('window:resize')
+  onResize(): void {
+    this.refresh(false);
+  }
+
   private readProtoData(): void {
     this.readData(this.dataService.getLocalProtoData, data =>
       this.protoBufferService.getEnvsFromString(data)
@@ -84,13 +89,9 @@ export class EnvironmentsComponent implements OnInit {
    * @param environments an array of environments
    */
   private processEnvironments(environments: Environment[]): void {
-    this.envWidth =
-      window.innerWidth - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
-    this.envSmallHeight = window.innerHeight / this.ENVS_PER_PAGE;
-    this.envBigHeight = window.innerHeight / this.ENVS_PER_PAGE_EXPANDED;
     this.environments = this.sortEnvSnapshots(environments);
-
     let minTimestamp = Number.MAX_VALUE;
+
     let maxTimestamp = 0;
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshotsList) {
@@ -101,10 +102,24 @@ export class EnvironmentsComponent implements OnInit {
     this.minTimestamp = minTimestamp;
     this.maxTimestamp = maxTimestamp;
 
-    this.setStartEndTimestamps();
-    this.onTimeRangeUpdate();
+    this.refresh();
   }
 
+  /**
+   * Updates the displayed time range and screen size.
+   *
+   * @param assignNewColors indicates whether candidate colors should be recalculated
+   */
+  private refresh(assignNewColors = true): void {
+    this.setStartEndTimestamps();
+    this.updateDimensions(window.innerWidth, window.innerHeight);
+    this.onTimeRangeUpdate(assignNewColors);
+  }
+
+  /**
+   * Reads start/end timestamps from localStorage.
+   * Assigns maxTimestamp-WEEK/maxTimestamp, if no data is found.
+   */
   private setStartEndTimestamps(): void {
     const localStartTimestamp = this.getStartTimestampFromStorage();
     const localEndTimestamp = this.getEndTimestampFromStorage();
@@ -119,23 +134,18 @@ export class EnvironmentsComponent implements OnInit {
     }
   }
 
+  private updateDimensions(width: number, height: number): void {
+    this.envWidth = width - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
+    this.envSmallHeight = height / this.ENVS_PER_PAGE;
+    this.envBigHeight = height / this.ENVS_PER_PAGE_EXPANDED;
+  }
+
   /**
    * Updates the timeline with new start and end values (caught by child in ngOnChanges).
+   *
+   * @param assignNewColors indicates whether candidate colors should be recalculated
    */
-  onTimeRangeUpdate(): void {
-    const candNames = new Set<string>(); // candidates which fit start...end
-    for (const environment of this.environments) {
-      for (const snapshot of environment.snapshotsList) {
-        for (const candsInfo of snapshot.candidatesList) {
-          if (
-            snapshot.timestamp.seconds >= this.startTimestamp &&
-            snapshot.timestamp.seconds <= this.endTimestamp
-          ) {
-            candNames.add(candsInfo.candidate);
-          }
-        }
-      }
-    }
+  private onTimeRangeUpdate(assignNewColors): void {
     this.timelinePointsAmount = Math.floor(
       this.envWidth / this.TIMELINE_POINT_WIDTH
     );
@@ -158,11 +168,28 @@ export class EnvironmentsComponent implements OnInit {
         )
       );
     }
-    const shuffledIndices = shuffle(this.increasingSequence(0, candNames.size)); // mapping to shuffle the colors
-    [...candNames].forEach((name, index) => {
-      const color = this.getHue(shuffledIndices[index], candNames.size);
-      this.candidateService.addCandidate(color, name);
-    });
+    if (assignNewColors) {
+      const candNames = new Set<string>(); // candidates which fit start...end
+      for (const environment of this.environments) {
+        for (const snapshot of environment.snapshotsList) {
+          for (const candsInfo of snapshot.candidatesList) {
+            if (
+              snapshot.timestamp.seconds >= this.startTimestamp &&
+              snapshot.timestamp.seconds <= this.endTimestamp
+            ) {
+              candNames.add(candsInfo.candidate);
+            }
+          }
+        }
+      }
+      const shuffledIndices = shuffle(
+        this.increasingSequence(0, candNames.size)
+      ); // mapping to shuffle the colors
+      [...candNames].forEach((name, index) => {
+        const color = this.getHue(shuffledIndices[index], candNames.size);
+        this.candidateService.addCandidate(color, name);
+      });
+    }
   }
 
   /**
@@ -209,31 +236,31 @@ export class EnvironmentsComponent implements OnInit {
     });
   }
 
-  onEndTimestampChange(event: Event): void {
+  private onEndTimestampChange(event: Event): void {
     this.endTimestamp = this.getTimestampFromEvent(event);
     this.saveEndTimestampToStorage();
-    this.onTimeRangeUpdate();
+    this.onTimeRangeUpdate(true);
   }
 
-  onStartTimestampChange(event: Event): void {
+  private onStartTimestampChange(event: Event): void {
     this.startTimestamp = this.getTimestampFromEvent(event);
     this.saveStartTimestampToStorage();
-    this.onTimeRangeUpdate();
+    this.onTimeRangeUpdate(true);
   }
 
-  getStartTimestampFromStorage(): string {
+  private getStartTimestampFromStorage(): string {
     return sessionStorage.getItem(this.START_TIMESTAMP_KEY);
   }
 
-  saveStartTimestampToStorage(): void {
+  private saveStartTimestampToStorage(): void {
     sessionStorage.setItem(this.START_TIMESTAMP_KEY, `${this.startTimestamp}`);
   }
 
-  getEndTimestampFromStorage(): string {
+  private getEndTimestampFromStorage(): string {
     return sessionStorage.getItem(this.END_TIMESTAMP_KEY);
   }
 
-  saveEndTimestampToStorage(): void {
+  private saveEndTimestampToStorage(): void {
     sessionStorage.setItem(this.END_TIMESTAMP_KEY, `${this.endTimestamp}`);
   }
 
