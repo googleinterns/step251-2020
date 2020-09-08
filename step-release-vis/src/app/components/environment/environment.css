@@ -19,6 +19,10 @@
   display: inline
 }
 
+#no-data {
+  font-size: 12px;
+}
+
 #cur-snapshot-line {
   pointer-events: none;
   mix-blend-mode: difference;

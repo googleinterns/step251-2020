@@ -6,81 +6,89 @@
 >
 </app-tooltip>
 <div class="environment-container"
-     [ngStyle]="{'padding-bottom': getEnvPaddingBottom()}"
->
+     [ngStyle]="{'padding-bottom': getEnvPaddingBottom()}">
   <div class="title"
        [ngStyle]="{display: getTitleDisplay()}"
-       (click)="handleExpand()"
-  >
-    <svg
-      class="expand-icon"
-      [attr.width]="TITLE_ICON_SIZE + 'px'"
-      [attr.height]="TITLE_ICON_SIZE + 'px'"
-    >
+       (click)="handleExpand()">
+    <svg class="expand-icon"
+         [attr.width]="TITLE_ICON_SIZE + 'px'"
+         [attr.height]="TITLE_ICON_SIZE + 'px'">
       <g [attr.transform]="expanded ? 'translate(0, 5)' : 'translate(0, 4)'">
         <polygon [attr.points]="expanded ? '0,0 10,0 5,8.66' : '0,0 8.66,5 0,10'" fill="dimgrey"/>
       </g>
     </svg>
-    <p
-      class="environment-title"
-      [ngStyle]="{width: getTitleNameWidth(),'margin-right': TITLE_MARGIN + 'px'}"
-    >{{environment.name}}</p>
+    <p class="environment-title"
+       [ngStyle]="{width: getTitleNameWidth(),'margin-right': TITLE_MARGIN + 'px'}">
+      {{environment.name}}
+    </p>
   </div>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    id="{{environment.name}}-svg"
-    [attr.width]="svgWidth"
-    [attr.height]="svgHeight"
-    (mouseenter)="enteredEnvironment($event)"
-    (mouseleave)="leftEnvironment($event)"
-    (mousemove)="moveTooltip($event)">
-    <polygon
-      class="cand-polygon"
-      *ngFor="let polygon of polygons"
-      [attr.points]="polygon.toAttributeString()"
-      [attr.fill]="getColor(polygon)"
-      [attr.fill-opacity]="getOpacity(polygon)"
-      (mouseenter)="enteredPolygon(polygon)"
-      (mouseleave)="leftPolygon(polygon)"
+  <svg xmlns="http://www.w3.org/2000/svg"
+       id="{{environment.name}}-svg"
+       [attr.width]="svgWidth"
+       [attr.height]="svgHeight"
+       (mouseenter)="enteredEnvironment($event)"
+       (mouseleave)="leftEnvironment($event)"
+       (mousemove)="moveTooltip($event)">
+    <line [attr.x1]="0"
+          [attr.y1]="0"
+          [attr.x2]="svgWidth"
+          [attr.y2]="0"
+          stroke="gray"
     />
-    <rect
-      *ngIf="shouldDisplayLine()"
-      id="cur-snapshot-line"
-      [attr.x]="getLineX() - 1"
-      [attr.y]="0"
-      [attr.width]="2"
-      [attr.height]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
-      fill="white"
+    <line *ngIf="!expanded"
+          [attr.x1]="0"
+          [attr.y1]="svgHeight"
+          [attr.x2]="svgWidth"
+          [attr.y2]="svgHeight"
+          stroke="gray"
     />
+    <polygon class="cand-polygon"
+             *ngFor="let polygon of polygons"
+             [attr.points]="polygon.toAttributeString()"
+             [attr.fill]="getColor(polygon)"
+             [attr.fill-opacity]="getOpacity(polygon)"
+             (mouseenter)="enteredPolygon(polygon)"
+             (mouseleave)="leftPolygon(polygon)"/>
+    <rect *ngIf="shouldDisplayLine()"
+          id="cur-snapshot-line"
+          [attr.x]="getLineX() - 1"
+          [attr.y]="0"
+          [attr.width]="2"
+          [attr.height]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
+          fill="white"/>
+    <text id="no-data"
+          *ngIf="displayedSnapshots.length === 0"
+          [attr.x]="svgWidth / 2"
+          [attr.y]="svgHeight / 2"
+          text-anchor="middle"
+          alignment-baseline="central">
+      No data for this period
+    </text>
     <g id="timeline" *ngIf="expanded">
-      <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT + 10" [attr.width]="svgWidth" [attr.height]="2"
+      <rect [attr.x]="0"
+            [attr.y]="svgHeight - TIMELINE_HEIGHT + 10"
+            [attr.width]="svgWidth" [attr.height]="2"
             fill="gray"/>
-      <text
-        *ngFor="let timelinePoint of timelinePoints; let i = index"
-        [attr.x]="timelinePoint.x"
-        [attr.y]="svgHeight - 12"
-        [attr.text-anchor]="getTimelinePointTextAlignment(i)"
-        font-size="12"
-      >
+      <text *ngFor="let timelinePoint of timelinePoints; let i = index"
+            [attr.x]="timelinePoint.x"
+            [attr.y]="svgHeight - 12"
+            [attr.text-anchor]="getTimelinePointTextAlignment(i)"
+            font-size="12">
         {{ timelinePoint.timeString }}
       </text>
-      <text
-        *ngFor="let timelinePoint of timelinePoints; let i = index"
-        [attr.x]="timelinePoint.x"
-        [attr.y]="svgHeight"
-        [attr.text-anchor]="getTimelinePointTextAlignment(i)"
-        font-size="12"
-      >
+      <text *ngFor="let timelinePoint of timelinePoints; let i = index"
+            [attr.x]="timelinePoint.x"
+            [attr.y]="svgHeight"
+            [attr.text-anchor]="getTimelinePointTextAlignment(i)"
+            font-size="12">
         {{ timelinePoint.dateString }}
       </text>
-      <line
-        *ngFor="let timelinePoint of timelinePoints"
-        [attr.x1]="timelinePoint.x"
-        [attr.y1]="svgHeight - TIMELINE_HEIGHT + 2"
-        [attr.x2]="timelinePoint.x"
-        [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 - 3"
-        stroke="gray"
-      />
+      <line *ngFor="let timelinePoint of timelinePoints"
+            [attr.x1]="timelinePoint.x"
+            [attr.y1]="svgHeight - TIMELINE_HEIGHT + 2"
+            [attr.x2]="timelinePoint.x"
+            [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 - 3"
+            stroke="gray"/>
     </g>
   </svg>
 </div>
