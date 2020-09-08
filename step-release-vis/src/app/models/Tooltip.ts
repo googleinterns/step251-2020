@@ -7,6 +7,7 @@
 export class Tooltip {
   mouseX: number;
   mouseY: number;
+  clickOn: boolean;
 
   show = false;
 

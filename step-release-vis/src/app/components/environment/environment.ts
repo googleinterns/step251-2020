@@ -42,6 +42,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   displayedSnapshots: Snapshot[];
 
   currentSnapshot: Snapshot;
+  // when clickOn is true, the tooltip and the line stop moving after the mouse
+  clickOn: boolean;
   currentCandidate: string;
   expanded = false;
 
@@ -200,25 +202,33 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   enteredEnvironment(event: MouseEvent): void {
-    this.tooltip.envName = this.environment.name;
-    this.moveTooltip(event);
+    if (!this.tooltip.clickOn) {
+      this.tooltip.envName = this.environment.name;
+      this.moveTooltip(event);
+    }
   }
 
   moveTooltip(event: MouseEvent): void {
-    this.tooltip.mouseX = event.pageX - window.scrollX;
-    this.tooltip.mouseY = event.pageY - window.scrollY;
-    this.tooltip.show = true;
+    if (!this.tooltip.clickOn) {
+      this.tooltip.mouseX = event.pageX - window.scrollX;
+      this.tooltip.mouseY = event.pageY - window.scrollY;
+      this.tooltip.show = true;
 
-    const svgElement = document.getElementById(this.environment.name + '-svg');
-    const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
+      const svgElement = document.getElementById(
+        this.environment.name + '-svg'
+      );
+      const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
 
-    this.updateCurrentSnapshot(svgMouseX);
+      this.updateCurrentSnapshot(svgMouseX);
+    }
   }
 
-  leftEnvironment(event: MouseEvent): void {
-    this.hideTooltip();
-    this.currentSnapshot = undefined;
-    this.curGlobalTimestamp.seconds = undefined;
+  leftEnvironment(): void {
+    if (!this.tooltip.clickOn) {
+      this.hideTooltip();
+      this.currentSnapshot = undefined;
+      this.curGlobalTimestamp.seconds = undefined;
+    }
   }
 
   hideTooltip(): void {
@@ -335,5 +345,18 @@ export class EnvironmentComponent implements OnInit, OnChanges {
         this.displayedSnapshots[this.displayedSnapshots.length - 1].timestamp
           .seconds
     );
+  }
+
+  /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either
+  clickOn becomes false or the mouse leaves the <div> of the environment */
+  updateClickOn(event: MouseEvent): void {
+    this.tooltip.clickOn = !this.tooltip.clickOn;
+    this.moveTooltip(event);
+  }
+
+  leaveDiv(): void {
+    this.hideTooltip();
+    this.currentSnapshot = undefined;
+    this.tooltip.clickOn = false;
   }
 }
