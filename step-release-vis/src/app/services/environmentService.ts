@@ -9,7 +9,7 @@ import {Observable, of} from 'rxjs';
 })
 export class EnvironmentService {
   BEGINNING: number;
-  /* Edges stores the number of points shared by candidates, DTI: edges[x,y] = edges[y,x] */
+  /* Edges stores the number of points shared by candidates, DTI: edges[x-y] = edges[y-x] */
   edges: Map<string, number> = new Map();
 
   constructor() {
