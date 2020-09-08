@@ -37,6 +37,17 @@
       (mouseleave)="leftEnvironment()"
       (mousemove)="moveTooltip($event)"
       (click)="updateClickOn($event)">
+      <line [attr.x1]="0"
+            [attr.y1]="0"
+            [attr.x2]="svgWidth"
+            [attr.y2]="0"
+            stroke="gray"/>
+      <line *ngIf="!expanded"
+            [attr.x1]="0"
+            [attr.y1]="svgHeight"
+            [attr.x2]="svgWidth"
+            [attr.y2]="svgHeight"
+            stroke="gray"/>
       <polygon
         class="cand-polygon"
         *ngFor="let polygon of polygons"
@@ -55,6 +66,12 @@
         [attr.height]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
         fill="white"
       />
+      <text id="no-data"
+            *ngIf="displayedSnapshots.length === 0"
+            [attr.x]="svgWidth / 2"
+            [attr.y]="svgHeight / 2">
+        No data for this period
+      </text>
       <g id="timeline" *ngIf="expanded">
         <rect [attr.x]="0" [attr.y]="svgHeight - TIMELINE_HEIGHT + 10" [attr.width]="svgWidth" [attr.height]="2"
               fill="gray"/>
