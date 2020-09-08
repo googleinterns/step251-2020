@@ -358,17 +358,21 @@ describe('EnvironmentComponent', () => {
     expect(fixture.debugElement.query(By.css('app-tooltip'))).toBeFalsy();
   });
 
-  describe('time range update', () => {
+  describe('width update', () => {
     let oldWidth;
+    let oldHeight;
     beforeEach(() => {
       oldWidth = component.svgWidth;
+      oldHeight = component.svgSmallHeight;
       component.ngOnChanges({
         svgWidth: new SimpleChange(oldWidth, oldWidth - 100, false),
+        svgSmallHeight: new SimpleChange(oldHeight, oldHeight - 100, false),
       });
     });
 
     it('should update fields', () => {
       expect(component.svgWidth).toEqual(oldWidth - 100);
+      expect(component.svgSmallHeight).toEqual(oldHeight - 100);
     });
 
     it('should update snapshots', () => {

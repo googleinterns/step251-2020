@@ -2,7 +2,11 @@
   font-family: Roboto, Arial, sans-serif;
 }
 
-.environment-title {
+.title {
+  display: inline;
+}
+
+.title-name {
   color: dimgrey;
   margin-bottom: 0;
   margin-top: 0;
@@ -16,7 +20,11 @@
 
 .expand-icon {
   vertical-align: top;
-  display: inline
+  display: inline-block;
+}
+
+.env-svg {
+  vertical-align: top;
 }
 
 #no-data {
