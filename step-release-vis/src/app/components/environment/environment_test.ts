@@ -33,9 +33,9 @@ describe('EnvironmentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentComponent);
     component = fixture.componentInstance;
-    component.svgWidth = 100;
-    component.svgBigHeight = 100;
-    component.svgSmallHeight = 30;
+    component.svgWidth = 1000;
+    component.svgBigHeight = 1000;
+    component.svgSmallHeight = 800;
     component.environment = environmentServiceStub.env;
     component.startTimestamp = environmentServiceStub.envMin;
     component.endTimestamp = environmentServiceStub.envMax;
@@ -290,7 +290,7 @@ describe('EnvironmentComponent', () => {
       const svg = fixture.debugElement.query(
         By.css(`#${component.environment.name}-svg`)
       );
-      svg.triggerEventHandler('mouseenter', {});
+      svg.triggerEventHandler('mouseenter', {pageX: 100, pageY: 100});
       fixture.detectChanges();
 
       expect(component.tooltip.envName).toBe(component.environment.name);
@@ -306,7 +306,7 @@ describe('EnvironmentComponent', () => {
       expect(component.tooltip.mouseX).toEqual(100);
       expect(component.tooltip.mouseY).toEqual(100);
 
-      svg.triggerEventHandler('click', {});
+      svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
       fixture.detectChanges();
       svg.triggerEventHandler('mousemove', {pageX: 110});
       fixture.detectChanges();
@@ -320,16 +320,16 @@ describe('EnvironmentComponent', () => {
       const svg = fixture.debugElement.query(
         By.css(`#${component.environment.name}-svg`)
       );
-      svg.triggerEventHandler('mouseleave', {});
+      svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
       fixture.detectChanges();
 
       expect(component.tooltip.show).toBeFalse();
 
-      svg.triggerEventHandler('mouseenter', {});
+      svg.triggerEventHandler('mouseenter', {pageX: 100, pageY: 100});
       fixture.detectChanges();
-      svg.triggerEventHandler('click', {});
+      svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
       fixture.detectChanges();
-      svg.triggerEventHandler('mouseleave', {});
+      svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
       fixture.detectChanges();
 
       expect(component.tooltip.show).toBeTrue();
@@ -340,12 +340,12 @@ describe('EnvironmentComponent', () => {
     const svg = fixture.debugElement.query(
       By.css(`#${component.environment.name}-svg`)
     );
-    svg.triggerEventHandler('click', {});
+    svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
     fixture.detectChanges();
 
     expect(component.tooltip.clickOn).toBeTrue();
 
-    svg.triggerEventHandler('click', {});
+    svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
     fixture.detectChanges();
 
     expect(component.tooltip.clickOn).toBeFalse();
@@ -356,5 +356,30 @@ describe('EnvironmentComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('app-tooltip'))).toBeFalsy();
+  });
+
+  describe('time range update', () => {
+    let oldWidth;
+    beforeEach(() => {
+      oldWidth = component.svgWidth;
+      component.ngOnChanges({
+        svgWidth: new SimpleChange(oldWidth, oldWidth - 100, false),
+      });
+    });
+
+    it('should update fields', () => {
+      expect(component.svgWidth).toEqual(oldWidth - 100);
+    });
+
+    it('should update snapshots', () => {
+      component.polygons.forEach(({points}) =>
+        points.forEach(({x, y}) => {
+          expect(x).toBeGreaterThanOrEqual(0);
+          expect(x).toBeLessThanOrEqual(component.svgWidth);
+          expect(y).toBeGreaterThanOrEqual(0);
+          expect(y).toBeLessThanOrEqual(component.svgHeight);
+        })
+      );
+    });
   });
 });

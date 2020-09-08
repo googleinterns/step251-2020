@@ -246,4 +246,14 @@ describe('EnvironmentsComponent', () => {
     // @ts-ignore
     return {target: {value: component.getLocalISOString(value)}};
   }
+
+  describe('window width resize', () => {
+    it('should trigger #refresh', () => {
+      // @ts-ignore
+      spyOn(component, 'refresh');
+      window.dispatchEvent(new Event('resize'));
+      // @ts-ignore
+      expect(component.refresh).toHaveBeenCalled();
+    });
+  });
 });

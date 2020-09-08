@@ -72,7 +72,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     const svgWidth = changes.svgWidth;
     if (svgWidth && !svgWidth.isFirstChange()) {
       this.svgWidth = svgWidth.currentValue;
-      console.log(1);
       changed = true;
     }
     if (changed) {

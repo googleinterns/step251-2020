@@ -112,7 +112,7 @@ export class EnvironmentsComponent implements OnInit {
    */
   private refresh(assignNewColors = true): void {
     this.setStartEndTimestamps();
-    this.updateDimensions();
+    this.updateDimensions(window.innerWidth, window.innerHeight);
     this.onTimeRangeUpdate(assignNewColors);
   }
 
@@ -132,6 +132,12 @@ export class EnvironmentsComponent implements OnInit {
       this.saveStartTimestampToStorage();
       this.saveEndTimestampToStorage();
     }
+  }
+
+  private updateDimensions(width: number, height: number): void {
+    this.envWidth = width - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
+    this.envSmallHeight = height / this.ENVS_PER_PAGE;
+    this.envBigHeight = height / this.ENVS_PER_PAGE_EXPANDED;
   }
 
   /**
@@ -256,13 +262,6 @@ export class EnvironmentsComponent implements OnInit {
 
   private saveEndTimestampToStorage(): void {
     sessionStorage.setItem(this.END_TIMESTAMP_KEY, `${this.endTimestamp}`);
-  }
-
-  private updateDimensions(): void {
-    this.envWidth =
-      window.innerWidth - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
-    this.envSmallHeight = window.innerHeight / this.ENVS_PER_PAGE;
-    this.envBigHeight = window.innerHeight / this.ENVS_PER_PAGE_EXPANDED;
   }
 
   /**
