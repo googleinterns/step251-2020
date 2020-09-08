@@ -13,8 +13,8 @@ import {Observable} from 'rxjs';
   styleUrls: ['./environments.css'],
 })
 export class EnvironmentsComponent implements OnInit {
-  readonly ENVS_PER_PAGE = 30;
-  readonly ENVS_PER_PAGE_EXPANDED = 7;
+  readonly ENV_MARGIN_BOTTOM = 7;
+  readonly ENV_EXPANDED_HEIGHT = 170;
   readonly ENV_RIGHT_MARGIN = 20;
   readonly TITLE_WIDTH = 280;
   readonly TIMELINE_POINT_WIDTH = 130;
@@ -136,8 +136,11 @@ export class EnvironmentsComponent implements OnInit {
 
   private updateDimensions(width: number, height: number): void {
     this.envWidth = width - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
-    this.envSmallHeight = height / this.ENVS_PER_PAGE;
-    this.envBigHeight = height / this.ENVS_PER_PAGE_EXPANDED;
+    this.envSmallHeight = Math.min(
+      (height - 50) / this.environments.length - this.ENV_MARGIN_BOTTOM,
+      50
+    );
+    this.envBigHeight = this.ENV_EXPANDED_HEIGHT;
   }
 
   /**

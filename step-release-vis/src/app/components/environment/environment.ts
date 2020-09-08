@@ -27,7 +27,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   @Input() svgSmallHeight: number;
   @Input() svgWidth: number;
   @Input() svgBigHeight: number;
-  @Input() titleWidth;
+  @Input() titleWidth: number;
+  @Input() envMarginBottom: number;
 
   svgHeight: number;
 
@@ -58,31 +59,39 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let changed = false;
-    const startChanges = changes.startTimestamp;
-    if (startChanges && !startChanges.isFirstChange()) {
-      this.startTimestamp = startChanges.currentValue;
-      changed = true;
-    }
-    const endChanges = changes.endTimestamp;
-    if (endChanges && !endChanges.isFirstChange()) {
-      this.endTimestamp = endChanges.currentValue;
-      changed = true;
-    }
-    const svgWidth = changes.svgWidth;
-    if (svgWidth && !svgWidth.isFirstChange()) {
-      this.svgWidth = svgWidth.currentValue;
-      changed = true;
-    }
-    if (changed) {
+    const vars = [
+      'startTimestamp',
+      'endTimestamp',
+      'svgWidth',
+      'svgSmallHeight',
+    ];
+    if (this.checkChanges(vars, changes)) {
       this.processEnvironment();
     }
+  }
+
+  private checkChanges(vars: string[], changes: SimpleChanges): boolean {
+    return vars.reduce(
+      (changed, varName) => this.checkChange(varName, changes) || changed,
+      false
+    );
+  }
+
+  private checkChange(name: string, changes: SimpleChanges): boolean {
+    let changed = false;
+    const change = changes[name];
+    if (change && !change.isFirstChange()) {
+      this[name] = change.currentValue;
+      changed = true;
+    }
+    return changed;
   }
 
   /**
    * Initialises component fields, calculates the polygons.
    */
   private processEnvironment(): void {
+    this.updateDimensions();
     this.displayedSnapshots = this.filterSnapshots(this.environment);
     this.environmentService
       .getPolygons(this.displayedSnapshots)
@@ -327,16 +336,14 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.svgHeight = this.expanded ? this.svgBigHeight : this.svgSmallHeight;
   }
 
-  getTitleDisplay(): string {
-    return 'inline';
-  }
-
   getTitleNameWidth(): string {
     return `${this.titleWidth - this.TITLE_MARGIN - this.TITLE_ICON_SIZE}px`;
   }
 
   getEnvPaddingBottom(): string {
-    return this.expanded ? '15px' : '0px';
+    return (
+      (this.expanded ? this.envMarginBottom * 2 : this.envMarginBottom) + 'px'
+    );
   }
 
   shouldDisplayLine(): boolean {
@@ -363,5 +370,36 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.hideTooltip();
     this.currentSnapshot = undefined;
     this.tooltip.clickOn = false;
+  }
+
+  getTitleHeight(): string {
+    return Math.min(this.svgSmallHeight, 16) + 'px';
+  }
+
+  getExpandIcon(): string {
+    const expanded: Point[] = [
+      {x: 0, y: 0},
+      {x: 1, y: 0},
+      {x: 0.5, y: 0.866},
+    ];
+    const nonExpanded: Point[] = [
+      {x: 0, y: 0},
+      {x: 0.866, y: 0.5},
+      {x: 0, y: 1},
+    ];
+    const size = Math.min(this.svgSmallHeight, 16);
+    const shrinkFactor = 1.5;
+    const cur = this.expanded ? expanded : nonExpanded;
+    const shift = (size - size / shrinkFactor) / 2;
+    return cur
+      .map(
+        point =>
+          new Point(
+            (point.x * size) / shrinkFactor,
+            (point.y * size) / shrinkFactor + shift
+          )
+      )
+      .map(({x, y}) => `${x},${y}`)
+      .join(' ');
   }
 }
