@@ -57,6 +57,29 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.processEnvironment();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    let changed = false;
+    const startChanges = changes.startTimestamp;
+    if (startChanges && !startChanges.isFirstChange()) {
+      this.startTimestamp = startChanges.currentValue;
+      changed = true;
+    }
+    const endChanges = changes.endTimestamp;
+    if (endChanges && !endChanges.isFirstChange()) {
+      this.endTimestamp = endChanges.currentValue;
+      changed = true;
+    }
+    const svgWidth = changes.svgWidth;
+    if (svgWidth && !svgWidth.isFirstChange()) {
+      this.svgWidth = svgWidth.currentValue;
+      console.log(1);
+      changed = true;
+    }
+    if (changed) {
+      this.processEnvironment();
+    }
+  }
+
   /**
    * Initialises component fields, calculates the polygons.
    */
@@ -112,23 +135,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       return scaledPolygon;
     });
     this.candidateService.addPolygons(this.polygons);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    let changed = false;
-    const startChanges = changes.startTimestamp;
-    if (startChanges && !startChanges.isFirstChange()) {
-      this.startTimestamp = startChanges.currentValue;
-      changed = true;
-    }
-    const endChanges = changes.endTimestamp;
-    if (endChanges && !endChanges.isFirstChange()) {
-      this.endTimestamp = endChanges.currentValue;
-      changed = true;
-    }
-    if (changed) {
-      this.processEnvironment();
-    }
   }
 
   /**
