@@ -21,6 +21,8 @@
 
 #no-data {
   font-size: 12px;
+  text-anchor: middle;
+  alignment-baseline: central;
 }
 
 #cur-snapshot-line {
