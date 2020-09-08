@@ -9,6 +9,8 @@ import {Observable, of} from 'rxjs';
 })
 export class EnvironmentService {
   BEGINNING: number;
+  /* Edges stores the number of points shared by candidates */
+  edges: Map<[string, string], number> = new Map();
 
   constructor() {
     this.BEGINNING = -1;
@@ -20,6 +22,7 @@ export class EnvironmentService {
   }
 
   private calculatePolygons(snapshots: Snapshot[]): Polygon[] {
+    this.edges.clear();
     const polys: Polygon[] = [];
     let numberOfPolygons = 0;
 
@@ -49,6 +52,8 @@ export class EnvironmentService {
         lastTimeStamp
       );
 
+      this.addEdgesForSnapshot(newTimestampLowerBoundSet);
+
       lastTimestampLowerBoundSet = this.closePolygons(
         polys,
         lowerBounds,
@@ -76,6 +81,27 @@ export class EnvironmentService {
     }
 
     return polys;
+  }
+
+  private incrementNoOfEdges(cand1: string, cand2: string): void {
+    let prevValue = 0;
+    if (this.edges.has([cand1, cand2]) === true) {
+      prevValue = this.edges.get([cand1, cand2]);
+    }
+
+    this.edges.set([cand1, cand2], prevValue + 1);
+  }
+
+  private addEdgesForSnapshot(
+    timestampLowerBoundSet: TimestampLowerBoundSet
+  ): void {
+    let prevPoly: PolygonLowerBoundYPosition;
+    for (const poly of timestampLowerBoundSet.snapshot) {
+      if (prevPoly !== undefined) {
+        this.incrementNoOfEdges(prevPoly.candName, poly.candName);
+      }
+      prevPoly = poly;
+    }
   }
 
   private addPointToBorderMap(
