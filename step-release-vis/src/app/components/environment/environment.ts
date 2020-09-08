@@ -261,6 +261,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
    * @param svgMouseX the position of the mouse relative to the svg
    */
   updateCurrentSnapshot(svgMouseX: number): void {
+    if (this.displayedSnapshots.length === 0) {
+      return;
+    }
     const firstDisplayedTimestampScaled = this.getPositionFromTimestamp(
       this.displayedSnapshots[0].timestamp.seconds
     );
@@ -332,7 +335,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   shouldDisplayLine(): boolean {
-    if (!this.curGlobalTimestamp) {
+    if (!this.curGlobalTimestamp || this.displayedSnapshots.length === 0) {
       return false;
     }
     return (
