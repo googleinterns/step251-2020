@@ -9,7 +9,7 @@ import {Observable, of} from 'rxjs';
 })
 export class EnvironmentService {
   BEGINNING: number;
-  /* Edges stores the number of points shared by candidates */
+  /* Edges stores the number of points shared by candidates, DTI: edges[x,y] = edges[y,x] */
   edges: Map<[string, string], number> = new Map();
 
   constructor() {
@@ -99,6 +99,7 @@ export class EnvironmentService {
     for (const poly of timestampLowerBoundSet.snapshot) {
       if (prevPoly !== undefined) {
         this.incrementNoOfEdges(prevPoly.candName, poly.candName);
+        this.incrementNoOfEdges(poly.candName, prevPoly.candName);
       }
       prevPoly = poly;
     }
