@@ -108,10 +108,11 @@ export class CandidateEdge {
   }
 
   static fromKey(key: string): CandidateEdge {
-    return new CandidateEdge('a', 'b');
+    const cands: string[] = key.split('\n');
+    return new CandidateEdge(cands[0], cands[1]);
   }
 
   toKey(): string {
-    return this.candidate1 + '-this is a key-' + this.candidate2;
+    return this.candidate1 + '\n' + this.candidate2;
   }
 }

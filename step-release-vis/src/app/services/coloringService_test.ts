@@ -19,7 +19,7 @@ describe('ColoringService', () => {
     it('should construct empty graph', () => {
       const edges: Map<string, number> = new Map();
       // @ts-ignore
-      service.constructGraph(edges);
+      service.constructGraph(edges, new Set(['1', '2', '3']));
 
       expect(service.edgeOccurrences).toEqual(new Map());
       expect(service.candidateGraph).toEqual(new Map());
@@ -39,7 +39,7 @@ describe('ColoringService', () => {
       ]);
 
       // @ts-ignore
-      service.constructGraph(edges);
+      service.constructGraph(edges, new Set(['1', '2', '3']));
       expect(service.edgeOccurrences).toEqual(edges);
       expect(service.candidateGraph).toEqual(graph);
     });
