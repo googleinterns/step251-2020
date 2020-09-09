@@ -87,5 +87,35 @@ describe('ColoringService', () => {
         new CandidateColor('3', 3),
       ]);
     });
+
+    describe('#selectColorIndex', () => {
+      beforeEach(() => {
+        service.noOfCandidates = 3;
+        service.candidateGraph.set('1', ['2', '3']);
+        service.colorOf = new Map();
+      });
+
+      it('no neighbours are colored', () => {
+        // @ts-ignore
+        service.selectColorIndex('1');
+        expect(service.colorOf.get('1')).toEqual(0);
+      });
+
+      it('both neighbours are colored, different interval lengths', () => {
+        service.colorOf.set('2', 0);
+        service.colorOf.set('3', 1);
+        // @ts-ignore
+        service.selectColorIndex('1');
+        expect(service.colorOf.get('1')).toEqual(2);
+      });
+
+      it('both neighbours are colored, same interval lengths', () => {
+        service.colorOf.set('2', 0);
+        service.colorOf.set('3', 1.5);
+        // @ts-ignore
+        service.selectColorIndex('1');
+        expect(service.colorOf.get('1')).toEqual(0.75);
+      });
+    });
   });
 });

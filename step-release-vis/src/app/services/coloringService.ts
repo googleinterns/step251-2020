@@ -11,7 +11,7 @@ export class ColoringService {
    * and coloring the candidates iteratively.
    * O(edges * log edges + candidates)
    */
-  private noOfCandidates: number;
+  noOfCandidates: number;
   private candNames: Set<string>;
   candidateGraph: Map<string, string[]> = new Map(); // what candidates share sides?
   colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
@@ -59,6 +59,53 @@ export class ColoringService {
       this.addEdgeToGraph(edge.candidate1, edge.candidate2);
       this.addEdgeToGraph(edge.candidate2, edge.candidate1);
     }
+  }
+
+  /* Chooses color index for a candidate by looking at the colors of its neighbours
+   * Takes the middle of the largest color interval.
+   * The indexes represent the ordering, so they won't be necessarily integers.
+   */
+  private selectColorIndex(candidate: string): void {
+    const edges = this.candidateGraph.get(candidate);
+    const neighboursColors: number[] = [];
+
+    for (const neighbour of edges) {
+      if (this.colorOf.has(neighbour) === true) {
+        neighboursColors.push(this.colorOf.get(neighbour));
+      }
+    }
+
+    if (neighboursColors.length === 0) {
+      this.colorOf.set(candidate, 0);
+      return;
+    }
+
+    neighboursColors.sort();
+
+    let answer = -1;
+    let largestSpace = 0;
+    // Get the color in the middle of the largest space
+    for (let i = 0; i < neighboursColors.length - 1; i++) {
+      const distance = neighboursColors[i + 1] - neighboursColors[i];
+      if (distance > largestSpace) {
+        largestSpace = distance;
+        answer = (neighboursColors[i + 1] + neighboursColors[i]) / 2;
+      }
+    }
+
+    // Since color range is circular, check the interval between [end, start]
+    const smallest = neighboursColors[0];
+    const largest = neighboursColors[neighboursColors.length - 1];
+
+    if (smallest + this.noOfCandidates - largest > largestSpace) {
+      answer = (largest + smallest + this.noOfCandidates) / 2;
+      if (answer >= this.noOfCandidates) {
+        answer -= this.noOfCandidates;
+      }
+      largestSpace = smallest + this.noOfCandidates - largest;
+    }
+
+    this.colorOf.set(candidate, answer);
   }
 
   /* Splits the color palette like so
