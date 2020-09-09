@@ -99,6 +99,7 @@ export class CandidateColor {
 }
 
 export class CandidateEdge {
+  private readonly separator = '\n';
   candidate1: string;
   candidate2: string;
 
@@ -108,11 +109,11 @@ export class CandidateEdge {
   }
 
   static fromKey(key: string): CandidateEdge {
-    const cands: string[] = key.split('\n');
+    const cands: string[] = key.split(this.separator);
     return new CandidateEdge(cands[0], cands[1]);
   }
 
   toKey(): string {
-    return this.candidate1 + '\n' + this.candidate2;
+    return this.candidate1 + this.separator + this.candidate2;
   }
 }
