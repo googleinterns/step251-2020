@@ -35,7 +35,7 @@
             [attr.width]="envWidth"
             [attr.height]="2"
             fill="gray"/>
-      <circle *ngIf="curGlobalTimestamp"
+      <circle *ngIf="shouldDisplayTimelineCircle()"
               id="cur-snapshot-line"
               [attr.cx]="getLineX() - 1"
               [attr.cy]="getTimelineHeight() / 2 + 9"
@@ -91,7 +91,7 @@
             [attr.width]="envWidth"
             [attr.height]="2"
             fill="gray"/>
-      <circle *ngIf="curGlobalTimestamp"
+      <circle *ngIf="shouldDisplayTimelineCircle()"
             id="cur-snapshot-line"
             [attr.cx]="getLineX() - 1"
             [attr.cy]="getTimelineHeight() / 2 - 11"

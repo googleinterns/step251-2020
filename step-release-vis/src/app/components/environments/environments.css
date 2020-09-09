@@ -6,6 +6,6 @@
   margin-left: 8px;
 }
 
-#bottom-timeline {
+#bottom-timeline, #top-timeline {
   position: absolute;
 }

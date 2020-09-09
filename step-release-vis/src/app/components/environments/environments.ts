@@ -364,4 +364,8 @@ export class EnvironmentsComponent implements OnInit {
       this.envWidth
     );
   }
+
+  shouldDisplayTimelineCircle(): boolean {
+    return this.curGlobalTimestamp.seconds !== undefined;
+  }
 }

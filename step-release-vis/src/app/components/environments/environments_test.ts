@@ -285,7 +285,7 @@ describe('EnvironmentsComponent', () => {
     });
   });
 
-  fdescribe('top and bottom timelines', () => {
+  describe('top and bottom timelines', () => {
     it('should respond to curGlobalTimestamp changes', () => {
       component.curGlobalTimestamp = {seconds: component.startTimestamp};
       fixture.detectChanges();
@@ -299,7 +299,7 @@ describe('EnvironmentsComponent', () => {
       const oldBottomX = bottomTimeline.nativeElement.getAttribute('cx');
       expect(oldTopX).toEqual(oldBottomX);
 
-      component.curGlobalTimestamp = component.endTimestamp;
+      component.curGlobalTimestamp = {seconds: component.endTimestamp};
       fixture.detectChanges();
       const newTopX = topTimeline.nativeElement.getAttribute('cx');
       const newBottomX = bottomTimeline.nativeElement.getAttribute('cx');
