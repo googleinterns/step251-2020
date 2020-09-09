@@ -123,7 +123,7 @@ export class EnvironmentsComponent implements OnInit {
    */
   private refresh(assignNewColors = true): void {
     this.setStartEndTimestamps();
-    this.updateDimensions(window.innerWidth, window.innerHeight);
+    this.updateDimensions(document.body.clientWidth, window.innerHeight);
     this.onTimeRangeUpdate(assignNewColors);
   }
 
