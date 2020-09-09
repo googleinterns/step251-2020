@@ -30,7 +30,8 @@
          (mouseenter)="enteredEnvironment($event)"
          (mouseleave)="leftEnvironment()"
          (mousemove)="moveTooltip($event)"
-         (click)="updateClickOn($event)">
+         (mousedown)="envMouseDown($event)"
+         (mouseup)="envMouseUp($event)">
       <line [attr.x1]="0"
             [attr.y1]="0"
             [attr.x2]="svgWidth"
