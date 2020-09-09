@@ -1,6 +1,10 @@
 import {TestBed} from '@angular/core/testing';
 
-import {CandidateEdge, ColoringService} from './coloringService';
+import {
+  CandidateEdge,
+  ColoringService,
+  CandidateColor,
+} from './coloringService';
 import {executeProtractorBuilder} from '@angular-devkit/build-angular';
 
 describe('ColoringService', () => {
@@ -42,6 +46,46 @@ describe('ColoringService', () => {
       service.constructGraph(edges, new Set(['1', '2', '3']));
       expect(service.edgeOccurrences).toEqual(edges);
       expect(service.candidateGraph).toEqual(graph);
+    });
+  });
+
+  describe('#pairCandidatesToColor', () => {
+    it('no color indexes are equal', () => {
+      service.colorOf = new Map([
+        ['1', 2],
+        ['2', 1],
+        ['3', 3],
+      ]);
+      // @ts-ignore
+      const result: CandidateColor[] = service.pairCandidatesToColors([
+        4,
+        5,
+        6,
+      ]);
+      expect(result).toEqual([
+        new CandidateColor('2', 4),
+        new CandidateColor('1', 5),
+        new CandidateColor('3', 6),
+      ]);
+    });
+
+    it('color indexes are equal', () => {
+      service.colorOf = new Map([
+        ['1', 1],
+        ['2', 1],
+        ['3', 1],
+      ]);
+      // @ts-ignore
+      const result: CandidateColor[] = service.pairCandidatesToColors([
+        1,
+        2,
+        3,
+      ]);
+      expect(result).toEqual([
+        new CandidateColor('1', 1),
+        new CandidateColor('2', 2),
+        new CandidateColor('3', 3),
+      ]);
     });
   });
 });

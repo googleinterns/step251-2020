@@ -14,7 +14,7 @@ export class ColoringService {
   private noOfCandidates: number;
   private candNames: Set<string>;
   candidateGraph: Map<string, string[]> = new Map(); // what candidates share sides?
-  private colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
+  colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
   colorsComputed = false;
 
@@ -76,14 +76,31 @@ export class ColoringService {
   }
 
   /* Decides on the colors for all candidates */
-  private pairCandidatesToColors(): CandidateColor[] {
-    // TODO(#271): implement this
-    return [];
+  private pairCandidatesToColors(colors: number[]): CandidateColor[] {
+    const relativeOrder: CandidateColor[] = [];
+    for (const cand of this.colorOf) {
+      relativeOrder.push(new CandidateColor(cand[0], cand[1]));
+    }
+
+    relativeOrder.sort((a, b) => a.compare(b));
+
+    const answer: CandidateColor[] = [];
+    for (let i = 0; i < relativeOrder.length; i++) {
+      answer.push(new CandidateColor(relativeOrder[i].candidate, colors[i]));
+    }
+    return answer;
+  }
+
+  /* Stores the colored candidates in the candidateService */
+  saveColors(candidateColors: CandidateColor[]): void {
+    for (const cand of candidateColors) {
+      this.candidateService.addCandidate(cand.color, cand.candidate);
+    }
   }
 
   assignColors(): void {
     // TODO(#271): implement this
-    this.pairCandidatesToColors();
+    this.pairCandidatesToColors(this.selectAssignableColors());
     this.colorsComputed = true;
   }
 }
@@ -96,10 +113,24 @@ export class CandidateColor {
     this.candidate = cand;
     this.color = color;
   }
+
+  compare(that: CandidateColor): number {
+    if (this.color < that.color) {
+      return -1;
+    } else if (this.color > that.color) {
+      return 1;
+    } else if (this.candidate < that.candidate) {
+      return -1;
+    } else if (this.candidate > that.candidate) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 }
 
 export class CandidateEdge {
-  private readonly separator = '\n';
+  static readonly separator = '\n';
   candidate1: string;
   candidate2: string;
 
@@ -114,6 +145,6 @@ export class CandidateEdge {
   }
 
   toKey(): string {
-    return this.candidate1 + this.separator + this.candidate2;
+    return this.candidate1 + CandidateEdge.separator + this.candidate2;
   }
 }
