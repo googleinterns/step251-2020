@@ -1,9 +1,11 @@
 import {
   Component,
   Input,
+  Output,
   OnInit,
   OnChanges,
   SimpleChanges,
+  EventEmitter,
 } from '@angular/core';
 import {EnvironmentService} from '../../services/environmentService';
 import {Polygon} from '../../models/Polygon';
@@ -12,6 +14,7 @@ import {Environment, Snapshot, Timestamp} from '../../models/Data';
 import {CandidateService} from '../../services/candidateService';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Tooltip} from '../../models/Tooltip';
+import {ColoringService} from '../../services/coloringService';
 
 @Component({
   selector: 'app-environment',
@@ -38,6 +41,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   @Input() environment: Environment;
   @Input() timelinePoints: TimelinePoint[];
+  @Output() newEdgesEvent = new EventEmitter<Map<[string, string], number>>();
+
   polygons: Polygon[];
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
@@ -50,7 +55,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   constructor(
     private environmentService: EnvironmentService,
-    private candidateService: CandidateService
+    private candidateService: CandidateService,
+    private coloringService: ColoringService
   ) {}
 
   ngOnInit(): void {
