@@ -19,7 +19,6 @@ export class EnvironmentsComponent implements OnInit {
   readonly ENV_RIGHT_MARGIN = 20;
   readonly TITLE_WIDTH = 280;
   readonly TIMELINE_POINT_WIDTH = 130;
-  readonly WEEK_SECONDS = 7 * 24 * 60 * 60;
   readonly TZ_OFFSET = new Date().getTimezoneOffset() * 60;
   readonly START_TIMESTAMP_KEY = 'start_timestamp';
   readonly END_TIMESTAMP_KEY = 'end_timestamp';
@@ -134,8 +133,7 @@ export class EnvironmentsComponent implements OnInit {
       this.startTimestamp = parseInt(localStartTimestamp, 10);
       this.endTimestamp = parseInt(localEndTimestamp, 10);
     } else {
-      this.startTimestamp = this.maxTimestamp - this.WEEK_SECONDS;
-      this.endTimestamp = this.maxTimestamp;
+      this.resetTimerange();
       this.saveStartTimestampToStorage();
       this.saveEndTimestampToStorage();
     }
@@ -323,5 +321,10 @@ export class EnvironmentsComponent implements OnInit {
   private getTimestampFromEvent(event: Event): number {
     // Date.parse() takes timezone into account
     return Date.parse((event.target as HTMLInputElement).value) / 1000;
+  }
+
+  resetTimerange(): void {
+    this.startTimestamp = this.minTimestamp;
+    this.endTimestamp = this.maxTimestamp;
   }
 }

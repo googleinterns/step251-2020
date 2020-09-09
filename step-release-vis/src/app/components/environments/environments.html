@@ -17,6 +17,10 @@
       [attr.max]="getLocalISOString(maxTimestamp)"
       (input)="onEndTimestampChange($event)"
     >
+    <button id="reset"
+            (click)="resetTimerange(); onTimeRangeUpdate(true)">
+      Reset
+    </button>
   </div>
   <!-- TODO(#248): add timeline at top and bottom-->
   <app-environment
