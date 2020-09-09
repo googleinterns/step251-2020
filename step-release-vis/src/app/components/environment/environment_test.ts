@@ -306,7 +306,7 @@ describe('EnvironmentComponent', () => {
       expect(component.tooltip.mouseX).toEqual(100);
       expect(component.tooltip.mouseY).toEqual(100);
 
-      svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
+      click(100, 100, svg);
       fixture.detectChanges();
       svg.triggerEventHandler('mousemove', {pageX: 110});
       fixture.detectChanges();
@@ -327,7 +327,7 @@ describe('EnvironmentComponent', () => {
 
       svg.triggerEventHandler('mouseenter', {pageX: 100, pageY: 100});
       fixture.detectChanges();
-      svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
+      click(100, 100, svg);
       fixture.detectChanges();
       svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
       fixture.detectChanges();
@@ -340,16 +340,20 @@ describe('EnvironmentComponent', () => {
     const svg = fixture.debugElement.query(
       By.css(`#${component.environment.name}-svg`)
     );
-    svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
+    click(100, 100, svg);
     fixture.detectChanges();
-
     expect(component.tooltip.clickOn).toBeTrue();
 
-    svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
+    click(100, 100, svg);
     fixture.detectChanges();
 
     expect(component.tooltip.clickOn).toBeFalse();
   });
+
+  function click(x: number, y: number, element: DebugElement): void {
+    element.triggerEventHandler('mousedown', {pageX: x, pageY: y});
+    element.triggerEventHandler('mouseup', {pageX: x, pageY: y});
+  }
 
   it('#hidetooltip', () => {
     component.hideTooltip();
