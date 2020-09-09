@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Candidate} from '../models/Candidate';
 import {CandidateService} from './candidateService';
 
 @Injectable({
@@ -12,7 +11,7 @@ export class ColoringService {
    * O(edges * log edges + candidates)
    */
   noOfCandidates: number;
-  private candNames: Set<string>;
+  candNames: Set<string>;
   candidateGraph: Map<string, string[]> = new Map(); // what candidates share sides?
   colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
@@ -21,20 +20,25 @@ export class ColoringService {
   constructor(private candidateService: CandidateService) {}
 
   colorCandidates(edges: Map<string, number>, candNames: Set<string>): void {
+    this.colorsComputed = false;
+
+    this.initialize(edges, candNames);
+    this.assignColorIndices();
+
+    this.saveColors(this.pairCandidatesToColors(this.selectAssignableColors()));
+    this.colorsComputed = true;
+  }
+
+  initialize(edges: Map<string, number>, candNames: Set<string>): void {
     this.candidateGraph.clear();
     this.colorOf.clear();
     this.edgeOccurrences.clear();
     this.colorsComputed = false;
 
-    this.initialize(edges, candNames);
-    this.assignColors();
-  }
-
-  initialize(edges: Map<string, number>, candNames: Set<string>): void {
     this.candNames = candNames;
     this.noOfCandidates = this.candNames.size;
+
     this.constructGraph(edges);
-    this.colorsComputed = false;
   }
 
   /* Add y to the list of neighbours of x */
@@ -145,10 +149,42 @@ export class ColoringService {
     }
   }
 
-  assignColors(): void {
-    // TODO(#271): implement this
-    this.pairCandidatesToColors(this.selectAssignableColors());
-    this.colorsComputed = true;
+  /* Decide on the order and select indices for candidates.
+   * The edge with the most occurrences has the highest priority.
+   */
+  assignColorIndices(): void {
+    for (const cand of this.candNames) {
+      if (this.candidateGraph.has(cand) === false) {
+        this.colorOf.set(cand, 0);
+      }
+    }
+
+    const edges: CandidateEdge[] = [];
+    for (const edge of this.edgeOccurrences) {
+      const candEdge = CandidateEdge.fromKey(edge[0]);
+      edges.push(
+        new CandidateEdge(candEdge.candidate1, candEdge.candidate2, edge[1])
+      );
+    }
+
+    edges.sort((a: CandidateEdge, b: CandidateEdge) => {
+      if (a.occurrences > b.occurrences) {
+        return -1;
+      }
+      if (a.occurrences < b.occurrences) {
+        return 1;
+      }
+      return 0;
+    });
+
+    for (const edge of edges) {
+      if (this.colorOf.has(edge.candidate1) === false) {
+        this.selectColorIndex(edge.candidate1);
+      }
+      if (this.colorOf.has(edge.candidate2) === false) {
+        this.selectColorIndex(edge.candidate2);
+      }
+    }
   }
 }
 
@@ -180,10 +216,12 @@ export class CandidateEdge {
   static readonly separator = '\n';
   candidate1: string;
   candidate2: string;
+  occurrences: number;
 
-  constructor(x: string, y: string) {
+  constructor(x: string, y: string, occ?: number) {
     this.candidate1 = x;
     this.candidate2 = y;
+    this.occurrences = occ;
   }
 
   static fromKey(key: string): CandidateEdge {
