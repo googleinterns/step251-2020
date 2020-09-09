@@ -22,42 +22,42 @@ import {ColoringService} from '../../services/coloringService';
   styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit, OnChanges {
+  readonly TIMELINE_HEIGHT = 40;
+  readonly SNAPSHOTS_PER_ENV = 500;
+  readonly TITLE_MARGIN = 10;
+  @Input() svgSmallHeight: number;
+
+  @Input() svgWidth: number;
+  @Input() svgBigHeight: number;
+  @Input() titleWidth: number;
+  @Input() envMarginBottom: number;
+  svgHeight: number;
+
+  @Input() startTimestamp: number;
+
+  @Input() endTimestamp: number;
+  @Input() curGlobalTimestamp: Timestamp;
+  @Input() environment: Environment;
+
+  @Input() timelinePoints: TimelinePoint[];
+  @Output() newEdgesEvent = new EventEmitter<Map<string, number>>();
+  polygons: Polygon[];
+
+  tooltip: Tooltip = new Tooltip();
+  displayedSnapshots: Snapshot[];
+  currentSnapshot: Snapshot;
+
+  // when clickOn is true, the tooltip and the line stop moving after the mouse
+  clickOn: boolean;
+  currentCandidate: string;
+  expanded = false;
+  mouseDownPos: number;
+
   constructor(
     private environmentService: EnvironmentService,
     private candidateService: CandidateService,
     private coloringService: ColoringService
   ) {}
-  readonly TIMELINE_HEIGHT = 40;
-  readonly SNAPSHOTS_PER_ENV = 500;
-  readonly TITLE_MARGIN = 10;
-
-  @Input() svgSmallHeight: number;
-  @Input() svgWidth: number;
-  @Input() svgBigHeight: number;
-  @Input() titleWidth: number;
-  @Input() envMarginBottom: number;
-
-  svgHeight: number;
-
-  @Input() startTimestamp: number;
-  @Input() endTimestamp: number;
-  @Input() curGlobalTimestamp: Timestamp;
-
-  @Input() environment: Environment;
-  @Input() timelinePoints: TimelinePoint[];
-  @Output() newEdgesEvent = new EventEmitter<Map<string, number>>();
-
-  polygons: Polygon[];
-  tooltip: Tooltip = new Tooltip();
-  displayedSnapshots: Snapshot[];
-
-  currentSnapshot: Snapshot;
-  // when clickOn is true, the tooltip and the line stop moving after the mouse
-  clickOn: boolean;
-  currentCandidate: string;
-  expanded = false;
-
-  mouseDownPos: number;
 
   ngOnInit(): void {
     this.updateDimensions();
