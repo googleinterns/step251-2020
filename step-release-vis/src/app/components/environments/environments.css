@@ -2,6 +2,10 @@
   font-family: Roboto, Arial, sans-serif;
 }
 
-.timerange {
-  margin-bottom: 10px;
+#reset {
+  margin-left: 8px;
+}
+
+#bottom-timeline, #top-timeline {
+  position: absolute;
 }

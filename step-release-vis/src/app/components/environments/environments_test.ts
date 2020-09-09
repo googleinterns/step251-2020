@@ -284,4 +284,36 @@ describe('EnvironmentsComponent', () => {
       expect(component.candidateEdges).toEqual(expResult);
     });
   });
+
+  describe('top and bottom timelines', () => {
+    it('should respond to curGlobalTimestamp changes', () => {
+      component.curGlobalTimestamp = {seconds: component.startTimestamp};
+      fixture.detectChanges();
+      const topTimeline = fixture.debugElement.query(
+        By.css('#top-timeline circle')
+      );
+      const bottomTimeline = fixture.debugElement.query(
+        By.css('#bottom-timeline circle')
+      );
+      const oldTopX = topTimeline.nativeElement.getAttribute('cx');
+      const oldBottomX = bottomTimeline.nativeElement.getAttribute('cx');
+      expect(oldTopX).toEqual(oldBottomX);
+
+      component.curGlobalTimestamp = {seconds: component.endTimestamp};
+      fixture.detectChanges();
+      const newTopX = topTimeline.nativeElement.getAttribute('cx');
+      const newBottomX = bottomTimeline.nativeElement.getAttribute('cx');
+      expect(newTopX).toBeGreaterThan(oldTopX);
+      expect(newBottomX).toBeGreaterThan(oldBottomX);
+    });
+  });
+
+  it('should fit the screen', () => {
+    expect(fixture.debugElement.nativeElement.offsetWidth).toBeLessThanOrEqual(
+      document.body.clientWidth
+    );
+    expect(fixture.debugElement.nativeElement.offsetHeight).toBeLessThanOrEqual(
+      window.innerHeight
+    );
+  });
 });

@@ -1,5 +1,7 @@
-<div *ngIf="dataFound">
-  <div class="timerange">
+<div *ngIf="dataFound"
+     [ngStyle]="{position: 'relative'}">
+  <div class="timerange"
+       [ngStyle]="{height: getTimerangeHeight() + 'px'}">
     <input
       id="timerange-start-input"
       type="datetime-local"
@@ -17,8 +19,51 @@
       [attr.max]="getLocalISOString(maxTimestamp)"
       (input)="onEndTimestampChange($event)"
     >
+    <button id="reset"
+            (click)="resetTimerange(); onTimeRangeUpdate(true)">
+      Reset
+    </button>
   </div>
-  <!-- TODO(#248): add timeline at top and bottom-->
+  <div [ngStyle]="{display: 'inline-block', height: getTimelineHeight() + 'px'}">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         id="top-timeline"
+         [attr.width]="envWidth"
+         [attr.height]="getTimelineHeight()"
+         [ngStyle]="{left: TITLE_WIDTH}">
+      <rect [attr.x]="0"
+            [attr.y]="getTimelineHeight() / 2 + 8"
+            [attr.width]="envWidth"
+            [attr.height]="2"
+            fill="gray"/>
+      <circle *ngIf="shouldDisplayTimelineCircle()"
+              id="cur-snapshot-line"
+              [attr.cx]="getLineX() - 1"
+              [attr.cy]="getTimelineHeight() / 2 + 9"
+              [attr.r]="3"
+              fill="gray"/>
+      <text *ngFor="let timelinePoint of timelinePoints; let i = index"
+            [attr.x]="timelinePoint.x"
+            [attr.y]="9"
+            [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
+            font-size="12">
+        {{ timelinePoint.timeString }}
+      </text>
+      <text *ngFor="let timelinePoint of timelinePoints; let i = index"
+            [attr.x]="timelinePoint.x"
+            [attr.y]="21"
+            [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
+            font-size="12">
+        {{ timelinePoint.dateString }}
+      </text>
+      <line
+        *ngFor="let timelinePoint of timelinePoints"
+        [attr.x1]="timelinePoint.x"
+        [attr.y1]="getTimelineHeight() - 2"
+        [attr.x2]="timelinePoint.x"
+        [attr.y2]="getTimelineHeight() / 2 + 4"
+        stroke="gray"/>
+    </svg>
+  </div>
   <app-environment
     *ngFor="let environment of environments"
     [environment]="environment"
@@ -34,6 +79,47 @@
     (newEdgesEvent)="addEdges($event)"
   >
   </app-environment>
+
+  <div [ngStyle]="{display: 'inline-block', height: getTimelineHeight() + 'px'}">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         id="bottom-timeline"
+         [attr.width]="envWidth"
+         [attr.height]="getTimelineHeight()"
+         [ngStyle]="{left: TITLE_WIDTH}">
+      <rect [attr.x]="0"
+            [attr.y]="getTimelineHeight() / 2 - 12"
+            [attr.width]="envWidth"
+            [attr.height]="2"
+            fill="gray"/>
+      <circle *ngIf="shouldDisplayTimelineCircle()"
+            id="cur-snapshot-line"
+            [attr.cx]="getLineX() - 1"
+            [attr.cy]="getTimelineHeight() / 2 - 11"
+            [attr.r]="3"
+            fill="gray"/>
+      <text *ngFor="let timelinePoint of timelinePoints; let i = index"
+            [attr.x]="timelinePoint.x"
+            [attr.y]="getTimelineHeight() - 12"
+            [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
+            font-size="12">
+        {{ timelinePoint.timeString }}
+      </text>
+      <text *ngFor="let timelinePoint of timelinePoints; let i = index"
+            [attr.x]="timelinePoint.x"
+            [attr.y]="getTimelineHeight()"
+            [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
+            font-size="12">
+        {{ timelinePoint.dateString }}
+      </text>
+      <line
+        *ngFor="let timelinePoint of timelinePoints"
+        [attr.x1]="timelinePoint.x"
+        [attr.y1]="2"
+        [attr.x2]="timelinePoint.x"
+        [attr.y2]="getTimelineHeight() / 2 - 3"
+        stroke="gray"/>
+    </svg>
+  </div>
 </div>
 <div *ngIf="!dataFound">
   No input data found. <a [routerLink]="['/form']">Submit data</a>.

@@ -4,6 +4,7 @@ import {Polygon} from '../models/Polygon';
 import {CandidateInfo, Snapshot} from '../models/Data';
 import {Observable, of} from 'rxjs';
 import {CandidateEdge} from './coloringService';
+import {TimelinePoint} from '../models/TimelinePoint';
 
 @Injectable({
   providedIn: 'root',
@@ -288,6 +289,18 @@ export class EnvironmentService {
     }
 
     return candInfo2percentage;
+  }
+
+  getTimelinePointTextAlignment(
+    index: number,
+    timelinePoints: TimelinePoint[]
+  ): string {
+    if (index === 0) {
+      return 'start';
+    } else if (index === timelinePoints.length - 1) {
+      return 'end';
+    }
+    return 'middle';
   }
 }
 
