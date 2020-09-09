@@ -9,6 +9,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {CandidateInfo, Snapshot} from '../models/Data';
 import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
+import {CandidateEdge} from './coloringService';
 
 describe('EnvironmentService', () => {
   let service: EnvironmentService;
@@ -109,8 +110,8 @@ describe('EnvironmentService', () => {
       expect(result[2]).toEqual(poly2);
 
       expect(service.edges.size).toEqual(2);
-      expect(service.edges.get('1-2')).toEqual(2);
-      expect(service.edges.get('2-1')).toEqual(2);
+      expect(service.edges.get(new CandidateEdge('1', '2').toKey())).toEqual(2);
+      expect(service.edges.get(new CandidateEdge('2', '1').toKey())).toEqual(2);
     });
 
     it('one candidate gets to 0 jobs', () => {
@@ -146,8 +147,8 @@ describe('EnvironmentService', () => {
       ]);
 
       expect(service.edges.size).toEqual(2);
-      expect(service.edges.get('1-2')).toEqual(2);
-      expect(service.edges.get('2-1')).toEqual(2);
+      expect(service.edges.get(new CandidateEdge('1', '2').toKey())).toEqual(2);
+      expect(service.edges.get(new CandidateEdge('2', '1').toKey())).toEqual(2);
     });
 
     it('just one candidate with 100% of the jobs', () => {
@@ -189,8 +190,8 @@ describe('EnvironmentService', () => {
       expect(result[1].points).toEqual([{x: 1, y: 100}]);
 
       expect(service.edges.size).toEqual(2);
-      expect(service.edges.get('1-2')).toEqual(1);
-      expect(service.edges.get('2-1')).toEqual(1);
+      expect(service.edges.get(new CandidateEdge('1', '2').toKey())).toEqual(1);
+      expect(service.edges.get(new CandidateEdge('2', '1').toKey())).toEqual(1);
     });
 
     it('new candidate appears', () => {
@@ -225,8 +226,8 @@ describe('EnvironmentService', () => {
       ]);
 
       expect(service.edges.size).toEqual(2);
-      expect(service.edges.get('1-2')).toEqual(1);
-      expect(service.edges.get('2-1')).toEqual(1);
+      expect(service.edges.get(new CandidateEdge('1', '2').toKey())).toEqual(1);
+      expect(service.edges.get(new CandidateEdge('2', '1').toKey())).toEqual(1);
     });
 
     it('both candidates get to 0 jobs at the same timestamp', () => {
@@ -260,8 +261,8 @@ describe('EnvironmentService', () => {
       ]);
 
       expect(service.edges.size).toEqual(2);
-      expect(service.edges.get('1-2')).toEqual(2);
-      expect(service.edges.get('2-1')).toEqual(2);
+      expect(service.edges.get(new CandidateEdge('1', '2').toKey())).toEqual(2);
+      expect(service.edges.get(new CandidateEdge('2', '1').toKey())).toEqual(2);
     });
 
     it('one candidate appears and disapears', () => {
@@ -315,8 +316,8 @@ describe('EnvironmentService', () => {
       ]);
 
       expect(service.edges.size).toEqual(2);
-      expect(service.edges.get('1-2')).toEqual(3);
-      expect(service.edges.get('2-1')).toEqual(3);
+      expect(service.edges.get(new CandidateEdge('1', '2').toKey())).toEqual(3);
+      expect(service.edges.get(new CandidateEdge('2', '1').toKey())).toEqual(3);
     });
   });
 

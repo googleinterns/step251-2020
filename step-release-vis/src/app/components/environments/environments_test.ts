@@ -13,6 +13,7 @@ import {ProtoBufferService} from '../../services/protoBufferService';
 import {ProtoBufferServiceStub} from '../../../testing/ProtoBufferServiceStub';
 import {TooltipComponent} from '../tooltip/tooltip';
 import {By} from '@angular/platform-browser';
+import {CandidateEdge} from '../../services/coloringService';
 
 describe('EnvironmentsComponent', () => {
   let component: EnvironmentsComponent;
@@ -254,6 +255,33 @@ describe('EnvironmentsComponent', () => {
       window.dispatchEvent(new Event('resize'));
       // @ts-ignore
       expect(component.refresh).toHaveBeenCalled();
+    });
+  });
+
+  describe('#addEdges', () => {
+    it('should add no edges', () => {
+      component.candidateEdges = new Map();
+      const newEdges: Map<string, number> = new Map();
+
+      component.addEdges(newEdges);
+      expect(component.candidateEdges).toEqual(new Map());
+    });
+
+    it('should increment one edge', () => {
+      component.candidateEdges = new Map([
+        [new CandidateEdge('1', '2').toKey(), 1],
+        [new CandidateEdge('1', '3').toKey(), 2],
+      ]);
+      const newEdges: Map<string, number> = new Map([
+        [new CandidateEdge('1', '2').toKey(), 1],
+      ]);
+      const expResult = new Map([
+        [new CandidateEdge('1', '2').toKey(), 2],
+        [new CandidateEdge('1', '3').toKey(), 2],
+      ]);
+
+      component.addEdges(newEdges);
+      expect(component.candidateEdges).toEqual(expResult);
     });
   });
 });
