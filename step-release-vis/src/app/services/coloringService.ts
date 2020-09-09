@@ -7,7 +7,7 @@ export class ColoringService {
   /*
    * Colors candidates by looking at the pairs of candidates appearing the most next to each other
    * and coloring the candidates iteratively.
-   * O(edges * log edges + candidates)
+   * O(edges * log edges + candidates * log candidates)
    */
   noOfCandidates: number;
   candNames: Set<string>;
