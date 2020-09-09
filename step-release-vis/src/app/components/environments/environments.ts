@@ -14,6 +14,13 @@ import {EnvironmentService} from '../../services/environmentService';
   styleUrls: ['./environments.css'],
 })
 export class EnvironmentsComponent implements OnInit {
+  constructor(
+    private dataService: DataService,
+    private candidateService: CandidateService,
+    private protoBufferService: ProtoBufferService,
+    private coloringService: ColoringService,
+    private environmentService: EnvironmentService
+  ) {}
   readonly TIMERANGE_HEIGHT = 35;
   readonly TIMELINE_HEIGHT = 40;
   readonly ENV_MARGIN_BOTTOM = 7;
@@ -47,13 +54,7 @@ export class EnvironmentsComponent implements OnInit {
   uninitializedEnvironments: number;
   displayedCandidates: Set<string>;
 
-  constructor(
-    private dataService: DataService,
-    private candidateService: CandidateService,
-    private protoBufferService: ProtoBufferService,
-    private coloringService: ColoringService,
-    private environmentService: EnvironmentService
-  ) {}
+  mouseDownPos: number;
 
   ngOnInit(): void {
     this.readProtoBinaryData();
@@ -360,13 +361,17 @@ export class EnvironmentsComponent implements OnInit {
       this.envWidth
     );
   }
-
-  envsMouseDown(event: MouseEvent): void {
-    // console.log(event.pageX);
+  envsMouseUp(event: MouseEvent): void {
+    if (Math.abs(this.mouseDownPos - event.pageX) >= 20) {
+      const dragMin = Math.min(this.mouseDownPos, event.pageX);
+      const dragMax = Math.max(this.mouseDownPos, event.pageX);
+      // TODO(#277): add time range update
+      console.log(`${dragMin} -> ${dragMax}`);
+    }
   }
 
-  envsMouseUp(event: MouseEvent): void {
-    // console.log(event.pageX);
+  envsMouseDown(event: MouseEvent): void {
+    this.mouseDownPos = event.pageX;
   }
 
   shouldDisplayTimelineCircle(): boolean {
