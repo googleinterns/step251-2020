@@ -11,10 +11,10 @@ export class ColoringService {
    * and coloring the candidates iteratively.
    * O(edges * log edges + candidates)
    */
-  private noOfCandidates: number;
+  noOfCandidates: number;
   private candNames: Set<string>;
   candidateGraph: Map<string, string[]> = new Map(); // what candidates share sides?
-  private colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
+  colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
   colorsComputed = false;
 
@@ -61,6 +61,53 @@ export class ColoringService {
     }
   }
 
+  /* Chooses color index for a candidate by looking at the colors of its neighbours
+   * Takes the middle of the largest color interval.
+   * The indexes represent the ordering, so they won't be necessarily integers.
+   */
+  private selectColorIndex(candidate: string): void {
+    const edges = this.candidateGraph.get(candidate);
+    const neighboursColors: number[] = [];
+
+    for (const neighbour of edges) {
+      if (this.colorOf.has(neighbour) === true) {
+        neighboursColors.push(this.colorOf.get(neighbour));
+      }
+    }
+
+    if (neighboursColors.length === 0) {
+      this.colorOf.set(candidate, 0);
+      return;
+    }
+
+    neighboursColors.sort();
+
+    let answer = -1;
+    let largestSpace = 0;
+    // Get the color in the middle of the largest space
+    for (let i = 0; i < neighboursColors.length - 1; i++) {
+      const distance = neighboursColors[i + 1] - neighboursColors[i];
+      if (distance > largestSpace) {
+        largestSpace = distance;
+        answer = (neighboursColors[i + 1] + neighboursColors[i]) / 2;
+      }
+    }
+
+    // Since color range is circular, check the interval between [end, start]
+    const smallest = neighboursColors[0];
+    const largest = neighboursColors[neighboursColors.length - 1];
+
+    if (smallest + this.noOfCandidates - largest > largestSpace) {
+      answer = (largest + smallest + this.noOfCandidates) / 2;
+      if (answer >= this.noOfCandidates) {
+        answer -= this.noOfCandidates;
+      }
+      largestSpace = smallest + this.noOfCandidates - largest;
+    }
+
+    this.colorOf.set(candidate, answer);
+  }
+
   /* Splits the color palette like so
    * |--0--|--1--|--2--|--3--|
    * 0                      360
@@ -76,14 +123,31 @@ export class ColoringService {
   }
 
   /* Decides on the colors for all candidates */
-  private pairCandidatesToColors(): CandidateColor[] {
-    // TODO(#271): implement this
-    return [];
+  private pairCandidatesToColors(colors: number[]): CandidateColor[] {
+    const relativeOrder: CandidateColor[] = [];
+    for (const cand of this.colorOf) {
+      relativeOrder.push(new CandidateColor(cand[0], cand[1]));
+    }
+
+    relativeOrder.sort((a, b) => a.compare(b));
+
+    const answer: CandidateColor[] = [];
+    for (let i = 0; i < relativeOrder.length; i++) {
+      answer.push(new CandidateColor(relativeOrder[i].candidate, colors[i]));
+    }
+    return answer;
+  }
+
+  /* Stores the colored candidates in the candidateService */
+  saveColors(candidateColors: CandidateColor[]): void {
+    for (const cand of candidateColors) {
+      this.candidateService.addCandidate(cand.color, cand.candidate);
+    }
   }
 
   assignColors(): void {
     // TODO(#271): implement this
-    this.pairCandidatesToColors();
+    this.pairCandidatesToColors(this.selectAssignableColors());
     this.colorsComputed = true;
   }
 }
@@ -96,9 +160,24 @@ export class CandidateColor {
     this.candidate = cand;
     this.color = color;
   }
+
+  compare(that: CandidateColor): number {
+    if (this.color < that.color) {
+      return -1;
+    } else if (this.color > that.color) {
+      return 1;
+    } else if (this.candidate < that.candidate) {
+      return -1;
+    } else if (this.candidate > that.candidate) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 }
 
 export class CandidateEdge {
+  static readonly separator = '\n';
   candidate1: string;
   candidate2: string;
 
@@ -108,11 +187,11 @@ export class CandidateEdge {
   }
 
   static fromKey(key: string): CandidateEdge {
-    const cands: string[] = key.split('\n');
+    const cands: string[] = key.split(this.separator);
     return new CandidateEdge(cands[0], cands[1]);
   }
 
   toKey(): string {
-    return this.candidate1 + '\n' + this.candidate2;
+    return this.candidate1 + CandidateEdge.separator + this.candidate2;
   }
 }
