@@ -366,6 +366,14 @@ export class EnvironmentsComponent implements OnInit {
     );
   }
 
+  envsMouseDown(event: MouseEvent): void {
+    // console.log(event.pageX);
+  }
+
+  envsMouseUp(event: MouseEvent): void {
+    // console.log(event.pageX);
+  }
+
   shouldDisplayTimelineCircle(): boolean {
     return this.curGlobalTimestamp.seconds !== undefined;
   }
