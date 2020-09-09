@@ -14,13 +14,6 @@ import {EnvironmentService} from '../../services/environmentService';
   styleUrls: ['./environments.css'],
 })
 export class EnvironmentsComponent implements OnInit {
-  constructor(
-    private dataService: DataService,
-    private candidateService: CandidateService,
-    private protoBufferService: ProtoBufferService,
-    private coloringService: ColoringService,
-    private environmentService: EnvironmentService
-  ) {}
   readonly TIMERANGE_HEIGHT = 35;
   readonly TIMELINE_HEIGHT = 40;
   readonly ENV_MARGIN_BOTTOM = 7;
@@ -45,8 +38,8 @@ export class EnvironmentsComponent implements OnInit {
   startTimestamp: number; // current start timestamp
   endTimestamp: number; // current end timestamp
   curGlobalTimestamp: Timestamp = {seconds: undefined}; // shared current timestamp
-
   dataFound: boolean;
+
   timelinePointsAmount: number;
   timelinePoints: TimelinePoint[];
 
@@ -55,6 +48,14 @@ export class EnvironmentsComponent implements OnInit {
   displayedCandidates: Set<string>;
 
   mouseDownPos: number;
+
+  constructor(
+    private dataService: DataService,
+    private candidateService: CandidateService,
+    private protoBufferService: ProtoBufferService,
+    private coloringService: ColoringService,
+    private environmentService: EnvironmentService
+  ) {}
 
   ngOnInit(): void {
     this.readProtoBinaryData();
