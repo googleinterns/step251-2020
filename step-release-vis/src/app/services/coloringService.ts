@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {CandidateService} from './candidateService';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class ColoringService {
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
   colorsComputed = false;
 
-  constructor() {}
+  constructor(private candidateService: CandidateService) {}
 
   colorCandidates(edges: Map<string, number>, candNames: Set<string>): void {
     this.colorsComputed = false;
