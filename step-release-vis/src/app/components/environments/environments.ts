@@ -42,6 +42,7 @@ export class EnvironmentsComponent implements OnInit {
 
   candidateEdges: Map<string, number> = new Map();
   uninitializedEnvironments: number;
+  displayedCandidates: Set<string>;
 
   constructor(
     private dataService: DataService,
@@ -182,7 +183,7 @@ export class EnvironmentsComponent implements OnInit {
       );
     }
     if (assignNewColors) {
-      const candNames = new Set<string>(); // candidates which fit start...end
+      this.displayedCandidates = new Set<string>(); // candidates which fit start...end
       for (const environment of this.environments) {
         for (const snapshot of environment.snapshotsList) {
           for (const candsInfo of snapshot.candidatesList) {
@@ -190,16 +191,19 @@ export class EnvironmentsComponent implements OnInit {
               snapshot.timestamp.seconds >= this.startTimestamp &&
               snapshot.timestamp.seconds <= this.endTimestamp
             ) {
-              candNames.add(candsInfo.candidate);
+              this.displayedCandidates.add(candsInfo.candidate);
             }
           }
         }
       }
       const shuffledIndices = shuffle(
-        this.increasingSequence(0, candNames.size)
+        this.increasingSequence(0, this.displayedCandidates.size)
       ); // mapping to shuffle the colors
-      [...candNames].forEach((name, index) => {
-        const color = this.getHue(shuffledIndices[index], candNames.size);
+      [...this.displayedCandidates].forEach((name, index) => {
+        const color = this.getHue(
+          shuffledIndices[index],
+          this.displayedCandidates.size
+        );
         this.candidateService.addCandidate(color, name);
       });
     }
@@ -221,7 +225,10 @@ export class EnvironmentsComponent implements OnInit {
   }
 
   private setColors(): void {
-    this.coloringService.colorCandidates(this.candidateEdges);
+    this.coloringService.colorCandidates(
+      this.candidateEdges,
+      this.displayedCandidates
+    );
   }
 
   /**
