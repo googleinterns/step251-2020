@@ -105,6 +105,18 @@ export class EnvironmentComponent implements OnInit, OnChanges {
         this.newEdgesEvent.emit(this.environmentService.edges);
         this.processPolygons(polygons);
       });
+
+    new Promise((resolve, reject) => {
+      setTimeout(() => resolve(), 5);
+      if (this.coloringService.colorsComputed === true) {
+        resolve();
+      }
+    }).then(() => {
+      this.polygons.map(polygon => {
+        polygon.colorHue = this.candidateService.getColor(polygon.candName);
+        return polygon;
+      });
+    });
   }
 
   /**

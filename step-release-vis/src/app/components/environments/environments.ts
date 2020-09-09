@@ -99,7 +99,6 @@ export class EnvironmentsComponent implements OnInit {
     this.uninitializedEnvironments = this.environments.length;
 
     let minTimestamp = Number.MAX_VALUE;
-
     let maxTimestamp = 0;
     for (const environment of this.environments) {
       for (const snapshot of environment.snapshotsList) {

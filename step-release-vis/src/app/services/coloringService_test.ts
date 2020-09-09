@@ -50,7 +50,7 @@ describe('ColoringService', () => {
   });
 
   describe('#pairCandidatesToColor', () => {
-    it('no color indexes are equal', () => {
+    it('no color indices are equal', () => {
       service.colorOf = new Map([
         ['1', 2],
         ['2', 1],
@@ -69,7 +69,7 @@ describe('ColoringService', () => {
       ]);
     });
 
-    it('color indexes are equal', () => {
+    it('color indices are equal', () => {
       service.colorOf = new Map([
         ['1', 1],
         ['2', 1],
@@ -116,6 +116,60 @@ describe('ColoringService', () => {
         service.selectColorIndex('1');
         expect(service.colorOf.get('1')).toEqual(0.75);
       });
+    });
+  });
+
+  describe('#assignColorIndices', () => {
+    beforeEach(() => {
+      service.noOfCandidates = 3;
+      service.candNames = new Set(['1', '2', '3']);
+    });
+    it('triangle, different priorities', () => {
+      service.edgeOccurrences = new Map([
+        [new CandidateEdge('1', '2').toKey(), 1],
+        [new CandidateEdge('2', '3').toKey(), 1],
+        [new CandidateEdge('1', '3').toKey(), 2],
+      ]);
+      service.candidateGraph = new Map([
+        ['1', ['2', '3']],
+        ['2', ['1', '3']],
+        ['3', ['1', '2']],
+      ]);
+
+      service.assignColorIndices();
+
+      expect(service.colorOf.get('1')).toEqual(0);
+      expect(service.colorOf.get('2')).toEqual(0.75);
+      expect(service.colorOf.get('3')).toEqual(1.5);
+    });
+
+    it('chain, same priorities', () => {
+      service.edgeOccurrences = new Map([
+        [new CandidateEdge('1', '2').toKey(), 1],
+        [new CandidateEdge('2', '3').toKey(), 1],
+      ]);
+      service.candidateGraph = new Map([
+        ['1', ['2', '3']],
+        ['2', ['1']],
+        ['3', ['1']],
+      ]);
+
+      service.assignColorIndices();
+
+      expect(service.colorOf.get('1')).toEqual(0);
+      expect(service.colorOf.get('2')).toEqual(1.5);
+      expect(service.colorOf.get('3')).toEqual(1.5);
+    });
+
+    it('independent candidates', () => {
+      service.edgeOccurrences = new Map();
+      service.candidateGraph = new Map();
+
+      service.assignColorIndices();
+
+      expect(service.colorOf.get('1')).toEqual(0);
+      expect(service.colorOf.get('2')).toEqual(0);
+      expect(service.colorOf.get('3')).toEqual(0);
     });
   });
 });
