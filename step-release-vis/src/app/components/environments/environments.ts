@@ -3,6 +3,7 @@ import {Environment, Timestamp} from '../../models/Data';
 import {DataService} from '../../services/dataService';
 import {ProtoBufferService} from '../../services/protoBufferService';
 import {CandidateService} from '../../services/candidateService';
+import {ColoringService} from '../../services/coloringService';
 import {shuffle} from 'lodash';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Observable} from 'rxjs';
@@ -39,10 +40,14 @@ export class EnvironmentsComponent implements OnInit {
   timelinePointsAmount: number;
   timelinePoints: TimelinePoint[];
 
+  candidateEdges: Map<string, number> = new Map();
+  uninitializedEnvironments: number;
+
   constructor(
     private dataService: DataService,
     private candidateService: CandidateService,
-    private protoBufferService: ProtoBufferService
+    private protoBufferService: ProtoBufferService,
+    private coloringService: ColoringService
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +95,8 @@ export class EnvironmentsComponent implements OnInit {
    */
   private processEnvironments(environments: Environment[]): void {
     this.environments = this.sortEnvSnapshots(environments);
+    this.uninitializedEnvironments = this.environments.length;
+
     let minTimestamp = Number.MAX_VALUE;
 
     let maxTimestamp = 0;
@@ -149,6 +156,9 @@ export class EnvironmentsComponent implements OnInit {
    * @param assignNewColors indicates whether candidate colors should be recalculated
    */
   private onTimeRangeUpdate(assignNewColors): void {
+    this.candidateEdges.clear();
+    this.uninitializedEnvironments = this.environments.length;
+
     this.timelinePointsAmount = Math.floor(
       this.envWidth / this.TIMELINE_POINT_WIDTH
     );
@@ -193,6 +203,25 @@ export class EnvironmentsComponent implements OnInit {
         this.candidateService.addCandidate(color, name);
       });
     }
+  }
+
+  addEdges(newEdges: Map<string, number>): void {
+    for (const edge of newEdges) {
+      let prevValue = 0;
+      if (this.candidateEdges.has(edge[0]) === true) {
+        prevValue = this.candidateEdges.get(edge[0]);
+      }
+      this.candidateEdges.set(edge[0], prevValue + edge[1]);
+    }
+
+    this.uninitializedEnvironments--;
+    if (this.uninitializedEnvironments === 0) {
+      this.setColors();
+    }
+  }
+
+  private setColors(): void {
+    this.coloringService.colorCandidates(this.candidateEdges);
   }
 
   /**

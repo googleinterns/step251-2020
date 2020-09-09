@@ -41,7 +41,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   @Input() environment: Environment;
   @Input() timelinePoints: TimelinePoint[];
-  @Output() newEdgesEvent = new EventEmitter<Map<[string, string], number>>();
+  @Output() newEdgesEvent = new EventEmitter<Map<string, number>>();
 
   polygons: Polygon[];
   tooltip: Tooltip = new Tooltip();
@@ -101,7 +101,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.displayedSnapshots = this.filterSnapshots(this.environment);
     this.environmentService
       .getPolygons(this.displayedSnapshots)
-      .subscribe(polygons => this.processPolygons(polygons));
+      .subscribe(polygons => {
+        this.newEdgesEvent.emit(this.environmentService.edges);
+        this.processPolygons(polygons);
+      });
   }
 
   /**

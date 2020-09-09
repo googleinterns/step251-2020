@@ -3,13 +3,14 @@ import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';
 import {CandidateInfo, Snapshot} from '../models/Data';
 import {Observable, of} from 'rxjs';
+import {CandidateEdge} from './coloringService';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EnvironmentService {
   BEGINNING: number;
-  /* Edges stores the number of points shared by candidates, DTI: edges[x-y] = edges[y-x] */
+  /* Edges stores the number of points shared by candidates, DTI: edges[(x,y).toKey] = edges[(x,y).toKey] */
   edges: Map<string, number> = new Map();
 
   constructor() {
@@ -85,7 +86,7 @@ export class EnvironmentService {
 
   private incrementNoOfEdges(cand1: string, cand2: string): void {
     let prevValue = 0;
-    const key = cand1 + '-' + cand2;
+    const key = new CandidateEdge(cand1, cand2).toKey();
     if (this.edges.has(key) === true) {
       prevValue = this.edges.get(key);
     }
