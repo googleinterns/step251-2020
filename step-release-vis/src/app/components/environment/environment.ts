@@ -22,6 +22,11 @@ import {ColoringService} from '../../services/coloringService';
   styleUrls: ['./environment.css'],
 })
 export class EnvironmentComponent implements OnInit, OnChanges {
+  constructor(
+    private environmentService: EnvironmentService,
+    private candidateService: CandidateService,
+    private coloringService: ColoringService
+  ) {}
   readonly TIMELINE_HEIGHT = 40;
   readonly SNAPSHOTS_PER_ENV = 500;
   readonly TITLE_MARGIN = 10;
@@ -52,11 +57,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   currentCandidate: string;
   expanded = false;
 
-  constructor(
-    private environmentService: EnvironmentService,
-    private candidateService: CandidateService,
-    private coloringService: ColoringService
-  ) {}
+  mouseDownPos: number;
 
   ngOnInit(): void {
     this.updateDimensions();
@@ -372,14 +373,15 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either
   clickOn becomes false or the mouse leaves the <div> of the environment */
-  envMouseDown(event: MouseEvent): void {
-    this.tooltip.clickOn = !this.tooltip.clickOn;
-    this.moveTooltip(event);
-  }
-
-  // mouseDownPos: number;
   envMouseUp(event: MouseEvent): void {
-    // this.mouseDownPos = event.pageX;
+    // to tell 'click' and 'drag' apart
+    if (Math.abs(this.mouseDownPos - event.pageX) < 20) {
+      this.tooltip.clickOn = !this.tooltip.clickOn;
+      this.moveTooltip(event);
+    }
+  }
+  envMouseDown(event: MouseEvent): void {
+    this.mouseDownPos = event.pageX;
   }
 
   leaveDiv(): void {
