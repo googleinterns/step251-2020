@@ -7,6 +7,7 @@ import {ColoringService} from '../../services/coloringService';
 import {shuffle} from 'lodash';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Observable} from 'rxjs';
+import {EnvironmentService} from '../../services/environmentService';
 
 @Component({
   selector: 'app-environments',
@@ -14,7 +15,10 @@ import {Observable} from 'rxjs';
   styleUrls: ['./environments.css'],
 })
 export class EnvironmentsComponent implements OnInit {
+  readonly TIMERANGE_HEIGHT = 35;
+  readonly TIMELINE_HEIGHT = 40;
   readonly ENV_MARGIN_BOTTOM = 7;
+  readonly ENVS_MARGIN_BOTTOM = 25;
   readonly ENV_EXPANDED_HEIGHT = 170;
   readonly ENV_RIGHT_MARGIN = 20;
   readonly TITLE_WIDTH = 280;
@@ -47,7 +51,8 @@ export class EnvironmentsComponent implements OnInit {
     private dataService: DataService,
     private candidateService: CandidateService,
     private protoBufferService: ProtoBufferService,
-    private coloringService: ColoringService
+    private coloringService: ColoringService,
+    private environmentService: EnvironmentService
   ) {}
 
   ngOnInit(): void {
@@ -142,7 +147,8 @@ export class EnvironmentsComponent implements OnInit {
   private updateDimensions(width: number, height: number): void {
     this.envWidth = width - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
     this.envSmallHeight = Math.min(
-      (height - 50) / this.environments.length - this.ENV_MARGIN_BOTTOM,
+      this.getCollapsedEnvsHeight() / this.environments.length -
+        this.ENV_MARGIN_BOTTOM,
       50
     );
     this.envBigHeight = this.ENV_EXPANDED_HEIGHT;
@@ -326,5 +332,36 @@ export class EnvironmentsComponent implements OnInit {
   resetTimerange(): void {
     this.startTimestamp = this.minTimestamp;
     this.endTimestamp = this.maxTimestamp;
+  }
+
+  getCollapsedEnvsHeight(): number {
+    return (
+      window.innerHeight -
+      this.TIMELINE_HEIGHT * 2 -
+      this.TIMERANGE_HEIGHT -
+      this.ENVS_MARGIN_BOTTOM
+    );
+  }
+
+  getTimerangeHeight(): number {
+    return this.TIMERANGE_HEIGHT;
+  }
+
+  getTimelineHeight(): number {
+    return this.TIMELINE_HEIGHT;
+  }
+
+  getLineX(): number {
+    return this.getPositionFromTimestamp(this.curGlobalTimestamp.seconds);
+  }
+
+  getPositionFromTimestamp(time: number): number {
+    return this.candidateService.scale(
+      time,
+      this.startTimestamp,
+      this.endTimestamp,
+      0,
+      this.envWidth
+    );
   }
 }

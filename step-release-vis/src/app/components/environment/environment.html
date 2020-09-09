@@ -70,14 +70,14 @@
         <text *ngFor="let timelinePoint of timelinePoints; let i = index"
               [attr.x]="timelinePoint.x"
               [attr.y]="svgHeight - 12"
-              [attr.text-anchor]="getTimelinePointTextAlignment(i)"
+              [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
               font-size="12">
           {{ timelinePoint.timeString }}
         </text>
         <text *ngFor="let timelinePoint of timelinePoints; let i = index"
               [attr.x]="timelinePoint.x"
               [attr.y]="svgHeight"
-              [attr.text-anchor]="getTimelinePointTextAlignment(i)"
+              [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
               font-size="12">
           {{ timelinePoint.dateString }}
         </text>

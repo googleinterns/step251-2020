@@ -25,7 +25,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   readonly TIMELINE_HEIGHT = 40;
   readonly SNAPSHOTS_PER_ENV = 500;
   readonly TITLE_MARGIN = 10;
-  readonly TITLE_ICON_SIZE = 20;
 
   @Input() svgSmallHeight: number;
   @Input() svgWidth: number;
@@ -270,15 +269,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.tooltip.show = false;
   }
 
-  getTimelinePointTextAlignment(index: number): string {
-    if (index === 0) {
-      return 'start';
-    } else if (index === this.timelinePoints.length - 1) {
-      return 'end';
-    }
-    return 'middle';
-  }
-
   /* Returns the distance in pixels from the svg border. */
   getPositionFromTimestamp(time: number): number {
     return this.candidateService.scale(
@@ -358,7 +348,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   getTitleNameWidth(): string {
-    return `${this.titleWidth - this.TITLE_MARGIN - this.TITLE_ICON_SIZE}px`;
+    return `${this.titleWidth - this.TITLE_MARGIN - this.getTitleSize()}px`;
   }
 
   getEnvPaddingBottom(): string {
@@ -394,7 +384,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   getTitleHeight(): string {
-    return Math.min(this.svgSmallHeight, 16) + 'px';
+    return this.getTitleSize() + 'px';
   }
 
   getExpandIcon(): string {
@@ -408,7 +398,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       {x: 0.866, y: 0.5},
       {x: 0, y: 1},
     ];
-    const size = Math.min(this.svgSmallHeight, 16);
+    const size = this.getTitleSize();
     const shrinkFactor = 1.5;
     const cur = this.expanded ? expanded : nonExpanded;
     const shift = (size - size / shrinkFactor) / 2;
@@ -422,5 +412,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       )
       .map(({x, y}) => `${x},${y}`)
       .join(' ');
+  }
+
+  private getTitleSize(): number {
+    return Math.min(this.svgSmallHeight, 16);
   }
 }
