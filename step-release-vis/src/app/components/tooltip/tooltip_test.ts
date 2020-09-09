@@ -42,14 +42,14 @@ describe('TooltipComponent', () => {
       expect(component.getLeft()).toBe('120px');
     });
 
-    it('#getTop should get a position with 20px added', () => {
+    it('#getTop should get the same position', () => {
       component.tooltip.mouseY = 100;
       const div = fixture.debugElement.query(By.css('div'));
 
       component.getTop();
 
       fixture.detectChanges();
-      expect(component.getTop()).toBe('120px');
+      expect(component.getTop()).toBe('100px');
     });
   });
 });

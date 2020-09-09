@@ -76,7 +76,7 @@ export class TooltipComponent implements OnInit {
     ) {
       return this.tooltip.mouseY - divTooltip.offsetHeight - 10 + 'px';
     }
-    return this.tooltip.mouseY + 20 + 'px';
+    return this.tooltip.mouseY + 'px';
   }
 
   getWidth(): string {
