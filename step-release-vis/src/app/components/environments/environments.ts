@@ -127,10 +127,10 @@ export class EnvironmentsComponent implements OnInit {
     if (localStartTimestamp && localEndTimestamp) {
       this.startTimestamp = parseInt(localStartTimestamp, 10);
       this.endTimestamp = parseInt(localEndTimestamp, 10);
+      this.onTimeRangeUpdate();
     } else {
       this.resetTimerange();
     }
-    this.onTimeRangeUpdate();
   }
 
   private updateDimensions(width: number, height: number): void {
@@ -258,18 +258,37 @@ export class EnvironmentsComponent implements OnInit {
   private onEndTimestampChange(event: Event): void {
     const newEndTimestamp = this.getTimestampFromEvent(event);
     if (newEndTimestamp > this.startTimestamp) {
+      this.setTimerangeValidity(true);
       this.endTimestamp = newEndTimestamp;
       this.saveEndTimestampToStorage();
       this.onTimeRangeUpdate();
+    } else {
+      this.setTimerangeValidity(false);
     }
   }
 
   private onStartTimestampChange(event: Event): void {
     const newStartTimestamp = this.getTimestampFromEvent(event);
     if (newStartTimestamp < this.endTimestamp) {
+      this.setTimerangeValidity(true);
       this.startTimestamp = newStartTimestamp;
       this.saveStartTimestampToStorage();
       this.onTimeRangeUpdate();
+    } else {
+      this.setTimerangeValidity(false);
+    }
+  }
+
+  private setTimerangeValidity(valid: boolean): void {
+    const startClasses = document.getElementById('timerange-start-input')
+      .classList;
+    const endClasses = document.getElementById('timerange-end-input').classList;
+    if (valid) {
+      startClasses.remove('invalid-timerange');
+      endClasses.remove('invalid-timerange');
+    } else {
+      startClasses.add('invalid-timerange');
+      endClasses.add('invalid-timerange');
     }
   }
 
@@ -317,6 +336,7 @@ export class EnvironmentsComponent implements OnInit {
     this.endTimestamp = this.maxTimestamp;
     this.saveStartTimestampToStorage();
     this.saveEndTimestampToStorage();
+    this.onTimeRangeUpdate();
   }
 
   getTimerangeHeight(): number {

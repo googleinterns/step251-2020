@@ -241,10 +241,14 @@ describe('EnvironmentsComponent', () => {
   describe('window width resize', () => {
     it('should trigger #refresh', () => {
       // @ts-ignore
-      spyOn(component, 'refresh');
+      spyOn(component, 'updateDimensions');
+      // @ts-ignore
+      spyOn(component, 'updateTimeline');
       window.dispatchEvent(new Event('resize'));
       // @ts-ignore
-      expect(component.refresh).toHaveBeenCalled();
+      expect(component.updateDimensions).toHaveBeenCalled();
+      // @ts-ignore
+      expect(component.updateTimeline).toHaveBeenCalled();
     });
   });
 
@@ -305,5 +309,43 @@ describe('EnvironmentsComponent', () => {
     expect(fixture.debugElement.nativeElement.offsetHeight).toBeLessThanOrEqual(
       window.innerHeight
     );
+  });
+
+  describe('reset time range button', () => {
+    it('should reset the time range', () => {
+      const oldStart = component.startTimestamp;
+      const oldEnd = component.endTimestamp;
+      component.startTimestamp = oldStart + 1000;
+      component.endTimestamp = oldEnd - 1000;
+      fixture.debugElement
+        .query(By.css('#reset'))
+        .triggerEventHandler('click', {});
+      expect(component.startTimestamp).toEqual(component.minTimestamp);
+      expect(component.endTimestamp).toEqual(component.maxTimestamp);
+    });
+
+    it('should save to local storage', () => {
+      const oldStart = component.startTimestamp;
+      const oldEnd = component.endTimestamp;
+      // @ts-ignore
+      component.onStartTimestampChange(event(oldStart + 1000));
+      // @ts-ignore
+      component.onEndTimestampChange(event(oldEnd - 1000));
+      expect(sessionStorage.getItem(component.START_TIMESTAMP_KEY)).toEqual(
+        '' + (oldStart + 1000)
+      );
+      expect(sessionStorage.getItem(component.END_TIMESTAMP_KEY)).toEqual(
+        '' + (oldEnd - 1000)
+      );
+      fixture.debugElement
+        .query(By.css('#reset'))
+        .triggerEventHandler('click', {});
+      expect(sessionStorage.getItem(component.START_TIMESTAMP_KEY)).toEqual(
+        '' + component.startTimestamp
+      );
+      expect(sessionStorage.getItem(component.END_TIMESTAMP_KEY)).toEqual(
+        '' + component.endTimestamp
+      );
+    });
   });
 });
