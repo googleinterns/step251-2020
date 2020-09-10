@@ -231,6 +231,28 @@ describe('EnvironmentsComponent', () => {
         `${newEnd}`
       );
     });
+
+    it('shouldnt apply start > end', () => {
+      const oldStart = component.startTimestamp;
+      // @ts-ignore
+      component.onStartTimestampChange(event(component.endTimestamp + 1000));
+      fixture.detectChanges();
+      expect(component.startTimestamp).toEqual(oldStart);
+      expect(
+        fixture.debugElement
+          .query(By.css('#timerange-start-input'))
+          .nativeElement.classList.contains('invalid-timerange')
+      ).toBeTrue();
+
+      // @ts-ignore
+      component.onStartTimestampChange(event(oldStart + 1000));
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement
+          .query(By.css('#timerange-start-input'))
+          .nativeElement.classList.contains('invalid-timerange')
+      ).toBeFalse();
+    });
   });
 
   function event(value: number): any {
