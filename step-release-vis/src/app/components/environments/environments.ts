@@ -32,6 +32,7 @@ export class EnvironmentsComponent implements OnInit {
   envSmallHeight: number;
   envWidth: number;
   envBigHeight: number;
+  envsHeight: number;
 
   minTimestamp: number; // min timestamp across every environment
   maxTimestamp: number; // max timestamp across every environment
@@ -139,8 +140,6 @@ export class EnvironmentsComponent implements OnInit {
       this.endTimestamp = parseInt(localEndTimestamp, 10);
     } else {
       this.resetTimerange();
-      this.saveStartTimestampToStorage();
-      this.saveEndTimestampToStorage();
     }
   }
 
@@ -152,6 +151,11 @@ export class EnvironmentsComponent implements OnInit {
       50
     );
     this.envBigHeight = this.ENV_EXPANDED_HEIGHT;
+    this.envsHeight =
+      height -
+      this.TIMELINE_HEIGHT * 2 -
+      this.TIMERANGE_HEIGHT -
+      this.ENVS_MARGIN_BOTTOM;
   }
 
   /**
@@ -279,15 +283,21 @@ export class EnvironmentsComponent implements OnInit {
   }
 
   private onEndTimestampChange(event: Event): void {
-    this.endTimestamp = this.getTimestampFromEvent(event);
-    this.saveEndTimestampToStorage();
-    this.onTimeRangeUpdate(true);
+    const newEndTimestamp = this.getTimestampFromEvent(event);
+    if (newEndTimestamp > this.startTimestamp) {
+      this.endTimestamp = newEndTimestamp;
+      this.saveEndTimestampToStorage();
+      this.onTimeRangeUpdate(true);
+    }
   }
 
   private onStartTimestampChange(event: Event): void {
-    this.startTimestamp = this.getTimestampFromEvent(event);
-    this.saveStartTimestampToStorage();
-    this.onTimeRangeUpdate(true);
+    const newStartTimestamp = this.getTimestampFromEvent(event);
+    if (newStartTimestamp < this.endTimestamp) {
+      this.startTimestamp = newStartTimestamp;
+      this.saveStartTimestampToStorage();
+      this.onTimeRangeUpdate(true);
+    }
   }
 
   private getStartTimestampFromStorage(): string {
@@ -338,12 +348,7 @@ export class EnvironmentsComponent implements OnInit {
   }
 
   getCollapsedEnvsHeight(): number {
-    return (
-      window.innerHeight -
-      this.TIMELINE_HEIGHT * 2 -
-      this.TIMERANGE_HEIGHT -
-      this.ENVS_MARGIN_BOTTOM
-    );
+    return this.envsHeight;
   }
 
   getTimerangeHeight(): number {
