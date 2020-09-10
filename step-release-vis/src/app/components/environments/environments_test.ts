@@ -99,8 +99,8 @@ describe('EnvironmentsComponent', () => {
 
   it('should generate timelinePoints which fit timeline and bounds', () => {
     component.timelinePoints.forEach(({timestamp, x}) => {
-      expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp);
-      expect(timestamp).toBeLessThanOrEqual(component.endTimestamp);
+      expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp - 60); // 1 minute delta for rounded seconds
+      expect(timestamp).toBeLessThanOrEqual(component.endTimestamp + 60); // 1 minute delta for rounded seconds
       expect(x).toBeGreaterThanOrEqual(0);
       expect(x).toBeLessThanOrEqual(component.envWidth);
     });
@@ -231,6 +231,28 @@ describe('EnvironmentsComponent', () => {
         `${newEnd}`
       );
     });
+
+    it('shouldnt apply start > end', () => {
+      const oldStart = component.startTimestamp;
+      // @ts-ignore
+      component.onStartTimestampChange(event(component.endTimestamp + 1000));
+      fixture.detectChanges();
+      expect(component.startTimestamp).toEqual(oldStart);
+      expect(
+        fixture.debugElement
+          .query(By.css('#timerange-start-input'))
+          .nativeElement.classList.contains('invalid-timerange')
+      ).toBeTrue();
+
+      // @ts-ignore
+      component.onStartTimestampChange(event(oldStart + 1000));
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement
+          .query(By.css('#timerange-start-input'))
+          .nativeElement.classList.contains('invalid-timerange')
+      ).toBeFalse();
+    });
   });
 
   function event(value: number): any {
@@ -241,10 +263,14 @@ describe('EnvironmentsComponent', () => {
   describe('window width resize', () => {
     it('should trigger #refresh', () => {
       // @ts-ignore
-      spyOn(component, 'refresh');
+      spyOn(component, 'updateDimensions');
+      // @ts-ignore
+      spyOn(component, 'updateTimeline');
       window.dispatchEvent(new Event('resize'));
       // @ts-ignore
-      expect(component.refresh).toHaveBeenCalled();
+      expect(component.updateDimensions).toHaveBeenCalled();
+      // @ts-ignore
+      expect(component.updateTimeline).toHaveBeenCalled();
     });
   });
 
@@ -305,5 +331,43 @@ describe('EnvironmentsComponent', () => {
     expect(fixture.debugElement.nativeElement.offsetHeight).toBeLessThanOrEqual(
       window.innerHeight
     );
+  });
+
+  describe('reset time range button', () => {
+    it('should reset the time range', () => {
+      const oldStart = component.startTimestamp;
+      const oldEnd = component.endTimestamp;
+      component.startTimestamp = oldStart + 1000;
+      component.endTimestamp = oldEnd - 1000;
+      fixture.debugElement
+        .query(By.css('#reset'))
+        .triggerEventHandler('click', {});
+      expect(component.startTimestamp).toEqual(component.minTimestamp);
+      expect(component.endTimestamp).toEqual(component.maxTimestamp);
+    });
+
+    it('should save to local storage', () => {
+      const oldStart = component.startTimestamp;
+      const oldEnd = component.endTimestamp;
+      // @ts-ignore
+      component.onStartTimestampChange(event(oldStart + 1000));
+      // @ts-ignore
+      component.onEndTimestampChange(event(oldEnd - 1000));
+      expect(sessionStorage.getItem(component.START_TIMESTAMP_KEY)).toEqual(
+        '' + (oldStart + 1000)
+      );
+      expect(sessionStorage.getItem(component.END_TIMESTAMP_KEY)).toEqual(
+        '' + (oldEnd - 1000)
+      );
+      fixture.debugElement
+        .query(By.css('#reset'))
+        .triggerEventHandler('click', {});
+      expect(sessionStorage.getItem(component.START_TIMESTAMP_KEY)).toEqual(
+        '' + component.startTimestamp
+      );
+      expect(sessionStorage.getItem(component.END_TIMESTAMP_KEY)).toEqual(
+        '' + component.endTimestamp
+      );
+    });
   });
 });
