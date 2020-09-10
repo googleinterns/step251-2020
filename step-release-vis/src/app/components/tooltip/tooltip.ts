@@ -42,7 +42,9 @@ export class TooltipComponent implements OnInit {
     let candidateInfo = '';
     for (const candidate of this.currentSnapshot.candidatesList) {
       const name: string = candidate.candidate;
-      const link = `<a href=${'https://rapid/' + name}>${name}</a>`;
+      const link = `<a href=${
+        'http://rapid/' + name
+      } target="_blank">${name}</a>`;
       let candidateDescription = `<p>${link}: ${candidate.jobCount} job(s)</p>`;
 
       if (name === this.currentCandidate) {
