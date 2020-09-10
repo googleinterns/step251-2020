@@ -99,8 +99,8 @@ describe('EnvironmentsComponent', () => {
 
   it('should generate timelinePoints which fit timeline and bounds', () => {
     component.timelinePoints.forEach(({timestamp, x}) => {
-      expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp);
-      expect(timestamp).toBeLessThanOrEqual(component.endTimestamp);
+      expect(timestamp).toBeGreaterThanOrEqual(component.startTimestamp - 60); // 1 minute delta for rounded seconds
+      expect(timestamp).toBeLessThanOrEqual(component.endTimestamp + 60); // 1 minute delta for rounded seconds
       expect(x).toBeGreaterThanOrEqual(0);
       expect(x).toBeLessThanOrEqual(component.envWidth);
     });

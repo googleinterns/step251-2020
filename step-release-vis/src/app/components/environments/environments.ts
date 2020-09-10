@@ -169,7 +169,7 @@ export class EnvironmentsComponent implements OnInit {
       const relativeTimestamp = timelineChunkSize * i;
       this.timelinePoints.push(
         new TimelinePoint(
-          Math.floor((this.startTimestamp + relativeTimestamp) / 60) * 60, // round seconds
+          Math.round((this.startTimestamp + relativeTimestamp) / 60) * 60, // round seconds
           this.candidateService.scale(
             relativeTimestamp,
             0,
