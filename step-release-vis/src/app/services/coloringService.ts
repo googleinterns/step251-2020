@@ -19,6 +19,12 @@ export class ColoringService {
 
   constructor(private candidateService: CandidateService) {}
 
+  getColorFromIndex(index: number): number {
+    const chunkSize = 360 / this.noOfCandidates;
+    const color = chunkSize * index + chunkSize / 2;
+    return color;
+  }
+
   colorCandidates(edges: Map<string, number>, candNames: Set<string>): void {
     this.colorsComputed = false;
 
@@ -128,16 +134,20 @@ export class ColoringService {
 
   /* Decides on the colors for all candidates */
   private pairCandidatesToColors(colors: number[]): CandidateColor[] {
-    const relativeOrder: CandidateColor[] = [];
+    /* const relativeOrder: CandidateColor[] = [];
     for (const cand of this.colorOf) {
       relativeOrder.push(new CandidateColor(cand[0], cand[1]));
     }
 
-    relativeOrder.sort((a, b) => a.compare(b));
+    relativeOrder.sort((a, b) => a.compare(b));*/
 
     const answer: CandidateColor[] = [];
-    for (let i = 0; i < relativeOrder.length; i++) {
+    /* for (let i = 0; i < relativeOrder.length; i++) {
       answer.push(new CandidateColor(relativeOrder[i].candidate, colors[i]));
+    }*/
+
+    for (const cand of this.colorOf) {
+      answer.push(new CandidateColor(cand[0], this.getColorFromIndex(cand[1])));
     }
     return answer;
   }
