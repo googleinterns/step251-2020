@@ -47,8 +47,6 @@ export class EnvironmentsComponent implements OnInit {
   uninitializedEnvironments: number;
   displayedCandidates: Set<string>;
 
-  mouseDownPos: number;
-
   constructor(
     private dataService: DataService,
     private candidateService: CandidateService,
@@ -366,19 +364,6 @@ export class EnvironmentsComponent implements OnInit {
       0,
       this.envWidth
     );
-  }
-
-  envsMouseUp(event: MouseEvent): void {
-    if (Math.abs(this.mouseDownPos - event.pageX) >= 20) {
-      const dragMin = Math.min(this.mouseDownPos, event.pageX);
-      const dragMax = Math.max(this.mouseDownPos, event.pageX);
-      // TODO(#277): add time range update
-      console.log(`${dragMin} -> ${dragMax}`);
-    }
-  }
-
-  envsMouseDown(event: MouseEvent): void {
-    this.mouseDownPos = event.pageX;
   }
 
   shouldDisplayTimelineCircle(): boolean {
