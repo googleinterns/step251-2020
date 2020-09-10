@@ -123,13 +123,13 @@ export class EnvironmentsComponent implements OnInit {
    */
   private refresh(assignNewColors = true): void {
     this.setStartEndTimestamps();
-    this.updateDimensions(window.innerWidth, window.innerHeight);
+    this.updateDimensions(document.body.clientWidth, window.innerHeight);
     this.onTimeRangeUpdate(assignNewColors);
   }
 
   /**
    * Reads start/end timestamps from localStorage.
-   * Assigns maxTimestamp-WEEK/maxTimestamp, if no data is found.
+   * Assigns minTimestamp/maxTimestamp, if no data is found.
    */
   private setStartEndTimestamps(): void {
     const localStartTimestamp = this.getStartTimestampFromStorage();
@@ -332,6 +332,9 @@ export class EnvironmentsComponent implements OnInit {
   resetTimerange(): void {
     this.startTimestamp = this.minTimestamp;
     this.endTimestamp = this.maxTimestamp;
+    this.saveStartTimestampToStorage();
+    this.saveEndTimestampToStorage();
+    this.onTimeRangeUpdate(true);
   }
 
   getCollapsedEnvsHeight(): number {
