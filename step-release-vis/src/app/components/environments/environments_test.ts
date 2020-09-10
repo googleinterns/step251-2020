@@ -126,16 +126,6 @@ describe('EnvironmentsComponent', () => {
       });
     });
 
-    it('should generate unique colors for candidates', () => {
-      const candColors = new Set<number>();
-      getVisibleCandNames().forEach(candName => {
-        const candColor = candidateServiceStub.candColors.get(candName);
-        expect(candColor).toBeTruthy();
-        expect(candColors.has(candColor)).toBeFalse();
-        candColors.add(candColor);
-      });
-    });
-
     function getVisibleCandNames(): Set<string> {
       const candNames = new Set<string>();
       component.environments.forEach(({snapshotsList}) => {

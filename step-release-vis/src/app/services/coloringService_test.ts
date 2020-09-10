@@ -119,6 +119,29 @@ describe('ColoringService', () => {
     });
   });
 
+  describe('#pairCandidatesToProportionalColors', () => {
+    beforeEach(() => {
+      service.noOfCandidates = 3;
+      service.candidateGraph.set('1', ['2', '3']);
+      service.colorOf = new Map();
+    });
+
+    it('three candidates', () => {
+      service.colorOf = new Map([
+        ['1', 0.75],
+        ['2', 0.75],
+        ['3', 1.5],
+      ]);
+      // @ts-ignore
+      const result: CandidateColor[] = service.pairCandidatesToProportionalColors();
+      expect(result).toEqual([
+        new CandidateColor('1', 90),
+        new CandidateColor('2', 90),
+        new CandidateColor('3', 180),
+      ]);
+    });
+  });
+
   describe('#assignColorIndices', () => {
     beforeEach(() => {
       service.noOfCandidates = 3;
