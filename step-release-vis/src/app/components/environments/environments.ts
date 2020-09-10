@@ -371,4 +371,9 @@ export class EnvironmentsComponent implements OnInit {
   shouldDisplayTimelineCircle(): boolean {
     return this.curGlobalTimestamp.seconds !== undefined;
   }
+
+  changeHighlightingMode(event: Event): void {
+    this.candidateService.highlightReleases = !this.candidateService
+      .highlightReleases;
+  }
 }

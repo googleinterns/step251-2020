@@ -6,10 +6,15 @@ import {Polygon} from '../models/Polygon';
   providedIn: 'root',
 })
 export class CandidateService {
+  highlightReleases: boolean;
   cands: Map<string, Candidate>;
+  inRelease: Map<string, string>;
+  releaseCandidates: Map<string, Candidate[]>;
 
   constructor() {
     this.cands = new Map();
+    this.inRelease = new Map();
+    this.releaseCandidates = new Map();
   }
 
   getColor(candName: string): number {
@@ -38,11 +43,25 @@ export class CandidateService {
   }
 
   polygonHovered(polygon: Polygon): void {
-    this.cands.get(polygon.candName).polygonHovered();
+    if (this.highlightReleases === true) {
+      const candsToHighlight: Candidate[] = this.releaseCandidates.get(
+        this.inRelease.get(polygon.candName)
+      );
+      candsToHighlight.forEach(cand => cand.highlight());
+    } else {
+      this.cands.get(polygon.candName).highlight();
+    }
   }
 
   polygonUnhovered(polygon: Polygon): void {
-    this.cands.get(polygon.candName).polygonUnhovered();
+    if (this.highlightReleases === true) {
+      const candsToHighlight: Candidate[] = this.releaseCandidates.get(
+        this.inRelease.get(polygon.candName)
+      );
+      candsToHighlight.forEach(cand => cand.dehighlight());
+    } else {
+      this.cands.get(polygon.candName).dehighlight();
+    }
   }
 
   /**
@@ -67,7 +86,7 @@ export class CandidateService {
   }
 
   /**
-   * Returns a sparse verison of the provided array. Contains min(max, array.length) elements.
+   * Returns a sparse version of the provided array. Contains min(max, array.length) elements.
    *
    * @param max maximum amount of elements in resulting array
    * @param array the array

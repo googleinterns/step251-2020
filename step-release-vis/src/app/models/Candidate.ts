@@ -15,11 +15,11 @@ export class Candidate {
     this.polygons.push(polygon);
   }
 
-  polygonHovered(): void {
+  highlight(): void {
     this.polygons.map(polygon => (polygon.highlight = true));
   }
 
-  polygonUnhovered(): void {
+  dehighlight(): void {
     this.polygons.map(polygon => (polygon.highlight = false));
   }
 }
