@@ -136,7 +136,6 @@ export class ColoringService {
   /* Decides on the colors for all candidates */
   private pairCandidatesToColors(colors: number[]): CandidateColor[] {
     const answer: CandidateColor[] = [];
-    console.log(this.noOfCandidates);
     if (this.noOfCandidates > this.CAND_COLOR_LIMIT) {
       for (const cand of this.colorOf) {
         answer.push(
