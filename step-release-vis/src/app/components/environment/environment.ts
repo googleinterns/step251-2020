@@ -374,12 +374,19 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either
   clickOn becomes false or the mouse leaves the <div> of the environment */
   envMouseUp(event: MouseEvent): void {
-    // to tell 'click' and 'drag' apart
     if (Math.abs(this.mouseDownPos - event.pageX) < 20) {
+      // 'click'
       this.tooltip.clickOn = !this.tooltip.clickOn;
       this.moveTooltip(event);
+    } else {
+      // 'drag'
+      const dragMin = Math.min(this.mouseDownPos, event.pageX);
+      const dragMax = Math.max(this.mouseDownPos, event.pageX);
+      // TODO(#277): add time range update
+      console.log(`${dragMin} -> ${dragMax}`);
     }
   }
+
   envMouseDown(event: MouseEvent): void {
     this.mouseDownPos = event.pageX;
   }
