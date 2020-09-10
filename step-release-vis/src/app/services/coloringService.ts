@@ -16,6 +16,7 @@ export class ColoringService {
   colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
   colorsComputed = false;
+  readonly CAND_COLOR_LIMIT = 75;
 
   constructor(private candidateService: CandidateService) {}
 
@@ -134,21 +135,27 @@ export class ColoringService {
 
   /* Decides on the colors for all candidates */
   private pairCandidatesToColors(colors: number[]): CandidateColor[] {
-    /* const relativeOrder: CandidateColor[] = [];
-    for (const cand of this.colorOf) {
-      relativeOrder.push(new CandidateColor(cand[0], cand[1]));
-    }
-
-    relativeOrder.sort((a, b) => a.compare(b));*/
-
     const answer: CandidateColor[] = [];
-    /* for (let i = 0; i < relativeOrder.length; i++) {
-      answer.push(new CandidateColor(relativeOrder[i].candidate, colors[i]));
-    }*/
+    console.log(this.noOfCandidates);
+    if (this.noOfCandidates > this.CAND_COLOR_LIMIT) {
+      for (const cand of this.colorOf) {
+        answer.push(
+          new CandidateColor(cand[0], this.getColorFromIndex(cand[1]))
+        );
+      }
+    } else {
+      const relativeOrder: CandidateColor[] = [];
+      for (const cand of this.colorOf) {
+        relativeOrder.push(new CandidateColor(cand[0], cand[1]));
+      }
 
-    for (const cand of this.colorOf) {
-      answer.push(new CandidateColor(cand[0], this.getColorFromIndex(cand[1])));
+      relativeOrder.sort((a, b) => a.compare(b));
+
+      for (let i = 0; i < relativeOrder.length; i++) {
+        answer.push(new CandidateColor(relativeOrder[i].candidate, colors[i]));
+      }
     }
+
     return answer;
   }
 
