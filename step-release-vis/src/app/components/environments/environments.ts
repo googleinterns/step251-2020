@@ -129,7 +129,7 @@ export class EnvironmentsComponent implements OnInit {
 
   /**
    * Reads start/end timestamps from localStorage.
-   * Assigns maxTimestamp-WEEK/maxTimestamp, if no data is found.
+   * Assigns minTimestamp/maxTimestamp, if no data is found.
    */
   private setStartEndTimestamps(): void {
     const localStartTimestamp = this.getStartTimestampFromStorage();
@@ -332,6 +332,9 @@ export class EnvironmentsComponent implements OnInit {
   resetTimerange(): void {
     this.startTimestamp = this.minTimestamp;
     this.endTimestamp = this.maxTimestamp;
+    this.saveStartTimestampToStorage();
+    this.saveEndTimestampToStorage();
+    this.onTimeRangeUpdate(true);
   }
 
   getCollapsedEnvsHeight(): number {
