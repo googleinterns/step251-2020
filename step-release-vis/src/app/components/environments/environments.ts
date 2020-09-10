@@ -38,14 +38,16 @@ export class EnvironmentsComponent implements OnInit {
   startTimestamp: number; // current start timestamp
   endTimestamp: number; // current end timestamp
   curGlobalTimestamp: Timestamp = {seconds: undefined}; // shared current timestamp
-
   dataFound: boolean;
+
   timelinePointsAmount: number;
   timelinePoints: TimelinePoint[];
 
   candidateEdges: Map<string, number> = new Map();
   uninitializedEnvironments: number;
   displayedCandidates: Set<string>;
+
+  mouseDownPos: number;
 
   constructor(
     private dataService: DataService,
