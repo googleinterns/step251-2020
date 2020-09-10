@@ -16,14 +16,12 @@ export class ColoringService {
   colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
   colorsComputed = false;
-  readonly CAND_COLOR_LIMIT = 75;
+  readonly proportionalColoringCandidateThreshold = 75;
 
   constructor(private candidateService: CandidateService) {}
 
   getColorFromIndex(index: number): number {
-    const chunkSize = 360 / this.noOfCandidates;
-    const color = chunkSize * index + chunkSize / 2;
-    return color;
+    return (360 * index) / this.noOfCandidates;
   }
 
   colorCandidates(edges: Map<string, number>, candNames: Set<string>): void {
@@ -119,29 +117,27 @@ export class ColoringService {
     this.colorOf.set(candidate, answer);
   }
 
-  /* Splits the color palette like so
-   * |--0--|--1--|--2--|--3--|
-   * 0                      360
-   */
   private selectAssignableColors(): number[] {
-    const chunkSize = 360 / this.noOfCandidates;
     const colors: number[] = [];
     for (let index = 0; index < this.noOfCandidates; index++) {
-      const color = chunkSize * index + chunkSize / 2;
-      colors.push(color);
+      colors.push(this.getColorFromIndex(index));
     }
     return colors;
+  }
+
+  pairCandidatesToProportionalColors(): CandidateColor[] {
+    const answer: CandidateColor[] = [];
+    for (const cand of this.colorOf) {
+      answer.push(new CandidateColor(cand[0], this.getColorFromIndex(cand[1])));
+    }
+    return answer;
   }
 
   /* Decides on the colors for all candidates */
   private pairCandidatesToColors(colors: number[]): CandidateColor[] {
     const answer: CandidateColor[] = [];
-    if (this.noOfCandidates > this.CAND_COLOR_LIMIT) {
-      for (const cand of this.colorOf) {
-        answer.push(
-          new CandidateColor(cand[0], this.getColorFromIndex(cand[1]))
-        );
-      }
+    if (this.noOfCandidates > this.proportionalColoringCandidateThreshold) {
+      return this.pairCandidatesToProportionalColors();
     } else {
       const relativeOrder: CandidateColor[] = [];
       for (const cand of this.colorOf) {
