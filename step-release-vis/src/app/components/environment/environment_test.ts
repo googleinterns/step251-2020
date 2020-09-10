@@ -351,8 +351,18 @@ describe('EnvironmentComponent', () => {
   });
 
   function click(x: number, y: number, element: DebugElement): void {
-    element.triggerEventHandler('mousedown', {pageX: x, pageY: y});
-    element.triggerEventHandler('mouseup', {pageX: x, pageY: y});
+    drag(x, y, x, y, element);
+  }
+
+  function drag(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    element: DebugElement
+  ): void {
+    element.triggerEventHandler('mousedown', {pageX: x1, pageY: y1});
+    element.triggerEventHandler('mouseup', {pageX: x2, pageY: y2});
   }
 
   it('#hidetooltip', () => {
@@ -389,5 +399,9 @@ describe('EnvironmentComponent', () => {
         })
       );
     });
+  });
+
+  describe('time range drag', () => {
+    // TODO(#277): add drag tests
   });
 });
