@@ -47,6 +47,8 @@ export class EnvironmentsComponent implements OnInit {
   uninitializedEnvironments: number;
   displayedCandidates: Set<string>;
 
+  mouseDownPos: number;
+
   constructor(
     private dataService: DataService,
     private candidateService: CandidateService,
@@ -166,11 +168,10 @@ export class EnvironmentsComponent implements OnInit {
     const timelineChunkSize =
       (this.endTimestamp - this.startTimestamp) / this.timelinePointsAmount;
     for (let i = 0; i <= this.timelinePointsAmount; i++) {
-      let relativeTimestamp = timelineChunkSize * i;
-      relativeTimestamp = Math.floor(relativeTimestamp / 60) * 60; // Round seconds
+      const relativeTimestamp = timelineChunkSize * i;
       this.timelinePoints.push(
         new TimelinePoint(
-          this.startTimestamp + relativeTimestamp,
+          Math.floor((this.startTimestamp + relativeTimestamp) / 60) * 60, // round seconds
           this.candidateService.scale(
             relativeTimestamp,
             0,
@@ -255,24 +256,30 @@ export class EnvironmentsComponent implements OnInit {
     });
   }
 
-  private onEndTimestampChange(event: Event): void {
-    const newEndTimestamp = this.getTimestampFromEvent(event);
-    if (newEndTimestamp > this.startTimestamp) {
+  private onStartTimestampChange(event: Event): void {
+    const newStartTimestamp = this.getTimestampFromEvent(event);
+    if (
+      this.minTimestamp <= newStartTimestamp &&
+      newStartTimestamp <= this.endTimestamp
+    ) {
       this.setTimerangeValidity(true);
-      this.endTimestamp = newEndTimestamp;
-      this.saveEndTimestampToStorage();
+      this.startTimestamp = newStartTimestamp;
+      this.saveStartTimestampToStorage();
       this.onTimeRangeUpdate();
     } else {
       this.setTimerangeValidity(false);
     }
   }
 
-  private onStartTimestampChange(event: Event): void {
-    const newStartTimestamp = this.getTimestampFromEvent(event);
-    if (newStartTimestamp < this.endTimestamp) {
+  private onEndTimestampChange(event: Event): void {
+    const newEndTimestamp = this.getTimestampFromEvent(event);
+    if (
+      this.startTimestamp <= newEndTimestamp &&
+      newEndTimestamp <= this.maxTimestamp
+    ) {
       this.setTimerangeValidity(true);
-      this.startTimestamp = newStartTimestamp;
-      this.saveStartTimestampToStorage();
+      this.endTimestamp = newEndTimestamp;
+      this.saveEndTimestampToStorage();
       this.onTimeRangeUpdate();
     } else {
       this.setTimerangeValidity(false);
@@ -359,6 +366,19 @@ export class EnvironmentsComponent implements OnInit {
       0,
       this.envWidth
     );
+  }
+
+  envsMouseUp(event: MouseEvent): void {
+    if (Math.abs(this.mouseDownPos - event.pageX) >= 20) {
+      const dragMin = Math.min(this.mouseDownPos, event.pageX);
+      const dragMax = Math.max(this.mouseDownPos, event.pageX);
+      // TODO(#277): add time range update
+      console.log(`${dragMin} -> ${dragMax}`);
+    }
+  }
+
+  envsMouseDown(event: MouseEvent): void {
+    this.mouseDownPos = event.pageX;
   }
 
   shouldDisplayTimelineCircle(): boolean {
