@@ -1,5 +1,6 @@
 * {
   font-family: Roboto, Arial, sans-serif;
+  -webkit-user-select: none;
 }
 
 #reset {
