@@ -64,7 +64,7 @@ export class EnvironmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.readProtoBinaryData();
-    //this.readJsonData();
+    // this.readJsonData();
   }
 
   @HostListener('window:resize')
