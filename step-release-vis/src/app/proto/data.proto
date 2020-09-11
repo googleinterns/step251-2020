@@ -20,8 +20,9 @@ message Env {
 message CandidateMetadata {
   string candidate = 1;
   string release = 2;
-  int64 rollup_cl = 3;
-  repeated int64 cherrypick_cls = 4;
+  google.protobuf.Timestamp created = 3;
+  int64 rollup_cl = 4;
+  repeated int64 cherrypick_cls = 5;
 }
 
 message Project {

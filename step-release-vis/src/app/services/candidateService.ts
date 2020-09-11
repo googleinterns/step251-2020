@@ -74,8 +74,6 @@ export class CandidateService {
       // set the release for the candidate
       this.inRelease.set(candName, release);
 
-      console.log(candName, release);
-
       // add candidate to release list
       let candsOfRelease: string[] = [];
       if (this.releaseCandidates.has(release)) {
@@ -84,7 +82,6 @@ export class CandidateService {
       candsOfRelease.push(candName);
       this.releaseCandidates.set(release, candsOfRelease);
     }
-    console.log(candsMetadata.length);
   }
 
   /**
