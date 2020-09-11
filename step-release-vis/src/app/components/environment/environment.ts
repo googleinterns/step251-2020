@@ -259,8 +259,12 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       if (Math.abs(dragEnd - dragStart) > 20) {
         const dragMin = Math.min(dragStart, dragEnd);
         const dragMax = Math.max(dragStart, dragEnd);
-        this.dragStartTimestamp = this.getTimestampFromPosition(dragMin);
-        this.dragEndTimestamp = this.getTimestampFromPosition(dragMax);
+        this.dragStartTimestamp = this.getTimestampFromPosition(
+          this.getSvgMouseX(dragMin)
+        );
+        this.dragEndTimestamp = this.getTimestampFromPosition(
+          this.getSvgMouseX(dragMax)
+        );
       }
     }
     if (!this.tooltip.clickOn) {
@@ -402,8 +406,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
         this.tooltip.clickOn = !this.tooltip.clickOn;
       } else {
         // 'drag'
-        console.log(this.getSvgMouseX(this.dragStartTimestamp));
-        console.log(this.getSvgMouseX(this.dragEndTimestamp));
+        // TODO(#277): use the timestamps
+        console.log(this.dragStartTimestamp);
+        console.log(this.dragEndTimestamp);
       }
     }
   }
