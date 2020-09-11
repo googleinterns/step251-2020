@@ -287,6 +287,19 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     );
   }
 
+  /* Returns the timestamp associated with this position in env. */
+  private getTimestampFromPosition(x: number): number {
+    return Math.round(
+      this.candidateService.scale(
+        x,
+        0,
+        this.svgWidth,
+        this.startTimestamp,
+        this.endTimestamp
+      )
+    );
+  }
+
   /*
    * Computes the closest snapshot to the current position of the mouse.
    * If mouse is outside data zone, set currentSnapshot to undefined.
