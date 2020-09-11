@@ -52,53 +52,62 @@ describe('CandidateService', () => {
   });
 
   describe('#polygonHovered', () => {
-    it('test', () => {
-      const polygonToBeHoveredOver: Polygon = new Polygon(
-        [new Point(0, 10), new Point(1, 0)],
-        '1'
-      );
-      const polygonsOfCandidate: Polygon[] = [
-        polygonToBeHoveredOver,
-        new Polygon([new Point(0, 20), new Point(1, 0)], '1'),
+    it('1 and 2 are in the same release, 3 is in another release', () => {
+      const polygonsOfCandidate1: Polygon[] = [
+        new Polygon([], '1'),
+        new Polygon([], '1'),
       ];
-      service.addPolygons(polygonsOfCandidate);
+      service.addPolygons(polygonsOfCandidate1);
 
-      service.polygonHovered(polygonToBeHoveredOver);
+      const polysOfCandidate2: Polygon[] = [new Polygon([], '2')];
+      service.addPolygons(polysOfCandidate2);
 
-      // all the polygons of candidate named '1' should have the highlight property true
+      const polysOfCandidate3: Polygon[] = [new Polygon([], '3')];
+      service.addPolygons(polysOfCandidate3);
+
+      service.inRelease.set('1', 'release');
+      service.inRelease.set('2', 'release');
+      service.inRelease.set('3', 'otherrelease');
+      service.releaseCandidates.set('release', ['1', '2']);
+      service.releaseCandidates.set('otherrealse', ['3']);
+
+      service.polygonHovered(polygonsOfCandidate1[0]);
+
       expect(
-        service.cands.get('1').polygons.filter(polygon => polygon.highlight)
-          .length
-      ).toEqual(2);
+        polygonsOfCandidate1[0].highlight && polygonsOfCandidate1[1].highlight
+      ).toEqual(true);
+      expect(polysOfCandidate2[0].highlight).toEqual(true);
+      expect(polysOfCandidate3[0].highlight).toEqual(false);
     });
   });
 
   describe('#polygonUnhovered', () => {
     it('test', () => {
-      const polygonToBeHoveredOver: Polygon = new Polygon(
-        [new Point(0, 10), new Point(1, 0)],
-        '1'
-      );
-      const polygonTobeUnhovered: Polygon = new Polygon(
-        [new Point(0, 20), new Point(1, 0)],
-        '1'
-      );
-      const polygonsOfCandidate: Polygon[] = [
-        polygonToBeHoveredOver,
-        polygonTobeUnhovered,
+      const polygonsOfCandidate1: Polygon[] = [
+        new Polygon([], '1'),
+        new Polygon([], '1'),
       ];
-      service.addPolygons(polygonsOfCandidate);
-      // first make all the polygons highlighted
-      service.polygonHovered(polygonToBeHoveredOver);
+      service.addPolygons(polygonsOfCandidate1);
 
-      // then unhover
-      service.polygonUnhovered(polygonTobeUnhovered);
+      const polysOfCandidate2: Polygon[] = [new Polygon([], '2')];
+      service.addPolygons(polysOfCandidate2);
 
-      // all the polygons of candidate named '1' should have the highlight property false
-      expect(
-        service.cands.get('1').polygons.filter(polygon => polygon.highlight)
-          .length
-      ).toEqual(0);
+      const polysOfCandidate3: Polygon[] = [new Polygon([], '3')];
+      service.addPolygons(polysOfCandidate3);
+
+      service.inRelease.set('1', 'release');
+      service.inRelease.set('2', 'release');
+      service.inRelease.set('3', 'otherrelease');
+      service.releaseCandidates.set('release', ['1', '2']);
+      service.releaseCandidates.set('otherrealse', ['3']);
+
+      service.polygonHovered(polygonsOfCandidate1[0]);
+      service.polygonUnhovered(polygonsOfCandidate1[1]);
+
+      expect(polygonsOfCandidate1[0].highlight).toEqual(false);
+      expect(polygonsOfCandidate1[1].highlight).toEqual(false);
+      expect(polysOfCandidate2[0].highlight).toEqual(false);
+      expect(polysOfCandidate3[0].highlight).toEqual(false);
     });
   });
 
