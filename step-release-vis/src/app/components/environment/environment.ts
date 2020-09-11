@@ -268,15 +268,17 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.mouseDownPos = undefined;
     this.dragStartTimestamp = undefined;
     this.dragEndTimestamp = undefined;
-    if (!this.tooltip.clickOn) {
-      this.hideTooltip();
-      this.currentSnapshot = undefined;
-      this.curGlobalTimestamp.seconds = undefined;
-    }
+    this.curGlobalTimestamp.seconds = undefined;
+    // if (!this.tooltip.clickOn) {
+    this.hideTooltip();
+    this.currentSnapshot = undefined;
+    this.curGlobalTimestamp.seconds = undefined;
+    // }
   }
 
   hideTooltip(): void {
     this.tooltip.show = false;
+    this.tooltip.clickOn = false;
   }
 
   /* Returns the distance in pixels from the svg border. */
