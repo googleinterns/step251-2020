@@ -223,7 +223,7 @@ describe('EnvironmentComponent', () => {
       );
     });
 
-    it(`should show if curGlobalTimestamp is in visible time range, shouldn't otherwise`, () => {
+    it(`should show if curGlobalTimestamp is defined`, () => {
       expect(getLine()).toBeFalsy();
 
       component.currentSnapshot = {
@@ -233,10 +233,6 @@ describe('EnvironmentComponent', () => {
       component.curGlobalTimestamp.seconds = component.startTimestamp;
       fixture.detectChanges();
       expect(getLine()).toBeTruthy();
-
-      component.curGlobalTimestamp.seconds = component.startTimestamp - 1000;
-      fixture.detectChanges();
-      expect(getLine()).toBeFalsy();
     });
 
     function getLine(): DebugElement {
@@ -306,7 +302,7 @@ describe('EnvironmentComponent', () => {
       expect(component.tooltip.mouseX).toEqual(100);
       expect(component.tooltip.mouseY).toEqual(100);
 
-      svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
+      click(100, 100, svg);
       fixture.detectChanges();
       svg.triggerEventHandler('mousemove', {pageX: 110});
       fixture.detectChanges();
@@ -327,12 +323,13 @@ describe('EnvironmentComponent', () => {
 
       svg.triggerEventHandler('mouseenter', {pageX: 100, pageY: 100});
       fixture.detectChanges();
-      svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
+      click(100, 100, svg);
       fixture.detectChanges();
+      expect(component.tooltip.show).toBeTrue();
+
       svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
       fixture.detectChanges();
-
-      expect(component.tooltip.show).toBeTrue();
+      expect(component.tooltip.show).toBeFalse();
     });
   });
 
@@ -340,16 +337,30 @@ describe('EnvironmentComponent', () => {
     const svg = fixture.debugElement.query(
       By.css(`#${component.environment.name}-svg`)
     );
-    svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
+    click(100, 100, svg);
     fixture.detectChanges();
-
     expect(component.tooltip.clickOn).toBeTrue();
 
-    svg.triggerEventHandler('click', {pageX: 100, pageY: 100});
+    click(100, 100, svg);
     fixture.detectChanges();
 
     expect(component.tooltip.clickOn).toBeFalse();
   });
+
+  function click(x: number, y: number, element: DebugElement): void {
+    drag(x, y, x, y, element);
+  }
+
+  function drag(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    element: DebugElement
+  ): void {
+    element.triggerEventHandler('mousedown', {pageX: x1, pageY: y1});
+    element.triggerEventHandler('mouseup', {pageX: x2, pageY: y2});
+  }
 
   it('#hidetooltip', () => {
     component.hideTooltip();
@@ -385,5 +396,9 @@ describe('EnvironmentComponent', () => {
         })
       );
     });
+  });
+
+  describe('time range drag', () => {
+    // TODO(#277): add drag tests
   });
 });

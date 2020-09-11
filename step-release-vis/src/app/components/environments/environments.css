@@ -1,9 +1,14 @@
 * {
   font-family: Roboto, Arial, sans-serif;
+  -webkit-user-select: none;
 }
 
 #reset {
   margin-left: 8px;
+}
+
+.invalid-timerange {
+  border-color: red !important;
 }
 
 #bottom-timeline, #top-timeline {

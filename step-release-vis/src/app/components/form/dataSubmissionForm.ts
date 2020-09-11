@@ -55,6 +55,8 @@ export class DataSubmissionFormComponent implements OnInit {
 
     if (this.dataForm.value.text) {
       window.localStorage.setItem('json_data', this.dataForm.value.text);
+      sessionStorage.clear(); // clear start/end timestamps
+      this.router.navigate(['env']);
     } else {
       const fileReader: FileReader = new FileReader();
       fileReader.onload = event => {
@@ -65,6 +67,7 @@ export class DataSubmissionFormComponent implements OnInit {
           result = this.arrayBufferToString(event.target.result as ArrayBuffer);
         }
         window.localStorage.setItem('binary_data', result);
+        sessionStorage.clear(); // clear start/end timestamps
         this.router.navigate(['env']);
       };
       fileReader.readAsBinaryString(this.file);
