@@ -223,7 +223,7 @@ describe('EnvironmentComponent', () => {
       );
     });
 
-    it(`should show if curGlobalTimestamp is in visible time range, shouldn't otherwise`, () => {
+    it(`should show if curGlobalTimestamp is defined`, () => {
       expect(getLine()).toBeFalsy();
 
       component.currentSnapshot = {
@@ -233,10 +233,6 @@ describe('EnvironmentComponent', () => {
       component.curGlobalTimestamp.seconds = component.startTimestamp;
       fixture.detectChanges();
       expect(getLine()).toBeTruthy();
-
-      component.curGlobalTimestamp.seconds = component.startTimestamp - 1000;
-      fixture.detectChanges();
-      expect(getLine()).toBeFalsy();
     });
 
     function getLine(): DebugElement {

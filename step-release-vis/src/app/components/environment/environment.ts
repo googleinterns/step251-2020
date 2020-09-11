@@ -15,6 +15,7 @@ import {CandidateService} from '../../services/candidateService';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Tooltip} from '../../models/Tooltip';
 import {ColoringService} from '../../services/coloringService';
+import {readTsconfig} from '@angular-devkit/build-angular/src/angular-cli-files/utilities/read-tsconfig';
 
 @Component({
   selector: 'app-environment',
@@ -251,16 +252,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       );
     }
     if (!this.tooltip.clickOn) {
+      this.updateCurrentSnapshot(this.getSvgMouseX(event.pageX));
       this.tooltip.mouseX = event.pageX - window.scrollX;
       this.tooltip.mouseY = event.pageY - window.scrollY;
       this.tooltip.show = true;
-
-      const svgElement = document.getElementById(
-        this.environment.name + '-svg'
-      );
-      const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
-
-      this.updateCurrentSnapshot(svgMouseX);
     }
   }
 
@@ -385,9 +380,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   envMouseUp(event: MouseEvent): void {
     if (Math.abs(this.mouseDownPos - event.pageX) < 20) {
       // 'click'
+      this.moveTooltip(event);
       if (this.currentSnapshot) {
         this.tooltip.clickOn = !this.tooltip.clickOn;
-        this.moveTooltip(event);
       }
     } else {
       // 'drag'
