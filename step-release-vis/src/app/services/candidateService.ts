@@ -68,6 +68,7 @@ export class CandidateService {
   }
 
   processMetadata(candsMetadata: CandidateMetadata[]): void {
+    console.log(candsMetadata.length);
     for (const candMetadata of candsMetadata) {
       const candName = candMetadata.candidate;
       const release = candMetadata.release;
@@ -81,6 +82,7 @@ export class CandidateService {
       }
       candsOfRelease.push(candName);
       this.releaseCandidates.set(release, candsOfRelease);
+      console.log(release, candsOfRelease.length);
     }
   }
 
