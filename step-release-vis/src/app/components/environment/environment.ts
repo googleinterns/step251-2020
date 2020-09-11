@@ -46,9 +46,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
   currentSnapshot: Snapshot;
-
-  // when clickOn is true, the tooltip and the line stop moving after the mouse
-  clickOn: boolean;
   currentCandidate: string;
   expanded = false;
   mouseDownPos: number;
@@ -227,13 +224,17 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   enteredPolygon(polygon: Polygon): void {
-    this.candidateService.polygonHovered(polygon);
-    this.currentCandidate = polygon.candName;
+    if (!this.tooltip.clickOn) {
+      this.candidateService.polygonHovered(polygon);
+      this.currentCandidate = polygon.candName;
+    }
   }
 
   leftPolygon(polygon: Polygon): void {
-    this.candidateService.polygonUnhovered(polygon);
-    this.currentCandidate = undefined;
+    if (!this.tooltip.clickOn) {
+      this.candidateService.polygonUnhovered(polygon);
+      this.currentCandidate = undefined;
+    }
   }
 
   enteredEnvironment(event: MouseEvent): void {
