@@ -275,7 +275,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.mouseDownPos = undefined;
     this.dragStartTimestamp = undefined;
     this.dragEndTimestamp = undefined;
-    this.curGlobalTimestamp.seconds = undefined;
     this.hideTooltip();
     this.currentSnapshot = undefined;
     this.curGlobalTimestamp.seconds = undefined;
@@ -332,7 +331,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       svgMouseX > lastDisplayedTimestampScaled
     ) {
       this.currentSnapshot = undefined;
-      this.curGlobalTimestamp.seconds = undefined;
       return;
     }
 
