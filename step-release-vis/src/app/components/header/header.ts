@@ -6,6 +6,9 @@ import {ThemeService} from '../../services/themeService';
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
 })
+
+// TODO(#299): Move to new parent component so that timeline
+//  choosing and dark mode button are on the same line.
 export class HeaderComponent implements OnInit {
   constructor(private themeService: ThemeService) {}
 
