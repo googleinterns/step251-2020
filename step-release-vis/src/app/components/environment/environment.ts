@@ -46,9 +46,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
   currentSnapshot: Snapshot;
-
-  // when clickOn is true, the tooltip and the line stop moving after the mouse
-  clickOn: boolean;
   currentCandidate: string;
   expanded = false;
   mouseDownPos: number;
@@ -227,13 +224,17 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   enteredPolygon(polygon: Polygon): void {
-    this.candidateService.polygonHovered(polygon);
-    this.currentCandidate = polygon.candName;
+    if (!this.tooltip.clickOn) {
+      this.candidateService.polygonHovered(polygon);
+      this.currentCandidate = polygon.candName;
+    }
   }
 
   leftPolygon(polygon: Polygon): void {
-    this.candidateService.polygonUnhovered(polygon);
-    this.currentCandidate = undefined;
+    if (!this.tooltip.clickOn) {
+      this.candidateService.polygonUnhovered(polygon);
+      this.currentCandidate = undefined;
+    }
   }
 
   enteredEnvironment(event: MouseEvent): void {
@@ -244,17 +245,16 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   moveTooltip(event: MouseEvent): void {
+    if (!this.currentSnapshot) {
+      this.curGlobalTimestamp.seconds = this.getTimestampFromPosition(
+        this.getSvgMouseX(event.pageX)
+      );
+    }
     if (!this.tooltip.clickOn) {
+      this.updateCurrentSnapshot(this.getSvgMouseX(event.pageX));
       this.tooltip.mouseX = event.pageX - window.scrollX;
       this.tooltip.mouseY = event.pageY - window.scrollY;
       this.tooltip.show = true;
-
-      const svgElement = document.getElementById(
-        this.environment.name + '-svg'
-      );
-      const svgMouseX = event.pageX - svgElement.getBoundingClientRect().left;
-
-      this.updateCurrentSnapshot(svgMouseX);
     }
   }
 
@@ -281,6 +281,19 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     );
   }
 
+  /* Returns the timestamp associated with this position in env. */
+  private getTimestampFromPosition(x: number): number {
+    return Math.round(
+      this.candidateService.scale(
+        x,
+        0,
+        this.svgWidth,
+        this.startTimestamp,
+        this.endTimestamp
+      )
+    );
+  }
+
   /*
    * Computes the closest snapshot to the current position of the mouse.
    * If mouse is outside data zone, set currentSnapshot to undefined.
@@ -303,7 +316,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       svgMouseX > lastDisplayedTimestampScaled
     ) {
       this.currentSnapshot = undefined;
-      this.curGlobalTimestamp.seconds = undefined;
       return;
     }
 
@@ -359,16 +371,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   shouldDisplayLine(): boolean {
-    if (!this.curGlobalTimestamp || this.displayedSnapshots.length === 0) {
-      return false;
-    }
-    return (
-      this.displayedSnapshots[0].timestamp.seconds <=
-        this.curGlobalTimestamp.seconds &&
-      this.curGlobalTimestamp.seconds <=
-        this.displayedSnapshots[this.displayedSnapshots.length - 1].timestamp
-          .seconds
-    );
+    return this.curGlobalTimestamp.seconds !== undefined;
   }
 
   /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either
@@ -376,8 +379,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   envMouseUp(event: MouseEvent): void {
     if (Math.abs(this.mouseDownPos - event.pageX) < 20) {
       // 'click'
-      this.tooltip.clickOn = !this.tooltip.clickOn;
       this.moveTooltip(event);
+      if (this.currentSnapshot) {
+        this.tooltip.clickOn = !this.tooltip.clickOn;
+      }
     } else {
       // 'drag'
       const dragMin = Math.min(this.mouseDownPos, event.pageX);
@@ -430,5 +435,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   private getTitleSize(): number {
     return Math.min(this.svgSmallHeight, 16);
+  }
+
+  private getSvgMouseX(pageX: number): number {
+    const svgElement = document.getElementById(this.environment.name + '-svg');
+    return pageX - svgElement.getBoundingClientRect().left;
   }
 }
