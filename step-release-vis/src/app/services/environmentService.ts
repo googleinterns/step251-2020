@@ -85,9 +85,11 @@ export class EnvironmentService {
     return polys;
   }
 
-  /* Returns negative value of the area if points are in clockwise order. */
   private triangleArea(a: Point, b: Point, c: Point): number {
-    return 0;
+    return Math.abs(
+      (a.x * b.y - b.x * a.y + b.x * c.y - c.x * b.y + c.x * a.y - a.x * c.y) /
+        2
+    );
   }
 
   /* Remove mid-edge points for efficency concerns. */

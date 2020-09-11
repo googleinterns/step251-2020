@@ -321,6 +321,55 @@ describe('EnvironmentService', () => {
     });
   });
 
+  describe('#triangleArea', () => {
+    it('not collinear points', () => {
+      // @ts-ignore
+      const result = service.triangleArea(
+        new Point(1, 1),
+        new Point(5, 1),
+        new Point(6, 3)
+      );
+      expect(result).toEqual(4);
+    });
+    it('collinear points', () => {
+      // @ts-ignore
+      const result = service.triangleArea(
+        new Point(1, 1),
+        new Point(2, 2),
+        new Point(3, 3)
+      );
+      expect(result).toEqual(0);
+    });
+  });
+
+  describe('#compressPoly', () => {
+    it('should not compress', () => {
+      // @ts-ignore
+      const poly = new Polygon(
+        [new Point(1, 1), new Point(5, 1), new Point(6, 3)],
+        '1'
+      );
+
+      // @ts-ignore
+      expect(service.compressPoly(poly)).toEqual(poly);
+    });
+
+    it('should compress', () => {
+      const poly = new Polygon(
+        [new Point(0, 1), new Point(1, 2), new Point(2, 3), new Point(4, 10)],
+        '1'
+      );
+
+      const compressedPoly = new Polygon(
+        [new Point(0, 1), new Point(2, 3), new Point(4, 10)],
+        '1'
+      );
+
+      // @ts-ignore
+      expect(service.compressPoly(poly)).toEqual(compressedPoly);
+    });
+  });
+
   describe('#createPolygon', () => {
     it('creates a square', () => {
       const lower: Point[] = [
