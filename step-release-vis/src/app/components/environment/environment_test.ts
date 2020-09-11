@@ -325,10 +325,11 @@ describe('EnvironmentComponent', () => {
       fixture.detectChanges();
       click(100, 100, svg);
       fixture.detectChanges();
+      expect(component.tooltip.show).toBeTrue();
+
       svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
       fixture.detectChanges();
-
-      expect(component.tooltip.show).toBeTrue();
+      expect(component.tooltip.show).toBeFalse();
     });
   });
 

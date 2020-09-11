@@ -46,9 +46,12 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   tooltip: Tooltip = new Tooltip();
   displayedSnapshots: Snapshot[];
   currentSnapshot: Snapshot;
+
   currentCandidate: string;
   expanded = false;
   mouseDownPos: number;
+  dragStartTimestamp: number;
+  dragEndTimestamp: number;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -240,15 +243,29 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   enteredEnvironment(event: MouseEvent): void {
     if (!this.tooltip.clickOn) {
       this.tooltip.envName = this.environment.name;
-      this.moveTooltip(event);
+      this.envMouseMove(event);
     }
   }
 
-  moveTooltip(event: MouseEvent): void {
+  envMouseMove(event: MouseEvent): void {
     if (!this.currentSnapshot) {
       this.curGlobalTimestamp.seconds = this.getTimestampFromPosition(
         this.getSvgMouseX(event.pageX)
       );
+    }
+    if (this.mouseDownPos) {
+      const dragStart = this.mouseDownPos;
+      const dragEnd = event.pageX;
+      if (Math.abs(dragEnd - dragStart) > 20) {
+        const dragMin = Math.min(dragStart, dragEnd);
+        const dragMax = Math.max(dragStart, dragEnd);
+        this.dragStartTimestamp = this.getTimestampFromPosition(
+          this.getSvgMouseX(dragMin)
+        );
+        this.dragEndTimestamp = this.getTimestampFromPosition(
+          this.getSvgMouseX(dragMax)
+        );
+      }
     }
     if (!this.tooltip.clickOn) {
       this.updateCurrentSnapshot(this.getSvgMouseX(event.pageX));
@@ -259,15 +276,17 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   leftEnvironment(): void {
-    if (!this.tooltip.clickOn) {
-      this.hideTooltip();
-      this.currentSnapshot = undefined;
-      this.curGlobalTimestamp.seconds = undefined;
-    }
+    this.mouseDownPos = undefined;
+    this.dragStartTimestamp = undefined;
+    this.dragEndTimestamp = undefined;
+    this.hideTooltip();
+    this.currentSnapshot = undefined;
+    this.curGlobalTimestamp.seconds = undefined;
   }
 
   hideTooltip(): void {
     this.tooltip.show = false;
+    this.tooltip.clickOn = false;
   }
 
   /* Returns the distance in pixels from the svg border. */
@@ -377,18 +396,20 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either
   clickOn becomes false or the mouse leaves the <div> of the environment */
   envMouseUp(event: MouseEvent): void {
-    if (Math.abs(this.mouseDownPos - event.pageX) < 20) {
-      // 'click'
-      this.moveTooltip(event);
-      if (this.currentSnapshot) {
+    if (this.mouseDownPos) {
+      const dragStart = this.mouseDownPos;
+      const dragEnd = event.pageX;
+      this.mouseDownPos = undefined;
+      this.envMouseMove(event);
+      if (Math.abs(dragEnd - dragStart) < 20) {
+        // 'click'
         this.tooltip.clickOn = !this.tooltip.clickOn;
+      } else {
+        // 'drag'
+        // TODO(#277): use the timestamps
+        console.log(this.dragStartTimestamp);
+        console.log(this.dragEndTimestamp);
       }
-    } else {
-      // 'drag'
-      const dragMin = Math.min(this.mouseDownPos, event.pageX);
-      const dragMax = Math.max(this.mouseDownPos, event.pageX);
-      // TODO(#277): add time range update
-      console.log(`${dragMin} -> ${dragMax}`);
     }
   }
 

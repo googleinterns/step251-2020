@@ -29,7 +29,7 @@
          [attr.height]="svgHeight"
          (mouseenter)="enteredEnvironment($event)"
          (mouseleave)="leftEnvironment()"
-         (mousemove)="moveTooltip($event)"
+         (mousemove)="envMouseMove($event)"
          (mousedown)="envMouseDown($event)"
          (mouseup)="envMouseUp($event)">
       <line [attr.x1]="0"
