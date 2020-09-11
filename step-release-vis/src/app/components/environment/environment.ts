@@ -15,6 +15,7 @@ import {CandidateService} from '../../services/candidateService';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Tooltip} from '../../models/Tooltip';
 import {ColoringService} from '../../services/coloringService';
+import {ThemeService} from '../../services/themeService';
 
 @Component({
   selector: 'app-environment',
@@ -56,7 +57,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   constructor(
     private environmentService: EnvironmentService,
     private candidateService: CandidateService,
-    private coloringService: ColoringService
+    private coloringService: ColoringService,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
@@ -452,6 +454,13 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       )
       .map(({x, y}) => `${x},${y}`)
       .join(' ');
+  }
+
+  getFillTimeline(): string {
+    if (this.themeService.theme) {
+      return 'white';
+    }
+    return 'black';
   }
 
   private getTitleSize(): number {

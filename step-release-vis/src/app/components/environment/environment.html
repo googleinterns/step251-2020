@@ -71,6 +71,7 @@
         <text *ngFor="let timelinePoint of timelinePoints; let i = index"
               [attr.x]="timelinePoint.x"
               [attr.y]="svgHeight - 12"
+              [attr.fill]="getFillTimeline()"
               [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
               font-size="12">
           {{ timelinePoint.timeString }}
@@ -78,6 +79,7 @@
         <text *ngFor="let timelinePoint of timelinePoints; let i = index"
               [attr.x]="timelinePoint.x"
               [attr.y]="svgHeight"
+              [attr.fill]="getFillTimeline()"
               [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
               font-size="12">
           {{ timelinePoint.dateString }}
