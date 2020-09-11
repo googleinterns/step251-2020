@@ -1,5 +1,10 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {Environment, Timestamp} from '../../models/Data';
+import {
+  Environment,
+  Timestamp,
+  Project,
+  CandidateMetadata,
+} from '../../models/Data';
 import {DataService} from '../../services/dataService';
 import {ProtoBufferService} from '../../services/protoBufferService';
 import {CandidateService} from '../../services/candidateService';
@@ -66,13 +71,13 @@ export class EnvironmentsComponent implements OnInit {
 
   private readProtoData(): void {
     this.readData(this.dataService.getLocalProtoData, data =>
-      this.protoBufferService.getEnvsFromString(data)
+      this.protoBufferService.getDataFromString(data)
     );
   }
 
   private readProtoBinaryData(): void {
     this.readData(this.dataService.getLocalProtoBinaryData, data =>
-      this.protoBufferService.getEnvsFromBinary(data as Uint8Array)
+      this.protoBufferService.getDataFromBinary(data as Uint8Array)
     );
   }
 
@@ -83,14 +88,20 @@ export class EnvironmentsComponent implements OnInit {
 
   private readData<T>(
     dataProvider: () => Observable<T>,
-    data2env: (a: T) => Environment[]
+    data2project: (a: T) => Project
   ): void {
     dataProvider().subscribe(data => {
       if (data) {
         this.dataFound = true;
-        this.processEnvironments(data2env(data));
+        const parsedData: Project = data2project(data);
+        this.processEnvironments(parsedData.envsList);
+        this.processMetadata(parsedData.candidatesList);
       }
     });
+  }
+
+  private processMetadata(candsMetadata: CandidateMetadata[]): void {
+    this.candidateService.processMetadata(candsMetadata);
   }
 
   /**

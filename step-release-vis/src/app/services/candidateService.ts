@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Candidate} from '../models/Candidate';
 import {Polygon} from '../models/Polygon';
+import {CandidateMetadata} from '../models/Data';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +9,8 @@ import {Polygon} from '../models/Polygon';
 export class CandidateService {
   highlightReleases: boolean;
   cands: Map<string, Candidate>;
-  inRelease: Map<string, string>;
-  releaseCandidates: Map<string, Candidate[]>;
+  inRelease: Map<string, string>; // in which release is the candidate?
+  releaseCandidates: Map<string, Candidate[]>; // what are the candidates of the release?
 
   constructor() {
     this.cands = new Map();
@@ -61,6 +62,23 @@ export class CandidateService {
       candsToHighlight.forEach(cand => cand.dehighlight());
     } else {
       this.cands.get(polygon.candName).dehighlight();
+    }
+  }
+
+  processMetadata(candsMetadata: CandidateMetadata[]): void {
+    for (const candMetadata of candsMetadata) {
+      const candName = candMetadata.candidate;
+      const release = candMetadata.release;
+      // set the release for the candidate
+      this.inRelease.set(candName, release);
+
+      // add candidate to release list
+      let candsOfRelease: Candidate[] = [];
+      if (this.releaseCandidates.has(release)) {
+        candsOfRelease = this.releaseCandidates.get(release);
+      }
+      candsOfRelease.push(this.cands.get(candName));
+      this.releaseCandidates.set(release, candsOfRelease);
     }
   }
 

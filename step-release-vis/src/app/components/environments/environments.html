@@ -24,12 +24,6 @@
       Reset
     </button>
   </div>
-  <div>
-    <form>
-      <input type="checkbox" id="highlight-releases" (change)="changeHighlightingMode($event)">
-      <label for="highlight-releases">Highlight releases</label>
-    </form>
-  </div>
   <div [ngStyle]="{display: 'inline-block', height: getTimelineHeight() + 'px'}">
     <svg xmlns="http://www.w3.org/2000/svg"
          id="top-timeline"
