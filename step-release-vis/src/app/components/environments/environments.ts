@@ -80,7 +80,7 @@ export class EnvironmentsComponent implements OnInit {
 
   private readProtoBinaryData(): void {
     this.readData(this.dataService.getLocalProtoBinaryData, data =>
-      this.protoBufferService.getDataFromBinary(data as Uint8Array)
+      this.protoBufferService.getDataFromBinary()
     );
   }
 

@@ -8,8 +8,8 @@ import {SampleData} from './SampleData';
 export class DataServiceStub {
   sampleData = new SampleData();
   data = {
-    jsonData: this.sampleData.envs,
-    protoData: this.sampleData.envsProto,
+    jsonData: this.sampleData.project,
+    protoData: this.sampleData.projectProto,
   };
 
   getProtoData = this.getLocalProtoData;

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Project as ProjectProto} from '../proto/generated/data_pb';
-import {Project} from '../models/Data';
+import {Environment, Project} from '../models/Data';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +8,9 @@ import {Project} from '../models/Data';
 export class ProtoBufferService {
   constructor() {}
 
-  getDataFromBinary(data: Uint8Array): Project {
-    return ProjectProto.deserializeBinary(data).toObject();
+  getDataFromBinary(): Project {
+    //return ProjectProto.deserializeBinary(data).toObject();
+    return undefined;
   }
 
   getDataFromString(data: string): Project {

@@ -10,6 +10,7 @@ export class CandidateServiceStub {
   candColors = new Map<string, number>();
   scale = this.candidateService.scale;
   sparseArray = this.candidateService.sparseArray;
+  processMetadata = this.candidateService.processMetadata;
 
   getColor(candName: string): number {
     return 0;
