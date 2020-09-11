@@ -15,7 +15,6 @@ import {CandidateService} from '../../services/candidateService';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Tooltip} from '../../models/Tooltip';
 import {ColoringService} from '../../services/coloringService';
-import {readTsconfig} from '@angular-devkit/build-angular/src/angular-cli-files/utilities/read-tsconfig';
 
 @Component({
   selector: 'app-environment',
