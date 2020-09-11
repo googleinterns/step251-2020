@@ -245,6 +245,11 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   moveTooltip(event: MouseEvent): void {
+    if (!this.currentSnapshot) {
+      this.curGlobalTimestamp.seconds = this.getTimestampFromPosition(
+        event.pageX
+      );
+    }
     if (!this.tooltip.clickOn) {
       this.tooltip.mouseX = event.pageX - window.scrollX;
       this.tooltip.mouseY = event.pageY - window.scrollY;
@@ -304,7 +309,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       svgMouseX > lastDisplayedTimestampScaled
     ) {
       this.currentSnapshot = undefined;
-      this.curGlobalTimestamp.seconds = undefined;
       return;
     }
 
@@ -360,16 +364,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   shouldDisplayLine(): boolean {
-    if (!this.curGlobalTimestamp || this.displayedSnapshots.length === 0) {
-      return false;
-    }
-    return (
-      this.displayedSnapshots[0].timestamp.seconds <=
-        this.curGlobalTimestamp.seconds &&
-      this.curGlobalTimestamp.seconds <=
-        this.displayedSnapshots[this.displayedSnapshots.length - 1].timestamp
-          .seconds
-    );
+    return this.curGlobalTimestamp.seconds !== undefined;
   }
 
   /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either
