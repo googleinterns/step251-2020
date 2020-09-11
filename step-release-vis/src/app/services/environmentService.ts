@@ -20,7 +20,7 @@ export class EnvironmentService {
 
   // xs: 0-100, ys: timestamps
   getPolygons(snapshots: Snapshot[]): Observable<Polygon[]> {
-    return of(this.calculatePolygons(snapshots));
+    return of(this.removeCollinearPoints(this.calculatePolygons(snapshots)));
   }
 
   private calculatePolygons(snapshots: Snapshot[]): Polygon[] {
@@ -83,6 +83,40 @@ export class EnvironmentService {
     }
 
     return polys;
+  }
+
+  private formALine(a: Point, b: Point, c: Point): boolean {
+    return (
+      Math.abs(
+        a.x * b.y - b.x * a.y + b.x * c.y - c.x * b.y + c.x * a.y - a.x * c.y
+      ) < 0.1
+    );
+  }
+
+  /* Remove mid-edge points for efficency concerns. */
+  private compressPoly(poly: Polygon): Polygon {
+    const pointStack: Point[] = [];
+
+    for (const point of poly.points) {
+      while (
+        pointStack.length >= 2 &&
+        this.formALine(
+          point,
+          pointStack[pointStack.length - 1],
+          pointStack[pointStack.length - 2]
+        )
+      ) {
+        pointStack.pop();
+      }
+
+      pointStack.push(point);
+    }
+
+    return new Polygon(pointStack, poly.candName);
+  }
+
+  private removeCollinearPoints(polys: Polygon[]): Polygon[] {
+    return polys.map(poly => this.compressPoly(poly));
   }
 
   private incrementNoOfEdges(cand1: string, cand2: string): void {
