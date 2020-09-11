@@ -64,6 +64,7 @@ export class EnvironmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.readProtoBinaryData();
+    //this.readJsonData();
   }
 
   @HostListener('window:resize')
@@ -98,6 +99,7 @@ export class EnvironmentsComponent implements OnInit {
         this.dataFound = true;
         const parsedData: Project = data2project(data);
         this.processEnvironments(parsedData.envsList);
+        console.log('meta:', parsedData.candidatesList.length);
         this.processMetadata(parsedData.candidatesList);
       }
     });
