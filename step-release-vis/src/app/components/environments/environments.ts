@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit, AfterViewInit} from '@angular/core';
 import {Environment, Timestamp} from '../../models/Data';
 import {DataService} from '../../services/dataService';
 import {ProtoBufferService} from '../../services/protoBufferService';
@@ -8,13 +8,14 @@ import {shuffle} from 'lodash';
 import {TimelinePoint} from '../../models/TimelinePoint';
 import {Observable} from 'rxjs';
 import {EnvironmentService} from '../../services/environmentService';
+import {ThemeService} from '../../services/themeService';
 
 @Component({
   selector: 'app-environments',
   templateUrl: './environments.html',
   styleUrls: ['./environments.css'],
 })
-export class EnvironmentsComponent implements OnInit {
+export class EnvironmentsComponent implements OnInit, AfterViewInit {
   readonly TIMERANGE_HEIGHT = 35;
   readonly TIMELINE_HEIGHT = 40;
   readonly ENV_MARGIN_BOTTOM = 7;
@@ -52,11 +53,16 @@ export class EnvironmentsComponent implements OnInit {
     private candidateService: CandidateService,
     private protoBufferService: ProtoBufferService,
     private coloringService: ColoringService,
-    private environmentService: EnvironmentService
+    private environmentService: EnvironmentService,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
     this.readProtoBinaryData();
+  }
+
+  ngAfterViewInit(): void {
+    this.themeService.setTheme();
   }
 
   @HostListener('window:resize')
@@ -366,6 +372,13 @@ export class EnvironmentsComponent implements OnInit {
       0,
       this.envWidth
     );
+  }
+
+  getFillTimeline(): string {
+    if (this.themeService.theme) {
+      return 'white';
+    }
+    return 'black';
   }
 
   shouldDisplayTimelineCircle(): boolean {
