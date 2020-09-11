@@ -80,7 +80,7 @@ export class EnvironmentsComponent implements OnInit {
 
   private readProtoBinaryData(): void {
     this.readData(this.dataService.getLocalProtoBinaryData, data =>
-      this.protoBufferService.getDataFromBinary()
+      this.protoBufferService.getDataFromBinary(data as Uint8Array)
     );
   }
 
@@ -98,7 +98,6 @@ export class EnvironmentsComponent implements OnInit {
         this.dataFound = true;
         const parsedData: Project = data2project(data);
         this.processEnvironments(parsedData.envsList);
-        console.log('data done');
         this.processMetadata(parsedData.candidatesList);
       }
     });

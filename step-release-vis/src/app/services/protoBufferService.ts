@@ -8,9 +8,8 @@ import {Environment, Project} from '../models/Data';
 export class ProtoBufferService {
   constructor() {}
 
-  getDataFromBinary(): Project {
-    //return ProjectProto.deserializeBinary(data).toObject();
-    return undefined;
+  getDataFromBinary(data: Uint8Array): Project {
+    return ProjectProto.deserializeBinary(data).toObject();
   }
 
   getDataFromString(data: string): Project {
