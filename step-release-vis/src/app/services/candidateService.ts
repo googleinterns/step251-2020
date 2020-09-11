@@ -7,7 +7,7 @@ import {CandidateMetadata} from '../models/Data';
   providedIn: 'root',
 })
 export class CandidateService {
-  readonly highlightReleases: boolean = true;
+  highlightReleases = true;
   cands: Map<string, Candidate>;
   inRelease: Map<string, string>; // in which release is the candidate?
   releaseCandidates: Map<string, string[]>; // what are the candidates of the release?
@@ -56,8 +56,8 @@ export class CandidateService {
   }
 
   polygonUnhovered(polygon: Polygon): void {
-    const release = this.inRelease.get(polygon.candName);
     if (this.highlightReleases === true) {
+      const release = this.inRelease.get(polygon.candName);
       const candsToHighlight: Candidate[] = this.releaseCandidates
         .get(release)
         .map(name => this.cands.get(name));
@@ -75,11 +75,11 @@ export class CandidateService {
       this.inRelease.set(candName, release);
 
       // add candidate to release list
-      let candsOfRelease: Candidate[] = [];
+      let candsOfRelease: string[] = [];
       if (this.releaseCandidates.has(release)) {
         candsOfRelease = this.releaseCandidates.get(release);
       }
-      candsOfRelease.push(this.cands.get(candName));
+      candsOfRelease.push(candName);
       this.releaseCandidates.set(release, candsOfRelease);
     }
   }
