@@ -321,24 +321,24 @@ describe('EnvironmentService', () => {
     });
   });
 
-  describe('#triangleArea', () => {
+  describe('#formALine', () => {
     it('not collinear points', () => {
       // @ts-ignore
-      const result = service.triangleArea(
+      const result = service.formALine(
         new Point(1, 1),
         new Point(5, 1),
         new Point(6, 3)
       );
-      expect(result).toEqual(4);
+      expect(result).toEqual(false);
     });
     it('collinear points', () => {
       // @ts-ignore
-      const result = service.triangleArea(
+      const result = service.formALine(
         new Point(1, 1),
         new Point(2, 2),
         new Point(3, 3)
       );
-      expect(result).toEqual(0);
+      expect(result).toEqual(true);
     });
   });
 

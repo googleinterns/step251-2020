@@ -85,10 +85,11 @@ export class EnvironmentService {
     return polys;
   }
 
-  private triangleArea(a: Point, b: Point, c: Point): number {
-    return Math.abs(
-      (a.x * b.y - b.x * a.y + b.x * c.y - c.x * b.y + c.x * a.y - a.x * c.y) /
-        2
+  private formALine(a: Point, b: Point, c: Point): boolean {
+    return (
+      Math.abs(
+        a.x * b.y - b.x * a.y + b.x * c.y - c.x * b.y + c.x * a.y - a.x * c.y
+      ) < 0.0000001
     );
   }
 
@@ -99,11 +100,11 @@ export class EnvironmentService {
     for (const point of poly.points) {
       while (
         pointStack.length >= 2 &&
-        this.triangleArea(
+        this.formALine(
           point,
           pointStack[pointStack.length - 1],
           pointStack[pointStack.length - 2]
-        ) === 0
+        )
       ) {
         pointStack.pop();
       }
