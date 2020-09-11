@@ -247,7 +247,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   moveTooltip(event: MouseEvent): void {
     if (!this.currentSnapshot) {
       this.curGlobalTimestamp.seconds = this.getTimestampFromPosition(
-        event.pageX
+        this.getSvgMouseX(event.pageX)
       );
     }
     if (!this.tooltip.clickOn) {
@@ -439,5 +439,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   private getTitleSize(): number {
     return Math.min(this.svgSmallHeight, 16);
+  }
+
+  private getSvgMouseX(pageX: number): number {
+    const svgElement = document.getElementById(this.environment.name + '-svg');
+    return pageX - svgElement.getBoundingClientRect().left;
   }
 }
