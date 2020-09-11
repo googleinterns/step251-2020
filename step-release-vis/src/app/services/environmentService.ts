@@ -89,7 +89,7 @@ export class EnvironmentService {
     return (
       Math.abs(
         a.x * b.y - b.x * a.y + b.x * c.y - c.x * b.y + c.x * a.y - a.x * c.y
-      ) < 0.0000001
+      ) < 0.1
     );
   }
 
