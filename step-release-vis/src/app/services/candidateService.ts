@@ -7,10 +7,10 @@ import {CandidateMetadata} from '../models/Data';
   providedIn: 'root',
 })
 export class CandidateService {
-  highlightReleases: boolean;
+  readonly highlightReleases: boolean = true;
   cands: Map<string, Candidate>;
   inRelease: Map<string, string>; // in which release is the candidate?
-  releaseCandidates: Map<string, Candidate[]>; // what are the candidates of the release?
+  releaseCandidates: Map<string, string[]>; // what are the candidates of the release?
 
   constructor() {
     this.cands = new Map();
@@ -45,9 +45,10 @@ export class CandidateService {
 
   polygonHovered(polygon: Polygon): void {
     if (this.highlightReleases === true) {
-      const candsToHighlight: Candidate[] = this.releaseCandidates.get(
-        this.inRelease.get(polygon.candName)
-      );
+      const release = this.inRelease.get(polygon.candName);
+      const candsToHighlight: Candidate[] = this.releaseCandidates
+        .get(release)
+        .map(name => this.cands.get(name));
       candsToHighlight.forEach(cand => cand.highlight());
     } else {
       this.cands.get(polygon.candName).highlight();
@@ -55,10 +56,11 @@ export class CandidateService {
   }
 
   polygonUnhovered(polygon: Polygon): void {
+    const release = this.inRelease.get(polygon.candName);
     if (this.highlightReleases === true) {
-      const candsToHighlight: Candidate[] = this.releaseCandidates.get(
-        this.inRelease.get(polygon.candName)
-      );
+      const candsToHighlight: Candidate[] = this.releaseCandidates
+        .get(release)
+        .map(name => this.cands.get(name));
       candsToHighlight.forEach(cand => cand.dehighlight());
     } else {
       this.cands.get(polygon.candName).dehighlight();
