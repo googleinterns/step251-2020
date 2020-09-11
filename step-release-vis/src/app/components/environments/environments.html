@@ -92,11 +92,11 @@
             [attr.height]="2"
             fill="gray"/>
       <circle *ngIf="shouldDisplayTimelineCircle()"
-            id="cur-snapshot-line"
-            [attr.cx]="getLineX() - 1"
-            [attr.cy]="getTimelineHeight() / 2 - 11"
-            [attr.r]="3"
-            fill="gray"/>
+              id="cur-snapshot-line"
+              [attr.cx]="getLineX() - 1"
+              [attr.cy]="getTimelineHeight() / 2 - 11"
+              [attr.r]="3"
+              fill="gray"/>
       <text *ngFor="let timelinePoint of timelinePoints; let i = index"
             [attr.x]="timelinePoint.x"
             [attr.y]="getTimelineHeight() - 12"

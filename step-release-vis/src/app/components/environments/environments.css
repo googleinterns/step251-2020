@@ -6,6 +6,10 @@
   margin-left: 8px;
 }
 
+.invalid-timerange {
+  border-color: red !important;
+}
+
 #bottom-timeline, #top-timeline {
   position: absolute;
 }
