@@ -223,7 +223,7 @@ describe('EnvironmentComponent', () => {
       );
     });
 
-    it(`should show if curGlobalTimestamp is in visible time range, shouldn't otherwise`, () => {
+    it(`should show if curGlobalTimestamp is defined`, () => {
       expect(getLine()).toBeFalsy();
 
       component.currentSnapshot = {
@@ -233,10 +233,6 @@ describe('EnvironmentComponent', () => {
       component.curGlobalTimestamp.seconds = component.startTimestamp;
       fixture.detectChanges();
       expect(getLine()).toBeTruthy();
-
-      component.curGlobalTimestamp.seconds = component.startTimestamp - 1000;
-      fixture.detectChanges();
-      expect(getLine()).toBeFalsy();
     });
 
     function getLine(): DebugElement {
@@ -329,10 +325,11 @@ describe('EnvironmentComponent', () => {
       fixture.detectChanges();
       click(100, 100, svg);
       fixture.detectChanges();
+      expect(component.tooltip.show).toBeTrue();
+
       svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
       fixture.detectChanges();
-
-      expect(component.tooltip.show).toBeTrue();
+      expect(component.tooltip.show).toBeFalse();
     });
   });
 
