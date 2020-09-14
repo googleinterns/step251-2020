@@ -463,7 +463,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       .join(' ');
   }
 
-  getFillTimeline(): string {
+  getThemeTextColor(): string {
     if (this.themeService.theme) {
       return 'white';
     }
