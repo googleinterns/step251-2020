@@ -33,6 +33,10 @@
   alignment-baseline: central;
 }
 
+#drag-region {
+  pointer-events: none;
+}
+
 #cur-snapshot-line {
   pointer-events: none;
   mix-blend-mode: difference;

@@ -92,6 +92,28 @@
           [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 - 3"
           stroke="gray"/>
       </g>
+      <g id="drag-region"
+         *ngIf="dragStartTimestamp">
+        <rect id="drag-rect"
+              [attr.x]="dragMinX"
+              [attr.y]="0"
+              [attr.width]="dragMaxX - dragMinX"
+              [attr.height]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
+              fill="blue"
+              opacity="0.5"/>
+        <line class="drag-edge"
+              [attr.x1]="dragMinX"
+              [attr.y1]="0"
+              [attr.x2]="dragMinX"
+              [attr.y2]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
+              stroke="blue"/>
+        <line class="drag-edge"
+              [attr.x1]="dragMaxX"
+              [attr.y1]="0"
+              [attr.x2]="dragMaxX"
+              [attr.y2]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
+              stroke="blue"/>
+      </g>
     </svg>
   </div>
 </div>
