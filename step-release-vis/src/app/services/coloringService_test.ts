@@ -5,13 +5,19 @@ import {
   ColoringService,
   CandidateColor,
 } from './coloringService';
-import {executeProtractorBuilder} from '@angular-devkit/build-angular';
+import {CandidateService} from './candidateService';
+import {CandidateServiceStub} from '../../testing/CandidateServiceStub';
 
 describe('ColoringService', () => {
   let service: ColoringService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    const candidateServiceStub = new CandidateServiceStub(
+      new CandidateService()
+    );
+    TestBed.configureTestingModule({
+      providers: [{provide: CandidateService, useValue: candidateServiceStub}],
+    });
     service = TestBed.inject(ColoringService);
   });
 
@@ -193,6 +199,21 @@ describe('ColoringService', () => {
       expect(service.colorOf.get('1')).toEqual(0);
       expect(service.colorOf.get('2')).toEqual(0);
       expect(service.colorOf.get('3')).toEqual(0);
+    });
+  });
+
+  describe('#addReleaseEdges', () => {
+    it('should add edges', () => {
+      service.addReleaseEdges(); // edges from the candidateServiceStub
+
+      expect(service.candidateGraph.get('1')).toEqual(['2']);
+      expect(service.candidateGraph.get('2')).toEqual(['1']);
+      expect(service.edgeOccurrences).toEqual(
+        new Map([
+          [new CandidateEdge('1', '2').toKey(), service.releaseEdgeCost],
+          [new CandidateEdge('2', '1').toKey(), service.releaseEdgeCost],
+        ])
+      );
     });
   });
 });
