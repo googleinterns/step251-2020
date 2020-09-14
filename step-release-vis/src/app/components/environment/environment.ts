@@ -53,6 +53,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   mouseDownPos: number;
   dragStartTimestamp: number;
   dragEndTimestamp: number;
+  dragMinX: number;
+  dragMaxX: number;
 
   constructor(
     private environmentService: EnvironmentService,
@@ -258,15 +260,13 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     if (this.mouseDownPos) {
       const dragStart = this.mouseDownPos;
       const dragEnd = event.pageX;
-      if (Math.abs(dragEnd - dragStart) > 20) {
-        const dragMin = Math.min(dragStart, dragEnd);
-        const dragMax = Math.max(dragStart, dragEnd);
-        this.dragStartTimestamp = this.getTimestampFromPosition(
-          this.getSvgMouseX(dragMin)
-        );
-        this.dragEndTimestamp = this.getTimestampFromPosition(
-          this.getSvgMouseX(dragMax)
-        );
+      if (Math.abs(dragEnd - dragStart) > 10) {
+        this.dragMinX = this.getSvgMouseX(Math.min(dragStart, dragEnd));
+        this.dragMaxX = this.getSvgMouseX(Math.max(dragStart, dragEnd));
+        this.dragStartTimestamp = this.getTimestampFromPosition(this.dragMinX);
+        this.dragEndTimestamp = this.getTimestampFromPosition(this.dragMaxX);
+      } else {
+        this.resetDrag();
       }
     }
     if (!this.tooltip.clickOn) {
@@ -279,11 +279,17 @@ export class EnvironmentComponent implements OnInit, OnChanges {
 
   leftEnvironment(): void {
     this.mouseDownPos = undefined;
-    this.dragStartTimestamp = undefined;
-    this.dragEndTimestamp = undefined;
+    this.resetDrag();
     if (!this.tooltip.clickOn) {
       this.leaveEnvAndTooltip();
     }
+  }
+
+  private resetDrag(): void {
+    this.dragMinX = undefined;
+    this.dragMaxX = undefined;
+    this.dragStartTimestamp = undefined;
+    this.dragEndTimestamp = undefined;
   }
 
   hideTooltip(): void {
@@ -402,7 +408,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       const dragStart = this.mouseDownPos;
       const dragEnd = event.pageX;
       this.mouseDownPos = undefined;
-      if (Math.abs(dragEnd - dragStart) < 20) {
+      if (Math.abs(dragEnd - dragStart) < 10) {
         // 'click'
         this.tooltip.clickOn = !this.tooltip.clickOn;
         this.envMouseMove(event);
@@ -411,6 +417,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
         // TODO(#277): use the timestamps
         console.log(this.dragStartTimestamp);
         console.log(this.dragEndTimestamp);
+        this.resetDrag();
       }
     }
   }
@@ -456,7 +463,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       .join(' ');
   }
 
-  getFillTimeline(): string {
+  getThemeTextColor(): string {
     if (this.themeService.theme) {
       return 'white';
     }
