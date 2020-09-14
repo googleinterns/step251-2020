@@ -8,6 +8,11 @@ import {CandidateService} from '../app/services/candidateService';
 export class CandidateServiceStub {
   constructor(private candidateService: CandidateService) {}
   candColors = new Map<string, number>();
+  inRelease = new Map<string, string>([
+    ['1', 'r'],
+    ['2', 'r'],
+  ]);
+  releaseCandidates = new Map<string, string[]>([['r', ['1', '2']]]);
   scale = this.candidateService.scale;
   sparseArray = this.candidateService.sparseArray;
   processMetadata = this.candidateService.processMetadata;

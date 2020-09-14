@@ -17,6 +17,7 @@ export class ColoringService {
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
   colorsComputed = false;
   readonly proportionalColoringCandidateThreshold = 75;
+  readonly releaseEdgeCost = 10;
 
   constructor(private candidateService: CandidateService) {}
 
@@ -44,6 +45,24 @@ export class ColoringService {
     this.noOfCandidates = this.candNames.size;
 
     this.constructGraph(edges);
+    this.addReleaseEdges();
+  }
+
+  addReleaseEdges(): void {
+    for (const cand of this.candidateService.inRelease) {
+      const otherCands = this.candidateService.releaseCandidates.get(cand[1]);
+      for (const cand2 of otherCands) {
+        if (cand[0] === cand2) {
+          continue;
+        }
+        this.addEdgeToGraph(cand[0], cand2);
+
+        this.edgeOccurrences.set(
+          new CandidateEdge(cand[0], cand2).toKey(),
+          this.releaseEdgeCost
+        );
+      }
+    }
   }
 
   /* Add y to the list of neighbours of x */
