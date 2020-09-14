@@ -13,6 +13,7 @@ import {EnvironmentsComponent} from './components/environments/environments';
 import {DataSubmissionFormComponent} from './components/form/dataSubmissionForm';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TooltipComponent} from './components/tooltip/tooltip';
+import {HeaderComponent} from './components/header/header';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {TooltipComponent} from './components/tooltip/tooltip';
     EnvironmentsComponent,
     DataSubmissionFormComponent,
     TooltipComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

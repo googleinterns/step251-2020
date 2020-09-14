@@ -316,18 +316,27 @@ describe('EnvironmentComponent', () => {
       const svg = fixture.debugElement.query(
         By.css(`#${component.environment.name}-svg`)
       );
-      svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
-      fixture.detectChanges();
-
-      expect(component.tooltip.show).toBeFalse();
 
       svg.triggerEventHandler('mouseenter', {pageX: 100, pageY: 100});
-      fixture.detectChanges();
-      click(100, 100, svg);
       fixture.detectChanges();
       expect(component.tooltip.show).toBeTrue();
 
       svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
+      fixture.detectChanges();
+      expect(component.tooltip.show).toBeFalse();
+
+      svg.triggerEventHandler('mouseenter', {pageX: 100, pageY: 100});
+      fixture.detectChanges();
+      expect(component.tooltip.show).toBeTrue();
+
+      click(100, 100, svg);
+      fixture.detectChanges();
+      svg.triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
+      fixture.detectChanges();
+      expect(component.tooltip.show).toBeTrue();
+      fixture.debugElement
+        .query(By.css(`#wrapper`))
+        .triggerEventHandler('mouseleave', {pageX: 100, pageY: 100});
       fixture.detectChanges();
       expect(component.tooltip.show).toBeFalse();
     });
