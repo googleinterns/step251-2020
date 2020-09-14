@@ -45,6 +45,7 @@
             [attr.x]="timelinePoint.x"
             [attr.y]="9"
             [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
+            [attr.fill]="getThemeTextColor()"
             font-size="12">
         {{ timelinePoint.timeString }}
       </text>
@@ -52,6 +53,7 @@
             [attr.x]="timelinePoint.x"
             [attr.y]="21"
             [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
+            [attr.fill]="getThemeTextColor()"
             font-size="12">
         {{ timelinePoint.dateString }}
       </text>
@@ -102,12 +104,14 @@
             [attr.x]="timelinePoint.x"
             [attr.y]="getTimelineHeight() - 12"
             [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
+            [attr.fill]="getThemeTextColor()"
             font-size="12">
         {{ timelinePoint.timeString }}
       </text>
       <text *ngFor="let timelinePoint of timelinePoints; let i = index"
             [attr.x]="timelinePoint.x"
             [attr.y]="getTimelineHeight()"
+            [attr.fill]="getThemeTextColor()"
             [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
             font-size="12">
         {{ timelinePoint.dateString }}

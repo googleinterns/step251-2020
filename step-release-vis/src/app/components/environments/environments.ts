@@ -372,14 +372,14 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  getFillTimeline(): string {
+  shouldDisplayTimelineCircle(): boolean {
+    return this.curGlobalTimestamp.seconds !== undefined;
+  }
+
+  getThemeTextColor(): string {
     if (this.themeService.theme) {
       return 'white';
     }
     return 'black';
-  }
-
-  shouldDisplayTimelineCircle(): boolean {
-    return this.curGlobalTimestamp.seconds !== undefined;
   }
 }
