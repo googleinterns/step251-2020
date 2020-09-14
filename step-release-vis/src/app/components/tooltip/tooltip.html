@@ -1,5 +1,5 @@
 <div class="tooltip" id="{{tooltip.envName}}"
      *ngIf="isReady()"
-     [ngStyle]="{'font-size':fontMultiplier+'vw'}"
+     [ngStyle]="{'font-size':fontMultiplier+'vw', 'pointer-events': tooltip.clickOn ? 'all' : 'none'}"
      [innerHTML]="getData()">
 </div>

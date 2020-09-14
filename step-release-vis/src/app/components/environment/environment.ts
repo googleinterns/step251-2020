@@ -408,7 +408,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       const dragStart = this.mouseDownPos;
       const dragEnd = event.pageX;
       this.mouseDownPos = undefined;
-      if (Math.abs(dragEnd - dragStart) < 20) {
+      if (Math.abs(dragEnd - dragStart) < 10) {
         // 'click'
         this.tooltip.clickOn = !this.tooltip.clickOn;
         this.envMouseMove(event);
