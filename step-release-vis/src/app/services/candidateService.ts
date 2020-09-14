@@ -1,15 +1,21 @@
 import {Injectable} from '@angular/core';
 import {Candidate} from '../models/Candidate';
 import {Polygon} from '../models/Polygon';
+import {CandidateMetadata} from '../models/Data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CandidateService {
+  highlightReleases = true;
   cands: Map<string, Candidate>;
+  inRelease: Map<string, string>; // in which release is the candidate?
+  releaseCandidates: Map<string, string[]>; // what are the candidates of the release?
 
   constructor() {
     this.cands = new Map();
+    this.inRelease = new Map();
+    this.releaseCandidates = new Map();
   }
 
   getColor(candName: string): number {
@@ -38,11 +44,44 @@ export class CandidateService {
   }
 
   polygonHovered(polygon: Polygon): void {
-    this.cands.get(polygon.candName).polygonHovered();
+    if (this.highlightReleases === true) {
+      const release = this.inRelease.get(polygon.candName);
+      const candsToHighlight: Candidate[] = this.releaseCandidates
+        .get(release)
+        .map(name => this.cands.get(name));
+      candsToHighlight.forEach(cand => cand.highlight());
+    } else {
+      this.cands.get(polygon.candName).highlight();
+    }
   }
 
   polygonUnhovered(polygon: Polygon): void {
-    this.cands.get(polygon.candName).polygonUnhovered();
+    if (this.highlightReleases === true) {
+      const release = this.inRelease.get(polygon.candName);
+      const candsToHighlight: Candidate[] = this.releaseCandidates
+        .get(release)
+        .map(name => this.cands.get(name));
+      candsToHighlight.forEach(cand => cand.dehighlight());
+    } else {
+      this.cands.get(polygon.candName).dehighlight();
+    }
+  }
+
+  processMetadata(candsMetadata: CandidateMetadata[]): void {
+    for (const candMetadata of candsMetadata) {
+      const candName = candMetadata.candidate;
+      const release = candMetadata.release;
+      // set the release for the candidate
+      this.inRelease.set(candName, release);
+
+      // add candidate to release list
+      let candsOfRelease: string[] = [];
+      if (this.releaseCandidates.has(release)) {
+        candsOfRelease = this.releaseCandidates.get(release);
+      }
+      candsOfRelease.push(candName);
+      this.releaseCandidates.set(release, candsOfRelease);
+    }
   }
 
   /**
@@ -67,7 +106,7 @@ export class CandidateService {
   }
 
   /**
-   * Returns a sparse verison of the provided array. Contains min(max, array.length) elements.
+   * Returns a sparse version of the provided array. Contains min(max, array.length) elements.
    *
    * @param max maximum amount of elements in resulting array
    * @param array the array

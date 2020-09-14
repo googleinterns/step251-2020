@@ -3,85 +3,89 @@ import {Polygon} from '../app/models/Polygon';
 export class SampleData {
   envMin = 1591119200;
   envMax = 1598399200;
-  envs = [
-    {
-      name: 'test',
-      snapshotsList: [
-        {
-          timestamp: {
-            seconds: 1591119200,
-            nanos: 0,
-          },
-          candidatesList: [
-            {
-              candidate: '1',
-              jobCount: 100,
-            },
-            {
-              candidate: '2',
-              jobCount: 700,
-            },
-            {
-              candidate: '3',
-              jobCount: 1200,
-            },
-          ],
-        },
-        {
-          timestamp: {
-            seconds: 1591619200,
-            nanos: 0,
-          },
-          candidatesList: [
-            {
-              candidate: '1',
-              jobCount: 100,
-            },
-            {
-              candidate: '2',
-              jobCount: 1000,
-            },
-            {
-              candidate: '3',
-              jobCount: 900,
-            },
-          ],
-        },
-        {
-          timestamp: {
-            seconds: 1598019200,
-            nanos: 0,
-          },
-          candidatesList: [
-            {
-              candidate: '1',
-              jobCount: 1000,
-            },
-            {
-              candidate: '2',
-              jobCount: 1000,
-            },
-          ],
-        },
-        {
-          timestamp: {
-            seconds: 1598399200,
-            nanos: 0,
-          },
-          candidatesList: [
-            {
-              candidate: '2',
-              jobCount: 2000,
-            },
-          ],
-        },
-      ],
-    },
-  ];
 
-  envsProto = `[
+  project = {
+    name: 'project',
+    envsList: [
+      {
+        name: 'test',
+        snapshotsList: [
+          {
+            timestamp: {
+              seconds: 1591119200,
+              nanos: 0,
+            },
+            candidatesList: [
+              {
+                candidate: '1',
+                jobCount: 100,
+              },
+              {
+                candidate: '2',
+                jobCount: 700,
+              },
+              {
+                candidate: '3',
+                jobCount: 1200,
+              },
+            ],
+          },
+          {
+            timestamp: {
+              seconds: 1591619200,
+              nanos: 0,
+            },
+            candidatesList: [
+              {
+                candidate: '1',
+                jobCount: 100,
+              },
+              {
+                candidate: '2',
+                jobCount: 1000,
+              },
+              {
+                candidate: '3',
+                jobCount: 900,
+              },
+            ],
+          },
+          {
+            timestamp: {
+              seconds: 1598019200,
+              nanos: 0,
+            },
+            candidatesList: [
+              {
+                candidate: '1',
+                jobCount: 1000,
+              },
+              {
+                candidate: '2',
+                jobCount: 1000,
+              },
+            ],
+          },
+          {
+            timestamp: {
+              seconds: 1598399200,
+              nanos: 0,
+            },
+            candidatesList: [
+              {
+                candidate: '2',
+                jobCount: 2000,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    candidatesList: [],
+  };
+
+  projectProto = `
   "project",
-  [
     [
       "test",
       [
@@ -154,9 +158,8 @@ export class SampleData {
           ]
         ],
       ]
-    ]
-  ]
-]`;
+    ],
+  []`;
 
   testCandName = 'test_cand_name';
   polygons: Polygon[] = [

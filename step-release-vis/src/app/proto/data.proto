@@ -17,7 +17,16 @@ message Env {
   repeated Snapshot snapshots = 2;
 }
 
+message CandidateMetadata {
+  string candidate = 1;
+  string release = 2;
+  google.protobuf.Timestamp created = 3;
+  int64 rollup_cl = 4;
+  repeated int64 cherrypick_cls = 5;
+}
+
 message Project {
   string name = 1;
   repeated Env envs = 2;
+  repeated CandidateMetadata candidates = 3;
 }

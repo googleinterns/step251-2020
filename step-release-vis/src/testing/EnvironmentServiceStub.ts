@@ -9,7 +9,7 @@ import {SampleData} from './SampleData';
 })
 export class EnvironmentServiceStub {
   sampleData = new SampleData();
-  env = this.sampleData.envs[0];
+  env = this.sampleData.project.envsList[0];
 
   candName = this.sampleData.testCandName;
   polygons = this.sampleData.getPolygons();

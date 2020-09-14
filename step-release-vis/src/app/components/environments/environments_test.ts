@@ -149,7 +149,7 @@ describe('EnvironmentsComponent', () => {
     it('should produce sorted snapshots', () => {
       component
         // @ts-ignore
-        .sortEnvSnapshots(dataServiceStub.data.jsonData)
+        .sortEnvSnapshots(dataServiceStub.data.jsonData.envsList)
         .forEach(({snapshotsList}) => {
           for (let i = 1; i < snapshotsList.length; i++) {
             expect(snapshotsList[i].timestamp.seconds).toBeGreaterThan(
