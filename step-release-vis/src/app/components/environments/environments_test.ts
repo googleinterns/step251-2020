@@ -245,7 +245,7 @@ describe('EnvironmentsComponent', () => {
       ).toBeTrue();
 
       // @ts-ignore
-      component.onStartTimestampChange(event(oldStart + 1000));
+      component.onStartTimestampChange(oldStart + 1000);
       fixture.detectChanges();
       expect(
         fixture.debugElement
@@ -350,9 +350,9 @@ describe('EnvironmentsComponent', () => {
       const oldStart = component.startTimestamp;
       const oldEnd = component.endTimestamp;
       // @ts-ignore
-      component.onStartTimestampChange(event(oldStart + 1000));
+      component.onStartTimestampChange(oldStart + 1000);
       // @ts-ignore
-      component.onEndTimestampChange(event(oldEnd - 1000));
+      component.onEndTimestampChange(oldEnd - 1000);
       expect(sessionStorage.getItem(component.START_TIMESTAMP_KEY)).toEqual(
         '' + (oldStart + 1000)
       );
