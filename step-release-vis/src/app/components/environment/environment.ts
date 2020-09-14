@@ -229,15 +229,15 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   enteredPolygon(polygon: Polygon): void {
+    this.candidateService.polygonHovered(polygon);
     if (!this.tooltip.clickOn) {
-      this.candidateService.polygonHovered(polygon);
       this.currentCandidate = polygon.candName;
     }
   }
 
   leftPolygon(polygon: Polygon): void {
+    this.candidateService.polygonUnhovered(polygon);
     if (!this.tooltip.clickOn) {
-      this.candidateService.polygonUnhovered(polygon);
       this.currentCandidate = undefined;
     }
   }
@@ -281,9 +281,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.mouseDownPos = undefined;
     this.dragStartTimestamp = undefined;
     this.dragEndTimestamp = undefined;
-    this.hideTooltip();
-    this.currentSnapshot = undefined;
-    this.curGlobalTimestamp.seconds = undefined;
+    if (!this.tooltip.clickOn) {
+      this.leaveEnvAndTooltip();
+    }
   }
 
   hideTooltip(): void {
@@ -402,10 +402,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       const dragStart = this.mouseDownPos;
       const dragEnd = event.pageX;
       this.mouseDownPos = undefined;
-      this.envMouseMove(event);
       if (Math.abs(dragEnd - dragStart) < 20) {
         // 'click'
         this.tooltip.clickOn = !this.tooltip.clickOn;
+        this.envMouseMove(event);
       } else {
         // 'drag'
         // TODO(#277): use the timestamps
@@ -419,10 +419,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
     this.mouseDownPos = event.pageX;
   }
 
-  leaveDiv(): void {
+  leaveEnvAndTooltip(): void {
     this.hideTooltip();
     this.currentSnapshot = undefined;
-    this.tooltip.clickOn = false;
+    this.curGlobalTimestamp.seconds = undefined;
   }
 
   getTitleHeight(): string {
