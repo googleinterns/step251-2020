@@ -1,6 +1,6 @@
 <div *ngIf="dataFound"
      [ngStyle]="{position: 'relative'}">
-  <div class="timerange"
+  <div class="env-header"
        [ngStyle]="{height: getTimerangeHeight() + 'px'}">
     <input
       id="timerange-start-input"
@@ -23,6 +23,7 @@
             (click)="resetTimerange();">
       Reset
     </button>
+    <app-header [ngStyle]="{display: 'inline-block', position: 'absolute', 'right': ENV_MARGIN_RIGHT + 'px'}"></app-header>
   </div>
   <div [ngStyle]="{display: 'inline-block', height: getTimelineHeight() + 'px'}">
     <svg xmlns="http://www.w3.org/2000/svg"
