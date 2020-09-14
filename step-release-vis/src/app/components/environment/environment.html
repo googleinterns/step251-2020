@@ -18,7 +18,14 @@
         </g>
       </svg>
       <p class="title-name"
-         [ngStyle]="{width: getTitleNameWidth(),'margin-right': TITLE_MARGIN + 'px', 'font-size': getTitleHeight()}">
+         [ngStyle]="{
+             width: getTitleNameWidth(),
+             height: getTitleHeight(),
+             'margin-right': TITLE_MARGIN + 'px',
+             'font-size': getTitleHeight(),
+             overflow: expanded ? 'visible' : 'hidden',
+             'white-space': expanded ? 'normal' : 'nowrap',
+             'text-overflow': 'ellipsis'}">
         {{environment.name}}
       </p>
     </div>

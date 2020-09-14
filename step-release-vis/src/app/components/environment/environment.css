@@ -13,9 +13,6 @@
   font-family: "Courier New", sans-serif;
   display: inline-block;
   vertical-align: top;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .expand-icon {
