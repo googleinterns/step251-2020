@@ -262,8 +262,7 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private onStartTimestampChange(event: Event): void {
-    const newStartTimestamp = this.getTimestampFromEvent(event);
+  onStartTimestampChange(newStartTimestamp: number): void {
     if (
       this.minTimestamp <= newStartTimestamp &&
       newStartTimestamp <= this.endTimestamp
@@ -277,8 +276,7 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private onEndTimestampChange(event: Event): void {
-    const newEndTimestamp = this.getTimestampFromEvent(event);
+  onEndTimestampChange(newEndTimestamp: number): void {
     if (
       this.startTimestamp <= newEndTimestamp &&
       newEndTimestamp <= this.maxTimestamp
@@ -339,7 +337,7 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
    *
    * @param event the event containing ISO date
    */
-  private getTimestampFromEvent(event: Event): number {
+  getTimestampFromEvent(event: Event): number {
     // Date.parse() takes timezone into account
     return Date.parse((event.target as HTMLInputElement).value) / 1000;
   }

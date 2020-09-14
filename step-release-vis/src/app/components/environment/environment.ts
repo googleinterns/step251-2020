@@ -35,8 +35,9 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   svgHeight: number;
 
   @Input() startTimestamp: number;
-
+  @Output() startTimestampChange = new EventEmitter<number>();
   @Input() endTimestamp: number;
+  @Output() endTimestampChange = new EventEmitter<number>();
   @Input() curGlobalTimestamp: Timestamp;
   @Input() environment: Environment;
 
@@ -414,9 +415,8 @@ export class EnvironmentComponent implements OnInit, OnChanges {
         this.envMouseMove(event);
       } else {
         // 'drag'
-        // TODO(#277): use the timestamps
-        console.log(this.dragStartTimestamp);
-        console.log(this.dragEndTimestamp);
+        this.startTimestampChange.emit(this.dragStartTimestamp);
+        this.endTimestampChange.emit(this.dragEndTimestamp);
         this.resetDrag();
       }
     }
