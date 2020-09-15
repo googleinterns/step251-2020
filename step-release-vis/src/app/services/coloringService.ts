@@ -50,9 +50,13 @@ export class ColoringService {
 
   addReleaseEdges(): void {
     for (const cand of this.candidateService.inRelease) {
+      if (this.candNames.has(cand[0]) === false) {
+        continue;
+      }
+
       const otherCands = this.candidateService.releaseCandidates.get(cand[1]);
       for (const cand2 of otherCands) {
-        if (cand[0] === cand2) {
+        if (cand[0] === cand2 || this.candNames.has(cand2) === false) {
           continue;
         }
         this.addEdgeToGraph(cand[0], cand2);
