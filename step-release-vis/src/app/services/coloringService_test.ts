@@ -204,6 +204,7 @@ describe('ColoringService', () => {
 
   describe('#addReleaseEdges', () => {
     it('should add edges', () => {
+      service.candNames = new Set<string>(['1', '2']);
       service.addReleaseEdges(); // edges from the candidateServiceStub
 
       expect(service.candidateGraph.get('1')).toEqual(['2']);
@@ -214,6 +215,12 @@ describe('ColoringService', () => {
           [new CandidateEdge('2', '1').toKey(), service.releaseEdgeCost],
         ])
       );
+    });
+
+    it('should add no edges', () => {
+      service.candNames = new Set<string>();
+      service.addReleaseEdges();
+      expect(service.edgeOccurrences.size).toEqual(0);
     });
   });
 });
