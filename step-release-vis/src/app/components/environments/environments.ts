@@ -25,7 +25,7 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
   readonly ENV_MARGIN_BOTTOM = 7;
   readonly ENVS_MARGIN_BOTTOM = 25;
   readonly ENV_EXPANDED_HEIGHT = 170;
-  readonly ENV_RIGHT_MARGIN = 20;
+  readonly ENV_MARGIN_RIGHT = 20;
   readonly TITLE_WIDTH = 280;
   readonly TIMELINE_POINT_WIDTH = 130;
   readonly TZ_OFFSET = new Date().getTimezoneOffset() * 60;
@@ -153,7 +153,7 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
   }
 
   private updateDimensions(width: number, height: number): void {
-    this.envWidth = width - this.ENV_RIGHT_MARGIN - this.TITLE_WIDTH;
+    this.envWidth = width - this.ENV_MARGIN_RIGHT - this.TITLE_WIDTH;
     this.collapsedEnvsHeight =
       height -
       this.TIMELINE_HEIGHT * 2 -
@@ -273,8 +273,7 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private onStartTimestampChange(event: Event): void {
-    const newStartTimestamp = this.getTimestampFromEvent(event);
+  onStartTimestampChange(newStartTimestamp: number): void {
     if (
       this.minTimestamp <= newStartTimestamp &&
       newStartTimestamp <= this.endTimestamp
@@ -288,8 +287,7 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private onEndTimestampChange(event: Event): void {
-    const newEndTimestamp = this.getTimestampFromEvent(event);
+  onEndTimestampChange(newEndTimestamp: number): void {
     if (
       this.startTimestamp <= newEndTimestamp &&
       newEndTimestamp <= this.maxTimestamp
@@ -350,7 +348,7 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
    *
    * @param event the event containing ISO date
    */
-  private getTimestampFromEvent(event: Event): number {
+  getTimestampFromEvent(event: Event): number {
     // Date.parse() takes timezone into account
     return Date.parse((event.target as HTMLInputElement).value) / 1000;
   }
@@ -385,14 +383,14 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  getFillTimeline(): string {
+  shouldDisplayTimelineCircle(): boolean {
+    return this.curGlobalTimestamp.seconds !== undefined;
+  }
+
+  getThemeTextColor(): string {
     if (this.themeService.theme) {
       return 'white';
     }
     return 'black';
-  }
-
-  shouldDisplayTimelineCircle(): boolean {
-    return this.curGlobalTimestamp.seconds !== undefined;
   }
 }

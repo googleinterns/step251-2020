@@ -18,7 +18,14 @@
         </g>
       </svg>
       <p class="title-name"
-         [ngStyle]="{width: getTitleNameWidth(),'margin-right': TITLE_MARGIN + 'px', 'font-size': getTitleHeight()}">
+         [ngStyle]="{
+             width: getTitleNameWidth(),
+             height: getTitleHeight(),
+             'margin-right': TITLE_MARGIN + 'px',
+             'font-size': getTitleHeight(),
+             overflow: expanded ? 'visible' : 'hidden',
+             'white-space': expanded ? 'normal' : 'nowrap',
+             'text-overflow': 'ellipsis'}">
         {{environment.name}}
       </p>
     </div>
@@ -60,7 +67,8 @@
       <text id="no-data"
             *ngIf="displayedSnapshots.length === 0"
             [attr.x]="svgWidth / 2"
-            [attr.y]="svgHeight / 2">
+            [attr.y]="svgHeight / 2"
+            [attr.fill]="getThemeTextColor()">
         No data for this period
       </text>
       <g id="timeline" *ngIf="expanded">
@@ -71,7 +79,7 @@
         <text *ngFor="let timelinePoint of timelinePoints; let i = index"
               [attr.x]="timelinePoint.x"
               [attr.y]="svgHeight - 12"
-              [attr.fill]="getFillTimeline()"
+              [attr.fill]="getThemeTextColor()"
               [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
               font-size="12">
           {{ timelinePoint.timeString }}
@@ -79,7 +87,7 @@
         <text *ngFor="let timelinePoint of timelinePoints; let i = index"
               [attr.x]="timelinePoint.x"
               [attr.y]="svgHeight"
-              [attr.fill]="getFillTimeline()"
+              [attr.fill]="getThemeTextColor()"
               [attr.text-anchor]="environmentService.getTimelinePointTextAlignment(i, timelinePoints)"
               font-size="12">
           {{ timelinePoint.dateString }}
@@ -91,6 +99,28 @@
           [attr.x2]="timelinePoint.x"
           [attr.y2]="svgHeight - TIMELINE_HEIGHT / 2 - 3"
           stroke="gray"/>
+      </g>
+      <g id="drag-region"
+         *ngIf="dragStartTimestamp">
+        <rect id="drag-rect"
+              [attr.x]="dragMinX"
+              [attr.y]="0"
+              [attr.width]="dragMaxX - dragMinX"
+              [attr.height]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
+              [attr.fill]="getThemeTextColor()"
+              opacity="0.5"/>
+        <line class="drag-edge"
+              [attr.x1]="dragMinX"
+              [attr.y1]="0"
+              [attr.x2]="dragMinX"
+              [attr.y2]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
+              [attr.stroke]="getThemeTextColor()"/>
+        <line class="drag-edge"
+              [attr.x1]="dragMaxX"
+              [attr.y1]="0"
+              [attr.x2]="dragMaxX"
+              [attr.y2]="expanded ? svgHeight - TIMELINE_HEIGHT + 10 : svgHeight"
+              [attr.stroke]="getThemeTextColor()"/>
       </g>
     </svg>
   </div>

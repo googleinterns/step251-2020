@@ -13,9 +13,6 @@
   font-family: "Courier New", sans-serif;
   display: inline-block;
   vertical-align: top;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .expand-icon {
@@ -31,6 +28,10 @@
   font-size: 12px;
   text-anchor: middle;
   alignment-baseline: central;
+}
+
+#drag-region {
+  pointer-events: none;
 }
 
 #cur-snapshot-line {
