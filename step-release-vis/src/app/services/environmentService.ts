@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Google LLC.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {Injectable} from '@angular/core';
 import {Point} from '../models/Point';
 import {Polygon} from '../models/Polygon';

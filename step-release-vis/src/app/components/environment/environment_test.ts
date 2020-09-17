@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Google LLC.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {EnvironmentComponent} from './environment';
@@ -10,7 +15,6 @@ import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidateService';
 import {DebugElement, SimpleChange} from '@angular/core';
 import {TooltipComponent} from '../tooltip/tooltip';
-import {shouldBeautify} from '@angular-devkit/build-angular/src/utils/environment-options';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
