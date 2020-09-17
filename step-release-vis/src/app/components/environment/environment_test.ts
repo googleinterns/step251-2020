@@ -15,7 +15,6 @@ import {CandidateServiceStub} from '../../../testing/CandidateServiceStub';
 import {CandidateService} from '../../services/candidateService';
 import {DebugElement, SimpleChange} from '@angular/core';
 import {TooltipComponent} from '../tooltip/tooltip';
-import {shouldBeautify} from '@angular-devkit/build-angular/src/utils/environment-options';
 
 describe('EnvironmentComponent', () => {
   let component: EnvironmentComponent;
