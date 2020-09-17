@@ -412,42 +412,50 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('time range drag', () => {
-    it('should update time range', () => {
-      const svg = fixture.debugElement.query(
+    let svg: DebugElement;
+
+    beforeEach(() => {
+      svg = fixture.debugElement.query(
         By.css(`#${component.environment.name}-svg`)
       );
-      spyOn(component.startTimestampChange, 'emit');
-      spyOn(component.endTimestampChange, 'emit');
+    });
+
+    it('should update draggedEnvName global field', () => {
       svg.triggerEventHandler('mousedown', {pageX: 100, pageY: 100});
       fixture.detectChanges();
       expect(component.draggedEnvName.name).toEqual(component.environment.name);
+    });
+
+    it('should update time range', () => {
+      spyOn(component.startTimestampChange, 'emit');
+      spyOn(component.endTimestampChange, 'emit');
+
+      svg.triggerEventHandler('mousedown', {pageX: 100, pageY: 100});
       svg.triggerEventHandler('mousemove', {pageX: 200, pageY: 200});
       svg.triggerEventHandler('mouseup', {pageX: 200, pageY: 200});
+
       fixture.detectChanges();
       expect(component.startTimestampChange.emit).toHaveBeenCalled();
       expect(component.endTimestampChange.emit).toHaveBeenCalled();
     });
 
-    it('should not update, if mouse goes outside env and is released', () => {
-      const svg = fixture.debugElement.query(
-        By.css(`#${component.environment.name}-svg`)
-      );
+    fit('should not update, if another env updates the current dragged env', () => {
       spyOn(component.startTimestampChange, 'emit');
       spyOn(component.endTimestampChange, 'emit');
 
       svg.triggerEventHandler('mousedown', {pageX: 100, pageY: 100});
+      svg.triggerEventHandler('mousemove', {pageX: 150, pageY: 200});
+      component.draggedEnvName.name = 'other_env'; // changes for this env, if mouse is dragged in a separate env
       svg.triggerEventHandler('mousemove', {pageX: 200, pageY: 200});
-      component.draggedEnvName.name = 'other_env';
+      svg.triggerEventHandler('mouseup', {pageX: 200, pageY: 200});
 
       fixture.detectChanges();
       expect(component.startTimestampChange.emit).not.toHaveBeenCalled();
       expect(component.endTimestampChange.emit).not.toHaveBeenCalled();
+      expect(component.mouseDownPos).toBeFalsy();
     });
 
     it('should update, if other env has started the drag', () => {
-      const svg = fixture.debugElement.query(
-        By.css(`#${component.environment.name}-svg`)
-      );
       spyOn(component.startTimestampChange, 'emit');
       spyOn(component.endTimestampChange, 'emit');
 
