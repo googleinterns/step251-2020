@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Google LLC.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {Injectable} from '@angular/core';
 import {Project as ProjectProto} from '../proto/generated/data_pb';
 import {Environment, Project} from '../models/Data';

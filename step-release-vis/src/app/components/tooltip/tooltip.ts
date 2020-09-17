@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Google LLC.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {Component, Input, OnInit} from '@angular/core';
 import {Snapshot} from '../../models/Data';
 import {Tooltip} from '../../models/Tooltip';

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Google LLC.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/operators';

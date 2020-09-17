@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Google LLC.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * @param mouseX the X position of the mouse relative to the page
  * @param mouseY the Y position of the mouse relative to the page

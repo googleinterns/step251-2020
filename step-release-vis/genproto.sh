@@ -1,3 +1,6 @@
+# Copyright 2020 Google LLC.
+# SPDX-License-Identifier: Apache-2.0
+
 PROTOC_GEN_TS_PATH="./node_modules/.bin/protoc-gen-ts"
 PROTO_PATH="./src/app/proto"
 PROTOC_OUT_DIR="./src/app/proto/generated"
