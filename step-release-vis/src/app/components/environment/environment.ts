@@ -283,8 +283,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   leftEnvironment(): void {
-    // this.mouseDownPos = undefined;
-    // this.resetDrag();
     if (!this.tooltip.clickOn) {
       this.leaveEnvAndTooltip();
     }
@@ -433,7 +431,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   leaveEnvAndTooltip(): void {
-    // this.mouseDownPos = undefined;
     this.resetDrag();
     this.hideTooltip();
     this.currentSnapshot = undefined;
