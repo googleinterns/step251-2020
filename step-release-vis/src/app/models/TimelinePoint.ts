@@ -7,10 +7,8 @@ export class TimelinePoint {
   constructor(timestamp: number, x: number) {
     this.timestamp = timestamp;
     this.x = x;
-    const dateTime = new Date(this.timestamp * 1000)
-      .toLocaleString('en-GB')
-      .split(', ');
-    this.dateString = dateTime[0];
-    this.timeString = dateTime[1];
+    const date = new Date(this.timestamp * 1000);
+    this.dateString = date.toLocaleDateString();
+    this.timeString = date.toLocaleTimeString();
   }
 }
