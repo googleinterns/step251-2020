@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {convertToParamMap, ParamMap, Params} from '@angular/router';
-import {ReplaySubject} from 'rxjs';
+import { convertToParamMap, ParamMap, Params } from '@angular/router';
+import { ReplaySubject } from 'rxjs';
 
 /**
  * An ActivateRoute test double with a `queryParamMap` observable.
