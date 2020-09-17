@@ -1,3 +1,8 @@
+<!--
+ Copyright 2020 Google LLC.
+ SPDX-License-Identifier: Apache-2.0
+-->
+
 # StepReleaseVis
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
