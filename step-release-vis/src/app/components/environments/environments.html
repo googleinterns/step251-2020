@@ -1,5 +1,6 @@
 <div *ngIf="dataFound"
-     [ngStyle]="{position: 'relative'}">
+     [ngStyle]="{position: 'relative'}"
+     (mouseup)="envsMouseUp()">
   <div class="env-header"
        [ngStyle]="{height: getTimerangeHeight() + 'px'}">
     <input
@@ -78,6 +79,7 @@
     [timelinePoints]="timelinePoints"
     [titleWidth]="TITLE_WIDTH"
     [curGlobalTimestamp]="curGlobalTimestamp"
+    [draggedEnvName]="draggedEnvName"
     [envMarginBottom]="ENV_MARGIN_BOTTOM"
     (newEdgesEvent)="addEdges($event)"
     (startTimestampChange)="onStartTimestampChange($event)"

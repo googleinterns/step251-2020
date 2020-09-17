@@ -46,14 +46,13 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
   curGlobalTimestamp: Timestamp = {seconds: undefined}; // shared current timestamp
   dataFound: boolean;
 
+  draggedEnvName = {name: undefined};
   timelinePointsAmount: number;
   timelinePoints: TimelinePoint[];
 
   candidateEdges: Map<string, number> = new Map();
   uninitializedEnvironments: number;
   displayedCandidates: Set<string>;
-
-  mouseDownPos: number;
 
   constructor(
     private dataService: DataService,
@@ -90,7 +89,6 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  // For debugging purposes
   private readJsonData(): void {
     this.readData(this.dataService.getLocalJsonData, data => JSON.parse(data));
   }
@@ -392,5 +390,9 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
       return 'white';
     }
     return 'black';
+  }
+
+  envsMouseUp(): void {
+    this.draggedEnvName.name = undefined;
   }
 }

@@ -40,6 +40,7 @@ describe('EnvironmentComponent', () => {
     component.startTimestamp = environmentServiceStub.envMin;
     component.endTimestamp = environmentServiceStub.envMax;
     component.curGlobalTimestamp = {seconds: undefined};
+    component.draggedEnvName = {name: undefined};
     fixture.detectChanges();
   });
 
@@ -408,6 +409,16 @@ describe('EnvironmentComponent', () => {
   });
 
   describe('time range drag', () => {
-    // TODO(#277): add drag tests
+    it('should update time range', () => {
+      // TODO(#277): implement test
+    });
+
+    it('should not update, if mouse goes outside env and is released', () => {
+      // TODO(#277): implement test
+    });
+
+    it('should update, if mouse goes outside env and returns', () => {
+      // TODO(#277): implement test
+    });
   });
 });

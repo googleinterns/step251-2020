@@ -56,6 +56,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   dragEndTimestamp: number;
   dragMinX: number;
   dragMaxX: number;
+  @Input() draggedEnvName: {name: string};
 
   constructor(
     private environmentService: EnvironmentService,
@@ -258,7 +259,10 @@ export class EnvironmentComponent implements OnInit, OnChanges {
         this.getSvgMouseX(event.pageX)
       );
     }
-    if (this.mouseDownPos) {
+    if (this.draggedEnvName.name !== this.environment.name) {
+      this.mouseDownPos = undefined;
+      this.resetDrag();
+    } else if (this.mouseDownPos) {
       const dragStart = this.mouseDownPos;
       const dragEnd = event.pageX;
       if (Math.abs(dragEnd - dragStart) > 10) {
@@ -279,8 +283,6 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   leftEnvironment(): void {
-    this.mouseDownPos = undefined;
-    this.resetDrag();
     if (!this.tooltip.clickOn) {
       this.leaveEnvAndTooltip();
     }
@@ -405,6 +407,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   /* if the clickOn property of the tooltip is true, the tooltip doesn't move anymore until either
   clickOn becomes false or the mouse leaves the <div> of the environment */
   envMouseUp(event: MouseEvent): void {
+    this.draggedEnvName.name = undefined;
     if (this.mouseDownPos) {
       const dragStart = this.mouseDownPos;
       const dragEnd = event.pageX;
@@ -423,10 +426,12 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   envMouseDown(event: MouseEvent): void {
+    this.draggedEnvName.name = this.environment.name;
     this.mouseDownPos = event.pageX;
   }
 
   leaveEnvAndTooltip(): void {
+    this.resetDrag();
     this.hideTooltip();
     this.currentSnapshot = undefined;
     this.curGlobalTimestamp.seconds = undefined;
