@@ -40,6 +40,7 @@ describe('EnvironmentComponent', () => {
     component.startTimestamp = environmentServiceStub.envMin;
     component.endTimestamp = environmentServiceStub.envMax;
     component.curGlobalTimestamp = {seconds: undefined};
+    component.draggedEnvName = {name: undefined};
     fixture.detectChanges();
   });
 
