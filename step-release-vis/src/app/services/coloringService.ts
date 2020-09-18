@@ -21,12 +21,16 @@ export class ColoringService {
   colorOf: Map<string, number> = new Map(); // what index has the color which is assigned to the candidate?
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
   colorsComputed = false;
+  colorblindOn: boolean;
   readonly proportionalColoringCandidateThreshold = 75;
   readonly releaseEdgeCost = 10;
 
   constructor(private candidateService: CandidateService) {}
 
   getColorFromIndex(index: number): number {
+    if (this.colorblindOn) {
+      return (120 * index) / this.noOfCandidates + 180;
+    }
     return (360 * index) / this.noOfCandidates;
   }
 
