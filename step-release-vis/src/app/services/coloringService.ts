@@ -22,6 +22,7 @@ export class ColoringService {
   edgeOccurrences: Map<string, number> = new Map(); // how many sides do candidates share?
   colorsComputed = false;
   colorblindOn: boolean;
+
   readonly proportionalColoringCandidateThreshold = 75;
   readonly releaseEdgeCost = 10;
 

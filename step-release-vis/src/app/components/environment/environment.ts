@@ -37,6 +37,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   @Input() svgBigHeight: number;
   @Input() titleWidth: number;
   @Input() envMarginBottom: number;
+  @Input() colorblind: boolean;
   svgHeight: number;
 
   @Input() startTimestamp: number;
@@ -81,6 +82,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
       'endTimestamp',
       'svgWidth',
       'svgSmallHeight',
+      'colorblind',
     ];
     if (this.checkChanges(vars, changes)) {
       this.processEnvironment();

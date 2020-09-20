@@ -39,6 +39,8 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
 
   environments: Environment[];
 
+  colorblind: boolean;
+
   envSmallHeight: number;
   envWidth: number;
   envBigHeight: number;
@@ -399,5 +401,17 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
 
   envsMouseUp(): void {
     this.draggedEnvName.name = undefined;
+  }
+
+  refreshView(): void {
+    this.candidateEdges.clear();
+    this.uninitializedEnvironments = this.environments.length;
+    this.updateDisplayedCandidates();
+  }
+
+  setColorblind(): void {
+    this.coloringService.colorblindOn = !this.coloringService.colorblindOn;
+    this.colorblind = !this.colorblind;
+    this.refreshView();
   }
 }
