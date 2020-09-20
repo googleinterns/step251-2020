@@ -19,3 +19,7 @@
 #bottom-timeline, #top-timeline {
   position: absolute;
 }
+
+#colorblind {
+  margin-left: 10px;
+}
