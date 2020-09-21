@@ -245,5 +245,16 @@ describe('ColoringService', () => {
       expect(service.getColorFromIndex(0)).toEqual(240);
       expect(service.getColorFromIndex(1)).toEqual(0);
     });
+
+    it('should work for normal vision, 6 candidates', () => {
+      service.noOfCandidates = 6;
+      expect(service.getColorFromIndex(2)).toEqual(120);
+      expect(service.getColorFromIndex(4)).toEqual(240);
+    });
+
+    it('should work for protanopia, 7 candidates', () => {
+      service.noOfCandidates = 7;
+      expect(service.getColorFromIndex(3.5)).toEqual(180);
+    });
   });
 });
