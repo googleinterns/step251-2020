@@ -39,8 +39,6 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
 
   environments: Environment[];
 
-  colorblind: boolean;
-
   envSmallHeight: number;
   envWidth: number;
   envBigHeight: number;
@@ -409,9 +407,11 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     this.updateDisplayedCandidates();
   }
 
-  setColorblind(): void {
-    this.coloringService.colorblindOn = !this.coloringService.colorblindOn;
-    this.colorblind = !this.colorblind;
+  updateColorVision(type: string): void {
+    if (type === 'normal') {
+      type = undefined;
+    }
+    this.coloringService.colorDeficiency = type;
     this.refreshView();
   }
 }
