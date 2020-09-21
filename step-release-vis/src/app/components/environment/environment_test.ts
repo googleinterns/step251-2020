@@ -443,7 +443,7 @@ describe('EnvironmentComponent', () => {
       expect(component.endTimestampChange.emit).toHaveBeenCalled();
     });
 
-    fit('should not update, if another env updates the current dragged env', () => {
+    it('should not update, if another env updates the current dragged env', () => {
       spyOn(component.startTimestampChange, 'emit');
       spyOn(component.endTimestampChange, 'emit');
 
