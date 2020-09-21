@@ -39,21 +39,23 @@ export class ColoringService {
   getColorFromIndex(index: number): number {
     if (this.colorDeficiency) {
       return (
-        (120 * index) / this.noOfCandidates +
-        ColoringService.colorShift.get(this.colorDeficiency)
+        ((120 * index) / this.noOfCandidates +
+          ColoringService.colorShift.get(this.colorDeficiency)) %
+        360
       );
     }
     return (360 * index) / this.noOfCandidates;
   }
 
-  colorCandidates(edges: Map<string, number>, candNames: Set<string>): void {
-    this.colorsComputed = false;
+  repaintCandidates(): void {
+    this.saveColors(this.pairCandidatesToColors(this.selectAssignableColors()));
+  }
 
+  colorCandidates(edges: Map<string, number>, candNames: Set<string>): void {
     this.initialize(edges, candNames);
     this.assignColorIndices();
 
     this.saveColors(this.pairCandidatesToColors(this.selectAssignableColors()));
-    this.colorsComputed = true;
   }
 
   initialize(edges: Map<string, number>, candNames: Set<string>): void {

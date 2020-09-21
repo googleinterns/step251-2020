@@ -401,17 +401,11 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
     this.draggedEnvName.name = undefined;
   }
 
-  refreshView(): void {
-    this.candidateEdges.clear();
-    this.uninitializedEnvironments = this.environments.length;
-    this.updateDisplayedCandidates();
-  }
-
   updateColorVision(type: string): void {
     if (type === 'normal') {
       type = undefined;
     }
     this.coloringService.colorDeficiency = type;
-    this.refreshView();
+    this.coloringService.repaintCandidates();
   }
 }
