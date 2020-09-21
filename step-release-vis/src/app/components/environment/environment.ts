@@ -37,7 +37,7 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   @Input() svgBigHeight: number;
   @Input() titleWidth: number;
   @Input() envMarginBottom: number;
-  @Input() colorblind: boolean;
+  @Input() colorDeficiency: string;
   svgHeight: number;
 
   @Input() startTimestamp: number;
@@ -77,15 +77,21 @@ export class EnvironmentComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const vars = [
+    const reprocessVars = [
       'startTimestamp',
       'endTimestamp',
       'svgWidth',
       'svgSmallHeight',
-      'colorblind',
     ];
-    if (this.checkChanges(vars, changes)) {
+    if (this.checkChanges(reprocessVars, changes)) {
       this.processEnvironment();
+      return;
+    }
+    const recolorVars = [
+      'colorDeficiency'
+    ];
+    if (this.checkChanges(recolorVars, changes)) {
+      this.colorPolygons();
     }
   }
 
@@ -125,10 +131,14 @@ export class EnvironmentComponent implements OnInit, OnChanges {
         resolve();
       }
     }).then(() => {
-      this.polygons.map(polygon => {
-        polygon.colorHue = this.candidateService.getColor(polygon.candName);
-        return polygon;
-      });
+      this.colorPolygons();
+    });
+  }
+
+  private colorPolygons(): void {
+    this.polygons.map(polygon => {
+      polygon.colorHue = this.candidateService.getColor(polygon.candName);
+      return polygon;
     });
   }
 

@@ -27,4 +27,10 @@ export class Candidate {
   dehighlight(): void {
     this.polygons.map(polygon => (polygon.highlight = false));
   }
+
+  setColor(color: number): void {
+    this.color = color;
+    this.polygons.map(polygon => (polygon.colorHue = this.color));
+
+  }
 }
