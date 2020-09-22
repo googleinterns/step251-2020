@@ -400,4 +400,12 @@ export class EnvironmentsComponent implements OnInit, AfterViewInit {
   envsMouseUp(): void {
     this.draggedEnvName.name = undefined;
   }
+
+  updateColorVision(type: string): void {
+    if (type === 'normal') {
+      type = undefined;
+    }
+    this.coloringService.colorDeficiency = type;
+    this.coloringService.repaintCandidates();
+  }
 }

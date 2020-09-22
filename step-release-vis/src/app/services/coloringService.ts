@@ -10,6 +10,18 @@ import {CandidateService} from './candidateService';
   providedIn: 'root',
 })
 export class ColoringService {
+  constructor(private candidateService: CandidateService) {}
+
+  /* protanopia -> ignore red
+   * deuteranopia -> ignore green
+   * tritanopia -> ignore blue
+   */
+  static readonly colorShift = new Map<string, number>([
+    ['protanopia', 120],
+    ['deuteranopia', 240],
+    ['tritanopia', 0],
+  ]);
+  colorDeficiency: string;
   /*
    * Colors candidates by looking at the pairs of candidates appearing the most next to each other
    * and coloring the candidates iteratively.
@@ -24,20 +36,26 @@ export class ColoringService {
   readonly proportionalColoringCandidateThreshold = 75;
   readonly releaseEdgeCost = 10;
 
-  constructor(private candidateService: CandidateService) {}
-
   getColorFromIndex(index: number): number {
+    if (this.colorDeficiency) {
+      return (
+        ((120 * index) / this.noOfCandidates +
+          ColoringService.colorShift.get(this.colorDeficiency)) %
+        360
+      );
+    }
     return (360 * index) / this.noOfCandidates;
   }
 
-  colorCandidates(edges: Map<string, number>, candNames: Set<string>): void {
-    this.colorsComputed = false;
+  repaintCandidates(): void {
+    this.saveColors(this.pairCandidatesToColors(this.selectAssignableColors()));
+  }
 
+  colorCandidates(edges: Map<string, number>, candNames: Set<string>): void {
     this.initialize(edges, candNames);
     this.assignColorIndices();
 
     this.saveColors(this.pairCandidatesToColors(this.selectAssignableColors()));
-    this.colorsComputed = true;
   }
 
   initialize(edges: Map<string, number>, candNames: Set<string>): void {

@@ -228,4 +228,33 @@ describe('ColoringService', () => {
       expect(service.edgeOccurrences.size).toEqual(0);
     });
   });
+
+  describe('#getColorFromIndex', () => {
+    beforeEach(() => {
+      service.noOfCandidates = 1;
+    });
+
+    it('should work for normal vision', () => {
+      service.colorDeficiency = undefined;
+      expect(service.getColorFromIndex(0)).toEqual(0);
+      expect(service.getColorFromIndex(0.5)).toEqual(180);
+    });
+
+    it('should work for deuteranopia', () => {
+      service.colorDeficiency = 'deuteranopia';
+      expect(service.getColorFromIndex(0)).toEqual(240);
+      expect(service.getColorFromIndex(1)).toEqual(0);
+    });
+
+    it('should work for normal vision, 6 candidates', () => {
+      service.noOfCandidates = 6;
+      expect(service.getColorFromIndex(2)).toEqual(120);
+      expect(service.getColorFromIndex(4)).toEqual(240);
+    });
+
+    it('should work for protanopia, 7 candidates', () => {
+      service.noOfCandidates = 7;
+      expect(service.getColorFromIndex(3.5)).toEqual(180);
+    });
+  });
 });
